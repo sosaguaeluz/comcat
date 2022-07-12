@@ -94,7 +94,8 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
             have_hydrometer: 'NotKnow',
             have_reservoir: 'NotKnow',
             number_residents: 0,
-            type_place: 'Other'
+            type_place: 'Other',
+            status: "Approved"
             // type_place: '',
             // area: '',
             // description: '',
