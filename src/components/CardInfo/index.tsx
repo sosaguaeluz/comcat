@@ -17,7 +17,7 @@ interface IProps {
     value?: number,
     icon?: string,
     list?: List[]
-    open?: boolean,
+    open?: boolean | any,
     setOpen?: () => void,
     type: string,
     width: string | any,

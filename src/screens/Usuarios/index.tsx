@@ -32,24 +32,27 @@ import {
     noTrusted,
     //userIcon
 } from '../../assets';
+import { 
+    BREED,
+    GENRE,
+} from '../../constants/index';
 import {regex} from '../../services/functions/regex'
 
 const Usuarios: React.FC = () => {
     const { token } = useSelector((state: RootState) => state.clickState);
     const { data: uf, isLoading: loadingUf } = useUf();
     const { data: regionUsers } = useDashboardRegionList(token);
-    console.log(regionUsers, "teste")
-
+    // console.log('região  -  ',regionUsers)
     const [ idUser, setIdUser ] = useState('');
     const [ objUser, setObjUser ] = useState<any>(null);
 
     const [totalList, setTotalList] = useState<any>();
-
+    const [totalUsers, setTotalUsers] = useState<any>();
     const [openTotalList, setOpenTotalList] = useState(false);
-    const [openSulList, setOpenSulList] = useState(false);
     const [openNorteList, setOpenNorteList] = useState(false);
-    const [openSudesteList, setOpenSudesteList] = useState(false);
     const [openNordesteList, setOpenNordesteList] = useState(false);
+    const [openSudesteList, setOpenSudesteList] = useState(false);
+    const [openSulList, setOpenSulList] = useState(false);
     const [openCentroList, setOpenCentroList] = useState(false);
 
     const [open, setOpen] = useState(false);
@@ -63,8 +66,8 @@ const Usuarios: React.FC = () => {
 
     const [ page, setPage ] = useState<number>(1);
     const [ user, setUser] = useState<any>();
-    const [ genre, setGenre ] = useState<any>();
-    const [ breed, setBreed] = useState<any>();
+    const [ genre, setGenre ] = useState<string>();
+    const [ breed, setBreed] = useState<string>();
     const [ ufValue, setUfValue ] = useState<any>();
     const [ role, setRole] = useState<any>();
 
@@ -84,7 +87,7 @@ const Usuarios: React.FC = () => {
         breed,
         role,
     );
-
+    // console.log('users  -  ', useUsers)
     // console.log('pagina  -  ', page)
     // console.log('user  -  ', user)
     // console.log('ufValue  -  ', ufValue)
@@ -92,51 +95,25 @@ const Usuarios: React.FC = () => {
     // console.log('breed  -  ', breed)
     // console.log('role  -  ', role)
 
-    // useEffect(() => {
+    useEffect(() => {
+        let spam:any = []
+        let sum = 0
 
-    //     let spam:any = []
-    //     regionUsers?.forEach((e) =>{
+        regionUsers?.forEach((e) =>{
+            e.state_list?.forEach(id => {
+                spam.push({
+                    name: id.name,
+                    user_total: id.user_total,
+                })
+            })
+        })
 
-    //         let estados e.forEach(id => {
-                
-    //         });
+        regionUsers?.forEach(total => sum += total.user_total);
 
-    //         let cont = e.user_total
-    //         spam.push({
-    //             estado: e.state_list,
-    //             // estadoSigla: e.sigla,
-    //             // regiao: e.regiao.nome,
-    //             qtd: e.user_total
-    //         })
-    //     })
-    //     setTotalList(spam)
-    // },[])
-
-    console.log ('regiões', totalList)
-
-    let lista = [
-        { label: 'Rio de janeiro', value: 'Rio de janeiro', number: 1 },
-        { label: 'Pesquisar 2', value: 'pesquisa2', number: 2 },
-        { label: 'Pesquisar 3', value: 'pesquisa3', number: 3 },
-        { label: 'Pesquisar 4', value: 'pesquisa4', number: 4 },
-        { label: 'Pesquisar 5', value: 'pesquisa5', number: 5 },
-        { label: 'Pesquisar 6', value: 'pesquisa6', number: 5 },
-    ];
-
-    let listaRaça = [
-        { label: 'Humana', value: 'Humana' },
-        { label: 'Barata', value: 'Barata'},
-        { label: 'Mosquito', value: 'Mosquito'},
-        { label: 'Golfinho', value: 'Golfinho'},
-    ];
+        setTotalUsers(sum)
+        setTotalList(spam)
+    },[])
     
-    let listaGenero = [
-        { label: 'Heterosexual', value: 'Hetero' },
-        { label: 'Homosexual', value: 'Homosexual'},
-        { label: 'Pansexual', value: 'Pansexual'},
-        { label: 'Bisexual', value: 'Bisexual'},
-    ];
-
     const deleteUser = async (id: string) => {
         const data = await api.delete(`/users/${id}`, {
             headers: {
@@ -193,23 +170,50 @@ const Usuarios: React.FC = () => {
                             <CardInfo 
                                 //icon={userIcon}
                                 title="Total"
-                                value={20}
+                                value={totalUsers}                                
                                 type="list"
                                 width='273px'
-                                list={lista}
+                                list={totalList}
                                 open={openTotalList}
                                 setOpen={() => setOpenTotalList(!openTotalList)}
                             />
                             {regionUsers?.map((id: any, index: number) => {
+                                // function functionOpen(){
+                                //     if(index === 0){
+                                //         return openNorteList
+                                //     }else if(index === 1){
+                                //         return openNordesteList
+                                //     }else if(index === 2){
+                                //         return openSudesteList
+                                //     }else if(index === 3){
+                                //         return openSulList
+                                //     }else{
+                                //         return openCentroList
+                                //     }
+                                // }
+                                // function functionSetOpen(){
+                                //     if(id.name === "Norte"){
+                                //         return setOpenNorteList(!openNorteList)
+                                //     }else if(index === 1){
+                                //         return setOpenNordesteList(!openNordesteList)
+                                //     }else if(index === 2){
+                                //         return setOpenSudesteList(!openSudesteList)
+                                //     }else if(index === 3){
+                                //         return setOpenSulList(!openSulList)
+                                //     }else{
+                                //         return setOpenCentroList(!openCentroList)
+                                //     }
+                                // }
+                                
                                 return (
-                                    <CardInfo key={id}
+                                    <CardInfo key={id.name}
                                         title={id.name}
                                         value={id.user_total}
                                         type="list"
                                         width='236px'
                                         list={id.state_list}
-                                        open={openSulList}
-                                        setOpen={() => setOpenSulList(!openSulList)}
+                                        open={openTotalList}
+                                        setOpen={() => setOpenTotalList(!openTotalList)}
                                     />
                                 )
                             })}
@@ -229,31 +233,43 @@ const Usuarios: React.FC = () => {
 
                                     <CustomSelect
                                         onChange={(e) => {
-                                            // setBreed(e.target.value);
+                                            setUfValue(e.target.value);
+                                            // if(e.target.value === 'Todos'){
+                                            //     setBreed('')
+                                            // }else {
+                                            //     setBreed(e.target.value)
+                                            // }                                        
                                             // console.log(e.target.value);
                                         }}
                                         id='Raça'
                                         label='Raça'
                                         labelDefault='Raça'
-                                        list={listaRaça}
-                                        value=''
+                                        value='Todas'
+                                        defaultValue='Todas'
+                                        list={BREED}
                                         width={176}
                                     />
                                     <CustomSelect
                                         onChange={(e) => {
-                                            // setGenre(e.target.value);
+                                            setUfValue(e.target.value);
+                                            // if(e.target.value === 'Todos'){
+                                            //     setBreed('')
+                                            // }else {
+                                            //     setBreed(e.target.value)
+                                            // }
                                             // console.log(e.target.value);
                                         }}
                                         id='Genero'
                                         label='Genero'
                                         labelDefault='Genero'
-                                        list={listaGenero}
-                                        value=''
+                                        value='Todos'
+                                        defaultValue='Todos'
+                                        list={GENRE}
                                         width={176}
                                     />
                                     <CustomSelect
                                         onChange={(e) => {
-                                            // setUfValue(e.target.value);
+                                            setUfValue(e.target.value);
                                             // console.log(e.target.value);
                                         }}
                                         id="state"
@@ -261,6 +277,7 @@ const Usuarios: React.FC = () => {
                                         labelDefault='Estado'
                                         list={uf}
                                         value='Todos os Estados'
+                                        defaultValue='Todos os Estados'
                                         width={254}
                                     />
                                 </div>
@@ -562,7 +579,7 @@ const Usuarios: React.FC = () => {
                 }}
                 open={showDelete}
                 width={469}
-                buttonText={isLoading == false ? 'Sim, excluir' : 'Excluindo...' }
+                buttonText={isLoading === false ? 'Sim, excluir' : 'Excluindo...' }
             />
             <ModalMsg 
                 height='312px'
