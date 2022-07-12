@@ -62,7 +62,7 @@ export const Section = styled.section`
         margin-bottom: 32px;
         
         > div {
-            margin-right: 112px;
+            margin-right: 50px;
             height: 44px;
             display: flex;
             flex-direction: column;
@@ -85,6 +85,7 @@ export const Section = styled.section`
             }
 
         }
+
         > img {
             height: 172px;
             width: 607px;
@@ -114,6 +115,12 @@ export const Section = styled.section`
                 line-height: 19px;
                 color: ${props => props.theme.colors.dark};
             }
+        }
+    }
+    
+    > div:nth-child(5){
+        > div {
+            height: 61px;
         }
     }
 `;
