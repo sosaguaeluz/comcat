@@ -1,5 +1,5 @@
 export const BREED = [
-    { label: 'Todas', value: 'Todas' },
+    { label: 'Todas', value: 'All' },
     { label: 'Amarelo', value: 'Yellow' },
     { label: 'Branco', value: 'White'},
     { label: 'Indígina', value: 'Indigenous'},

@@ -82,11 +82,15 @@ const Usuarios: React.FC = () => {
         page,
         100,
         user,
-        ufValue,
-        genre,
         breed,
+        genre,
+        ufValue,
         role,
     );
+
+    console.log('genre -', genre)
+    console.log('breed -', breed)
+
     // console.log('users  -  ', useUsers)
     // console.log('pagina  -  ', page)
     // console.log('user  -  ', user)
@@ -233,49 +237,39 @@ const Usuarios: React.FC = () => {
 
                                     <CustomSelect
                                         onChange={(e) => {
-                                            setUfValue(e.target.value);
-                                            // if(e.target.value === 'Todos'){
-                                            //     setBreed('')
-                                            // }else {
-                                            //     setBreed(e.target.value)
-                                            // }                                        
-                                            // console.log(e.target.value);
+                                            setBreed(e.target.value);                            
                                         }}
                                         id='Raça'
                                         label='Raça'
-                                        labelDefault='Raça'
-                                        value='Todas'
-                                        defaultValue='Todas'
+                                        labelDefault={BREED[0].label}
+                                        // value='Todas'
+                                        // defaultValue='Todas'
                                         list={BREED}
                                         width={176}
                                     />
                                     <CustomSelect
                                         onChange={(e) => {
-                                            setUfValue(e.target.value);
-                                            // if(e.target.value === 'Todos'){
-                                            //     setBreed('')
-                                            // }else {
-                                            //     setBreed(e.target.value)
-                                            // }
-                                            // console.log(e.target.value);
+                                            setGenre(e.target.value);
                                         }}
                                         id='Genero'
                                         label='Genero'
-                                        labelDefault='Genero'
-                                        value='Todos'
-                                        defaultValue='Todos'
+                                        labelDefault={GENRE[0].label}                                    
                                         list={GENRE}
                                         width={176}
                                     />
                                     <CustomSelect
                                         onChange={(e) => {
                                             setUfValue(e.target.value);
-                                            // console.log(e.target.value);
                                         }}
                                         id="state"
                                         label='Estado'
                                         labelDefault='Estado'
-                                        list={uf}
+                                        list={[{
+                                            id: 'All',
+                                            nome: 'Todos os Estados',
+                                            sigla: 'All',
+                                            regiao: 'Todos',
+                                        },...uf ||[]]}
                                         value='Todos os Estados'
                                         defaultValue='Todos os Estados'
                                         width={254}
