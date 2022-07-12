@@ -158,6 +158,14 @@ export const Form = styled.form`
 `;
 
 export const Cancel = styled.button`
+    margin-top: 32px;
+    width: 274px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600px;
+    border-radius: 8px;
     background: none;
     border: 1px solid ${props => props.theme.colors.warning};
     color: ${props => props.theme.colors.warning};

@@ -1,15 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import * as S from './style';
-import { CustomInputData, CustomTextArea, ModalDelete, ModalMsg, PersonalModal } from '../../../components';
-import { api, convertDate, putOccurrences } from '../../../services';
+import { PersonalModal } from '../../../components';
+import { convertDate } from '../../../services';
 import {
     mapsDefault
 } from '../../../assets/index';
-import { 
-    useForm,
-    Controller
-} from 'react-hook-form';
-import { FormData } from './types';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../stores';
 
@@ -19,40 +14,7 @@ interface IProps {
     itemEdit: any
 }
 
-const FinishOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
-    const { token } = useSelector((state: RootState) => state.clickState);
-    const [ cancelModal, setCancelModal ] = useState(false);
-    const [ success, setSuccess ] = useState(false);
-
-    const {
-        control,
-        handleSubmit,
-        reset,
-        watch,
-        formState: { isDirty, isValid }
-    } = useForm<FormData>({
-        mode: 'onChange'
-    });
-
-    function onSubmit (values: FormData) {
-        const obj = Object.assign(values, {
-            "service": itemEdit.service.id,
-            "source": itemEdit.source.id,
-            "finished_status": "Yes",
-        })
-
-        putOccurrences(token, itemEdit.id, obj).then(() => {
-            onHide()
-            setSuccess(!success)
-        })
-    };
-
-    useEffect(() => {
-        if(!isModal){
-            reset()
-        }
-    }, [isModal, reset]);
-
+const ViewOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
     return (
         <>
             <PersonalModal
@@ -63,7 +25,7 @@ const FinishOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                 onClose={onHide}
             >
                 <S.Container>
-                    <h1>Finalizar ocorrência</h1>
+                    <h1>Visualizar ocorrência</h1>
                     <div>
                         <S.Header backgroundColor={itemEdit?.service?.background_color}>
                             <div>
@@ -159,104 +121,19 @@ const FinishOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                             </div>
                         </S.Section>
                     </div>
-                    <S.Form onSubmit={handleSubmit(onSubmit)}>
-                        <fieldset>
-                            <fieldset>
-                                <label>Data e hora do restabelecimento:</label>
-                                <div>
-                                    <Controller 
-                                        name='restoration_date'
-                                        control={control}
-                                        render={({ field: { onChange, onBlur, value }}) => {
-                                            return (
-                                                <CustomInputData 
-                                                    label='Data e hora'
-                                                    onBlur={onBlur}
-                                                    onChange={onChange}
-                                                    value={value}
-                                                    max={new Date().toISOString().slice(0, -8)}
-                                                    type="datetime-local"
-                                                    width="372px"
-                                                    id='date_time'
-                                                />
-                                            )
-                                        }}
-                                    />
-                                </div>
-                            </fieldset>     
-                            <fieldset>
-                                <label>Alguma observação sobre o restabelecimento?</label>
-                                <div>
-                                    <Controller 
-                                        name='restoration_description'
-                                        control={control}
-                                        render={({ field: { onChange, onBlur, value }}) => {
-                                            return (
-                                                <CustomTextArea
-                                                    onChange={onChange}
-                                                    onBlur={onBlur}
-                                                    value={value}
-                                                    placeholder='Digite sua observação (Opcional)'
-                                                    width='636px'
-                                                    heigth='102px'
-                                                    id="description"
-                                                />
-                                            )
-                                        }}
-                                    />
-                                </div>
-                            </fieldset>
-                        </fieldset>      
-                        <fieldset>
-                            <S.Cancel 
-                                type='button'
-                                onClick={() => {
-                                    setCancelModal(!cancelModal)
-                                }}
-                                id="cancel"
-                            >
-                                Cancelar
-                            </S.Cancel>
-                            <S.Submit
-                                id='submit'
-                                type='submit'
-                                disabled={!isDirty || !isValid}
-                            >
-                                Finalizar ocorrência
-                            </S.Submit>
-                        </fieldset>
-                    </S.Form>
+                    <S.Cancel 
+                        type='button'
+                        onClick={() => {
+                            onHide()
+                        }}
+                        id="cancel"
+                    >
+                        Fechar
+                    </S.Cancel>
                 </S.Container>
             </PersonalModal>
-            <ModalMsg 
-                modalBackground={false}
-                height='312px'
-                width={469}
-                mensage='A ocorrência foi finalizada com sucesso!'
-                onClose={() => {
-                    setSuccess(false)
-                }}
-                open={success}
-                status="success"
-            />
-
-            <ModalDelete
-                backgroundColor=''
-                mensage='Deseja mesmo cancelar a finalização desta ocorrência?'
-                onClose={() => {
-                    onHide()
-                    setCancelModal(false)
-                }}
-                open={cancelModal}
-                width={469}
-                buttonText='Sim, cancelar'
-                onDelete={() => {
-                    onHide()
-                    setCancelModal(false)
-                }}
-            />
         </>
     );
 };
 
-export default FinishOccurence;
+export default ViewOccurrence;
