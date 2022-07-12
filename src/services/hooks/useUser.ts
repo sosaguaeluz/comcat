@@ -8,9 +8,9 @@ const getUsers = async <T>(
     page?: number,
     take?: number,
     name?: string,
-    state?: string,
-    genre?: string,
     breed?: string,
+    genre?: string,
+    state?: string,
     role?: string,
 ):Promise<AllUsers> => {
         
@@ -30,19 +30,19 @@ const getUsers = async <T>(
     if(name != undefined){
         params.append("name", name)
     }
-    if(state != undefined){
+    if(breed != undefined && breed != 'All'){
+        params.append("breed", breed)    
+    }
+    if(genre != undefined && genre != 'All'){
+        params.append("genre", genre);
+    }
+    if(state != undefined && state != 'All'){
         params.append("state", state)
-    }
-    if(genre != undefined){
-        params.append("genre", genre)
-    }
-    if(breed != undefined){
-        params.append("breed", breed)
     }
     if(role != undefined){
         params.append("role", role)
     }
-    
+    console.log('teste', params)
     const resp  = await api.get<AllUsers>('/users', {
         headers: {
             'Authorization': `Bearer ${token}`
@@ -58,9 +58,9 @@ export const useUsers = <T>(
     page?: number,
     take?: number,
     name?: string,
-    state?: string,
-    genre?: string,
     breed?: string,
+    genre?: string,
+    state?: string,
     role?: string,
 ):UseQueryResult<AllUsers> => {
     return useQuery(['users',
@@ -69,9 +69,9 @@ export const useUsers = <T>(
     page,
     take,
     name,
-    state,
-    genre,
     breed,
+    genre,
+    state,
     role,
     ], () => getUsers(
         token,
@@ -79,9 +79,9 @@ export const useUsers = <T>(
         page,
         take,
         name,
-        state,
-        genre,
         breed,
+        genre,
+        state,
         role,
     )
 )}

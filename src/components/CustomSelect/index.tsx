@@ -73,7 +73,7 @@ const CustomSelect: React.FC<IProps> = (props) => {
     return (
         <ThemeProvider theme={theme} >
             <FormControl variant="filled" sx={{ width: props.width, height: 56 }}>
-                {props.value === '' ?
+                {props.value === 'All' ?
                     <InputLabel>{props.labelDefault}</InputLabel>
                     :
                     <InputLabel>{props.label}</InputLabel>
