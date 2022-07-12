@@ -242,8 +242,8 @@ const Usuarios: React.FC = () => {
                                         id='Raça'
                                         label='Raça'
                                         labelDefault={BREED[0].label}
-                                        // value='Todas'
-                                        // defaultValue='Todas'
+                                        // value={BREED[0].value}
+                                        defaultValue={BREED[0].value}
                                         list={BREED}
                                         width={176}
                                     />
@@ -253,7 +253,9 @@ const Usuarios: React.FC = () => {
                                         }}
                                         id='Genero'
                                         label='Genero'
-                                        labelDefault={GENRE[0].label}                                    
+                                        labelDefault={GENRE[0].label}
+                                        // value={GENRE[0].value}
+                                        defaultValue={GENRE[0].value}                                    
                                         list={GENRE}
                                         width={176}
                                     />
