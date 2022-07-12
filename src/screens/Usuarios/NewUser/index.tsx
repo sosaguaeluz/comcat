@@ -71,7 +71,7 @@ const NewUser: React.FC <IProps> = ({onClose, isModal}) => {
         }
     },[isModal,reset]) 
 
-    console.log(watch('active'))
+    // console.log(watch('active'))
 
     return (
         <PersonalModal
