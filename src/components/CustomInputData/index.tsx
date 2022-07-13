@@ -14,7 +14,8 @@ interface IProps {
     type: string,
     width: string,
     id: string,
-    max?: any
+    max?: any,
+    defaultValue?: any
 };
 
 const CustomInputData:React.FC <IProps> = (props) => {
@@ -72,7 +73,8 @@ const CustomInputData:React.FC <IProps> = (props) => {
                     onChange={props.onChange}
                     onBlur={props.onBlur}
                     placeholder={props.placeholder}
-                    style={props.value != '' ? { 
+                    defaultValue={props.defaultValue}
+                    style={props.value !== '' || props.defaultValue !== '' ? { 
                         color: '#2C3941',
                         position: 'absolute',
                         top: '25px',

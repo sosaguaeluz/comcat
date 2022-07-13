@@ -4,7 +4,8 @@ import {
     useService,
     api,
     useSources,
-    useOccurrences
+    useOccurrences,
+    putOccurrences
 } from '../../../services';
 import MenuItem from '@mui/material/MenuItem';
 import { useSelector } from 'react-redux';
@@ -41,26 +42,15 @@ import { useMutation } from 'react-query';
 import { queryClient } from '../../../services/index';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from './schema';
+import { setDefaultData } from '../../../services/functions';
 
-const NewOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
+const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
     const { token } = useSelector((state: RootState) => state.clickState);
     const { data: services } = useService(token);
     const { data: sources } = useSources(token);
     const [ idOccurrence, setIdOccurrence ] = useState('');
     const [ open, setOpen ] = useState(false);
     const [ closeOccurrence, setCloseOccurrence ] = useState(false);
-
-    const postOccurence = async (data: FormData) => {
-        const response  = await api.post('/occurrences', data, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }).then((resp) => {
-            console.log(resp.data, 'resp then')
-            setIdOccurrence(resp.data.id)
-        });
-        return response;
-    };
 
     const putOccurence = async(id: string, data: any) => {
         const { data: response } = await api.put(`/occurrences/${id}`, data, {
@@ -84,8 +74,8 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
         mode: 'onChange',
         resolver: yupResolver(schema),
         defaultValues: {
-            // service: '',
-            // source: '',
+            service: itemEdit?.service?.id,
+            source: itemEdit?.source?.id,
             // source_name: '',
             // date: '',
             // address: '',
@@ -95,7 +85,7 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
             have_reservoir: 'NotKnow',
             number_residents: 0,
             type_place: 'Other',
-            status: "Approved"
+            status: "Approved",
             // type_place: '',
             // area: '',
             // description: '',
@@ -103,34 +93,36 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
         }
     });
 
-    const { mutate, isLoading } = useMutation(postOccurence, {
-        onSuccess: (resp) => {
-            setOpen(true)
-            queryClient.invalidateQueries('occurence');
-            console.log(resp, 'onSuccess')
-        },
-
-    });
-
-    const onSubmit = (values: FormData) => {
-        mutate(values);
-    };
-
-    const watchSpecialPlate = watch('special_place')
+    const watchSpecialPlate = watch('special_place');
+    const watchService = watch('service');
+    const watchSource = watch('source');
 
     useEffect(() => {
-        if(!isModal){
-            reset()
+        if(itemEdit !== undefined){
+            reset(itemEdit)
+            setValue('service', itemEdit?.service?.id);
+            setValue('source', itemEdit?.source?.id)
         }
-    }, [isModal, reset]);
+        console.log(getValues(), 'obj teste')
+    }, [itemEdit]);
+    
+    const onSubmit = (values: FormData) => {
+        putOccurrences(token, itemEdit.id, values).then((resp) => {
+            setOpen(true)
+            setIdOccurrence(itemEdit?.id)
+            queryClient.invalidateQueries('occurence');
+        });
+    };
 
     useEffect(() => {
         if(watchSpecialPlate !== 'Yes'){
             setValue('type_place', 'Other')
         }
-    }, [watchSpecialPlate])
+    }, [watchSpecialPlate]);
 
-    console.log(isDirty, 'isDirty', isValid, 'isValid', dirtyFields);
+    useEffect(() => {
+        console.log(watchService, watchSource, 'watch list');
+    }, [watchService, watchSource]);
 
     return (
         <>
@@ -143,7 +135,7 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                 register={true}     
             >
                 <S.Container>
-                    <h1>Registrar ocorrência</h1>
+                    <h1>Editar ocorrência</h1>
                     <button
                         type='button'
                         id='close-modal'
@@ -170,6 +162,7 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                                             onChange={onChange}
                                                             onBlur={onBlur}
                                                             value={value}
+                                                            defaultValue={value}
                                                             label='Serviço disponível'
                                                             labelDefault='Serviço disponível'
                                                             width={254}
@@ -193,9 +186,9 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                             <span>{errors.address?.message}</span>
                                         )}
                                     </fieldset>
-                                    {watch('service') !== undefined ? 
+                                    {watch('service') !== '' ? 
                                         <fieldset>
-                                            <label htmlFor="" style={{color: '#fff'}}>***</label>
+                                            <label htmlFor="source" style={{color: '#fff'}}>***</label>
                                             <div>
                                                 <Controller 
                                                     name="source"
@@ -207,6 +200,7 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                                                 onChange={onChange}
                                                                 onBlur={onBlur}
                                                                 value={value}
+                                                                defaultValue={value}
                                                                 label='Selecione a fonte'
                                                                 labelDefault='Selecione a fonte'
                                                                 width={254}
@@ -231,7 +225,7 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                         <div style={{display: 'none', width: '0px'}}/>
                                     }
                                     <fieldset>
-                                        <label htmlFor="" style={{color: '#fff'}}>***</label>
+                                        <label htmlFor="" style={{color: '#fff'}}>.</label>
                                         {sources?.map((id) => {
                                             if(watch('source') === id.id){
                                                 if(id.name === "Outra fonte"){
@@ -249,6 +243,7 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                                                             onChange={onChange}
                                                                             onBlur={onBlur}
                                                                             value={value}
+                                                                            //defaultValue={value}
                                                                             type='text'
                                                                             width={372}
                                                                         />
@@ -428,7 +423,7 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                                     label='Data e hora'
                                                     onBlur={onBlur}
                                                     onChange={onChange}
-                                                    value={value}
+                                                    value={setDefaultData(value)}
                                                     max={new Date().toISOString().slice(0, -8)}
                                                     type="datetime-local"
                                                     width="372px"
@@ -490,6 +485,7 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                                         onChange={onChange}
                                                         onBlur={onBlur}
                                                         value={value}
+                                                        defaultValue={itemEdit?.type_place}
                                                         label='Localização especial'
                                                         labelDefault='Localização especial'
                                                         width={372}
@@ -549,6 +545,7 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                                         onChange={onChange}
                                                         onBlur={onBlur}
                                                         value={value}
+                                                        defaultValue={itemEdit?.area}
                                                         label='Área afetada'
                                                         labelDefault='Área afetada'
                                                         width={372}
@@ -605,6 +602,7 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                                         onChange={onChange}
                                                         onBlur={onBlur}
                                                         value={value}
+                                                        defaultValue={itemEdit?.description}
                                                         placeholder='Digite sua observação (Opcional)'
                                                         width='408px'
                                                         heigth='303px'
@@ -662,7 +660,7 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                 id='submit'
                                 disabled={isValid === true && isDirty === true ? false : true}
                             >
-                                {isLoading ? 'Cadastrando...' : 'Registrar ocorrência'}
+                                Editar ocorrência
                             </S.SubmitButton>
                         </S.ContainerBtn>
                     </form>
@@ -671,7 +669,7 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
             <ModalMsg
                 height='477px'
                 modalBackground={false} 
-                mensage='A ocorrência foi registrada com sucesso!'
+                mensage='A ocorrência foi editada com sucesso!'
                 onClose={() => {
                     setOpen(!open)
                     onHide()
@@ -692,11 +690,12 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
             <ModalDelete
                 backgroundColor='false'
                 buttonText="Sim, cancelar"
-                mensage='Deseja mesmo cancelar o registro desta ocorrência?'
+                mensage='Deseja mesmo cancelar a edição desta ocorrência?'
                 onClose={() => {
                     setCloseOccurrence(!closeOccurrence)
                 }}
                 onDelete={() => {
+                    reset()
                     setCloseOccurrence(!closeOccurrence)
                     onHide()
                 }}
@@ -707,4 +706,4 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
     );
 };
 
-export default NewOccurence;
+export default EditOccurrence;

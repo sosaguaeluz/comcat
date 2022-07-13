@@ -31,6 +31,7 @@ const PersonalModal: React.FC <IProps> = (props) => {
             open={props.open}
             onClose={props.onClose}
             hideBackdrop={props.modalBackground}
+            disableEscapeKeyDown={true}
         >
             {props.register === true ?
                 props.children

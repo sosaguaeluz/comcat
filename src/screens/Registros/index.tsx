@@ -40,6 +40,7 @@ import NewOccurence from './newOccurence';
 import ApproveReprove from './ApproveReprove';
 import FinishOccurence from './FinishOccurrence';
 import ViewOccurrence from './ViewOccurrence';
+import EditOccurrence from './EditOccurrence';
 
 const Registros: React.FC = () => {
     const { token } = useSelector((state: RootState) => state.clickState);
@@ -57,6 +58,7 @@ const Registros: React.FC = () => {
     const [ successDelete, setSuccessDelete ] = useState(false);
     const [ finishOccurrence, setFinishOccurrence ] = useState(false);
     const [ viewOccurrence, setViewOccurrence ] = useState(false);
+    const [ editOccurrence, setEditOccurrence ] = useState(false);
 
     const [ page, setPage ] = useState<number>(1);
     const [ status, setStatus ] = useState<any>(undefined);
@@ -479,6 +481,7 @@ const Registros: React.FC = () => {
                                                                 onClick={() => {}}
                                                                 onEdit={() => {
                                                                     setOccurrenceObj(id)
+                                                                    setEditOccurrence(!editOccurrence)
                                                                 }} 
                                                                 onView={() => {
                                                                     setOccurrenceObj(id)
@@ -580,6 +583,16 @@ const Registros: React.FC = () => {
                 isModal={viewOccurrence}
                 onHide={() => {
                     setViewOccurrence(!viewOccurrence)
+                }}
+            />
+
+            <EditOccurrence
+                itemEdit={occurrenceObj}  
+                isModal={editOccurrence} 
+                onHide={() => {
+                    setEditOccurrence(!editOccurrence)
+                    setOccurrenceObj({})
+                    fetchOccurrences()
                 }}
             />
         </>

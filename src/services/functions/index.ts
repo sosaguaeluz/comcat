@@ -1,7 +1,11 @@
 import { api } from '../index';
-import { convertDate } from './date';
+import { 
+    convertDate,
+    setDefaultData 
+} from './date';
 
 export {
     api,
-    convertDate
+    convertDate,
+    setDefaultData
 } 

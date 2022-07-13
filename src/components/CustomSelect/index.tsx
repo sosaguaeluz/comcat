@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { ReactNode, useState } from 'react';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
@@ -23,8 +23,9 @@ interface IProps {
     labelDefault?: string,
     id?: string,
     another_options?: boolean,
-    childrean?: any,
-    disabled?: boolean
+    children?: any,
+    disabled?: boolean,
+    renderValue?: (e: string) => ReactNode
 };
 
 const CustomSelect: React.FC<IProps> = (props) => {
@@ -100,7 +101,7 @@ const CustomSelect: React.FC<IProps> = (props) => {
                             </MenuItem>
                         )
                     })}
-                    {props.childrean}
+                    {props.children}
                 </Select>
             </FormControl>
         </ThemeProvider>

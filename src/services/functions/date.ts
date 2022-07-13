@@ -4,3 +4,7 @@ import "moment/locale/pt-br";
 export function convertDate(date: string | number | Date) {
     return moment(date).utc(true).format("DD/MM/YYYY - HH:mm");
 }
+
+export function setDefaultData(date: any){
+    return moment(date).utc(true).format('YYYY-MM-DDTHH:mm')
+}
