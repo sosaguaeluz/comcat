@@ -34,8 +34,12 @@ import mapsDefault from './mapsDefault.svg';
 import closeRed from './closeRed.svg';
 import disabledError from './disableError.svg';
 import disabledSuccess from './disableSuccess.svg';
+import close from './close.png';
+import hamburger from './hamburger.png'
 
 export {
+    close,
+    hamburger,
     logOut,
     logo,
     dashboard,
