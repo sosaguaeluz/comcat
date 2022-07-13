@@ -71,24 +71,7 @@ const Usuarios: React.FC = () => {
     const [ breed, setBreed] = useState<string>();
     const [ ufValue, setUfValue ] = useState<any>();
     const [ role, setRole] = useState<any>();
-
-    const {
-        data: users,
-        isLoading: loadUsers,
-        refetch: refetch,
-        isFetched: isFetchedUsers,
-    } = useUsers(
-        token,
-        'DESC',
-        page,
-        100,
-        user,
-        breed,
-        genre,
-        ufValue,
-        role,
-    );
-
+    
     useEffect(() => {
         let spam:any = []
         let sum = 0
@@ -107,6 +90,23 @@ const Usuarios: React.FC = () => {
         setTotalUsers(sum)
         setTotalList(spam)
     },[])
+
+    const {
+        data: users,
+        isLoading: loadUsers,
+        refetch: refetch,
+        isFetched: isFetchedUsers,
+    } = useUsers(
+        token,
+        'DESC',
+        page,
+        100,
+        user,
+        breed,
+        genre,
+        ufValue,
+        role,
+    );
     
     const deleteUser = async (id: string) => {
         const data = await api.delete(`/users/${id}`, {
@@ -164,7 +164,7 @@ const Usuarios: React.FC = () => {
                             <CardInfo 
                                 //icon={userIcon}
                                 title="Total"
-                                value={totalUsers}                                
+                                value={totalUsers}                        
                                 type="list"
                                 width='273px'
                                 list={totalList}
@@ -231,7 +231,7 @@ const Usuarios: React.FC = () => {
                                         }}
                                         id='Raça'
                                         label='Raça'
-                                        labelDefault={BREED[0].label}
+                                        // labelDefault='Raça'
                                         // value={BREED[0].value}
                                         defaultValue={BREED[0].value}
                                         list={BREED}
@@ -243,7 +243,7 @@ const Usuarios: React.FC = () => {
                                         }}
                                         id='Genero'
                                         label='Genero'
-                                        labelDefault={GENRE[0].label}
+                                        // labelDefault='Genero'
                                         // value={GENRE[0].value}
                                         defaultValue={GENRE[0].value}                                    
                                         list={GENRE}
@@ -253,17 +253,17 @@ const Usuarios: React.FC = () => {
                                         onChange={(e) => {
                                             setUfValue(e.target.value);
                                         }}
-                                        id="state"
+                                        id="Estado"
                                         label='Estado'
-                                        labelDefault='Estado'
+                                        value='Todos os Estados'
+                                        defaultValue='Todos os Estados'
+                                        // labelDefault='Todos os Estados'                                                                                
                                         list={[{
                                             id: 'All',
                                             nome: 'Todos os Estados',
                                             sigla: 'All',
                                             regiao: 'Todos',
                                         },...uf ||[]]}
-                                        value='Todos os Estados'
-                                        defaultValue='Todos os Estados'
                                         width={254}
                                     />
                                 </div>

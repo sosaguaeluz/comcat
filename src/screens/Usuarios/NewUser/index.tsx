@@ -53,8 +53,7 @@ const NewUser: React.FC <IProps> = ({onClose, isModal}) => {
         let obj = Object.assign(values, { 
             "phone_number": numberClean(values.phone_number),
             "role": "Administrador",
-            "active": values.active === true ? true : false
-            
+            "active": values.active === true ? true : false            
         })
         mutate(obj);
     };
