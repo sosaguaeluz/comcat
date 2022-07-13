@@ -2,17 +2,32 @@ import styled from "styled-components";
 
 export const Container = styled.div`
     background-color: #FFF;
-    height: 740px;
+    overflow: scroll;
+    height: 100vh;
+    padding: 20px 40px 20px 40px;
+    position: relative;
+
     > h1 {
         font-style: normal;
         font-weight: 600;
         font-size: 24px;
         line-height: 34px;
-        text-align: center;
+        text-align: left;
         color: ${props => props.theme.colors.dark};
-        margin-bottom: 48px;
+        margin-bottom: 32px;
     }
 
+    > button {
+        background: none;
+        border: none;
+        position: absolute;
+        right: 60px;
+        top: 40px;
+    }
+
+    span {
+        color: red;
+    }
 `;
 
 export const FormTop = styled.div`
@@ -21,42 +36,111 @@ export const FormTop = styled.div`
     justify-content: space-between;
 `;
 
-export const FieldsetTopLeft = styled.fieldset`
-    width: 592px;
-
-    > label {
-        font-style: normal;
-        font-weight: 600;
-        font-size: 16px;
-        line-height: 19px;
-        color: ${props => props.theme.colors.dark};
-    }
+export const FieldsetTop = styled.fieldset`
+    width: 100%;
+    display: flex;
+    margin-bottom: 32px;
 
     > div {
         display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        margin-top: 24px;
+        
+        > fieldset { 
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 91px;
+            margin-right: 25px;
+        
+            > label {
+                font-style: normal;
+                font-weight: 600;
+                font-size: 16px;
+                line-height: 19px;
+                color: ${props => props.theme.colors.dark};
+            }
+        }
+    }
+    
+`;
 
-        > div:nth-child(1) {
+export const FieldMid = styled.fieldset`
+    display: flex;
+
+    > fieldset {
+        margin-right: 70px;
+        height: 91px;
+    }
+
+    > fieldset:nth-child(1){
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        > label {
+            font-style: normal;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 19px;
+            color: ${props => props.theme.colors.dark};
+        }
+    }
+
+    > fieldset:nth-child(2){
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin-left: 20px;
+    
+        > div {
             display: flex;
             flex-direction: row;
             align-items: center;
 
-            > input {
-                margin-right: 15px;
+            > label {
+                font-style: normal;
+                font-weight: 600;
+                font-size: 16px;
+                line-height: 19px;
+                color: ${props => props.theme.colors.dark};
+                margin-right: 10px;
             }
         }
 
-        > div:nth-child(2) {
+        > p {
+            width: 879px;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 15px;
+            color: #2C3941;
+            opacity: 0.6;
+        }
+
+        > fieldset {
             display: flex;
-            flex-direction: row;
             align-items: center;
-            
-            > input {
-                margin-right: 15px;
-                margin-left: 15px;
+
+            > label {
+                margin-right: 24px;
             }
+
+            > input {
+                margin-right: 8px;
+            }
+        }
+    }
+
+    > fieldset:nth-child(3){
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+
+        > label {
+            font-style: normal;
+            font-weight: 600;
+            font-size: 16px;
+            line-height: 19px;
+            color: ${props => props.theme.colors.dark};
         }
     }
 `;
@@ -112,55 +196,87 @@ export const FieldsetTopRight = styled.fieldset`
     }
 `;
 
-export const FormCenter = styled.div`
-    height: 239px;
-    margin-top: 40px;
-    display: flex;
-    justify-content: space-between;
-
-    > div:nth-child(1) {
+export const FormCenter = styled.fieldset`
+    width: 100%;
+    > div {
+        margin-top: 40px;
         display: flex;
-        flex-direction: column;
-        width: 372px;
+        flex-direction: row;
+        justify-content: space-between;
 
-        > label {
-            margin-bottom: 24px;
-            font-style: normal;
-            font-weight: 600;
-            font-size: 16px;
-            line-height: 19px;
-            color: ${props => props.theme.colors.dark};
-        }
-
-        > div:nth-child(3){
-            display: flex;
-            align-items: center;
-            margin-top: 41px;
-            margin-bottom: 22px;
-
-            > img {
-                margin-left: 15px;
+        > fieldset:nth-child(1) {
+            margin-right: 60px;
+            > fieldset {
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                height: 91px;
+                margin-bottom: 24px !important;
             }
 
-            > label {
-            font-style: normal;
-            font-weight: 600;
-            font-size: 16px;
-            line-height: 19px;
-            color: ${props => props.theme.colors.dark};
+            > fieldset:nth-child(2) {
+                > div {
+                    display: flex;
+                    > label {
+                        margin-right: 5px;
+                    }
+                }
+            }
         }
+
+        > fieldset:nth-child(2) {
+            > img {
+                height: 338px;
+                object-fit: cover;
+            }
+        }
+    }
+`;
+
+export const FieldTextArea = styled.fieldset`
+    margin-left: 60px;
+    > div {
+        margin-top: 24px !important;
+    }
+`;
+
+export const RadioFieldset = styled.fieldset`
+    > fieldset:nth-child(1){
+        width: 325px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 26px;
+        margin-right: 10px;
+
+        > label {
+            display: flex;
+            align-items: center;
+            margin: 0 !important;
+            font-weight: 700;
+
+            > div {
+                margin-left: 5px;
+            }
         }
     }
 
-    > div:nth-child(2) {
-        border: 1px solid blue;
-        width: 1096px;
-        height: 239px;
+    > fieldset:nth-child(2){
+        display: flex;
+
+        > div {
+            display: flex;
+            align-items: center;
+            margin-right: 24px;
+
+            > label {
+                margin-left: 6px;
+            }
+        }
     }
 `;
 
 export const FormBottom = styled.fieldset`
-    margin-top: 40px;
+    margin-top: 32px;
 
     > label {
         font-style: normal;
@@ -168,10 +284,26 @@ export const FormBottom = styled.fieldset`
         font-size: 16px;
         line-height: 19px;
         color: ${props => props.theme.colors.dark};
-    }
+        display: flex;
+        align-items: flex-start;
 
-    > textarea {
+        > p {
+            width: 1138px;
+        }
+    }
+    
+    > fieldset {
+        display: flex;
+        align-items: center;
         margin-top: 24px;
+
+        > label {
+            margin-right: 10px;
+        }
+
+        > input {
+            margin-right: 8px;
+        }
     }
 `;
 
@@ -180,29 +312,37 @@ export const ContainerBtn = styled.fieldset`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 48px;
+    margin-top: 32px;
+`;
 
-    button {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 274px;
-        height: 48px;
-        border-radius: 6px;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 16px;
-        line-height: 19px;
-    }
+export const CancelBtn = styled.button`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 274px;
+    height: 48px;
+    border-radius: 6px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    background: none;
+    border: 1px solid ${props => props.theme.colors.warning};
+    color: ${props => props.theme.colors.warning};
+`;
 
-    > button:nth-child(1){
-        background: none;
-        border: 1px solid ${props => props.theme.colors.warning};
-        color: ${props => props.theme.colors.warning};
-    }
-
-    > button:nth-child(2){
-        background: ${props => props.theme.colors.blue};
-        color: ${props => props.theme.colors.white};
-    }
+export const SubmitButton = styled.button<{ disabled: boolean }>`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 274px;
+    height: 48px;
+    border-radius: 6px;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    border: none;
+    color: ${props => props.disabled == false ? props.theme.colors.white : '#2C3941'};
+    background: ${props => props.disabled == false ? props.theme.colors.blue : '#C7C7C7'};
 `;

@@ -19,6 +19,39 @@ export interface UF {
 };
 
 export interface User {
+  data: [
+    {
+      name: string,
+      age: string,
+      phone_number: string,
+      email: string,
+      password: string,
+      state: string,
+      city: string,
+      genre: string,
+      breed: string,
+      active: true,
+      trusted: false,
+      role: string,
+      first_access: boolean,
+      settings: {
+        user: string,
+        service_notifications: [
+          string
+        ],
+        all_notifications: boolean,
+        push_token: string,
+        _id: string
+      },
+      _id: string,
+      createdAt: string,
+      updatedAt: string
+    }
+  ]
+};
+
+export interface AllUsers {
+  data: [{
     name: string,
     age: string,
     phone_number: string,
@@ -44,7 +77,16 @@ export interface User {
     _id: string,
     createdAt: string,
     updatedAt: string
-};
+  }],
+  meta:[{
+    page: any,
+    take: any,
+    itemCount: any,
+    pageCount: any,
+    hasPreviousPage: any,
+    hasNextPage: any
+  }]
+}
 
 export interface User_setings {
     user: string,
@@ -95,6 +137,17 @@ export interface Dashboard_users {
       total: number,
       monthly: number
     }
+};
+
+export type State_List = {
+    name: string,
+    user_total: number
+};
+
+export interface Dashboard_region_Users {
+  name: string,
+  state_list: State_List[]
+  user_total: number
 };
 
 export interface Messages {

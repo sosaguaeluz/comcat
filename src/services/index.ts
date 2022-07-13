@@ -14,13 +14,22 @@ export {
     postService, 
     putService,
     deleteService,
+    getServiceById,
     useSources,
     postSource,
     putSource,
     deleteSource,
+    getSourceById,
     useUf,
     useCity,
     useUsers,
+    postUser, 
+    deleteUser,
+    putUser,
+    getUserById,
     useOccurrences,
-    useUploads
+    putOccurrences,
+    useUploads,
+    useDashboardRegionList,
+    useMessages
 } from './hooks/index';

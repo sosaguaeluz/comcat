@@ -1,17 +1,32 @@
 export { useUf } from './useUf';
 export { useCity } from './useCity';
-export { useUsers } from './useUser';
+export { 
+    useUsers,
+    postUser, 
+    deleteUser,
+    putUser,
+    getUserById,
+} from './useUser';
 export { 
     useService,
     postService, 
     deleteService,
-    putService
+    putService,
+    getServiceById
 } from './useService';
 export { 
     useSources,
     postSource,
     putSource,
-    deleteSource
+    deleteSource,
+    getSourceById
 } from './useSource';
-export { useOccurrences } from './useOccurences';
+export { 
+    useOccurrences,
+    putOccurrences
+} from './useOccurences';
+export {
+    useMessages
+} from './useMessages'
 export { useUploads } from './useUploads';
+export { useDashboardRegionList } from './useRegionUsers';

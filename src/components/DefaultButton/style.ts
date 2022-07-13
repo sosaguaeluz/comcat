@@ -4,7 +4,7 @@ export const Container = styled.button`
     background: none;
     border-radius: 20px;
     transition: 0.3s ease all;
-    background: ${props => props.theme.colors.gradient};
+    background: ${props => props.theme.colors.darkBlue};
     color: ${props => props.theme.colors.white};
     border-radius: 8px;
     width: 224px;
@@ -16,4 +16,5 @@ export const Container = styled.button`
     display: flex;
     justify-content: center;
     align-items: center;
+    
 `;

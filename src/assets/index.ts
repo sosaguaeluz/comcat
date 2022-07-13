@@ -29,8 +29,17 @@ import uploadIcon from './uploadIcon.svg';
 import alertRed from './alertRed.svg';
 import orangeAlert from './orangeAlert.svg'
 import alertDark from './alertDark.svg';
+import modalIconClose from './modalIconClose.svg';
+import mapsDefault from './mapsDefault.svg';
+import closeRed from './closeRed.svg';
+import disabledError from './disableError.svg';
+import disabledSuccess from './disableSuccess.svg';
+import close from './close.png';
+import hamburger from './hamburger.png'
 
 export {
+    close,
+    hamburger,
     logOut,
     logo,
     dashboard,
@@ -61,5 +70,10 @@ export {
     uploadIcon,
     alertRed,
     orangeAlert,
-    alertDark
+    alertDark,
+    modalIconClose,
+    mapsDefault,
+    closeRed,
+    disabledError,
+    disabledSuccess
 }

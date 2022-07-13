@@ -37,8 +37,10 @@ import {
     IServices
 } from './types';
 import { AxiosResponse } from 'axios';
+import { schema } from './validation-schema';
+import { yupResolver } from '@hookform/resolvers/yup';
 
-const FormService: React.FC<IProps> = ({onHide, isModal, itemEdit}) => {
+const FormService: React.FC<IProps> = ({onHide, isModal}) => {
     const { token } = useSelector((state : RootState) => state.clickState);
     const [ isSourceConfirm, setSourceConfirm ] = useState(false);
     const [ isVisibleModal, setVisibleModal ] = useState<string | false >(false);
@@ -54,6 +56,7 @@ const FormService: React.FC<IProps> = ({onHide, isModal, itemEdit}) => {
     }>();
 
     const {
+        formState: { errors, isSubmitting, isDirty, isValid },
         control,
         register,
         handleSubmit,
@@ -61,8 +64,13 @@ const FormService: React.FC<IProps> = ({onHide, isModal, itemEdit}) => {
         setValue,
         reset,
         getValues,
-        formState: { errors, isSubmitting },
-    } = useForm<FormData>();
+    } = useForm<FormData>({
+        mode: "onChange",
+        resolver: yupResolver(schema)
+    });
+
+    const watchName = watch('name');
+    const watchBg = watch('background_color');
 
     const sourceFieldArray = useFieldArray({
         control,
@@ -76,15 +84,6 @@ const FormService: React.FC<IProps> = ({onHide, isModal, itemEdit}) => {
     const removeField = (field: UseFieldArrayReturn, index?: number) => {
         field.remove(index)
     };
-
-    useEffect(() => {
-        if(!itemEdit) return;
-
-        Object.keys(itemEdit).map((keys) => {
-            let key = keys as keyof unknown;
-            setValue(key as any, itemEdit[key] as any)
-        })
-    }, [itemEdit, setValue]);
 
     async function registerService(values: FormData){
         const { sources, ...item } = values;
@@ -107,6 +106,7 @@ const FormService: React.FC<IProps> = ({onHide, isModal, itemEdit}) => {
             .then((resp) => {
                 console.log(resp.data.id);
                 setServiceId(resp.data.id);
+                setSuccessMsg(!successMsg)
                 return resp.data
             })
             .catch((error) => {
@@ -128,34 +128,28 @@ const FormService: React.FC<IProps> = ({onHide, isModal, itemEdit}) => {
                 ...(values?.sources || [])
             ];
 
-            
+            for await (let item of arraySources){
+                let data: any = {
+                    service: _service.id,
+                };
 
-                // Object.keys(item).map((keys) => {
-                //     let key = keys as keyof unknown;
-                //     if (item[key] !== "") {
-                //         return data[key] = item[key]
-                //     } else {
-                //         return data[key] = null
-                //     };
-                // });
-                
-            await postSource(token, _service).then((resp) => {
-                setSuccessMsg(true)
-                putSource(token, resp.data.id, {
-                    "service": serviceId
-                }).then(() => {
-                    putService(token, serviceId, {
-                        "sources": [
-                            resp.data.id
-                        ]
+                Object.keys(item).map((keys) => {
+                    let key = keys as keyof unknown;
+                    if (item[key] !== "") {
+                        return data[key] = item[key]
+                    } else {
+                        return data[key] = null
+                    };
+                });
+
+                if (!!data) {
+                    await postSource(token, data).then((resp) => {
+                        putSource(token, resp.data.id, {
+                            "service": _service.id
+                        })
                     })
-                })
-                return resp.data
-            }).catch((error) => {
-                console.log(error);
-                setErrMsg(true)
-                return error
-            });
+                  }
+            }
         }
         catch(error){
             console.log('error')
@@ -177,19 +171,7 @@ const FormService: React.FC<IProps> = ({onHide, isModal, itemEdit}) => {
         try {
             await deleteSource(token, id);
             removeField(fieldArray, index);
-            const _data: any = {
-              ...itemEdit
-            };
-      
-            for (const key of Object.keys(_data)) {
-              if (Array.isArray(_data[key]) && _data[key]?.[0]?.id) {
-                _data[key] = _data[key].map((v: any) => ({ id: v.id }));
-              } else if (_data[key]?.id) {
-                _data[key] = _data[key]?.id;
-              }
-            }
-      
-            await putService(token, _data?.id, _data);
+            
           } catch (error) {
             setVisibleModal("error");
           }
@@ -201,19 +183,10 @@ const FormService: React.FC<IProps> = ({onHide, isModal, itemEdit}) => {
 
     useEffect(() => {
         if (!isModal) {
+            setDefaultColor("")
             reset();
         }
     }, [isModal, reset]);
-
-    useEffect(() => {
-        BACKGROUND_COLOR.forEach((id) => {
-            if(itemEdit?.background_color === id?.value){
-                setDefaultColor(id.label)
-            }
-        })
-    }, [defaultColor])
-
-    console.log(sourceFieldArray.fields, 'item');
 
     return (
         <PersonalModal 
@@ -224,48 +197,64 @@ const FormService: React.FC<IProps> = ({onHide, isModal, itemEdit}) => {
             width={861}        
         >
             <S.Container>
-                <h1>{itemEdit === null ? "Cadastrar serviço" : "Editar serviço"}</h1>
+                <h1>Cadastrar serviço</h1>
                 <S.Form onSubmit={handleSubmit(handleOnSubmit)}>
                     <input type="hidden" {...register(`id`)}/>
                     <S.Header>
                         <InputIcon />
                         <div>
-                            <Controller 
-                                name='name'
-                                control={control}
-                                render={({field: {onChange, onBlur, value}}) => (
-                                    <CustomInput 
-                                        label='Digite o nome do serviço' 
-                                        type='Text' 
-                                        value={value} 
-                                        width={254}                            
-                                        onChange={onChange} 
-                                        onBlur={onBlur}
-                                        id="name_service" 
-                                    />
-                                )}
-                            />
-                            <Controller 
-                                name='background_color'
-                                control={control}
-                                render={({field: {onChange, onBlur, value}}) => (
-                                    <CustomSelect
-                                        width={254}
-                                        label='Cor de background'
-                                        list={BACKGROUND_COLOR}
-                                        value={value == '' ? '#FF954E' : value}
-                                        defaultValue={defaultColor}
-                                        labelDefault='Cor de background'
-                                        onChange={onChange}
-                                        onBlur={onBlur}
-                                        id="background_color"
-                                    />
-                                )}
-                            />
+                            <div>
+                                <Controller 
+                                    name='name'
+                                    control={control}
+                                    render={({field: {onChange, onBlur, value}}) => (
+                                        <>
+                                            <CustomInput 
+                                                label='Digite o nome do serviço' 
+                                                type='Text' 
+                                                value={value} 
+                                                width={254}                            
+                                                onChange={onChange} 
+                                                onBlur={onBlur}
+                                                id="name_service" 
+                                            />
+                                            {errors?.name && (
+                                                <p style={{color: 'red'}}>
+                                                    Nome do serviço é obrigatório!
+                                                </p>
+                                            )}
+                                        </>
+                                    )}
+                                />
+                                <Controller 
+                                    name='background_color'
+                                    control={control}
+                                    render={({field: {onChange, onBlur, value}}) => (
+                                        <>
+                                            <CustomSelect
+                                                width={254}
+                                                label='Cor de background'
+                                                list={BACKGROUND_COLOR}
+                                                value={value == '' ? '#FF954E' : value}
+                                                defaultValue={value}
+                                                labelDefault="Cor de background"
+                                                onChange={onChange}
+                                                onBlur={onBlur}
+                                                id="background_color"
+                                            />
+                                            {errors?.background_color && (
+                                                <p style={{color: 'red'}}>
+                                                    Cor do background é obrigatório!
+                                                </p>
+                                            )}
+                                        </>
+                                    )}
+                                />
+                            </div>
                         </div>
                         <fieldset>
                             <label htmlFor="">
-                                Status do serviço
+                                Status do serviço:
                             </label>
                             <Controller 
                                 name='active'
@@ -274,9 +263,10 @@ const FormService: React.FC<IProps> = ({onHide, isModal, itemEdit}) => {
                                     <CustomSwitch
                                         leftLabel="Inativo"
                                         rightLabel="Ativo"
-                                        value={value?.toString() === "false"}
+                                        value={value}
                                         onChange={onChange}
                                         onBlur={onBlur}
+                                        defaultValue={value}
                                     />
                                 )}
                             />
@@ -309,6 +299,7 @@ const FormService: React.FC<IProps> = ({onHide, isModal, itemEdit}) => {
                                                 addField(sourceFieldArray as any, {
                                                     name: value
                                                 })
+                                                setValue(name, '')
                                             }}
                                         >
                                             Adicionar
@@ -355,41 +346,28 @@ const FormService: React.FC<IProps> = ({onHide, isModal, itemEdit}) => {
                     <S.ContainerBtn>
                         <button 
                             id='close-modal'
-                            type="button" 
+                            type="button"
+                            onClick={() => onHide()} 
                         >
                             Cancelar
                         </button>
-                        <button 
+                        <S.ButtonSubmit 
                             id='submit-service'
                             type='submit'
+                            disabled={!isDirty || !isValid}
                         >
-                            {itemEdit === null && (
-                                <>
-                                    {isSubmitting
-                                        ? "Cadastrando ..." 
-                                        : "Finalizar cadastro"
-                                    }
-                                </>
-                            )}
-                            {itemEdit !== null && (
-                                <>
-                                    {isSubmitting 
-                                        ? "Editando..."
-                                        : "Finalizar edição"
-                                    }
-                                </>
-                            )}
-                        </button>
+                            {isSubmitting
+                                ? "Cadastrando ..." 
+                                : "Finalizar cadastro"
+                            }
+                        </S.ButtonSubmit>
                     </S.ContainerBtn>
                 </S.Form>
             </S.Container>
             <ModalMsg
                 height='312px'
                 modalBackground={false} 
-                mensage={itemEdit !== null 
-                    ?'O serviço foi editado com sucesso!'
-                    :'O serviço foi cadastrado com sucesso!'
-                }
+                mensage='O serviço foi editado com sucesso!'
                 onClose={() => {
                     setSuccessMsg(!successMsg)
                     onHide()

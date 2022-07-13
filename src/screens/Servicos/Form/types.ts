@@ -34,8 +34,8 @@ export type FormData = {
     name: string,
     background_color: string,
     active: boolean,
-    other_option: boolean,
-    sources: ISources[],
+    other_option?: boolean,
+    sources?: ISources[],
     id?: string
 }
 
