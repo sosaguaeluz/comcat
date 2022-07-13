@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import * as S from './style';
 import NewUser from './NewUser';
 import EditUser from './EditUser';
+import ManageUser from './ManageUser'
 import {
     CardInfo,
     CustomSelect,
@@ -59,10 +60,10 @@ const Usuarios: React.FC = () => {
     const [app, setApp] = useState(true);
     const [panel, setPanel] = useState(false);
     const [editUser, setEditUser] = useState(false);
-    const [openModalDelete, setOpenModalDelete] = useState(false);
+    const [manageUser, setManageUser] = useState(false);
+
     const [showDelete, setShowDelete ] = useState(false);
     const [showSuccess, setShowSuccess ] = useState(false);
-    const [regexPhone, setRegexPhone] = useState('');
 
     const [ page, setPage ] = useState<number>(1);
     const [ user, setUser] = useState<any>();
@@ -87,17 +88,6 @@ const Usuarios: React.FC = () => {
         ufValue,
         role,
     );
-
-    console.log('genre -', genre)
-    console.log('breed -', breed)
-
-    // console.log('users  -  ', useUsers)
-    // console.log('pagina  -  ', page)
-    // console.log('user  -  ', user)
-    // console.log('ufValue  -  ', ufValue)
-    // console.log('genre  -  ', genre)
-    // console.log('breed  -  ', breed)
-    // console.log('role  -  ', role)
 
     useEffect(() => {
         let spam:any = []
@@ -392,7 +382,11 @@ const Usuarios: React.FC = () => {
                                                                     setShowDelete(!false)
                                                                     setIdUser(id.id)
                                                                 }}
-                                                                onEdit={() => setEditUser(!editUser)}
+                                                                onEdit={() => {
+                                                                    setManageUser(!manageUser)
+                                                                    setObjUser(id)
+                                                                    setIdUser(id.id)
+                                                                }}
                                                                 type={'userApp'} 
 
                                                             /> 
@@ -556,6 +550,14 @@ const Usuarios: React.FC = () => {
             <NewUser 
                 isModal={open}
                 onClose={() => setOpen(!open)}
+            />
+            <ManageUser 
+                isModal={manageUser}
+                onClose={() => {                    
+                    setManageUser(!manageUser)
+                    setObjUser(null)                                        
+                }}
+                itemEdit={objUser}
             />
             <EditUser 
                 isModal={editUser}

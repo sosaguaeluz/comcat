@@ -57,7 +57,6 @@ const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
             city: itemEdit?.city,
             active: itemEdit?.active,
         }
-
     });
 
     useEffect(() => {
