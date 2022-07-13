@@ -90,7 +90,7 @@ const Mensagens: React.FC = () => {
                                 <td>
                                     <span>
                                         <button type="button">
-                                            ...
+                                            ....
                                         </button>
                                     </span>
                                 </td>
