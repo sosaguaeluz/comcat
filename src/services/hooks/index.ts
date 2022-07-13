@@ -25,5 +25,8 @@ export {
     useOccurrences,
     putOccurrences
 } from './useOccurences';
+export {
+    useMessages
+} from './useMessages'
 export { useUploads } from './useUploads';
 export { useDashboardRegionList } from './useRegionUsers';

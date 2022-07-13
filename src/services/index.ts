@@ -31,4 +31,5 @@ export {
     putOccurrences,
     useUploads,
     useDashboardRegionList,
+    useMessages
 } from './hooks/index';

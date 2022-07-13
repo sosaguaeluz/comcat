@@ -46,12 +46,7 @@ const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
         }
     })
     function onSubmit (values: FormData) {
-        let obj = Object.assign(itemEdit, {
-            // "trusted": values.trusted === false ? false: true,
-            // "active": values.active === true ? true : false,
-        })
-
-        putUser(token, itemEdit.id, obj).then(() => {
+        putUser(token, itemEdit.id, values).then(() => {
             onClose()
             setConfirmManage(false)
             setOpen(true)
@@ -83,7 +78,8 @@ const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
             >
                 <S.Container>
                     <h1>Gerenciar usuário</h1>
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    {/* <form onSubmit={handleSubmit(onSubmit)}> */}
+                    <form>
                         <fieldset>
                             <span>
                                 <p>Confiabilidade do usuário:</p>
