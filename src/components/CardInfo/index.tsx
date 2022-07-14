@@ -2,8 +2,7 @@ import React from 'react';
 import * as S from './style';
 import { Box } from '../index';
 import { iconShow } from '../../assets/index';
-
-
+import { Container } from '@mui/material';
 
 type List = {
     name?: string,
@@ -25,9 +24,9 @@ interface IProps {
 
 const CardInfo: React.FC<IProps> = (props) => {
     return (
-        <div>
-            <S.Container width={props.width}>
-                <Box padding='20px' width={props.width}>
+        <Container maxWidth="md" >
+            <S.Container>
+                <Box padding='20px'>
                     <S.Card>
                         {props.icon != "" && (
                             <img src={props.icon} alt="" />
@@ -69,7 +68,7 @@ const CardInfo: React.FC<IProps> = (props) => {
                     </S.List>
                 )}
             </S.ContainerList>
-        </div>
+        </Container>
     );
 };
 

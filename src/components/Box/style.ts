@@ -6,4 +6,5 @@ export const Container = styled.div <{ padding: string; width?: string}>`
     padding: ${props => props.padding};
     width: ${props => props.width == '' ? '100%' : props.width};
     background: ${props => props.theme.colors.white};
+    height: 100%;
 `;

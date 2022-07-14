@@ -538,44 +538,36 @@ const Dashboard: React.FC = () => {
                             </S.SearchBar>
                         </Box>
                         <S.StatusBox>
-                                <span>
-                                    <CardInfo 
-                                        icon={ocurrenceIcon}
-                                        title="Ocorrências no período"
-                                        value={20}
-                                        type=""
-                                        width='372px'
-                                    />
-                                </span>
-                                <span>
-                                    <CardInfo 
-                                        icon=''
-                                        title="Total de novas ocorrências (hoje)"
-                                        value={10}
-                                        type=""
-                                        width='372px'
-                                    />
-                                </span>
-                                <span>
-                                    <CardInfo 
-                                        icon=''
-                                        title="Total de ocorrências aprovadas (hoje)"
-                                        value={10}
-                                        type=""
-                                        width='372px'
-                                    />
-                                </span>
-                                <span>
-                                    <CardInfo 
-                                        icon=''
-                                        title="Total de ocorrências reprovadas (hoje)"
-                                        value={0}
-                                        type=""
-                                        width='372px'
-                                    />
-                                </span>            
+                            <CardInfo 
+                                icon={ocurrenceIcon}
+                                title="Ocorrências no período"
+                                value={20}
+                                type=""
+                                width='100%'
+                            />
+                            <CardInfo 
+                                icon=''
+                                title="Total de novas ocorrências (hoje)"
+                                value={10}
+                                type=""
+                                width='100%'
+                            />
+                            <CardInfo 
+                                icon=''
+                                title="Total de ocorrências aprovadas (hoje)"
+                                value={10}
+                                type=""
+                                width='372px'
+                            />
+                            <CardInfo 
+                                icon=''
+                                title="Total de ocorrências reprovadas (hoje)"
+                                value={0}
+                                type=""
+                                width='372px'
+                            />
                         </S.StatusBox>
-                        <p style={{ paddingTop: '16px'}}>
+                        <p>
                             Gráfico de ocorrências - <b>RJ, Rio de Janeiro, Duque de Caxias | De 11/11/21 até 11/01/22</b>
                         </p>
                         <S.GraficItemContainer>
@@ -663,29 +655,30 @@ const Dashboard: React.FC = () => {
                                 />
                             </div>
                         </S.TextData>
-                        <S.YearGrafic style={{width: '764px', display: 'flex', justifyContent: 'space-between', margin: '40px 0 24px'}}>
+                        <S.YearGrafic>
                             <div>
-                                
+                                <CardInfo 
+                                    icon={ocurrenceIcon}
+                                    title="Total de ocorrências no ano"
+                                    value={3160}
+                                    type=""
+                                    width='372px'
+                                />
+                                <CardInfo 
+                                    icon=''
+                                    title="Média de novas ocorrências por mês"
+                                    value={540}
+                                    type=""
+                                    width='372px'
+                                />
                             </div>
-                            <CardInfo 
-                                icon={ocurrenceIcon}
-                                title="Total de ocorrências no ano"
-                                value={3160}
-                                type=""
-                                width='372px'
-                            />
-                            <CardInfo 
-                                icon=''
-                                title="Média de novas ocorrências por mês"
-                                value={540}
-                                type=""
-                                width='372px'
-                            />
-                            <YearGrafic 
-                                title='Ocorrências no ano'
-                                number={1000}
-                                data={ocurrences}
-                            />
+                            <span>
+                                <YearGrafic 
+                                    title='Ocorrências no ano'
+                                    number={1000}
+                                    data={ocurrences}
+                                />
+                            </span>
                         </S.YearGrafic>            
                     </>
                 )}

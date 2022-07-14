@@ -67,58 +67,25 @@ export const SearchBar = styled.div`
     }
 
     @media screen and (max-width: 1410px) {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    >div:nth-child(1){
-        margin-bottom: 24px;
-    }
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        >div:nth-child(1){
+            margin-bottom: 24px;
+        }
     }
 `;
 
 export const StatusBox = styled.div`
     display: flex;
-    margin: 24px 0 48px;
+    margin: 24px 0 64px;
+    column-gap: 24px;
     width: 100%;
     justify-content: space-between;
     
-    @media screen and (max-width: 1700px) {
-        display: flex;
-        flex-wrap: wrap;
-        align-content: space-between;
-        justify-content: space-between;
-        margin-bottom: 24px;
-        >div{
-            margin-bottom: 24px;
-        }
-        /* >span:nth-child(1){
-            width: 45%;
-            margin-bottom: 24px;
-            order: 1;
-            display: flex;
-            justify-content: flex-start;
-        }
-        >span:nth-child(2){
-            width: 45%;
-            margin-bottom: 24px;
-            order: 2;
-            display: flex;
-            justify-content: flex-start;
-        }
-        >span:nth-child(3){
-            width: 45%;
-            margin-bottom: 24px;
-            order: 1;
-            display: flex;
-            justify-content: flex-end;
-        }
-        >span:nth-child(4){
-            width: 45%;
-            margin-bottom: 24px;
-            order: 2;
-            display: flex;
-            justify-content: flex-end;      
-        } */
+    @media screen and (max-width: 1560px) {
+        margin-bottom: 64px;
+        height: 108px;
     }
 `;
 
