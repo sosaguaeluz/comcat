@@ -63,7 +63,7 @@ const CardGraficItem: React.FC <IProps> = (props) => {
                     width={props.widthChart} 
                     height={82} 
                     data={props.list}
-                    style={{background: '#fff'}}
+                    style={{background: '#fff', borderRadius: '8px'}}
                 >
                     <defs>
                         <linearGradient id={props.id} x1="0" y1="0" x2="0" y2="1">

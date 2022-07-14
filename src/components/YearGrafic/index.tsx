@@ -48,43 +48,45 @@ const YearGrafic: React.FC <IProps> = (props) => {
     const [mouseLeave, setMouseLeave] = useState<any>(true);
      
     return (
-        <Box padding='40px 24px'>
+        <Box padding='40px 62px 35px 24px'>
             <S.Container>
                 <div>
                     <h1>{props.title}</h1>
                     <p>{props.number}</p>
                 </div>
                 <section>
-                    <BarChart
-                        width={604}
-                        height={247}
-                        data={props.data}
-                        onMouseMove={(state) => {
-                            if (state.isTooltipActive) {
-                            setFocusBar(state.activeTooltipIndex);
-                            setMouseLeave(false);
-                            } else {
-                            setFocusBar(null);
-                            setMouseLeave(true);
-                            }
-                        }}
-                    >
-                        <Tooltip cursor={false} />
-                        <XAxis dataKey="month" />
-                        <Bar 
-                            radius={[25, 25, 0, 0]} 
-                            dataKey="total" 
-                            fill="#C7C7C7" 
+                    <span style={{marginLeft: "36px"}}>
+                        <BarChart                            
+                            width={604}
+                            height={247}
+                            data={props.data}
+                            onMouseMove={(state) => {
+                                if (state.isTooltipActive) {
+                                setFocusBar(state.activeTooltipIndex);
+                                setMouseLeave(false);
+                                } else {
+                                setFocusBar(null);
+                                setMouseLeave(true);
+                                }
+                            }}
                         >
-                            {props.data.map((entry: any, index: any) => (
-                                <Cell 
-                                    fill={
-                                        focusBar === index ? "#2B5CE7" : "#C7C7C7"
-                                    } 
-                                />
-                            ))}
-                        </Bar>
-                    </BarChart>
+                            <Tooltip cursor={false} />
+                            <XAxis dataKey="month" />
+                            <Bar 
+                                radius={[25, 25, 0, 0]} 
+                                dataKey="total" 
+                                fill="#C7C7C7" 
+                            >
+                                {props.data.map((entry: any, index: any) => (
+                                    <Cell 
+                                        fill={
+                                            focusBar === index ? "#2B5CE7" : "#C7C7C7"
+                                        } 
+                                    />
+                                ))}
+                            </Bar>
+                        </BarChart>
+                    </span>
                     <S.ProgressBar>
                         <div>
                             <div>

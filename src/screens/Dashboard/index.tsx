@@ -575,71 +575,80 @@ const Dashboard: React.FC = () => {
                                     />
                                 </span>            
                         </S.StatusBox>
-                        <p>
+                        <p style={{ paddingTop: '16px'}}>
                             Gráfico de ocorrências - <b>RJ, Rio de Janeiro, Duque de Caxias | De 11/11/21 até 11/01/22</b>
                         </p>
                         <S.GraficItemContainer>
-                            <CardGraficItem
-                                width='372px'
-                                widthChart={372} 
-                                list={card.list}
-                                title={card.title}
-                                value='325'
-                                icon={energiIcon}
-                                id="energia"
-                            />
-
-                            <CardGraficItem
-                                width='372px'
-                                widthChart={372} 
-                                list={card2.list}
-                                title={card2.title}
-                                value='55'
-                                icon={whaterIcon}
-                                id="agua"
-                            />
-
-                            <CardGraficItem
-                                width='372px'
-                                widthChart={372} 
-                                list={card3.list}
-                                title={card3.title}
-                                value='25'
-                                icon={wifiIcon}
-                                id="wifi"
-                            />
-
-                            <CardGraficItem
-                                width='372px'
-                                widthChart={372} 
-                                list={card4.list}
-                                title={card4.title}
-                                value='155'
-                                icon={gasIcon}
-                                id="gas"
-                            />
+                            <span>
+                                <CardGraficItem
+                                    width='372px'
+                                    widthChart={372} 
+                                    list={card.list}
+                                    title={card.title}
+                                    value='325'
+                                    icon={energiIcon}
+                                    id="energia"
+                                />
+                            </span>
+                            <span>
+                                <CardGraficItem
+                                    width='372px'
+                                    widthChart={372} 
+                                    list={card2.list}
+                                    title={card2.title}
+                                    value='55'
+                                    icon={whaterIcon}
+                                    id="agua"
+                                />
+                            </span>
+                            <span>
+                                <CardGraficItem
+                                    width='372px'
+                                    widthChart={372} 
+                                    list={card3.list}
+                                    title={card3.title}
+                                    value='25'
+                                    icon={wifiIcon}
+                                    id="wifi"
+                                />
+                            </span>
+                            <span>
+                                <CardGraficItem
+                                    width='372px'
+                                    widthChart={372} 
+                                    list={card4.list}
+                                    title={card4.title}
+                                    value='155'
+                                    icon={gasIcon}
+                                    id="gas"
+                                />
+                            </span>
                         </S.GraficItemContainer>
                         <S.StatusBox>
-                            <CardGraficArea 
-                                data={areaChart}
-                                valueItem={multValue}
-                                onChange={(e) => {
-                                    setMultValue(e)
-                                }}
-                                title="Genero"
-                                type="genero"
-                            />
-                            <CardGraficArea 
-                                data={areaChart2}
-                                valueItem={multValue}
-                                onChange={(e) => {
-                                    setMultValue(e)
-                                }}
-                                title="Raça"
-                                type="raca"
-                            />
+                            {/* <span> */}
+                                <CardGraficArea 
+                                    data={areaChart}
+                                    valueItem={multValue}
+                                    onChange={(e) => {
+                                        setMultValue(e)
+                                    }}
+                                    title="Genero"
+                                    type="genero"
+                                />
+                            {/* </span> */}
+                            {/* <span> */}
+                                <CardGraficArea
+                                    data={areaChart2}
+                                    valueItem={multValue}
+                                    onChange={(e) => {
+                                        setMultValue(e)
+                                    }}
+                                    title="Raça"
+                                    type="raca"
+                                />
+                            {/* </span> */}
                         </S.StatusBox>
-                        <S.StatusBox style={{marginBottom: '-50px'}}>
+                        <S.TextData>
                             <p> Ocorrências no útimo ano - <b>2021</b></p>
                             <div style={{background: '#fff'}}>
                                 <CustomSelect
@@ -653,8 +662,11 @@ const Dashboard: React.FC = () => {
                                     }}
                                 />
                             </div>
-                        </S.StatusBox>
-                        <div style={{width: '764px', display: 'flex', justifyContent: 'space-between', margin: '40px 0 24px'}}>
+                        </S.TextData>
+                        <S.YearGrafic style={{width: '764px', display: 'flex', justifyContent: 'space-between', margin: '40px 0 24px'}}>
+                            <div>
+                                
+                            </div>
                             <CardInfo 
                                 icon={ocurrenceIcon}
                                 title="Total de ocorrências no ano"
@@ -669,12 +681,12 @@ const Dashboard: React.FC = () => {
                                 type=""
                                 width='372px'
                             />
-                        </div>            
-                        <YearGrafic 
-                            title='Ocorrências no ano'
-                            number={1000}
-                            data={ocurrences}
-                        />
+                            <YearGrafic 
+                                title='Ocorrências no ano'
+                                number={1000}
+                                data={ocurrences}
+                            />
+                        </S.YearGrafic>            
                     </>
                 )}
                 {users == true && (

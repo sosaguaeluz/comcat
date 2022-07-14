@@ -10,7 +10,7 @@ export const Container = styled.div`
     background: ${props => props.theme.colors.white};
     box-shadow: 1px 0px 10px rgba(0, 0, 0, 0.1);
     display: flex;
-    justify-content: flex-end;
+    justify-content: end;
     
     > div {
         margin: 16px 40px;
