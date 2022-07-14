@@ -1,7 +1,55 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+`;
 
+export const Filsters = styled.div`
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 45px;
+
+    > h1 {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 20px;
+        line-height: 24px;
+        color: ${props => props.theme.colors.dark};
+    }
+
+    > div {
+        display: flex;
+        > span {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+
+            > p {
+                font-style: normal;
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 22px;
+                color: ${props => props.theme.colors.dark};
+                margin-right: 16px;
+                margin-left: 60px;
+            }
+
+            > input {
+                margin-right: 16px;
+            }
+            
+            > label {
+                margin-right: 10px;
+                font-style: normal;
+                font-weight: 400;
+                font-size: 16px;
+                line-height: 22px;
+                color: ${props => props.theme.colors.dark};
+            }
+        }
+    }
 `;
 
 export const Table = styled.div`
@@ -73,7 +121,6 @@ export const TableBody = styled.section`
         }
 
         > td:nth-child(5){
-            border: 1px solid red;
             > span {
                 padding: 16px 10px;
                 width: 610px;

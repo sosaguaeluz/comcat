@@ -7,7 +7,11 @@ export {
     queryClient
 } from './queryClient';
 
-export { convertDate } from './functions/index';
+export { 
+    convertDate,
+    getReason,
+    getStatus
+} from './functions/index';
 
 export {
     useService,

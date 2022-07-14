@@ -4,8 +4,13 @@ import {
     setDefaultData 
 } from './date';
 
+import { getReason } from './getReason';
+import { getStatus } from './getStatus';
+
 export {
     api,
     convertDate,
-    setDefaultData
+    setDefaultData,
+    getReason,
+    getStatus
 } 
