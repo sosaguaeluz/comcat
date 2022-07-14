@@ -4,32 +4,33 @@ export const Container = styled.div`
 
 `;
 
-export const Table = styled.table`
-    width: 100%;
+export const Table = styled.div`
+    width: 1548px;
     box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
     border-bottom-left-radius: 8px;
     border-bottom-left-radius: 8px;
     margin-bottom: 28px;
     border: none !important;
     border-collapse: collapse;
-    
-
-    td, th {
-        border: none !important;
-    }
 `;
 
-export const TableHead = styled.thead`
+export const TableHead = styled.header`
     background-color: rgba(23, 115, 226, 0.2);
     color: ${props => props.theme.colors.blue};
     height: 44px;
     text-align: left;
     
     > tr {
+        display: flex;
+        flex-direction: row;
         > th {
+            height: 44px;
+            display: flex;
+            flex-direction: column;
+            align-items: baseline;
+            justify-content: center;
+
             > span {
-                display: flex;
-                align-items: center;
                 margin-left: 10px;
                 font-style: normal;
                 font-weight: 700;
@@ -45,13 +46,22 @@ export const TableHead = styled.thead`
     }
 `;
 
-export const TableBody = styled.tbody`
+export const TableBody = styled.section`
     > tr {
         box-shadow: inset 0px -1px 1px rgba(0, 0, 0, 0.2) !important;
+        display: flex;
+        flex-direction: row;
 
         > td {
-            height: 48px;
+            height: 68px;
+            align-items: baseline;
+            
             > span {
+                padding: 16px 10px;
+                display: flex;
+                flex-direction: row;
+                align-items: baseline;
+                justify-content: flex-start;
                 display: flex;
                 align-items: center;
                 font-style: normal !important;
@@ -59,6 +69,20 @@ export const TableBody = styled.tbody`
                 font-size: 12px !important;
                 line-height: 15px !important;
                 color: ${props => props.theme.colors.dark} !important;
+            }
+        }
+
+        > td:nth-child(5){
+            border: 1px solid red;
+            > span {
+                padding: 16px 10px;
+                width: 610px;
+                display: -webkit-box;
+                word-break: break-word;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                -webkit-line-clamp: 2; /* number of lines to show */
+                -webkit-box-orient: vertical;
             }
         }
     }

@@ -1,8 +1,11 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
-import { useMessages } from '../../services';
-import { RootState } from '../../stores';
 import * as S from './style';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../stores';
+import { convertDate, useMessages } from '../../services';
+import {
+    options
+} from '../../assets/index'
 
 const Mensagens: React.FC = () => {
     const { token } = useSelector((state: RootState) => state.clickState);
@@ -42,25 +45,25 @@ const Mensagens: React.FC = () => {
             <S.Table>
                 <S.TableHead>
                     <tr>
-                        <th>
+                        <th style={{width: '157px'}}>
                             <span>Data</span>
                         </th>
-                        <th>
+                        <th style={{width: '215px'}}>
                             <span>Nome</span>
                         </th>
-                        <th>
+                        <th style={{width: '177px'}}>
                             <span>E-mail</span>
                         </th>
-                        <th>
+                        <th style={{width: '141px'}}>
                             <span>Motivo</span>
                         </th>
-                        <th>
+                        <th style={{width: '610px'}}>
                             <span>Mensagem</span>
                         </th>
-                        <th>
+                        <th style={{width: '150px'}}>
                             <span>Status</span>
                         </th>
-                        <th>
+                        <th style={{width: '99px'}}>
                             <span>Ações</span>
                         </th>
                     </tr>
@@ -69,28 +72,28 @@ const Mensagens: React.FC = () => {
                     {messages?.map((id: any) => {
                         return (
                             <tr>
-                                <td>
-                                    <span>{id.createdAt}</span>
+                                <td style={{width: '157px'}}>
+                                    <span>{convertDate(id.createdAt)}</span>
                                 </td>
-                                <td>
+                                <td style={{width: '215px'}}>
                                     <span>{id.name}</span>
                                 </td>
-                                <td>
+                                <td style={{width: '200px'}}>
                                     <span>{id.email}</span>
                                 </td>
-                                <td>
+                                <td style={{width: '141px'}}>
                                     <span>{id.reason}</span>
                                 </td>
                                 <td>
                                     <span>{id.message}</span>
                                 </td>
-                                <td>
+                                <td style={{width: '150px'}}>
                                     <span>{id.status}</span>
                                 </td>
-                                <td>
+                                <td style={{width: '99px'}}>
                                     <span>
                                         <button type="button">
-                                            ....
+                                            <img src={options} alt="" />
                                         </button>
                                     </span>
                                 </td>
