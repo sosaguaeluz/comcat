@@ -1,11 +1,14 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+    margin: 0px -24px;
+
     > div {
         display: flex;
         align-items: center;
         padding: 20px 0 0 0;
         > div {
+            
             > h1 {
                 font-style: normal;
                 font-weight: 400;

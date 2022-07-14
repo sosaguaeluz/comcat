@@ -4,7 +4,9 @@ import { Box } from '../index';
 import { 
     Area, 
     AreaChart,
+    ResponsiveContainer,
 } from 'recharts';
+import { Container } from '@mui/material';
 
 type List = {
     label?: string,
@@ -50,32 +52,42 @@ const CardGraficItem: React.FC <IProps> = (props) => {
     }, [color]);
     
     return (
-        <Box padding='0' width={props.width}>
-            <S.Container>
-                <div>
-                    <img src={props.icon} alt="" />
+        <Container  maxWidth="md">
+            <Box padding='0px -24px 0px -24px' width={props.width}>
+                <S.Container>
                     <div>
-                        <h1>{props.title}</h1>
-                        <p>{props.value}</p>
+                        <img src={props.icon} alt="" />
+                        <div>
+                            <h1>{props.title}</h1>
+                            <p>{props.value}</p>
+                        </div>
                     </div>
-                </div>
-                <AreaChart 
-                    width={props.widthChart} 
-                    height={82} 
-                    data={props.list}
-                    style={{background: '#fff', borderRadius: '8px'}}
-                >
-                    <defs>
-                        <linearGradient id={props.id} x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor={color} stopOpacity={0.8}/>
-                            <stop offset="100%" stopColor={color} stopOpacity={0}/>
-                        </linearGradient>
-                    </defs>
-                    <Area type="monotone" dataKey="label" stroke={color} fillOpacity={1} fill={`url(#${props.id})`} />
-                    <Area type="monotone" dataKey="value" stroke={color} fillOpacity={1} fill={`url(#${props.id})`} />
-                </AreaChart>
-            </S.Container>
-        </Box>
+                    <ResponsiveContainer height={82}>
+                        <AreaChart 
+                            width={props.widthChart} 
+                            height={82} 
+                            data={props.list}
+                            // margin={{
+                            //     top: 0,
+                            //     right: -24,
+                            //     left: -24,
+                            //     bottom: 0,
+                            // }}
+                            style={{background: '#fff', borderRadius: '8px'}}
+                        >
+                            <defs>
+                                <linearGradient id={props.id} x1="0" y1="0" x2="0" y2="1">
+                                    <stop offset="5%" stopColor={color} stopOpacity={0.8}/>
+                                    <stop offset="100%" stopColor={color} stopOpacity={0}/>
+                                </linearGradient>
+                            </defs>
+                            <Area type="monotone" dataKey="label" stroke={color} fillOpacity={1} fill={`url(#${props.id})`} />
+                            <Area type="monotone" dataKey="value" stroke={color} fillOpacity={1} fill={`url(#${props.id})`} />
+                        </AreaChart>
+                    </ResponsiveContainer>
+                </S.Container>
+            </Box>
+        </Container>
     );
 };
 

@@ -557,14 +557,14 @@ const Dashboard: React.FC = () => {
                                 title="Total de ocorrências aprovadas (hoje)"
                                 value={10}
                                 type=""
-                                width='372px'
+                                width='100%'
                             />
                             <CardInfo 
                                 icon=''
                                 title="Total de ocorrências reprovadas (hoje)"
                                 value={0}
                                 type=""
-                                width='372px'
+                                width='100%'
                             />
                         </S.StatusBox>
                         <p>
@@ -573,7 +573,7 @@ const Dashboard: React.FC = () => {
                         <S.GraficItemContainer>
                             <span>
                                 <CardGraficItem
-                                    width='372px'
+                                    width='100%'
                                     widthChart={372} 
                                     list={card.list}
                                     title={card.title}
@@ -584,7 +584,7 @@ const Dashboard: React.FC = () => {
                             </span>
                             <span>
                                 <CardGraficItem
-                                    width='372px'
+                                    width='100%'
                                     widthChart={372} 
                                     list={card2.list}
                                     title={card2.title}
@@ -595,7 +595,7 @@ const Dashboard: React.FC = () => {
                             </span>
                             <span>
                                 <CardGraficItem
-                                    width='372px'
+                                    width='100%'
                                     widthChart={372} 
                                     list={card3.list}
                                     title={card3.title}
