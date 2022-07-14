@@ -19,6 +19,7 @@ import {
     gasIcon
 } from '../../assets/index';
 
+
 const Dashboard: React.FC = () => {
     const [ open, setOpen ] = useState(false);
     const [ map, setMap ] = useState(true);
@@ -429,7 +430,7 @@ const Dashboard: React.FC = () => {
     ]
 
     return (
-        <>
+        <S.Main>
             <S.Navigation>
                 <div>
                 <DoubleButton
@@ -455,7 +456,7 @@ const Dashboard: React.FC = () => {
             <S.Container>
                 {map == true && (
                     <>
-                        <Box padding='24px 20px'>
+                        <Box padding='24px 20px 0px 20px'>
                             <S.Header>
                                 <h1>Filtros</h1>
                                 {value != '' && data != '' && (
@@ -507,9 +508,11 @@ const Dashboard: React.FC = () => {
                                 </div>
                                 <div>
                                     <CustomInput
+                                        id='dateDe'
                                         width={176} 
                                         type='date'
                                         label='De:'
+                                        defaultValue='De:'
                                         onChange={(e: any) => {
                                             setData(e);
                                             console.log(e);
@@ -520,6 +523,7 @@ const Dashboard: React.FC = () => {
                                             throw new Error('Function not implemented.');
                                         } }                                    />
                                     <CustomInput
+                                        id='dateAte'
                                         width={176} 
                                         type='date'
                                         label='Até:'
@@ -534,34 +538,42 @@ const Dashboard: React.FC = () => {
                             </S.SearchBar>
                         </Box>
                         <S.StatusBox>
-                            <CardInfo 
-                                icon={ocurrenceIcon}
-                                title="Ocorrências no período"
-                                value={20}
-                                type=""
-                                width='372px'
-                            />
-                            <CardInfo 
-                                icon=''
-                                title="Total de novas ocorrências (hoje)"
-                                value={10}
-                                type=""
-                                width='372px'
-                            />
-                            <CardInfo 
-                                icon=''
-                                title="Total de ocorrências aprovadas (hoje)"
-                                value={10}
-                                type=""
-                                width='372px'
-                            />
-                            <CardInfo 
-                                icon=''
-                                title="Total de ocorrências reprovadas (hoje)"
-                                value={0}
-                                type=""
-                                width='372px'
-                            />
+                                <span>
+                                    <CardInfo 
+                                        icon={ocurrenceIcon}
+                                        title="Ocorrências no período"
+                                        value={20}
+                                        type=""
+                                        width='372px'
+                                    />
+                                </span>
+                                <span>
+                                    <CardInfo 
+                                        icon=''
+                                        title="Total de novas ocorrências (hoje)"
+                                        value={10}
+                                        type=""
+                                        width='372px'
+                                    />
+                                </span>
+                                <span>
+                                    <CardInfo 
+                                        icon=''
+                                        title="Total de ocorrências aprovadas (hoje)"
+                                        value={10}
+                                        type=""
+                                        width='372px'
+                                    />
+                                </span>
+                                <span>
+                                    <CardInfo 
+                                        icon=''
+                                        title="Total de ocorrências reprovadas (hoje)"
+                                        value={0}
+                                        type=""
+                                        width='372px'
+                                    />
+                                </span>            
                         </S.StatusBox>
                         <p>
                             Gráfico de ocorrências - <b>RJ, Rio de Janeiro, Duque de Caxias | De 11/11/21 até 11/01/22</b>
@@ -861,7 +873,7 @@ const Dashboard: React.FC = () => {
                     </>
                 )}
             </S.Container>
-        </>
+        </S.Main>
     );
 };
 

@@ -1,12 +1,18 @@
 import styled from "styled-components";
 
+export const Main = styled.div`
+    
+
+    
+`
 export const Container = styled.div`
+    
+
 `;
 
 export const Navigation = styled.nav`
     margin-bottom: 24px;
     
-
     div {
     display: flex;
     justify-content: center;
@@ -47,25 +53,63 @@ export const Header = styled.div`
 
 export const SearchBar = styled.div`
     display: flex;
+    align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
+    
 
     > div:nth-child(1){
         width: 810px;
         display: flex;
         justify-content: space-between;
-    }
+        margin-bottom: 24px;
 
+        @media screen and (max-width: 1410px) {
+        width: 100%;
+        justify-content: space-evenly;
+        }
+    }
     > div:nth-child(2){
         width: 376px;
         display: flex;
-        justify-content: space-between;
+        justify-content: space-evenly;
+        margin-bottom: 24px;
+
+        @media screen and (max-width: 1410px) {
+        width: 80%;
+        justify-content: space-evenly;
+        }
+    }
+
+    @media screen and (max-width: 1410px) {
+    flex-direction: column
     }
 `;
 
 export const StatusBox = styled.div`
     display: flex;
-    justify-content: space-between;
     margin: 24px 0 64px;
+    width: 100%;
+    justify-content: space-between;
+    
+    @media screen and (max-width: 1660px) {
+        display: flex;
+        align-content: space-between;
+        justify-content: space-evenly;
+    
+        >span:nth-child(1){
+            align-self:flex-start
+        }
+        >span:nth-child(2){
+            align-self:flex-end
+        }
+        >span:nth-child(3){
+            align-self:flex-start
+        }
+        >span:nth-child(4){
+            align-self:flex-end
+        }
+    }
 `;
 
 export const GraficItemContainer = styled.div`
