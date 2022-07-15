@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import * as S from './style';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../stores';
-import { convertDate, deleteMessage, useMessages } from '../../services';
+import { convertDate, deleteMessage, putMessages, useMessages } from '../../services';
 import {
     getReason,
     getStatus
@@ -24,6 +24,7 @@ const Mensagens: React.FC = () => {
     const [ respObj, setRespObj ] = useState(false);
     const [ deleteObj, setDeleteObj ] = useState(false);
     const [ msgDelete, setMsgDelete ] = useState(false);
+    const [ msgAnswer, setMsgAnswer ] = useState(false);
 
     const { 
         data: messages,
@@ -185,7 +186,8 @@ const Mensagens: React.FC = () => {
                                                 setObjMessage(id)
                                             }}
                                             onMark={ () => {
-                                                setObjMessage(id)
+                                                setIdMessage(id.id)
+                                                setAnswer(!answer)
                                             }}
                                             onDelete={ () => {
                                                 setIdMessage(id.id)
@@ -217,6 +219,26 @@ const Mensagens: React.FC = () => {
                 backgroundColor="false"
             />
 
+            <ModalDelete 
+                open={answer} 
+                onClose={() => {
+                    setAnswer(false)
+                }} 
+                width={469} 
+                mensage='Deseja marcar esta mensagem como respondida?' 
+                onDelete={() => {
+                    let obj: any = {
+                        "status": "Answered"
+                    }
+                    putMessages(token, idMessage, obj).then(() => {
+                        setAnswer(false)
+                        setMsgAnswer(true)
+                    })
+                }} 
+                buttonText='Sim, marcar' 
+                backgroundColor="true"
+            />
+
             <ModalMsg 
                 open={msgDelete} 
                 onClose={() => {
@@ -226,6 +248,19 @@ const Mensagens: React.FC = () => {
                 width={469} 
                 status='success' 
                 mensage='Mensagem excluida com sucesso' 
+                modalBackground={false} 
+                height='312px'
+            />
+
+            <ModalMsg 
+                open={msgAnswer} 
+                onClose={() => {
+                    refetch()
+                    setMsgAnswer(false)
+                }} 
+                width={469} 
+                status='success' 
+                mensage='A mensagem foi marcada como respondida com sucesso' 
                 modalBackground={false} 
                 height='312px'
             />
