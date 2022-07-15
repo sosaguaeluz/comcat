@@ -552,7 +552,6 @@ const Dashboard: React.FC = () => {
                                         value={20}
                                         type=""
                                         width='100%'
-                                        height="108px"
                                     />
                                 </Grid>
                                 <Grid item sm={2} md={4} lg={3}>
@@ -562,7 +561,6 @@ const Dashboard: React.FC = () => {
                                         value={10}
                                         type=""
                                         width='100%'
-                                        height="108px"
                                     />
                                 </Grid>
                                 <Grid item sm={2} md={4} lg={3}>
@@ -572,7 +570,6 @@ const Dashboard: React.FC = () => {
                                         value={10}
                                         type=""
                                         width='100%'
-                                        height="108px"
                                     />
                                 </Grid>
                                 <Grid item sm={2} md={4} lg={3}>
@@ -582,7 +579,6 @@ const Dashboard: React.FC = () => {
                                         value={0}
                                         type=""
                                         width='100%'
-                                        height="108px"
                                     />
                                 </Grid>
                             </Grid>

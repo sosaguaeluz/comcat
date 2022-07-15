@@ -27,8 +27,10 @@ const CardInfo: React.FC<IProps> = (props) => {
     return (
         <>
         {/* <Container maxWidth="md" > */}
-            <S.Container width1={props.width} height1={props.height}>
-                <Box padding='20px'>
+        <Box padding='20px'>
+                <S.Container 
+                    width={props.width} 
+                >
                     <S.Card>
                         {props.icon != "" && (
                             <img src={props.icon} alt="" />
@@ -53,23 +55,22 @@ const CardInfo: React.FC<IProps> = (props) => {
                             )}
                         </S.Content>
                     </S.Card>
-
-                </Box>
-            </S.Container>
+                </S.Container>
+            </Box>
             <S.ContainerList onMouseLeave={props.setOpen}>
-                {props.open == true && (
-                    <S.List width={props.width}>
-                        {props.list?.map((id: any) => {
-                            return (
-                                <div>
-                                    <h1>{id.label || id.name}</h1>
-                                    <p>{id.number || id.user_total}</p>
-                                </div>
-                            )
-                        })}
-                    </S.List>
-                )}
-            </S.ContainerList>
+                    {props.open == true && (
+                        <S.List width={props.width}>
+                            {props.list?.map((id: any) => {
+                                return (
+                                    <div>
+                                        <h1>{id.label || id.name}</h1>
+                                        <p>{id.number || id.user_total}</p>
+                                    </div>
+                                )
+                            })}
+                        </S.List>
+                    )}
+                </S.ContainerList>
             {/* </Container> */}
         </>
     );
