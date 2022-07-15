@@ -18,6 +18,7 @@ import {
     wifiIcon,
     gasIcon
 } from '../../assets/index';
+import { Grid, Container } from '@mui/material';
 
 
 const Dashboard: React.FC = () => {
@@ -537,109 +538,196 @@ const Dashboard: React.FC = () => {
                                 </div>
                             </S.SearchBar>
                         </Box>
-                        <S.StatusBox>
-                            <CardInfo 
-                                icon={ocurrenceIcon}
-                                title="Ocorrências no período"
-                                value={20}
-                                type=""
-                                width='100%'
-                            />
-                            <CardInfo 
-                                icon=''
-                                title="Total de novas ocorrências (hoje)"
-                                value={10}
-                                type=""
-                                width='100%'
-                            />
-                            <CardInfo 
-                                icon=''
-                                title="Total de ocorrências aprovadas (hoje)"
-                                value={10}
-                                type=""
-                                width='100%'
-                            />
-                            <CardInfo 
-                                icon=''
-                                title="Total de ocorrências reprovadas (hoje)"
-                                value={0}
-                                type=""
-                                width='100%'
-                            />
+                        <S.StatusBox >
+                            <Grid
+                            container
+                            spacing={{ xs: 2.5, md: 2.5, lg: 2.5 }}
+                            columns={{ sm: 4, md: 8, lg: 12 }}
+                            flex-wrap='wrap'
+                            >
+                                <Grid item sm={2} md={4} lg={3}>
+                                    <CardInfo 
+                                        icon={ocurrenceIcon}
+                                        title="Ocorrências no período"
+                                        value={20}
+                                        type=""
+                                        width='100%'
+                                        height="108px"
+                                    />
+                                </Grid>
+                                <Grid item sm={2} md={4} lg={3}>
+                                    <CardInfo 
+                                        icon=''
+                                        title="Total de novas ocorrências (hoje)"
+                                        value={10}
+                                        type=""
+                                        width='100%'
+                                        height="108px"
+                                    />
+                                </Grid>
+                                <Grid item sm={2} md={4} lg={3}>
+                                    <CardInfo 
+                                        icon=''
+                                        title="Total de ocorrências aprovadas (hoje)"
+                                        value={10}
+                                        type=""
+                                        width='100%'
+                                        height="108px"
+                                    />
+                                </Grid>
+                                <Grid item sm={2} md={4} lg={3}>
+                                    <CardInfo 
+                                        icon=''
+                                        title="Total de ocorrências reprovadas (hoje)"
+                                        value={0}
+                                        type=""
+                                        width='100%'
+                                        height="108px"
+                                    />
+                                </Grid>
+                            </Grid>
                         </S.StatusBox>
                         <p>
                             Gráfico de ocorrências - <b>RJ, Rio de Janeiro, Duque de Caxias | De 11/11/21 até 11/01/22</b>
                         </p>
                         <S.GraficItemContainer>
-                            <span>
-                                <CardGraficItem
-                                    width='100%'
-                                    widthChart={372} 
-                                    list={card.list}
-                                    title={card.title}
-                                    value='325'
-                                    icon={energiIcon}
-                                    id="energia"
-                                />
-                            </span>
-                            <span>
-                                <CardGraficItem
-                                    width='100%'
-                                    widthChart={372} 
-                                    list={card2.list}
-                                    title={card2.title}
-                                    value='55'
-                                    icon={whaterIcon}
-                                    id="agua"
-                                />
-                            </span>
-                            <span>
-                                <CardGraficItem
-                                    width='100%'
-                                    widthChart={372} 
-                                    list={card3.list}
-                                    title={card3.title}
-                                    value='25'
-                                    icon={wifiIcon}
-                                    id="wifi"
-                                />
-                            </span>
-                            <span>
-                                <CardGraficItem
-                                    width='372px'
-                                    widthChart={372} 
-                                    list={card4.list}
-                                    title={card4.title}
-                                    value='155'
-                                    icon={gasIcon}
-                                    id="gas"
-                                />
-                            </span>
+                            <Grid
+                                container
+                                spacing={{ xs: 2.5, md: 2.5, lg: 2.5 }}
+                                columns={{ sm: 4, md: 8, lg: 12 }}
+                                flex-wrap='wrap'
+                            >
+                                <Grid item sm={2} md={4} lg={3}>
+                                    <CardGraficItem
+                                        width='100%' 
+                                        list={card.list}
+                                        title={card.title}
+                                        value='325'
+                                        icon={energiIcon}
+                                        id="energia"
+                                        heightGrafic={85}
+                                    />
+                                </Grid>
+                                <Grid item sm={2} md={4} lg={3}>
+                                    <CardGraficItem
+                                        width='100%'
+                                        list={card2.list}
+                                        title={card2.title}
+                                        value='55'
+                                        icon={whaterIcon}
+                                        id="agua"
+                                        heightGrafic={85}
+
+                                    />
+                                </Grid>
+                                <Grid item sm={2} md={4} lg={3}>
+                                    <CardGraficItem
+                                        width='100%'
+                                        list={card3.list}
+                                        title={card3.title}
+                                        value='25'
+                                        icon={wifiIcon}
+                                        id="wifi"
+                                        heightGrafic={85}
+
+                                    />
+                                </Grid>
+                                <Grid item sm={2} md={4} lg={3}>
+                                    <CardGraficItem
+                                        width='100%'
+                                        list={card4.list}
+                                        title={card4.title}
+                                        value='155'
+                                        icon={gasIcon}
+                                        id="gas"
+                                        heightGrafic={85}
+                                    />
+                                </Grid>
+                                <Grid item sm={2} md={4} lg={3}>
+                                    <CardGraficItem
+                                        width='100%' 
+                                        list={card.list}
+                                        title={card.title}
+                                        value='325'
+                                        icon={energiIcon}
+                                        id="energia"
+                                        heightGrafic={85}
+                                    />
+                                </Grid>
+                                <Grid item sm={2} md={4} lg={3}>
+                                    <CardGraficItem
+                                        width='100%'
+                                        list={card2.list}
+                                        title={card2.title}
+                                        value='55'
+                                        icon={whaterIcon}
+                                        id="agua"
+                                        heightGrafic={85}
+
+                                    />
+                                </Grid>
+                                <Grid item sm={2} md={4} lg={3}>
+                                    <CardGraficItem
+                                        width='100%'
+                                        list={card3.list}
+                                        title={card3.title}
+                                        value='25'
+                                        icon={wifiIcon}
+                                        id="wifi"
+                                        heightGrafic={85}
+
+                                    />
+                                </Grid>
+                                <Grid item sm={2} md={4} lg={3}>
+                                    <CardGraficItem
+                                        width='100%'
+                                        list={card4.list}
+                                        title={card4.title}
+                                        value='155'
+                                        icon={gasIcon}
+                                        id="gas"
+                                        heightGrafic={85}
+                                    />
+                                </Grid>
+                            </Grid>
                         </S.GraficItemContainer>
-                        <S.StatusBox>
-                            {/* <span> */}
-                                <CardGraficArea 
-                                    data={areaChart}
-                                    valueItem={multValue}
-                                    onChange={(e) => {
-                                        setMultValue(e)
-                                    }}
-                                    title="Genero"
-                                    type="genero"
-                                />
-                            {/* </span> */}
-                            {/* <span> */}
-                                <CardGraficArea
-                                    data={areaChart2}
-                                    valueItem={multValue}
-                                    onChange={(e) => {
-                                        setMultValue(e)
-                                    }}
-                                    title="Raça"
-                                    type="raca"
-                                />
-                            {/* </span> */}
-                        </S.StatusBox>
+                        <S.GraficBarsContainer>
+                            <Grid
+                                container
+                                spacing={{ xs: 2.5, md: 2.5, lg: 2.5 }}
+                                columns={{ sm: 1, md: 2, lg: 2 }}
+                                flex-wrap='wrap'
+                            >
+                                <Grid item sm={1} md={1} lg={1}>
+                                    <CardGraficArea 
+                                        data={areaChart}
+                                        valueItem={multValue}
+                                        onChange={(e) => {
+                                            setMultValue(e)
+                                        }}
+                                        title="Genero"
+                                        type="genero"
+                                        width= "100%"
+                                        height="389px"
+                                        heightGrafic={210}
+                                    />
+                                </Grid>
+                                <Grid item sm={1} md={1} lg={1}>
+                                    <CardGraficArea
+                                        data={areaChart2}
+                                        valueItem={multValue}
+                                        onChange={(e) => {
+                                            setMultValue(e)
+                                        }}
+                                        title="Raça"
+                                        type="raca"
+                                        width= "100%"
+                                        height="389px"
+                                        heightGrafic={210}
+                                    />
+                                </Grid>
+                            </Grid>
+                        </S.GraficBarsContainer>
                         <S.TextData>
                             <p> Ocorrências no útimo ano - <b>2021</b></p>
                             <div style={{background: '#fff'}}>
@@ -655,66 +743,101 @@ const Dashboard: React.FC = () => {
                                 />
                             </div>
                         </S.TextData>
-                        <S.YearGrafic>
+                        <S.GraficYearContainer>
                             <div>
-                                <CardInfo 
-                                    icon={ocurrenceIcon}
-                                    title="Total de ocorrências no ano"
-                                    value={3160}
-                                    type=""
-                                    width='372px'
-                                />
-                                <CardInfo 
-                                    icon=''
-                                    title="Média de novas ocorrências por mês"
-                                    value={540}
-                                    type=""
-                                    width='372px'
-                                />
-                            </div>
+                                <Grid
+                                    container
+                                    spacing={{ xs: 2.5, md: 2.5, lg: 2.5 }}
+                                    columns={{ sm: 2, md: 2, lg: 4 }}                        
+                                    flex-wrap='nowrap'
+                                >
+                                    <Grid item sm={1} md={1} lg={1}>
+                                        <CardInfo 
+                                            icon={ocurrenceIcon}
+                                            title="Total de ocorrências no ano"
+                                            value={3160}
+                                            type=""
+                                            width="100%"
+                                            height='108px'
+                                        />
+                                    </Grid>
+                                    <Grid item sm={1} md={1} lg={1}>
+                                        <CardInfo 
+                                            icon=''
+                                            title="Média de novas ocorrências por mês"
+                                            value={540}
+                                            type=""
+                                            width="100%"
+                                            height='108px'
+                                        />
+                                    </Grid>
+                                </Grid>
+                            </div>                            
                             <span>
                                 <YearGrafic 
                                     title='Ocorrências no ano'
                                     number={1000}
                                     data={ocurrences}
+                                    width= "100%"
+                                    height='426px'                    
+                                    heightGrafic={300}
                                 />
                             </span>
-                        </S.YearGrafic>            
+                        </S.GraficYearContainer>
                     </>
                 )}
                 {users == true && (
                     <> 
                         <S.StatusBox style={{marginBottom: '20px'}}>
-                            <CardInfo 
-                                icon={ocurrenceIcon}
-                                title="Total de usuários"
-                                value={3160}
-                                type=""
-                                width='372px'
-                            />
-                            <CardInfo 
-                                icon=''
-                                title="Total de novas usuários (hoje)"
-                                value={540}
-                                type=""
-                                width='372px'
-                            />
-                            <CardInfo 
-                                icon=''
-                                title="Total de usuários ativos (hoje)"
-                                value={540}
-                                type=""
-                                width='372px'
-                            />
-                            <CardInfo 
-                                icon=''
-                                title="Total de usuários inativos (hoje)"
-                                value={540}
-                                type=""
-                                width='372px'
-                            />
+                            <Grid
+                                container
+                                spacing={{ xs: 2.5, md: 2.5, lg: 2.5 }}
+                                columns={{ sm: 4, md: 8, lg: 12 }}
+                                flex-wrap='wrap'
+                            >
+                                <Grid item sm={2} md={4} lg={3}>
+                                    <CardInfo 
+                                        icon={ocurrenceIcon}
+                                        title="Total de usuários"
+                                        value={3160}
+                                        type=""
+                                        width='100%'
+                                        height="108px"
+                                    />
+                                </Grid>
+                                <Grid item sm={2} md={4} lg={3}>
+                                    <CardInfo 
+                                        icon=''
+                                        title="Total de novas usuários (hoje)"
+                                        value={540}
+                                        type=""
+                                        width='100%'
+                                        height="108px"
+                                    />
+                                </Grid>
+                                <Grid item sm={2} md={4} lg={3}>
+                                    <CardInfo 
+                                        icon=''
+                                        title="Total de usuários ativos (hoje)"
+                                        value={540}
+                                        type=""
+                                        width='100%'
+                                        height="108px"
+                                    />
+                                </Grid>
+                                <Grid item sm={2} md={4} lg={3}>
+                                    <CardInfo 
+                                        icon=''
+                                        title="Total de usuários inativos (hoje)"
+                                        value={540}
+                                        type=""
+                                        width='100%'
+                                        height="108px"
+                                    />
+                                </Grid>
+                            </Grid>
                         </S.StatusBox>   
-                        <Box padding='24px 20px'>
+                        <Box padding='24px 20px 0px 20px'>
                             <S.Header>
                                 <h1>Filtros</h1>
                                 {value != '' && data != '' && (
@@ -792,54 +915,80 @@ const Dashboard: React.FC = () => {
                                 </div>
                             </S.SearchBar>
                         </Box>
-                        <p  style={{margin: '20px 0'}} >Gráfico de usuários por região - <b>Todos os locais | Desde o início</b></p>           
+                        <p  style={{margin: '48px 0 24px'}} >
+                            Gráfico de usuários por região - <b>Todos os locais | Desde o início</b>
+                        </p>           
                         <S.GraficItemContainer>
-                            <CardGraficItem
-                                width='284px' 
-                                widthChart={284}
-                                list={card5.list}
-                                title={card5.title}
-                                value='325'
-                                id="sul"
-                            />
-
-                            <CardGraficItem
-                                width='284px' 
-                                widthChart={284}
-                                list={card6.list}
-                                title={card6.title}
-                                value='55'
-                                id="Norte"
-                            />
-
-                            <CardGraficItem
-                                width='284px' 
-                                widthChart={284}
-                                list={card7.list}
-                                title={card7.title}
-                                value='25'
-                                id="nordeste"
-                            />
-
-                            <CardGraficItem
-                                width='284px' 
-                                widthChart={284}
-                                list={card8.list}
-                                title={card8.title}
-                                value='155'
-                                id="sudeste"
-                            />
-
-                            <CardGraficItem
-                                width='284px' 
-                                widthChart={284}
-                                list={card9.list}
-                                title={card9.title}
-                                value='155'
-                                id="centroOeste"
-                            />
+                            <Grid
+                                container
+                                spacing={{ xs: 2.5, md: 4, lg: 4 }}
+                                columns={{ sm: 4, md: 6, lg: 10 }}
+                                flex-wrap='wrap'
+                            >
+                            
+                            <Grid item sm={2} md={2} lg={2}>
+                                <CardGraficItem
+                                    icon=""
+                                    list={card5.list}
+                                    title={card5.title}
+                                    value='325'
+                                    id="sul"
+                                    width='100%'
+                                    height='197px'
+                                    heightGrafic={85}
+                                />
+                            </Grid>
+                            <Grid item sm={2} md={2} lg={2}>
+                                <CardGraficItem  
+                                    icon=""
+                                    list={card6.list}
+                                    title={card6.title}
+                                    value='55'
+                                    id="Norte"
+                                    width='100%'
+                                    height='197px'
+                                    heightGrafic={85}
+                                />
+                            </Grid>
+                            <Grid item sm={2} md={2} lg={2}>
+                                <CardGraficItem
+                                    icon=""
+                                    list={card7.list}
+                                    title={card7.title}
+                                    value='25'
+                                    id="nordeste"
+                                    width='100%'
+                                    height='197px'
+                                    heightGrafic={85}
+                                />
+                            </Grid>
+                            <Grid item sm={2} md={2} lg={2}>
+                                <CardGraficItem
+                                    icon=""
+                                    list={card8.list}
+                                    title={card8.title}
+                                    value='155'
+                                    id="sudeste"
+                                    width='100%'
+                                    height='197px'
+                                    heightGrafic={85}
+                                />
+                            </Grid>
+                            <Grid item sm={2} md={2} lg={2}>
+                                <CardGraficItem
+                                    icon=""
+                                    list={card9.list}
+                                    title={card9.title}
+                                    value='155'
+                                    id="centroOeste"
+                                    width='100%'
+                                    height='197px'
+                                    heightGrafic={85}
+                                />                                
+                            </Grid>
+                            </Grid>
                         </S.GraficItemContainer>
-                        <S.StatusBox style={{marginBottom: '-50px'}}>
+                        <S.TextData>
                             <p> Usuários no útimo ano - <b>2021</b></p>
                             <div style={{background: '#fff'}}>
                                 <CustomSelect
@@ -853,28 +1002,48 @@ const Dashboard: React.FC = () => {
                                     }}
                                 />
                             </div>
-                        </S.StatusBox>
-                        <div style={{width: '764px', display: 'flex', justifyContent: 'space-between', margin: '40px 0 24px'}}>
-                            <CardInfo 
-                                icon={ocurrenceIcon}
-                                title="Total de novos usuários no ano"
-                                value={3160}
-                                type=""
-                                width='372px'
-                            />
-                            <CardInfo 
-                                icon=''
-                                title="Média de novos usuários por mês"
-                                value={540}
-                                type=""
-                                width='372px'
-                            />
-                        </div>            
-                        <YearGrafic 
-                            title='Ocorrências no ano'
-                            number={1000}
-                            data={ocurrences}
-                        />
+                        </S.TextData>
+                        <S.GraficYearContainer>
+                            <div>
+                                <Grid
+                                    container
+                                    spacing={{ xs: 2.5, md: 2.5, lg: 2.5 }}
+                                    columns={{ sm: 2, md: 2, lg: 4 }}                        
+                                    flex-wrap='nowrap'
+                                >
+                                    <Grid item sm={1} md={1} lg={1}>
+                                        <CardInfo 
+                                            icon={ocurrenceIcon}
+                                            title="Total de novos usuários no ano"
+                                            value={3160}
+                                            type=""
+                                            width="100%"
+                                            height='108px'
+                                        />
+                                    </Grid>
+                                    <Grid item sm={1} md={1} lg={1}>
+                                        <CardInfo 
+                                            icon=''
+                                            title="Média de novos usuários por mês"
+                                            value={540}
+                                            type=""
+                                            width="100%"
+                                            height='108px'
+                                        />
+                                    </Grid>
+                                </Grid>
+                            </div>                            
+                            <span>
+                                <YearGrafic 
+                                    title='Ocorrências no ano'
+                                    number={1000}
+                                    data={ocurrences}
+                                    width= "100%"
+                                    height='426px'                    
+                                    heightGrafic={300}
+                                />
+                            </span>
+                        </S.GraficYearContainer>
                     </>
                 )}
             </S.Container>

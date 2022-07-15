@@ -4,7 +4,9 @@ export const Main = styled.div`
  
 `
 export const Container = styled.div`
-    
+    >p {
+        margin-bottom: 32px;
+    }
 `;
 
 export const Navigation = styled.nav`
@@ -54,6 +56,7 @@ export const SearchBar = styled.div`
     justify-content: space-between;
     flex-wrap: wrap;
     padding-bottom: 40px;
+    margin-bottom: 24px;
     
     > div:nth-child(1){
         width: 810px;
@@ -77,37 +80,24 @@ export const SearchBar = styled.div`
 `;
 
 export const StatusBox = styled.div`
-    display: flex;
-    margin: 24px 0 64px;
-    column-gap: 24px;
     width: 100%;
-    justify-content: space-between;
-    
-    @media screen and (max-width: 1560px) {
-        margin-bottom: 64px;
-        height: 108px;
-    }
+    margin: 0 0 64px;
 `;
 
 export const GraficItemContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    margin-top: 32px;
-    >span {
-        margin-bottom: 32px;
-    }
-    
-    @media screen and (max-width: 1660px) {
-        display: flex;
-        flex-wrap: wrap;
-        align-content: space-between;
-        justify-content: space-between;
-    }
+    width: 100%;
+    margin-bottom: 24px;
 `;
 
+export const GraficBarsContainer = styled.div`
+    width: 100%;
+    height: 100%;
+    margin-bottom: 48px;
+
+`;
 export const TextData = styled.div`
     display: flex;
+    margin-top: 48px;
     margin-bottom: 24px;
     width: 100%;
     align-items: center;
@@ -122,18 +112,20 @@ export const TextData = styled.div`
     }
 `;
 
-export const YearGrafic = styled.div`
-    display: flex;
+export const GraficYearContainer = styled.div`
     width: 100%;
+    display: flex;
     flex-direction: column;
     align-items: start;
     justify-content: space-between;
 
     > div { 
-    width: 764px;
-    display: flex;
-    justify-content: space-between;
+    width: 100%;
+    padding-right: 10px;
     margin-bottom: 24px;
+        @media screen and (max-width: 1200px){
+            padding-right: 0;
+        }
     }
     >span{
     width: 100%;

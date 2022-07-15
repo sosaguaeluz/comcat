@@ -1,10 +1,9 @@
 import styled from "styled-components";
 
-export const Container = styled.div` /*<{ width: string }>*/
-    margin: 0px -24px;
-
+export const Container = styled.div <{ height1: string, width1: string }>`
+height: ${props => props.width1 === '372px' ? props.height1 : '100%'};
     @media screen and (max-width: 1560px) {
-        height: 108px;
+        height: ${props => props.height1 === '88px' ? props.height1 : '108px'};
     }
 `;
 

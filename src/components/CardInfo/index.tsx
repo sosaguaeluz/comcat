@@ -20,12 +20,14 @@ interface IProps {
     setOpen?: () => void,
     type: string,
     width: string | any,
+    height?: string | any,
 }
 
 const CardInfo: React.FC<IProps> = (props) => {
     return (
-        <Container maxWidth="md" >
-            <S.Container>
+        <>
+        {/* <Container maxWidth="md" > */}
+            <S.Container width1={props.width} height1={props.height}>
                 <Box padding='20px'>
                     <S.Card>
                         {props.icon != "" && (
@@ -68,7 +70,8 @@ const CardInfo: React.FC<IProps> = (props) => {
                     </S.List>
                 )}
             </S.ContainerList>
-        </Container>
+            {/* </Container> */}
+        </>
     );
 };
 

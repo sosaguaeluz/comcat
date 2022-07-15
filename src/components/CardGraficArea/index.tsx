@@ -9,7 +9,8 @@ import {
     Bar, 
     XAxis, 
     YAxis, 
-    Tooltip, 
+    Tooltip,
+    ResponsiveContainer, 
 } from 'recharts';
 
 type List = {
@@ -31,7 +32,10 @@ interface IProps {
     valueItem: string[],
     onChange: (e: any) => void,
     title: string,
-    type: string
+    type: string,
+    width?: string,
+    height?: string,
+    heightGrafic?: number,
 }
 
 
@@ -70,7 +74,7 @@ const CardGraficArea: React.FC <IProps> = (props) => {
     console.log(props.valueItem, 'item')
 
     return (
-        <Box padding='32px' width='764px'>
+        <Box padding='32px' width={props.width} height={props.height}>
             <S.Container>
                 <div>
                     <div>
@@ -100,43 +104,44 @@ const CardGraficArea: React.FC <IProps> = (props) => {
                         })}
                     </div>
                 </S.Values>
-                <BarChart
-                    width={700}
-                    height={300}
-                    data={props.data}
-                >
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip content={renderTooltipContent} 
-                        contentStyle={{
-                            background: '#2C3941',
-                            borderRadius: '8px',
-                            opacity: '0.8',
-                            color: '#FFF'
-                        }}
-                        cursor={false} 
-                    />
-                    {props.type == 'genero' ? 
-                        <>
-                            <>
-                                <Bar radius={[25, 25, 0, 0]} dataKey="masculino" fill="#47DED0" />
-                                <Bar radius={[25, 25, 0, 0]} dataKey="feminino" fill="#FF77F1" />
-                                <Bar radius={[25, 25, 0, 0]} dataKey="naoBinario" fill="#9D86ED" />
-                                <Bar radius={[25, 25, 0, 0]} dataKey="outros" fill="#FF954E" />
-                            </>
-                        </>
-                        :
-                        <>
-                            <Bar radius={[25, 25, 0, 0]} dataKey="yellow" fill="#FF954E" />
-                            <Bar radius={[25, 25, 0, 0]} dataKey="white" fill="#FF77F1" />
-                            <Bar radius={[25, 25, 0, 0]} dataKey="indigenous" fill="#9D86ED" />
-                            <Bar radius={[25, 25, 0, 0]} dataKey="pard" fill="#B8D335" />
-                            <Bar radius={[25, 25, 0, 0]} dataKey="black" fill="#47DED0" />
-                        </>
-                    }
-
-
-                </BarChart>
+                <span>
+                    <ResponsiveContainer width="100%" height={props.heightGrafic}>
+                        <BarChart
+                            height={props.heightGrafic}
+                            data={props.data}
+                        >
+                            <XAxis dataKey="name" />
+                            <YAxis />
+                            <Tooltip content={renderTooltipContent} 
+                                contentStyle={{
+                                    background: '#2C3941',
+                                    borderRadius: '8px',
+                                    opacity: '0.8',
+                                    color: '#FFF'
+                                }}
+                                cursor={false} 
+                            />
+                            {props.type == 'genero' ? 
+                                <>
+                                    <>
+                                        <Bar radius={[25, 25, 0, 0]} dataKey="masculino" fill="#47DED0" />
+                                        <Bar radius={[25, 25, 0, 0]} dataKey="feminino" fill="#FF77F1" />
+                                        <Bar radius={[25, 25, 0, 0]} dataKey="naoBinario" fill="#9D86ED" />
+                                        <Bar radius={[25, 25, 0, 0]} dataKey="outros" fill="#FF954E" />
+                                    </>
+                                </>
+                                :
+                                <>
+                                    <Bar radius={[25, 25, 0, 0]} dataKey="yellow" fill="#FF954E" />
+                                    <Bar radius={[25, 25, 0, 0]} dataKey="white" fill="#FF77F1" />
+                                    <Bar radius={[25, 25, 0, 0]} dataKey="indigenous" fill="#9D86ED" />
+                                    <Bar radius={[25, 25, 0, 0]} dataKey="pard" fill="#B8D335" />
+                                    <Bar radius={[25, 25, 0, 0]} dataKey="black" fill="#47DED0" />
+                                </>
+                            }
+                        </BarChart>
+                    </ResponsiveContainer>
+                </span>
             </S.Container>
         </Box>
     );
