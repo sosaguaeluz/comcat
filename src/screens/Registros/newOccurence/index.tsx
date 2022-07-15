@@ -42,7 +42,7 @@ import { queryClient } from '../../../services/index';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from './schema';
 
-const NewOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
+const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
     const { token } = useSelector((state: RootState) => state.clickState);
     const { data: services } = useService(token);
     const { data: sources } = useSources(token);

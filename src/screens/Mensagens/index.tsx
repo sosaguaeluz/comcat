@@ -10,7 +10,8 @@ import {
 import { 
     Poppover,
     ModalDelete,
-    ModalMsg
+    ModalMsg,
+    Pagination
 } from '../../components';
 import RespMessage from './RespMenssage';
 
@@ -203,6 +204,12 @@ const Mensagens: React.FC = () => {
                     })}
                 </S.TableBody>
             </S.Table>
+            <Pagination 
+                onPage={(e: any) => {
+                setPage(e)
+                }} 
+                value={page} 
+            />    
 
             <ModalDelete 
                 open={deleteObj} 
