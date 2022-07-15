@@ -30,7 +30,7 @@ export const Navigation = styled.nav`
     padding: 40px 20px;
 `;
 
-export const Link = styled(NavLink)`
+export const Link = styled(NavLink) <{hamburger: boolean}>`
     background: ${props => props.theme.colors.whiteSecconday};
     color: ${props => props.theme.colors.gray};
     text-decoration: none;
@@ -41,16 +41,21 @@ export const Link = styled(NavLink)`
     display: flex;
     flex-direction: row;
     align-items: center;
+    justify-content: ${props => props.hamburger === true ? 'center' : 'flex-start'};
     border-radius: 8px;
-    padding: 12px 10px;
+    width: 100%;
+    height: 40px;
     margin-bottom: 16px;
-            transition: 1s;
+    transition: ease-in 0.5s;
 
     > img{
-        margin-right: 22px;
         filter: opacity(0.4) drop-shadow(0 0 0); 
         width: 20px;
-            transition: 1s;
+        transition: ease-in 0.5s;
+        margin-left: ${props => props.hamburger === true ? '0' : '12px'};
+    }
+    >p {
+        margin-left: 16px;
     }
 
     :hover, &.active {
@@ -63,15 +68,15 @@ export const Link = styled(NavLink)`
 
         > img {
             filter: brightness(0) invert(1);
+            width: 24px;
         }
     }
 
     :hover{
         opacity: 0.5;
-        transition: 1s;
         > img {
             width: 24px;
-            transition: 1s;
+
         }
     }
 `;

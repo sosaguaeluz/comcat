@@ -26,8 +26,7 @@ interface IProps {
 const CardInfo: React.FC<IProps> = (props) => {
     return (
         <>
-        {/* <Container maxWidth="md" > */}
-        <Box padding='20px'>
+            <Box padding='20px'>
                 <S.Container 
                     width={props.width} 
                 >
@@ -58,20 +57,19 @@ const CardInfo: React.FC<IProps> = (props) => {
                 </S.Container>
             </Box>
             <S.ContainerList onMouseLeave={props.setOpen}>
-                    {props.open == true && (
-                        <S.List width={props.width}>
-                            {props.list?.map((id: any) => {
-                                return (
-                                    <div>
-                                        <h1>{id.label || id.name}</h1>
-                                        <p>{id.number || id.user_total}</p>
-                                    </div>
-                                )
-                            })}
-                        </S.List>
-                    )}
-                </S.ContainerList>
-            {/* </Container> */}
+                {props.open == true && (
+                    <S.List width={props.width}>
+                        {props.list?.map((id: any) => {
+                            return (
+                                <div>
+                                    <h1>{id.label || id.name}</h1>
+                                    <p>{id.number || id.user_total}</p>
+                                </div>
+                            )
+                        })}
+                    </S.List>
+                )}
+            </S.ContainerList>
         </>
     );
 };

@@ -36,6 +36,7 @@ import disabledError from './disableError.svg';
 import disabledSuccess from './disableSuccess.svg';
 import close from './close.png';
 import hamburger from './hamburger.png'
+import userIcon from './userIcon.svg'
 
 export {
     close,
@@ -75,5 +76,6 @@ export {
     mapsDefault,
     closeRed,
     disabledError,
-    disabledSuccess
+    disabledSuccess,
+    userIcon
 }

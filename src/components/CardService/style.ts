@@ -4,7 +4,7 @@ export const Container = styled.div`
     background: none;
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
     border-radius: 8px;
-    width: 372px;
+    width: 100%;
 
     > div:nth-child(1) {
         display: flex;
@@ -67,7 +67,9 @@ export const Bottom = styled.div<{ status: boolean}>`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 37px 18px 24px;
+    padding: 20px 24px 18px 24px;
+    border-bottom-left-radius: 8px; 
+    border-bottom-right-radius: 8px; 
 
     > div:nth-child(1){
         width: 134px;
@@ -96,6 +98,7 @@ export const Bottom = styled.div<{ status: boolean}>`
         width: 140px;
         display: flex;
         align-items: center;
+        justify-content: start;
 
         > p:nth-child(1){
             font-style: normal;

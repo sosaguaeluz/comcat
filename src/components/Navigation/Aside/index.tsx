@@ -13,7 +13,7 @@ import {
     close,
     hamburger
 } from '../../../assets';
-import { Drawer } from '@mui/material';
+import { Drawer, Tooltip } from '@mui/material';
 
 const Aside: React.FC = () => {
     const [ open, setOpen ] = useState(false);
@@ -33,22 +33,27 @@ const Aside: React.FC = () => {
                 {/* <S.logo>
                     <img src={logoPng} alt="" />
                 </S.logo> */}
-                <S.Hamburguer 
-                    type='button'
-                    onClick={() => setOpen(true)}
-                >
-                    <img src={hamburger} alt="" />
-                </S.Hamburguer>
+                <Tooltip title='Menu Lateral' arrow placement='right'>
+                    <S.Hamburguer 
+                        type='button'
+                        onClick={() => setOpen(true)}
+                    >
+                        <img src={hamburger} alt="" />
+                    </S.Hamburguer>
+                </Tooltip>
                 <S.Navigation>
                     {link.map((id: any) => {
                         return (
-                            <S.Link 
-                                to={id.to}
-                                id={id.label}
-                                onClick={() => setOpen(false)}
-                            >
-                                <img src={id.icon} alt="" />
-                            </S.Link>
+                            <Tooltip title={id.label} arrow placement='right'>
+                                <S.Link 
+                                    to={id.to}
+                                    id={id.label}
+                                    onClick={() => setOpen(false)}
+                                    hamburger={true}
+                                >
+                                    <img src={id.icon} alt="" />
+                                </S.Link>
+                            </Tooltip>
                         )
                     })}
                 </S.Navigation>
@@ -76,9 +81,10 @@ const Aside: React.FC = () => {
                                 to={id.to}
                                 id={id.label}
                                 onClick={() => setOpen(false)}
+                                hamburger={false}
                             >
                                 <img src={id.icon} alt="" />
-                                {id.label}
+                                <p>{id.label}</p>
                             </S.Link>
                         )
                     })}

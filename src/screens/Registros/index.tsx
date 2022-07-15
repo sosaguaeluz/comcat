@@ -41,6 +41,7 @@ import ApproveReprove from './ApproveReprove';
 import FinishOccurence from './FinishOccurrence';
 import ViewOccurrence from './ViewOccurrence';
 import EditOccurrence from './EditOccurrence';
+import { Grid } from '@mui/material';
 
 const Registros: React.FC = () => {
     const { token } = useSelector((state: RootState) => state.clickState);
@@ -194,61 +195,85 @@ const Registros: React.FC = () => {
             {list == true && (
                 <>
                     <S.CardsContainer>
-                        <CardInfo
-                            icon={ocurrenceIcon}
-                            title="Total"
-                            value={20}
-                            type="list"
-                            width='273px'
-                            list={lista}
-                            open={openList}
-                            setOpen={() => setOpenList(!openList)}
-                        />
-                        <CardInfo
-                            title="Sul"
-                            value={20}
-                            type="list"
-                            width='236px'
-                            list={lista}
-                            open={openList}
-                            setOpen={() => setOpenList(!openList)}
-                        />
-                        <CardInfo
-                            title="Norte"
-                            value={20}
-                            type="list"
-                            width='236px'
-                            list={lista}
-                            open={openList}
-                            setOpen={() => setOpenList(!openList)}
-                        />
-                        <CardInfo
-                            title="Sudeste"
-                            value={20}
-                            type="list"
-                            width='236px'
-                            list={lista}
-                            open={openList}
-                            setOpen={() => setOpenList(!openList)}
-                        />
-                        <CardInfo
-                            title="Nordeste"
-                            value={20}
-                            type="list"
-                            width='236px'
-                            list={lista}
-                            open={openList}
-                            setOpen={() => setOpenList(!openList)}
-                        />
-                        <CardInfo
-                            title="Centro-Oeste"
-                            value={20}
-                            type="list"
-                            width='236px'
-                            list={lista}
-                            open={openList}
-                            setOpen={() => setOpenList(!openList)}
-                        />
+                        <Grid
+                            container
+                            spacing={{ xs: 2.5, md: 2.5, lg: 2.5 }}
+                            columns={{ sm: 4, md: 6, lg: 12 }}
+                            flex-wrap='wrap'
+                        >
+                            <Grid item sm={2} md={2} lg={2}>
+                                <CardInfo
+                                    icon={ocurrenceIcon}
+                                    title="Total"
+                                    value={20}
+                                    type="list"
+                                    width='100%'
+                                    list={lista}
+                                    open={openList}
+                                    setOpen={() => setOpenList(!openList)}
+                                />
+                            </Grid>
+                            <Grid item sm={2} md={2} lg={2}>
+                                <CardInfo
+                                    icon=''
+                                    title="Sul"
+                                    value={20}
+                                    type="list"
+                                    width='100%'
+                                    list={lista}
+                                    open={openList}
+                                    setOpen={() => setOpenList(!openList)}
+                                />
+                            </Grid>
+                            <Grid item sm={2} md={2} lg={2}>
+                                <CardInfo
+                                    icon=''
+                                    title="Norte"
+                                    value={20}
+                                    type="list"
+                                    width='100%'
+                                    list={lista}
+                                    open={openList}
+                                    setOpen={() => setOpenList(!openList)}
+                                />
+                            </Grid>
+                            <Grid item sm={2} md={2} lg={2}>
+                                <CardInfo
+                                    icon=''
+                                    title="Sudeste"
+                                    value={20}
+                                    type="list"
+                                    width='100%'
+                                    list={lista}
+                                    open={openList}
+                                    setOpen={() => setOpenList(!openList)}
+                                />
+                            </Grid>
+                            <Grid item sm={2} md={2} lg={2}>
+                                <CardInfo
+                                    icon=''
+                                    title="Nordeste"
+                                    value={20}
+                                    type="list"
+                                    width='100%'
+                                    list={lista}
+                                    open={openList}
+                                    setOpen={() => setOpenList(!openList)}
+                                />
+                            </Grid>
+                            <Grid item sm={2} md={2} lg={2}>
+                                <CardInfo
+                                    icon=''
+                                    title="Centro-Oeste"
+                                    value={20}
+                                    type="list"
+                                    width='100%'
+                                    list={lista}
+                                    open={openList}
+                                    setOpen={() => setOpenList(!openList)}
+                                />
+                            </Grid>
+                        </Grid>
                     </S.CardsContainer>
                     <Box
                         padding='0'

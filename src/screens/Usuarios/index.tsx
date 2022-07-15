@@ -31,13 +31,14 @@ import {
     alertDark,
     trusted,
     noTrusted,
-    //userIcon
+    userIcon
 } from '../../assets';
 import { 
     BREED,
     GENRE,
 } from '../../constants/index';
 import {regex} from '../../services/functions/regex'
+import { Grid } from '@mui/material';
 
 const Usuarios: React.FC = () => {
     const { token } = useSelector((state: RootState) => state.clickState);
@@ -160,57 +161,44 @@ const Usuarios: React.FC = () => {
             <>
                 {app === true && (
                     <>
-                        <S.CardList>                            
-                            <CardInfo 
-                                //icon={userIcon}
-                                title="Total"
-                                value={totalUsers}                        
-                                type="list"
-                                width='273px'
-                                list={totalList}
-                                open={openTotalList}
-                                setOpen={() => setOpenTotalList(!openTotalList)}
-                            />
-                            {regionUsers?.map((id: any, index: number) => {
-                                // function functionOpen(){
-                                //     if(index === 0){
-                                //         return openNorteList
-                                //     }else if(index === 1){
-                                //         return openNordesteList
-                                //     }else if(index === 2){
-                                //         return openSudesteList
-                                //     }else if(index === 3){
-                                //         return openSulList
-                                //     }else{
-                                //         return openCentroList
-                                //     }
-                                // }
-                                // function functionSetOpen(){
-                                //     if(id.name === "Norte"){
-                                //         return setOpenNorteList(!openNorteList)
-                                //     }else if(index === 1){
-                                //         return setOpenNordesteList(!openNordesteList)
-                                //     }else if(index === 2){
-                                //         return setOpenSudesteList(!openSudesteList)
-                                //     }else if(index === 3){
-                                //         return setOpenSulList(!openSulList)
-                                //     }else{
-                                //         return setOpenCentroList(!openCentroList)
-                                //     }
-                                // }
-                                
-                                return (
-                                    <CardInfo key={id.name}
-                                        title={id.name}
-                                        value={id.user_total}
+                        <S.CardList> 
+                            <Grid
+                                container
+                                spacing={{ xs: 2.5, md: 2.5, lg: 2.5 }}
+                                columns={{ sm: 4, md: 6, lg: 12 }}
+                                flex-wrap='wrap'
+                            >
+                                <Grid item sm={2} md={2} lg={2}>                         
+                                    <CardInfo 
+                                        icon={userIcon}
+                                        title="Total"
+                                        value={totalUsers}                        
                                         type="list"
-                                        width='236px'
-                                        list={id.state_list}
+                                        width='100%'
+                                        list={totalList}
                                         open={openTotalList}
                                         setOpen={() => setOpenTotalList(!openTotalList)}
                                     />
+                                </Grid> 
+                            {regionUsers?.map((id: any, index: number) => {
+                                
+                                return (
+                                    <Grid item sm={2} md={2} lg={2}> 
+                                        <CardInfo 
+                                            key={id.name}
+                                            icon=''
+                                            title={id.name}
+                                            value={id.user_total}
+                                            type="list"
+                                            width='100%'
+                                            list={id.state_list}
+                                            open={openTotalList}
+                                            setOpen={() => setOpenTotalList(!openTotalList)}
+                                        />
+                                    </Grid>
                                 )
                             })}
+                            </Grid>
                         </S.CardList>
                         <S.ContainerListApp>
                             <S.SearchInputs>

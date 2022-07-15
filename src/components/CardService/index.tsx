@@ -18,6 +18,7 @@ interface IProps {
     backgrounColor: string,
     onDelete: () => void,
     onEdit: () => void
+    width?: string;
 }
 
 const CardService: React.FC <IProps> = (props) => {
@@ -52,7 +53,6 @@ const CardService: React.FC <IProps> = (props) => {
                         id="open_triger"
                         type='button'
                         onClick={handleClick}
-                        
                     >   
                         <img src={options} alt="" />
                     </button>
