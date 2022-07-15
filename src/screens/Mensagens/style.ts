@@ -95,6 +95,12 @@ export const TableHead = styled.header`
 `;
 
 export const TableBody = styled.section`
+
+    button {
+        border: none;
+        background: none;
+        
+    }
     > tr {
         box-shadow: inset 0px -1px 1px rgba(0, 0, 0, 0.2) !important;
         display: flex;

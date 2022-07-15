@@ -88,6 +88,30 @@ export interface AllUsers {
   }]
 }
 
+export interface AllMessages {
+  data: [
+    {
+      name: string,
+      email: string,
+      reason: string,
+      message: string,
+      message_reply: string,
+      status: string,
+      createdAt: string,
+      updatedAt: string,
+      _id: string
+    }
+  ],
+  meta:{
+    page: number,
+    take: number,
+    itemCount: number,
+    pageCount: number,
+    hasPreviousPage: boolean,
+    hasNextPage: boolean
+  }
+}
+
 export interface User_setings {
     user: string,
     service_notifications: [

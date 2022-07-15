@@ -2,23 +2,32 @@ import React, { useState } from 'react';
 import * as S from './style';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../stores';
-import { convertDate, useMessages } from '../../services';
-import {
-    options
-} from '../../assets/index';
+import { convertDate, deleteMessage, useMessages } from '../../services';
 import {
     getReason,
     getStatus
 } from '../../services/index'
+import { 
+    Poppover,
+    ModalDelete,
+    ModalMsg
+} from '../../components';
 
 const Mensagens: React.FC = () => {
     const { token } = useSelector((state: RootState) => state.clickState);
     const [ page, setPage ] = useState<number>(1);
     const [ status, setStatus ] = useState<any>(undefined);
     const [ reason, setReason ] = useState<any>(undefined);
+    const [ idMessage, setIdMessage ] = useState('');
+    const [ objMessage, setObjMessage ] = useState(null);
+    const [ answer, setAnswer ] = useState(false);
+    const [ respObj, setRespObj ] = useState(false);
+    const [ deleteObj, setDeleteObj ] = useState(false);
+    const [ msgDelete, setMsgDelete ] = useState(false);
 
     const { 
-        data: messages 
+        data: messages,
+        refetch 
     } = useMessages(
         token,
         'DESC',
@@ -27,8 +36,6 @@ const Mensagens: React.FC = () => {
         reason,
         status
     );
-    
-    console.log(messages, 'mensagens');
 
     return (
         <S.Container>
@@ -76,7 +83,7 @@ const Mensagens: React.FC = () => {
                             name="reason" 
                             id="allReason" 
                             onClick={() => {
-                                setReason('')
+                                setReason(undefined)
                             }}
                             defaultChecked={true}
                         />
@@ -148,32 +155,43 @@ const Mensagens: React.FC = () => {
                     </tr>
                 </S.TableHead>
                 <S.TableBody>
-                    {messages?.map((id: any) => {
+                    {messages?.data?.map((id: any) => {
                         return (
                             <tr>
                                 <td style={{width: '157px'}}>
-                                    <span>{convertDate(id.createdAt)}</span>
+                                    <span>{convertDate(id?.createdAt)}</span>
                                 </td>
                                 <td style={{width: '215px'}}>
-                                    <span>{id.name}</span>
+                                    <span>{id?.name}</span>
                                 </td>
                                 <td style={{width: '200px'}}>
-                                    <span>{id.email}</span>
+                                    <span>{id?.email}</span>
                                 </td>
                                 <td style={{width: '141px'}}>
-                                    <span>{getReason(id.reason)}</span>
+                                    <span>{getReason(id?.reason)}</span>
                                 </td>
                                 <td>
-                                    <span>{id.message}</span>
+                                    <span>{id?.message}</span>
                                 </td>
                                 <td style={{width: '150px'}}>
-                                    <span>{getStatus(id.status)}</span>
+                                    <span>{getStatus(id?.status)}</span>
                                 </td>
                                 <td style={{width: '99px'}}>
                                     <span>
-                                        <button type="button">
-                                            <img src={options} alt="" />
-                                        </button>
+                                        <Poppover
+                                            type='menssage'
+                                            onClick={ () => {}}
+                                            onAnswer={ () => {
+                                                setObjMessage(id)
+                                            }}
+                                            onMark={ () => {
+                                                setObjMessage(id)
+                                            }}
+                                            onDelete={ () => {
+                                                setIdMessage(id.id)
+                                                setDeleteObj(!deleteObj)
+                                            }}
+                                        />
                                     </span>
                                 </td>
                             </tr>
@@ -181,6 +199,36 @@ const Mensagens: React.FC = () => {
                     })}
                 </S.TableBody>
             </S.Table>
+
+            <ModalDelete 
+                open={deleteObj} 
+                onClose={() => {
+                    setDeleteObj(false)
+                }} 
+                width={469} 
+                mensage='Deseja mesmo escluir essa mensagem?' 
+                onDelete={() => {
+                    deleteMessage(token, idMessage).then(() => {
+                        setDeleteObj(false)
+                        setMsgDelete(true)
+                    })
+                }} 
+                buttonText='Sim, excluir' 
+                backgroundColor="false"
+            />
+
+            <ModalMsg 
+                open={msgDelete} 
+                onClose={() => {
+                    refetch()
+                    setMsgDelete(false)
+                }} 
+                width={469} 
+                status='success' 
+                mensage='Mensagem excluida com sucesso' 
+                modalBackground={false} 
+                height='312px'
+            />
 
         </S.Container>
     );
