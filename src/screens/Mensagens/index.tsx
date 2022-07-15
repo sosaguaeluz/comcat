@@ -12,6 +12,7 @@ import {
     ModalDelete,
     ModalMsg
 } from '../../components';
+import RespMessage from './RespMenssage';
 
 const Mensagens: React.FC = () => {
     const { token } = useSelector((state: RootState) => state.clickState);
@@ -184,6 +185,7 @@ const Mensagens: React.FC = () => {
                                             onClick={ () => {}}
                                             onAnswer={ () => {
                                                 setObjMessage(id)
+                                                setRespObj(!respObj)
                                             }}
                                             onMark={ () => {
                                                 setIdMessage(id.id)
@@ -263,6 +265,16 @@ const Mensagens: React.FC = () => {
                 mensage='A mensagem foi marcada como respondida com sucesso' 
                 modalBackground={false} 
                 height='312px'
+            />
+
+            <RespMessage
+                token={token} 
+                itemEdit={objMessage}
+                isModal={respObj}
+                onHide={() => {
+                    refetch()
+                    setRespObj(!respObj)
+                }}
             />
 
         </S.Container>

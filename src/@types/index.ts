@@ -175,15 +175,15 @@ export interface Dashboard_region_Users {
 };
 
 export interface Messages {
-    name: string,
-    email: string,
-    reason: string,
-    message: string,
-    message_reply: string,
-    status: string,
-    createdAt: string,
-    updatedAt: string,
-    _id: string
+    name?: string,
+    email?: string,
+    reason?: string,
+    message?: string,
+    message_reply?: string,
+    status?: string,
+    createdAt?: string,
+    updatedAt?: string,
+    _id?: string
 };
 
 export interface Notifications {
