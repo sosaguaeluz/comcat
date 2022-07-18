@@ -15,6 +15,7 @@ import {
     Poppover,
     ModalDelete,
     ModalMsg,
+    DropDown,
 } from '../../components';
 import { 
     api, 
@@ -86,6 +87,14 @@ const Usuarios: React.FC = () => {
             })
         })
 
+        spam.sort(function(a: any, b: any) {
+            if (a.name < b.name){
+                return -1;
+            } else {
+                return true;
+            }
+        });
+
         regionUsers?.forEach(total => sum += total.user_total);
 
         setTotalUsers(sum)
@@ -120,10 +129,10 @@ const Usuarios: React.FC = () => {
 
     const { mutate: onDelete, isLoading } = useMutation(deleteUser, {
         onSuccess: () => {
-          queryClient.invalidateQueries('users');
-          setShowDelete(false)
-          setShowSuccess(true)
-          refetch()
+            queryClient.invalidateQueries('users');
+            setShowDelete(false)
+            setShowSuccess(true)
+            refetch()
         }
     });    
 
@@ -168,8 +177,9 @@ const Usuarios: React.FC = () => {
                                 columns={{ sm: 4, md: 6, lg: 12 }}
                                 flex-wrap='wrap'
                             >
-                                <Grid item sm={2} md={2} lg={2}>                         
-                                    <CardInfo 
+                                <Grid item sm={2} md={2} lg={2}>   
+                                    <DropDown  
+                                        key={"Total"}
                                         icon={userIcon}
                                         title="Total"
                                         value={totalUsers}                        
@@ -178,13 +188,13 @@ const Usuarios: React.FC = () => {
                                         list={totalList}
                                         open={openTotalList}
                                         setOpen={() => setOpenTotalList(!openTotalList)}
-                                    />
+                                    />                    
                                 </Grid> 
                             {regionUsers?.map((id: any, index: number) => {
                                 
                                 return (
                                     <Grid item sm={2} md={2} lg={2}> 
-                                        <CardInfo 
+                                        <DropDown 
                                             key={id.name}
                                             icon=''
                                             title={id.name}

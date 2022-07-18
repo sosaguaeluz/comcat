@@ -25,3 +25,4 @@ export { default as ModalDelete } from './ModalDelete/index';
 export { default as Pagination } from './Pagination/index';
 export { default as Poppover } from './Poppover/index';
 export { default as SwitchOptions } from './SwtichOption/index';
+export { default as DropDown } from './DropDown/index';
