@@ -171,13 +171,13 @@ const Mensagens: React.FC = () => {
                                     <span>{id?.email}</span>
                                 </td>
                                 <td style={{width: '141px'}}>
-                                    <span>{getReason(id?.reason)}</span>
+                                    <S.Answer answer={id?.reason} >{getReason(id?.reason)}</S.Answer>
                                 </td>
                                 <td>
                                     <span>{id?.message}</span>
                                 </td>
                                 <td style={{width: '150px'}}>
-                                    <span>{getStatus(id?.status)}</span>
+                                    <S.Status status={id?.status}>{getStatus(id?.status)}</S.Status>
                                 </td>
                                 <td style={{width: '99px'}}>
                                     <span>
