@@ -42,6 +42,8 @@ const Accordion = styled((props: AccordionProps ) => (
     boxShadow: '2px 4px 10px rgba(0, 0, 0, 0.1)',
     borderRadius: '8px',
     height: '88px',
+    background: "#FFFFFF",
+    zIndex: '10',
     '@media screen and (max-width: 1560px)':{
         height: '108px',
     },
@@ -75,7 +77,7 @@ const AccordionDetails = styled(MuiAccordionDetails)(({ theme }) => ({
 }));
 
 const DropDown: React.FC<IProps> = (props) => {
-    const [expanded, setExpanded] = React.useState("panel1");
+    const [expanded, setExpanded] = React.useState('');
 
     const handleChange = (panel: any) => {
       setExpanded(panel);

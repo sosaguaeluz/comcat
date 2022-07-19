@@ -35,7 +35,8 @@ import {
     energiIcon,
     whaterIcon,
     wifiIcon,
-    ocurrenceIcon
+    ocurrenceIcon,
+    MAPTESTE
 } from '../../assets/index';
 import NewOccurence from './newOccurence';
 import ApproveReprove from './ApproveReprove';
@@ -158,9 +159,6 @@ const Registros: React.FC = () => {
     //     }
     // })
 
-    console.log(occurrences);
-    
-
     return (
         <>
             <S.Header>
@@ -188,94 +186,173 @@ const Registros: React.FC = () => {
                     id="register_occurrence"
                 />
             </S.Header>
+            <S.CardsContainer>
+                <Grid
+                    container
+                    spacing={{ xs: 2.5, md: 2.5, lg: 2.5 }}
+                    columns={{ sm: 4, md: 6, lg: 12 }}
+                    flex-wrap='wrap'
+                >
+                    <Grid item sm={2} md={2} lg={2}>
+                        <DropDown
+                            icon={ocurrenceIcon}
+                            title="Total"
+                            value={20}
+                            type="list"
+                            width='100%'
+                            list={lista}
+                            open={openList}
+                            setOpen={() => setOpenList(!openList)}
+                        />
+                    </Grid>
+                    <Grid item sm={2} md={2} lg={2}>
+                        <DropDown
+                            icon=''
+                            title="Sul"
+                            value={20}
+                            type="list"
+                            width='100%'
+                            list={lista}
+                            open={openList}
+                            setOpen={() => setOpenList(!openList)}
+                        />
+                    </Grid>
+                    <Grid item sm={2} md={2} lg={2}>
+                        <DropDown
+                            icon=''
+                            title="Norte"
+                            value={20}
+                            type="list"
+                            width='100%'
+                            list={lista}
+                            open={openList}
+                            setOpen={() => setOpenList(!openList)}
+                        />
+                    </Grid>
+                    <Grid item sm={2} md={2} lg={2}>
+                        <DropDown
+                            icon=''
+                            title="Sudeste"
+                            value={20}
+                            type="list"
+                            width='100%'
+                            list={lista}
+                            open={openList}
+                            setOpen={() => setOpenList(!openList)}
+                        />
+                    </Grid>
+                    <Grid item sm={2} md={2} lg={2}>
+                        <DropDown
+                            icon=''
+                            title="Nordeste"
+                            value={20}
+                            type="list"
+                            width='100%'
+                            list={lista}
+                            open={openList}
+                            setOpen={() => setOpenList(!openList)}
+                        />
+                    </Grid>
+                    <Grid item sm={2} md={2} lg={2}>
+                        <DropDown
+                            icon=''
+                            title="Centro-Oeste"
+                            value={20}
+                            type="list"
+                            width='100%'
+                            list={lista}
+                            open={openList}
+                            setOpen={() => setOpenList(!openList)}
+                        />
+                    </Grid>
+                </Grid>
+            </S.CardsContainer>
             {maps == true && (
                 <>
-                    <h1>mapa</h1>
+                    <Box
+                        padding='0'
+                        width='100%'
+                        height='764px'
+                    >    
+                        <S.FiltersTop>
+                            <CustomSelect
+                                onChange={(e) => {
+                                    setUfValue(e.target.value)
+                                    console.log(e.target.value);
+                                }}
+                                label='Selecione o Estado'
+                                labelDefault='Estado'
+                                list={dataUf}
+                                value={ufValue}
+                                width={254}
+                            />
+                            <CustomSelect
+                                onChange={(e) => {
+                                    setCityValue(e.target.value)
+                                }}
+                                label='Selecione a Cidade'
+                                labelDefault='Cidade'
+                                list={dataCity}
+                                value={cityValue}
+                                width={254}
+                            />
+                            <CustomSelect
+                                onChange={function (e: any) {
+                                    throw new Error('Function not implemented.');
+                                }}
+                                label='Selecione o Bairro'
+                                labelDefault='Bairro'
+                                list={lista}
+                                value=''
+                                width={254}
+                            />
+                            <MultSelect
+                                width={228}
+                                list={listServices}
+                                onChange={(e: any) => {
+                                    setService(e)
+                                }}
+                                valueItem={service}
+                            />
+                            <CustomInput
+                                label='De'
+                                onChange={(e: any) => {
+                                    setInitialDate(e.target.value)
+                                    console.log(e.target.value)
+                                }}
+                                onBlur={() => { }}
+                                type='datetime-local'
+                                value={initialDate}
+                                width={176}
+                            />
+                            <CustomInput
+                                label='Até'
+                                onChange={(e: any) => {
+                                    setFinalDate(e.target.value)
+                                }}
+                                onBlur={function (e: any) {
+                                    throw new Error('Function not implemented.');
+                                }}
+                                type='datetime-local'
+                                value={finalDate}
+                                width={176}
+                            />
+                        </S.FiltersTop>
+                        <S.FiltersBottom>
+                            <Search
+                                onChange={(e: any) => {
+                                    setAddress(e.target.value);
+                                }}
+                                width="400px"
+                            />
+                        </S.FiltersBottom>
+                        <S.Map>
+                        </S.Map>
+                    </Box>
                 </>
             )}
             {list == true && (
                 <>
-                    <S.CardsContainer>
-                        <Grid
-                            container
-                            spacing={{ xs: 2.5, md: 2.5, lg: 2.5 }}
-                            columns={{ sm: 4, md: 6, lg: 12 }}
-                            flex-wrap='wrap'
-                        >
-                            <Grid item sm={2} md={2} lg={2}>
-                                <DropDown
-                                    icon={ocurrenceIcon}
-                                    title="Total"
-                                    value={20}
-                                    type="list"
-                                    width='100%'
-                                    list={lista}
-                                    open={openList}
-                                    setOpen={() => setOpenList(!openList)}
-                                />
-                            </Grid>
-                            <Grid item sm={2} md={2} lg={2}>
-                                <DropDown
-                                    icon=''
-                                    title="Sul"
-                                    value={20}
-                                    type="list"
-                                    width='100%'
-                                    list={lista}
-                                    open={openList}
-                                    setOpen={() => setOpenList(!openList)}
-                                />
-                            </Grid>
-                            <Grid item sm={2} md={2} lg={2}>
-                                <DropDown
-                                    icon=''
-                                    title="Norte"
-                                    value={20}
-                                    type="list"
-                                    width='100%'
-                                    list={lista}
-                                    open={openList}
-                                    setOpen={() => setOpenList(!openList)}
-                                />
-                            </Grid>
-                            <Grid item sm={2} md={2} lg={2}>
-                                <DropDown
-                                    icon=''
-                                    title="Sudeste"
-                                    value={20}
-                                    type="list"
-                                    width='100%'
-                                    list={lista}
-                                    open={openList}
-                                    setOpen={() => setOpenList(!openList)}
-                                />
-                            </Grid>
-                            <Grid item sm={2} md={2} lg={2}>
-                                <DropDown
-                                    icon=''
-                                    title="Nordeste"
-                                    value={20}
-                                    type="list"
-                                    width='100%'
-                                    list={lista}
-                                    open={openList}
-                                    setOpen={() => setOpenList(!openList)}
-                                />
-                            </Grid>
-                            <Grid item sm={2} md={2} lg={2}>
-                                <DropDown
-                                    icon=''
-                                    title="Centro-Oeste"
-                                    value={20}
-                                    type="list"
-                                    width='100%'
-                                    list={lista}
-                                    open={openList}
-                                    setOpen={() => setOpenList(!openList)}
-                                />
-                            </Grid>
-                        </Grid>
-                    </S.CardsContainer>
                     <Box
                         padding='0'
                         width='100%'

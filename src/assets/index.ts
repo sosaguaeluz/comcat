@@ -35,8 +35,9 @@ import closeRed from './closeRed.svg';
 import disabledError from './disableError.svg';
 import disabledSuccess from './disableSuccess.svg';
 import close from './close.png';
-import hamburger from './hamburger.png'
-import userIcon from './userIcon.svg'
+import hamburger from './hamburger.png';
+import userIcon from './userIcon.svg';
+import MAPTESTE from './MAPTESTE.svg';
 
 export {
     close,
@@ -77,5 +78,6 @@ export {
     closeRed,
     disabledError,
     disabledSuccess,
-    userIcon
+    userIcon,
+    MAPTESTE,
 }

@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { MAPTESTE } from '../../assets/index';
 
 export const Header = styled.div`
     display: flex;
@@ -259,4 +260,8 @@ export const Icon = styled.div<{ backgroundColor: string }>`
         width: 15px;
         height: 15px;
     }
+`;
+
+export const Map = styled.div`
+    width: 100%;
 `;
