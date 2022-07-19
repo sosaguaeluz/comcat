@@ -18,6 +18,11 @@ import { extractHours } from '../../services/functions';
 
 const Notificacoes: React.FC = () => {
     const { token } = useSelector((state: RootState) => state.clickState);
+
+    const [ list, setList ] = useState<any>([]);
+    const [ atualDate, setAtualDate ] = useState<any>();
+    const [ count, setCount ] = useState(10)
+
     const { data: occurrences } = useOccurrences(
         token,
         'DESC',
@@ -27,18 +32,20 @@ const Notificacoes: React.FC = () => {
     );
     const { data: notifications, refetch } = useNotifications(
         token,
-        'DESC'
+        'DESC',
+        1,
+        count,
+        'Pending'
     );
-    const [ list, setList ] = useState<any>([]);
-    const [ atualDate, setAtualDate ] = useState<any>();
 
     function getList(){
         let aux:any =  []
         let arrayAuxList = []
         let tempAuxList: any = []
         let finalList = []
-    
-        notifications?.forEach((id: any)=>{
+        
+        //@ts-ignore
+        notifications?.data?.forEach((id: any)=>{
             aux.push(extractDate(id.createdAt))
         })
     
@@ -51,8 +58,8 @@ const Notificacoes: React.FC = () => {
             })
         })
     
-    
-        notifications?.forEach((contentLista: any)=>{
+        //@ts-ignore
+        notifications?.data?.forEach((contentLista: any)=>{
             for(let i = 0; i < tempAuxList.length; i++){
                 if(tempAuxList[i].date == extractDate(contentLista.createdAt)){
                     tempAuxList[i].items.push(contentLista)
@@ -121,7 +128,7 @@ const Notificacoes: React.FC = () => {
                             )
                         })}
                     </div>
-                )
+                );
             })}
         </S.Container>
     )

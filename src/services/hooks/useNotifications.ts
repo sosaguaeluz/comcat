@@ -6,7 +6,8 @@ const getNotifications = async (
     token: string,
     order?: string,
     page?: number,
-    take?: number
+    take?: number,
+    status?: string
 ):Promise<Notifications[]> => {
 
     let params = new URLSearchParams();
@@ -25,14 +26,18 @@ const getNotifications = async (
         params.append('take', take.toString())
     }
 
-    const resp = await api.get<Notifications[]>(`/notifications`, {
+    if(status !== undefined){
+        params.append('status', status)
+    }
+
+    const { data: resp } = await api.get<Notifications[]>(`/notifications`, {
         headers: {
             'Authorization': `Bearer ${token}`
         },
         params: params
     })
 
-    return resp.data;
+    return resp;
 }
 
 export const useNotifications = <T>(
@@ -40,17 +45,20 @@ export const useNotifications = <T>(
     order?: string,
     page?: number,
     take?: number,
+    status?: string
 ):UseQueryResult<Notifications[]> => {
     return useQuery(['notifications', 
     token,
     order,
     page,
-    take
+    take,
+    status
 ], () => getNotifications(
     token,
     order,
     page,
-    take
+    take,
+    status
 ))}
 
 export const putNotifications = async (

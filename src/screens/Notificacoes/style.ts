@@ -2,6 +2,7 @@ import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 
 export const Container = styled.div`
+    height: 100vh;
     > h1 {
         font-style: normal;
         font-weight: 600;
