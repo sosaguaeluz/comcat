@@ -1,5 +1,6 @@
 import styled from "styled-components";
 
+
 export const Container = styled.div <{ height?: string, width?: string}>`
     @media screen and (max-width: 1560px) {
         height: 68px;
@@ -13,7 +14,7 @@ export const Card = styled.div`
     display: flex;
     height: 100%;
     margin: 0;
-    padding: 0 20px;
+    padding: 0 0 0 20px;
     > img {
         margin-right: 12px;
         width: 48px;
@@ -65,7 +66,7 @@ export const List = styled.div`
         display: flex;
         justify-content: space-between;
         align-items: center;  
-        height: 19px;
+        min-height: 19px;
         margin-bottom: 9px;
 
         > h1 {

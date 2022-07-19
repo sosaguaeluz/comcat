@@ -51,12 +51,6 @@ const Usuarios: React.FC = () => {
 
     const [totalList, setTotalList] = useState<any>();
     const [totalUsers, setTotalUsers] = useState<any>();
-    const [openTotalList, setOpenTotalList] = useState(false);
-    const [openNorteList, setOpenNorteList] = useState(false);
-    const [openNordesteList, setOpenNordesteList] = useState(false);
-    const [openSudesteList, setOpenSudesteList] = useState(false);
-    const [openSulList, setOpenSulList] = useState(false);
-    const [openCentroList, setOpenCentroList] = useState(false);
 
     const [open, setOpen] = useState(false);
     const [app, setApp] = useState(true);
@@ -88,18 +82,16 @@ const Usuarios: React.FC = () => {
         })
 
         spam.sort(function(a: any, b: any) {
-            if (a.name < b.name){
-                return -1;
-            } else {
-                return true;
-            }
+            let x = a.name.toUpperCase(),
+                y = b.name.toUpperCase();
+            return x == y ? 0 : x > y ? 1 : -1;
         });
 
         regionUsers?.forEach(total => sum += total.user_total);
 
         setTotalUsers(sum)
         setTotalList(spam)
-    },[])
+    },[regionUsers])
 
     const {
         data: users,
@@ -185,9 +177,7 @@ const Usuarios: React.FC = () => {
                                         value={totalUsers}                        
                                         type="list"
                                         width='100%'
-                                        list={totalList}
-                                        open={openTotalList}
-                                        setOpen={() => setOpenTotalList(!openTotalList)}
+                                        list={totalList}                                        
                                     />                    
                                 </Grid> 
                             {regionUsers?.map((id: any, index: number) => {
@@ -202,8 +192,6 @@ const Usuarios: React.FC = () => {
                                             type="list"
                                             width='100%'
                                             list={id.state_list}
-                                            open={openTotalList}
-                                            setOpen={() => setOpenTotalList(!openTotalList)}
                                         />
                                     </Grid>
                                 )
@@ -386,7 +374,6 @@ const Usuarios: React.FC = () => {
                                                                     setIdUser(id.id)
                                                                 }}
                                                                 type={'userApp'} 
-
                                                             /> 
                                                         </S.Options>
                                                     </span>

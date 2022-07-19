@@ -15,6 +15,7 @@ import {
     Poppover,
     ModalDelete,
     ModalMsg,
+    DropDown,
 } from '../../components';
 import { 
     api,
@@ -202,7 +203,7 @@ const Registros: React.FC = () => {
                             flex-wrap='wrap'
                         >
                             <Grid item sm={2} md={2} lg={2}>
-                                <CardInfo
+                                <DropDown
                                     icon={ocurrenceIcon}
                                     title="Total"
                                     value={20}
@@ -214,7 +215,7 @@ const Registros: React.FC = () => {
                                 />
                             </Grid>
                             <Grid item sm={2} md={2} lg={2}>
-                                <CardInfo
+                                <DropDown
                                     icon=''
                                     title="Sul"
                                     value={20}
@@ -226,7 +227,7 @@ const Registros: React.FC = () => {
                                 />
                             </Grid>
                             <Grid item sm={2} md={2} lg={2}>
-                                <CardInfo
+                                <DropDown
                                     icon=''
                                     title="Norte"
                                     value={20}
@@ -238,7 +239,7 @@ const Registros: React.FC = () => {
                                 />
                             </Grid>
                             <Grid item sm={2} md={2} lg={2}>
-                                <CardInfo
+                                <DropDown
                                     icon=''
                                     title="Sudeste"
                                     value={20}
@@ -250,7 +251,7 @@ const Registros: React.FC = () => {
                                 />
                             </Grid>
                             <Grid item sm={2} md={2} lg={2}>
-                                <CardInfo
+                                <DropDown
                                     icon=''
                                     title="Nordeste"
                                     value={20}
@@ -262,7 +263,7 @@ const Registros: React.FC = () => {
                                 />
                             </Grid>
                             <Grid item sm={2} md={2} lg={2}>
-                                <CardInfo
+                                <DropDown
                                     icon=''
                                     title="Centro-Oeste"
                                     value={20}
@@ -277,7 +278,7 @@ const Registros: React.FC = () => {
                     </S.CardsContainer>
                     <Box
                         padding='0'
-                        width='1548px'
+                        width='100%'
                     >
                         <S.Container>
                             <h1>Ocorrências registradas no aplicativo</h1>
