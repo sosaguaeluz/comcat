@@ -9,7 +9,8 @@ import {
     CardGraficItem,
     CardGraficArea,
     YearGrafic,
-    CustomInput
+    CustomInput,
+    CustomInputData
 } from '../../components';
 import {
     ocurrenceIcon,
@@ -508,9 +509,9 @@ const Dashboard: React.FC = () => {
                                     />
                                 </div>
                                 <div>
-                                    <CustomInput
+                                    <CustomInputData
                                         id='dateDe'
-                                        width={176} 
+                                        width="176px"
                                         type='date'
                                         label='De:'
                                         defaultValue='De:'
@@ -523,9 +524,9 @@ const Dashboard: React.FC = () => {
                                         onBlur={function (e: any) {
                                             throw new Error('Function not implemented.');
                                         } }                                    />
-                                    <CustomInput
+                                    <CustomInputData
                                         id='dateAte'
-                                        width={176} 
+                                        width="176px"
                                         type='date'
                                         label='Até:'
                                         onChange={(e: any) => {
