@@ -187,44 +187,26 @@ export interface Messages {
 };
 
 export interface Notifications {
-    title: string,
-    message: string,
-    occurrence: {
+    data: [
+      title: string,
+      message: string,
+      occurrence: Occurrences,
       service: string,
-      source: string,
-      source_name: string,
-      date: string,
-      restoration_date: string,
-      address: string,
-      neighborhood: string,
-      city: string,
-      state: string,
-      country: string,
-      special_place: string,
-      have_energy_meter: string,
-      have_hydrometer: string,
-      have_reservoir: string,
-      type_place: string,
-      area: string,
-      description: string,
-      restoration_description: string,
-      agree_share: boolean,
-      latitude: string,
-      longitude: string,
       status: string,
-      finished_status: string,
-      user: string,
+      error: string,
+      sending_attempts: number,
       _id: string,
       createdAt: string,
       updatedAt: string
-    },
-    service: string,
-    status: string,
-    error: string,
-    sending_attempts: number,
-    _id: string,
-    createdAt: string,
-    updatedAt: string
+    ],
+    meta: {
+      page:	number,
+      take:	number,
+      itemCount:	number,
+      pageCount:	number,
+      hasPreviousPage:	boolean,
+      hasNextPage:	boolean
+    }
 };
 
 export interface Occurrences {

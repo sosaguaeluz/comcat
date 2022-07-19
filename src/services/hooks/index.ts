@@ -32,3 +32,7 @@ export {
 } from './useMessages'
 export { useUploads } from './useUploads';
 export { useDashboardRegionList } from './useRegionUsers';
+export {
+    useNotifications,
+    putNotifications
+} from './useNotifications';
