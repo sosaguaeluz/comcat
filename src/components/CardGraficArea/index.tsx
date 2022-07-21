@@ -119,7 +119,7 @@ const CardGraficArea: React.FC <IProps> = (props) => {
                                     opacity: '0.8',
                                     color: '#FFF'
                                 }}
-                                cursor={false} 
+                                cursor={false}
                             />
                             {props.type == 'genero' ? 
                                 <>

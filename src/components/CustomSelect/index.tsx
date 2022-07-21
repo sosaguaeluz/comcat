@@ -19,7 +19,7 @@ interface IProps {
     list?: List[] | listUf[] | listCity[] | Services[] | any,
     value?: string,
     defaultValue?: string,
-    width?: number,
+    width?: string | number,
     labelDefault?: string,
     id?: string,
     another_options?: boolean,

@@ -276,8 +276,8 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                                                                     O imóvel possui hidrômetro (relógio)?
                                                                     <div>
                                                                         <CustomTolltip
-                                                                            title={<img src={blueAlert} alt="" />}
-                                                                            desciption="Texto em falta"
+                                                                            img={<img src={blueAlert} alt="" />}
+                                                                            title="Texto em falta"
                                                                         />
                                                                     </div>
                                                                 </label>
@@ -367,8 +367,8 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                                                                 O imóvel possui medidor de energia elétrica?
                                                                 <div>
                                                                     <CustomTolltip
-                                                                        title={<img src={blueAlert} alt="" />}
-                                                                        desciption="Texto em falta"
+                                                                        img={<img src={blueAlert} alt="" />}
+                                                                        title="Texto em falta"
                                                                     />
                                                                 </div>
                                                             </label>
@@ -536,8 +536,8 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                                         <div>
                                             <label htmlFor="">Em que escala é a área afetada?</label>
                                             <CustomTolltip
-                                                title={<img src={blueAlert} alt="" />}
-                                                desciption="Se enquadram como localizações especiais lugares como comunidades de assentamento, favelas, quilombos, entre outros"
+                                                img={<img src={blueAlert} alt="" />}
+                                                title="Se enquadram como localizações especiais lugares como comunidades de assentamento, favelas, quilombos, entre outros"
                                             />
                                         </div>
                                         <Controller 
@@ -623,8 +623,8 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                                     Caso entrem outras queixas da sua região, você autoriza que as informações da sua reclamação sejam juntadas à elas e compartilhadas com as autoridades competentes para solicitar que o abastecimento da sua residência seja feito pelas agências competentes.
                                 </p>
                                 <CustomTolltip
-                                    title={<img src={blueAlert} alt="" />}
-                                    desciption="Texto em falta"
+                                    img={<img src={blueAlert} alt="" />}
+                                    title="Texto em falta"
                                 />
                             </label>
                             <fieldset>

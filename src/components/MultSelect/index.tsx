@@ -7,12 +7,14 @@ import ListItemText from '@mui/material/ListItemText';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { borderColor } from '@mui/system';
 
 interface IProps {
     onChange: (e: any) => void,
     valueItem: string[] | any,
-    width: number,
-    list: any
+    width: string | number,
+    list: any,
+    maxWidth?: number,
 };
 
 const theme = createTheme({
@@ -28,7 +30,8 @@ const theme = createTheme({
                     background: '#fff',
                     paddingTop: '15px',
                     "& :hover": {
-                        border: 'none'
+                        border: 'none',
+                        borderColor: '#AFAFAF'
                     }
                 },
                 
@@ -42,6 +45,8 @@ const theme = createTheme({
                     "&.Mui-focused": {
                         "color": "#AFAFAF",
                         'background': 'transparent',
+                        'border': 'none'
+
                     },
                 },
                 
@@ -81,7 +86,7 @@ const MultSelect: React.FC <IProps> = (props) => {
 
     return (
         <ThemeProvider theme={theme}>
-            <FormControl sx={{ minWidth: props.width, height: 50 }} variant="filled">
+            <FormControl sx={{ width: props.width, maxWidth: props.maxWidth, height: 50 }} variant="filled">
                 {props.valueItem.length == 0 ? 
                     <span style={{display: 'none'}}/>
                     :
@@ -90,7 +95,7 @@ const MultSelect: React.FC <IProps> = (props) => {
                 <Select
                     multiple
                     displayEmpty
-                    disableUnderline
+                    // disableUnderline
                     disableInjectingGlobalStyles
                     value={props.valueItem}
                     onChange={handleChange}

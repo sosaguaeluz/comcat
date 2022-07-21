@@ -102,7 +102,7 @@ const Notificacoes: React.FC = () => {
                                 <div>
                                     <img src={orangeAlertNotify} alt="" />
                                     <h2>Novas ocorrências estão esperando para serem aprovadas!</h2>
-                                    <b>Cerca de {occurrences?.length} novas ocorrências estão esperando aprovação.</b>
+                                    <b>Cerca de {occurrences?.data?.length} novas ocorrências estão esperando aprovação.</b>
                                     <p>
                                         {extractDate(item.createdAt) === atualDate 
                                             ? `Rebido há ${setDate(item.createdAt)} horas`

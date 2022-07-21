@@ -2,12 +2,6 @@ import styled from "styled-components";
 
 
 export const Container = styled.div <{ height?: string, width?: string}>`
-    @media screen and (max-width: 1560px) {
-        height: 68px;
-    }
-    @media screen and (max-width: 1200px) {
-        height: 48px;
-    }
 `;
 
 export const Card = styled.div`
@@ -37,12 +31,6 @@ export const Content = styled.div`
             font-size: 16px;
             line-height: 22px;
             color: ${props => props.theme.colors.lightGray};
-            @media screen and (max-width: 1560px) {
-                padding-bottom: 22px;
-            }
-            @media screen and (max-width: 1200px) {
-                padding-bottom: 0;
-            }
         }
         > p {
             font-family: 'Inter';

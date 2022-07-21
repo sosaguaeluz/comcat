@@ -511,15 +511,14 @@ const Dashboard: React.FC = () => {
                                     <CustomInput
                                         id='dateDe'
                                         width={176} 
-                                        type='date'
-                                        label='De:'
-                                        defaultValue='De:'
+                                        type='date'                                        
+                                        label='De:'                                    
+                                        value={data}
                                         onChange={(e: any) => {
                                             setData(e);
                                             console.log(e);
 
                                         } }
-                                        value={data} 
                                         onBlur={function (e: any) {
                                             throw new Error('Function not implemented.');
                                         } }                                    />
@@ -528,10 +527,11 @@ const Dashboard: React.FC = () => {
                                         width={176} 
                                         type='date'
                                         label='Até:'
+                                        defaultValue='Até:'
+                                        value={data} 
                                         onChange={(e: any) => {
                                             setData(e.target.value);
                                         } }
-                                        value={data} 
                                         onBlur={function (e: any) {
                                             throw new Error('Function not implemented.');
                                         } }                                    />

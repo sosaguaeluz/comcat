@@ -18,14 +18,20 @@ export const Header = styled.div`
 `;
 
 export const Container = styled.div`
+    background-color: ${props => props.theme.colors.white};
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    padding-bottom: 10px;
+    
     > h1 {
         font-style: normal;
         font-weight: 600;
         font-size: 18px;
         line-height: 22px;
         color: ${props => props.theme.colors.dark};
-        padding: 33px 24px;
+        padding: 33px 24px 10px 24px;
     }
+    width: 100%;
 `;
 
 export const CardsContainer = styled.div`
@@ -37,54 +43,74 @@ export const CardsContainer = styled.div`
 
 export const FiltersTop = styled.div`
     display: flex;
+    width: 100%;
     justify-content: space-between;
-    margin-bottom: 24px;
-    margin-right: 32px;
-    margin-left: 24px;
-`;
+    margin-bottom:24px;
+    padding: 22px 36px 0 26px;
 
-export const FiltersBottom = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 32px;
-    margin-left: 24px;
+    >span {
+        display: flex;
+        justify-content: space-between;
+        gap: 20px;
+    }
 `;
-
 export const Radios = styled.div`
     display: flex;
-    margin-right: 32px;
+    justify-content: end;
+    align-items: center;
+    width: 565px;
+    height: 56px;
 
     > p {
         font-style: normal;
         font-weight: 600;
-        font-size: 18px;
+        font-size: 14px;
+        line-height: 23px;
         color: ${props => props.theme.colors.dark};
-        margin-right: 12px;
+    }
+    label {
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 23px;
+        color: ${props => props.theme.colors.dark};
     }
 
     > div {
         display: flex;
         align-items: center;
+        margin: 0 0 0 16px;
 
         > input[type="radio"] {
-            margin: 0 9px 0 12px;
+            margin: 0 10px 0 0;
         }
     }
 `;
 
 export const Table = styled.table`
-    width: 100%;
-    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
-    border-bottom-left-radius: 8px;
-    border-bottom-left-radius: 8px;
-    margin-bottom: 28px;
-    border: none !important;
+    width: 100%;    
     border-collapse: collapse;
-    
+    border-spacing: 0;
 
-    td, th {
-        border: none !important;
+    th > span {
+        > span {
+            display: flex;
+            align-items: center;
+            margin-left: 12px;
+        }
+    }
+    td {
+        height: 47px;     
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    }
+    td > span {
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+        line-height: 18px;        
     }
 `;
 
@@ -114,27 +140,8 @@ export const TableHead = styled.thead`
     }
 `;
 
-export const TableBody = styled.tbody`
-    > tr {
-        box-shadow: inset 0px -1px 1px rgba(0, 0, 0, 0.2) !important;
-
-        > td {
-            height: 48px;
-            > span {
-                display: flex;
-                align-items: center;
-                font-style: normal !important;
-                font-weight: 400 !important;
-                font-size: 12px !important;
-                line-height: 15px !important;
-                color: ${props => props.theme.colors.dark} !important;
-            }
-        }
-    }
-`;
-
 export const Status = styled.td<{ status: string }>`
-    width: 207px;
+    width: 215px;
     > span {
         display: flex;
         justify-content: flex-start;
@@ -169,7 +176,7 @@ export const Status = styled.td<{ status: string }>`
 `;
 
 export const Finished = styled.td<{ finished: string }>`
-    width: 150px;
+    width: 158px;
     > span {
         display: flex;
         justify-content: center;
@@ -238,10 +245,13 @@ export const Button = styled.td<{ showOccurence: boolean }>`
 `;
 
 export const User = styled.td`
-    width: 218px;
+    width: 226px;
     > span {
-        img {
-            margin-left: 5px;
+        button {
+            
+            img {
+                margin-left: 5px;
+            }
         }
     }
 `;

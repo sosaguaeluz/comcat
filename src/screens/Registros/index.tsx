@@ -9,13 +9,13 @@ import {
     CustomSelect,
     CustomInput,
     Search,
-    TolltipRigth,
     MultSelect,
     Pagination,
     Poppover,
     ModalDelete,
     ModalMsg,
     DropDown,
+    CustomTolltip,
 } from '../../components';
 import { 
     api,
@@ -36,14 +36,18 @@ import {
     whaterIcon,
     wifiIcon,
     ocurrenceIcon,
-    MAPTESTE
+    MAPTESTE,
+    trusted,
+    noTrusted,
 } from '../../assets/index';
 import NewOccurence from './newOccurence';
 import ApproveReprove from './ApproveReprove';
 import FinishOccurence from './FinishOccurrence';
 import ViewOccurrence from './ViewOccurrence';
 import EditOccurrence from './EditOccurrence';
-import { Grid } from '@mui/material';
+import { createTheme, Grid, ThemeProvider } from '@mui/material';
+import { date } from 'yup';
+import { Flex } from '../../components/Navigation/Aside/style';
 
 const Registros: React.FC = () => {
     const { token } = useSelector((state: RootState) => state.clickState);
@@ -70,7 +74,13 @@ const Registros: React.FC = () => {
     const [ ufValue, setUfValue ] = useState<any>();
     const [ cityValue, setCityValue ] = useState<any>();
     const [ initialDate, setInitialDate ] = useState<any>(undefined);
-    const [ finalDate, setFinalDate ] = useState<any>(undefined);
+    const [ finalDate, setFinalDate ] = useState<any>(new Date(Date.now()));
+
+     const [dateValue, setDateValue] = React.useState<any | null>(
+    new Date(Date.now()),
+  );
+    console.log(dateValue, "teste")
+    console.log(initialDate, "teste")
 
     const {
         data: occurrences,
@@ -143,7 +153,7 @@ const Registros: React.FC = () => {
 
         return resp
     }
-
+    
     const { mutate: onDelete } = useMutation(deleteOccurrence, {
         onSuccess: () => {
             queryClient.invalidateQueries('ocurrencces')
@@ -159,133 +169,48 @@ const Registros: React.FC = () => {
     //     }
     // })
 
-    return (
-        <>
-            <S.Header>
-                <div>
-                    <DoubleButton
-                        text='Mapa'
-                        selected={maps}
-                        onSelect={() => {
-                            setMaps(true)
-                            setList(false)
-                        }}
-                    />
-                    <DoubleButton
-                        text='Lista'
-                        selected={list}
-                        onSelect={() => {
-                            setMaps(false)
-                            setList(true)
-                        }}
-                    />
-                </div>
-                <DefaultButton 
-                    onSelect={() => setNewOccurence(!newOccurence)}
-                    text="Registrar ocorrência"
-                    id="register_occurrence"
-                />
-            </S.Header>
-            <S.CardsContainer>
+    const theme = createTheme({
+        breakpoints: {
+          values: {
+            xs: 600,
+            sm: 900,
+            md: 1200,
+            lg: 1600,
+            xl: 1920,
+          },
+        },
+      });
+ 
+    function RenderFiltersTop (){
+        return(
+            <S.FiltersTop>
                 <Grid
                     container
-                    spacing={{ xs: 2.5, md: 2.5, lg: 2.5 }}
-                    columns={{ sm: 4, md: 6, lg: 12 }}
-                    flex-wrap='wrap'
-                >
-                    <Grid item sm={2} md={2} lg={2}>
-                        <DropDown
-                            icon={ocurrenceIcon}
-                            title="Total"
-                            value={20}
-                            type="list"
-                            width='100%'
-                            list={lista}
-                            open={openList}
-                            setOpen={() => setOpenList(!openList)}
-                        />
-                    </Grid>
-                    <Grid item sm={2} md={2} lg={2}>
-                        <DropDown
-                            icon=''
-                            title="Sul"
-                            value={20}
-                            type="list"
-                            width='100%'
-                            list={lista}
-                            open={openList}
-                            setOpen={() => setOpenList(!openList)}
-                        />
-                    </Grid>
-                    <Grid item sm={2} md={2} lg={2}>
-                        <DropDown
-                            icon=''
-                            title="Norte"
-                            value={20}
-                            type="list"
-                            width='100%'
-                            list={lista}
-                            open={openList}
-                            setOpen={() => setOpenList(!openList)}
-                        />
-                    </Grid>
-                    <Grid item sm={2} md={2} lg={2}>
-                        <DropDown
-                            icon=''
-                            title="Sudeste"
-                            value={20}
-                            type="list"
-                            width='100%'
-                            list={lista}
-                            open={openList}
-                            setOpen={() => setOpenList(!openList)}
-                        />
-                    </Grid>
-                    <Grid item sm={2} md={2} lg={2}>
-                        <DropDown
-                            icon=''
-                            title="Nordeste"
-                            value={20}
-                            type="list"
-                            width='100%'
-                            list={lista}
-                            open={openList}
-                            setOpen={() => setOpenList(!openList)}
-                        />
-                    </Grid>
-                    <Grid item sm={2} md={2} lg={2}>
-                        <DropDown
-                            icon=''
-                            title="Centro-Oeste"
-                            value={20}
-                            type="list"
-                            width='100%'
-                            list={lista}
-                            open={openList}
-                            setOpen={() => setOpenList(!openList)}
-                        />
-                    </Grid>
-                </Grid>
-            </S.CardsContainer>
-            {maps == true && (
-                <>
-                    <Box
-                        padding='0'
-                        width='100%'
-                        height='764px'
-                    >    
-                        <S.FiltersTop>
+                    spacing={3}
+                    flex-wrap='noWrap'
+                >  
+                    {/* Tela numero 1 */}
+                    <Grid 
+                        item
+                        spacing={3}
+                        xs={12} sm={12} md={12} lg={6.5} xl={6.5}
+                        container
+                    >
+                        <Grid item xs={4} sm md lg xl>
                             <CustomSelect
                                 onChange={(e) => {
                                     setUfValue(e.target.value)
                                     console.log(e.target.value);
+
                                 }}
                                 label='Selecione o Estado'
                                 labelDefault='Estado'
                                 list={dataUf}
                                 value={ufValue}
-                                width={254}
+                                width="100%"
                             />
+                        </Grid>
+                        <Grid item xs={4} sm md lg xl>
                             <CustomSelect
                                 onChange={(e) => {
                                     setCityValue(e.target.value)
@@ -294,8 +219,10 @@ const Registros: React.FC = () => {
                                 labelDefault='Cidade'
                                 list={dataCity}
                                 value={cityValue}
-                                width={254}
+                                width='100%'
                             />
+                        </Grid>
+                        <Grid item xs={4} sm md lg xl>
                             <CustomSelect
                                 onChange={function (e: any) {
                                     throw new Error('Function not implemented.');
@@ -304,133 +231,96 @@ const Registros: React.FC = () => {
                                 labelDefault='Bairro'
                                 list={lista}
                                 value=''
-                                width={254}
-                            />
-                            <MultSelect
-                                width={228}
-                                list={listServices}
-                                onChange={(e: any) => {
-                                    setService(e)
-                                }}
-                                valueItem={service}
-                            />
+                                width='100%'
+                            />                                    
+                        </Grid>                                    
+                    </Grid>
+                    {/* Tela numero 2 */}
+                    <Grid 
+                        item
+                        xs={4} sm={5} md={7} lg={2} xl={2}
+                        container
+                    >
+                        <MultSelect
+                            width='100%'
+                            maxWidth={400}
+                            list={listServices}
+                            onChange={(e: any) => {
+                                setService(e)
+                            }}
+                            valueItem={service}
+                        />
+                    </Grid>
+                    {/* Tela numero 3 */}
+                    <Grid 
+                        item 
+                        spacing={3}
+                        xs={8} sm={7} md={5} lg={3.5} xl={3.5}
+                        container
+                        justify-content="end"
+                    >
+                        <Grid 
+                        item
+                        justify-content="end"
+                        xs sm md lg xl>                                
                             <CustomInput
-                                label='De'
+                                id='dateDe'
+                                width="100%"
+                                maxWidth={300}
+                                type='date'
+                                label='De:'
+                                defaultValue={dateValue}
+                                value={initialDate}
                                 onChange={(e: any) => {
                                     setInitialDate(e.target.value)
                                     console.log(e.target.value)
                                 }}
                                 onBlur={() => { }}
-                                type='datetime-local'
-                                value={initialDate}
-                                width={176}
                             />
+                        </Grid>
+                        <Grid 
+                        item 
+                        justify-content="end"
+                        xs sm md lg xl>                                    
                             <CustomInput
-                                label='Até'
+                                id='dateAte'
+                                width="100%"
+                                maxWidth={300}
+                                type='date'
+                                label='Até:'
+                                value={finalDate}
                                 onChange={(e: any) => {
                                     setFinalDate(e.target.value)
                                 }}
                                 onBlur={function (e: any) {
                                     throw new Error('Function not implemented.');
                                 }}
-                                type='datetime-local'
-                                value={finalDate}
-                                width={176}
                             />
-                        </S.FiltersTop>
-                        <S.FiltersBottom>
+                        </Grid>
+                    </Grid>
+                    {/* Tela numero 4*/}
+                    <Grid 
+                        item 
+                        spacing={3}
+                        xs={12} sm={12} md={12} lg={12} xl={12}
+                        container
+                    >
+                        <Grid item xs sm md lg xl>
                             <Search
                                 onChange={(e: any) => {
                                     setAddress(e.target.value);
                                 }}
-                                width="400px"
+                                width="100%"
+                                maxWidth={409}
+                                
                             />
-                        </S.FiltersBottom>
-                        <S.Map>
-                        </S.Map>
-                    </Box>
-                </>
-            )}
-            {list == true && (
-                <>
-                    <Box
-                        padding='0'
-                        width='100%'
-                    >
-                        <S.Container>
-                            <h1>Ocorrências registradas no aplicativo</h1>
-                            <S.FiltersTop>
-                                <CustomSelect
-                                    onChange={(e) => {
-                                        setUfValue(e.target.value)
-                                        console.log(e.target.value);
-
-                                    }}
-                                    label='Selecione o Estado'
-                                    labelDefault='Estado'
-                                    list={dataUf}
-                                    value={ufValue}
-                                    width={254}
-                                />
-                                <CustomSelect
-                                    onChange={(e) => {
-                                        setCityValue(e.target.value)
-                                    }}
-                                    label='Selecione a Cidade'
-                                    labelDefault='Cidade'
-                                    list={dataCity}
-                                    value={cityValue}
-                                    width={254}
-                                />
-                                <CustomSelect
-                                    onChange={function (e: any) {
-                                        throw new Error('Function not implemented.');
-                                    }}
-                                    label='Selecione o Bairro'
-                                    labelDefault='Bairro'
-                                    list={lista}
-                                    value=''
-                                    width={254}
-                                />
-                                <MultSelect
-                                    width={228}
-                                    list={listServices}
-                                    onChange={(e: any) => {
-                                        setService(e)
-                                    }}
-                                    valueItem={service}
-                                />
-                                <CustomInput
-                                    label='De'
-                                    onChange={(e: any) => {
-                                        setInitialDate(e.target.value)
-                                        console.log(e.target.value)
-                                    }}
-                                    onBlur={() => { }}
-                                    type='datetime-local'
-                                    value={initialDate}
-                                    width={176}
-                                />
-                                <CustomInput
-                                    label='Até'
-                                    onChange={(e: any) => {
-                                        setFinalDate(e.target.value)
-                                    }}
-                                    onBlur={function (e: any) {
-                                        throw new Error('Function not implemented.');
-                                    }}
-                                    type='datetime-local'
-                                    value={finalDate}
-                                    width={176}
-                                />
-                            </S.FiltersTop>
-                            <S.FiltersBottom>
-                                <Search
-                                    onChange={(e: any) => {
-                                        setAddress(e.target.value);
-                                    }}
-                                    width="400px"
-                                />
+                        </Grid>
+                        {list == true && (
+                            <Grid 
+                                item 
+                                sx={{display: 'flex', alignItems: "center", justifyContent: "end"}}
+                                xs sm md lg xl
+                            >
                                 <S.Radios>
                                     <p>Status:</p>
                                     <div>
@@ -475,19 +365,152 @@ const Registros: React.FC = () => {
                                         <label htmlFor="Abandoned">Aguardando aprovação</label>
                                     </div>
                                 </S.Radios>
-                            </S.FiltersBottom>
+                            </Grid>         
+                        )}
+                                            
+                    </Grid>
+                </Grid>
+            </S.FiltersTop>
+        )
+    }
+    return (
+        <>
+            <ThemeProvider theme={theme}>         
+                <S.Header>
+                    <div>
+                        <DoubleButton
+                            text='Mapa'
+                            selected={maps}
+                            onSelect={() => {
+                                setMaps(true)
+                                setList(false)
+                            }}
+                        />
+                        <DoubleButton
+                            text='Lista'
+                            selected={list}
+                            onSelect={() => {
+                                setMaps(false)
+                                setList(true)
+                            }}
+                        />
+                    </div>
+                    <DefaultButton 
+                        onSelect={() => setNewOccurence(!newOccurence)}
+                        text="Registrar ocorrência"
+                        id="register_occurrence"
+                    />
+                </S.Header>
+                <S.CardsContainer>
+                    <Grid
+                        container
+                        spacing={2.5}
+                        flex-wrap='wrap'
+                    >
+                        <Grid item xs={6} sm={4} md={4} lg={2}>
+                            <DropDown
+                                icon={ocurrenceIcon}
+                                title="Total"
+                                value={20}
+                                type="list"
+                                width='100%'
+                                list={lista}
+                                open={openList}
+                                setOpen={() => setOpenList(!openList)}
+                            />
+                        </Grid>
+                        <Grid item xs={6} sm={4} md={4} lg={2}>
+                            <DropDown
+                                icon=''
+                                title="Sul"
+                                value={20}
+                                type="list"
+                                width='100%'
+                                list={lista}
+                                open={openList}
+                                setOpen={() => setOpenList(!openList)}
+                            />
+                        </Grid>
+                        <Grid item xs={6} sm={4} md={4} lg={2}>
+                            <DropDown
+                                icon=''
+                                title="Norte"
+                                value={20}
+                                type="list"
+                                width='100%'
+                                list={lista}
+                                open={openList}
+                                setOpen={() => setOpenList(!openList)}
+                            />
+                        </Grid>
+                        <Grid item xs={6} sm={4} md={4} lg={2}>
+                            <DropDown
+                                icon=''
+                                title="Sudeste"
+                                value={20}
+                                type="list"
+                                width='100%'
+                                list={lista}
+                                open={openList}
+                                setOpen={() => setOpenList(!openList)}
+                            />
+                        </Grid>
+                        <Grid item xs={6} sm={4} md={4} lg={2}>
+                            <DropDown
+                                icon=''
+                                title="Nordeste"
+                                value={20}
+                                type="list"
+                                width='100%'
+                                list={lista}
+                                open={openList}
+                                setOpen={() => setOpenList(!openList)}
+                            />
+                        </Grid>
+                        <Grid item xs={6} sm={4} md={4} lg={2}>
+                            <DropDown
+                                icon=''
+                                title="Centro-Oeste"
+                                value={20}
+                                type="list"
+                                width='100%'
+                                list={lista}
+                                open={openList}
+                                setOpen={() => setOpenList(!openList)}
+                            />
+                        </Grid>
+                    </Grid>
+                </S.CardsContainer>
+                {maps == true && (
+                    <>
+                        <Box
+                            padding='0'
+                            width='100%'
+                            height='764px'
+                        >    
+                            <RenderFiltersTop/>                            
+                            <S.Map>
+                            </S.Map>
+                        </Box>
+                    </>
+                )}
+                {list == true && (
+                    <>
+                        <S.Container>
+                            <h1>Ocorrências registradas no aplicativo</h1>
+                            <RenderFiltersTop/>
                             <S.Table>
                                 <S.TableHead>
                                     <tr>
-                                        <th style={{ width: '218px' }}>
-                                            <span>
+                                        <th style={{ width: '226px' }}>
+                                            <span style={{ marginLeft: '24px' }}>
                                                 Serviço interrompido
                                                 <button>
                                                     <img src={iconShow} alt="" />
                                                 </button>
                                             </span>
                                         </th>
-                                        <th style={{ width: '218px' }}>
+                                        <th style={{ width: '226px' }}>
                                             <span>
                                                 Registrado por
                                                 <button>
@@ -495,17 +518,17 @@ const Registros: React.FC = () => {
                                                 </button>
                                             </span>
                                         </th>
-                                        <th style={{ width: '179px' }}>
+                                        <th style={{ width: '187px' }}>
                                             <span>
                                                 Horá da ocorrência
                                             </span>
                                         </th>
-                                        <th style={{ width: '358px' }}>
+                                        <th style={{ width: 'auto' }}>
                                             <span>
                                                 Endereço
                                             </span>
                                         </th>
-                                        <th style={{ width: '207px' }}>
+                                        <th style={{ width: '215px' }}>
                                             <span>
                                                 Status ocorrência
                                                 <button>
@@ -513,30 +536,30 @@ const Registros: React.FC = () => {
                                                 </button>
                                             </span>
                                         </th>
-                                        <th style={{ width: '150px' }}>
+                                        <th style={{ width: '158px', height: '44px', display: 'Flex', justifyContent: 'center',alignItems: 'center', }}>
                                             <span>
                                                 Já foi finalizada?
                                             </span>
                                         </th>
-                                        <th style={{ width: '85px' }}>
+                                        <th style={{ width: '91px' }}>
                                             <span>
                                                 Ações
                                             </span>
                                         </th>
                                         <th style={{ width: '135px' }}>
-                                            <span>
+                                            <span style={{ marginRight: '24px' }}>
                                                 Ver no mapa
                                             </span>
                                         </th>
                                     </tr>
                                 </S.TableHead>
-                                <S.TableBody>
-                                    {/* @ts-ignore */}
-                                    {occurrences?.data.map((id: any) => {
+                                <tbody>
+                                    
+                                    {occurrences?.data?.map((id: any) => {
                                         return (
                                             <tr>
-                                                <td style={{ width: '218px' }}>
-                                                    <span>
+                                                <td style={{ width: '226px' }}>
+                                                    <span style={{ marginLeft: '24px' }}>
                                                         <S.Icon backgroundColor={id?.service?.background_color}    >
                                                             <img src={id?.service?.image} alt="" />
                                                         </S.Icon>
@@ -546,15 +569,19 @@ const Registros: React.FC = () => {
                                                 <S.User>
                                                     <span>
                                                         {id?.user?.name}
-                                                        <TolltipRigth trusted={id?.user?.trusted} />
+                                                        <CustomTolltip
+                                                            img={<img src={id?.user?.trusted == true ? trusted : noTrusted} alt="" />}
+                                                            placement="right"
+                                                            title={id.trusted == true ? 'Usuário confiavel' : 'Usuário não confiavel'}
+                                                        />
                                                     </span>
                                                 </S.User>
-                                                <td style={{ width: '179px' }}>
+                                                <td style={{ width: '187px' }}>
                                                     <span>
                                                         {convertDate(id.date)}
                                                     </span>
                                                 </td>
-                                                <td style={{ width: '358px' }}>
+                                                <td style={{ width: 'auto' }}>
                                                     <span>
                                                         {id.address}
                                                     </span>
@@ -576,7 +603,7 @@ const Registros: React.FC = () => {
                                                         </p>
                                                     </span>
                                                 </S.Finished>
-                                                <td style={{ width: '83px' }}>
+                                                <td style={{ width: '135px' }}>
                                                     <span>
                                                         <S.Options>
                                                             <Poppover
@@ -607,7 +634,7 @@ const Registros: React.FC = () => {
                                                     </span>
                                                 </td>
                                                 <S.Button showOccurence={true} style={{ width: '135px' }}>
-                                                    <span>
+                                                    <span style={{ marginRight: '24px' }}>
                                                         <button>
                                                             <img src={iconShow} alt="" />
                                                         </button>
@@ -616,88 +643,81 @@ const Registros: React.FC = () => {
                                             </tr>
                                         )
                                     })}
-                                </S.TableBody>
+                                </tbody>
                             </S.Table>
                         </S.Container>
-                    </Box>
-                    <Pagination 
-                        onPage={(e: any) => {
-                        setPage(e)
-                        }} 
-                        value={page} 
-                    />                    
-                </>
-            )}
-
-            <NewOccurence
-                isModal={newOccurence}
-                onHide={() => {
-                    setNewOccurence(!newOccurence)
-                    fetchOccurrences()
-                }}
-            />
-
-            <ModalDelete 
-                backgroundColor='false'
-                open={openDelete}
-                buttonText="Sim, excluir"
-                mensage="Deseja mesmo excluir ocorrência"
-                onClose={() => {
-                    setOpenDelete(!openDelete)
-                }}
-                onDelete={() => {
-                    onDelete(idDelete)
-                    setOpenDelete(!openDelete)
-                }}
-                width={469}
-            />
-
-            <ModalMsg 
-                status="success"
-                width={469}
-                height='312px'
-                mensage='Ocorrência foi excluida com sucesso!'
-                modalBackground={false}
-                onClose={() => {
-                    setSuccessDelete(!successDelete)
-                }}
-                open={successDelete}
-            />
-
-            <ApproveReprove 
-                onHide={() => {
-                    setApproveReprove(!approveReprove)
-                } } 
-                isModal={approveReprove} 
-                itemEdit={occurrenceObj}                
-            />
-
-            <FinishOccurence
-                isModal={finishOccurrence}
-                itemEdit={occurrenceObj}
-                onHide={() => {
-                    setFinishOccurrence(!finishOccurrence)
-                    fetchOccurrences()
-                }}
-            />
-
-            <ViewOccurrence
-                itemEdit={occurrenceObj} 
-                isModal={viewOccurrence}
-                onHide={() => {
-                    setViewOccurrence(!viewOccurrence)
-                }}
-            />
-
-            <EditOccurrence
-                itemEdit={occurrenceObj}  
-                isModal={editOccurrence} 
-                onHide={() => {
-                    setEditOccurrence(!editOccurrence)
-                    setOccurrenceObj({})
-                    fetchOccurrences()
-                }}
-            />
+                        <Pagination 
+                            onPage={(e: any) => {
+                            setPage(e)
+                            }} 
+                            value={page} 
+                        />                    
+                    </>
+                )}
+                <NewOccurence
+                    isModal={newOccurence}
+                    onHide={() => {
+                        setNewOccurence(!newOccurence)
+                        fetchOccurrences()
+                    }}
+                />
+                <ModalDelete 
+                    backgroundColor='false'
+                    open={openDelete}
+                    buttonText="Sim, excluir"
+                    mensage="Deseja mesmo excluir ocorrência"
+                    onClose={() => {
+                        setOpenDelete(!openDelete)
+                    }}
+                    onDelete={() => {
+                        onDelete(idDelete)
+                        setOpenDelete(!openDelete)
+                    }}
+                    width={469}
+                />
+                <ModalMsg 
+                    status="success"
+                    width={469}
+                    height='312px'
+                    mensage='Ocorrência foi excluida com sucesso!'
+                    modalBackground={false}
+                    onClose={() => {
+                        setSuccessDelete(!successDelete)
+                    }}
+                    open={successDelete}
+                />
+                <ApproveReprove 
+                    onHide={() => {
+                        setApproveReprove(!approveReprove)
+                    } } 
+                    isModal={approveReprove} 
+                    itemEdit={occurrenceObj}                
+                />
+                <FinishOccurence
+                    isModal={finishOccurrence}
+                    itemEdit={occurrenceObj}
+                    onHide={() => {
+                        setFinishOccurrence(!finishOccurrence)
+                        fetchOccurrences()
+                    }}
+                />
+                <ViewOccurrence
+                    itemEdit={occurrenceObj} 
+                    isModal={viewOccurrence}
+                    onHide={() => {
+                        setViewOccurrence(!viewOccurrence)
+                    }}
+                />
+                <EditOccurrence
+                    itemEdit={occurrenceObj}  
+                    isModal={editOccurrence} 
+                    onHide={() => {
+                        setEditOccurrence(!editOccurrence)
+                        setOccurrenceObj({})
+                        fetchOccurrences()
+                    }}
+                />
+            </ThemeProvider>
         </>
     )
 }

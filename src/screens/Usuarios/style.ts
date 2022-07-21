@@ -56,36 +56,6 @@ export const ContainerListApp = styled.div`
     padding-bottom: 10px;
 `;
 
-export const Table = styled.table`
-    width: 100%;    
-    border-collapse: collapse;
-
-    th > span {
-    
-        > span {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: 12px;
-        }
-    }
-
-    td {
-        height: 47px;     
-        font-style: normal;
-        font-weight: 400;
-        font-size: 14px;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
-    }
-
-    td > span {
-        display: flex;
-        align-items: center;
-        margin-left: 10px;
-        line-height: 18px;        
-    }
-`;
-
 export const Active = styled.span <{ active: boolean }> `
     display: flex;
     flex-direction: row;
@@ -183,6 +153,33 @@ export const Options = styled.span`
     background: none;
     width: 24px;
     margin-left: 10px;}
+`;
+
+export const Table = styled.table`
+    width: 100%;    
+    border-collapse: collapse;
+
+    th > span {
+        > span {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-left: 12px;
+        }
+    }
+    td {
+        height: 47px;     
+        font-style: normal;
+        font-weight: 400;
+        font-size: 14px;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    }
+    td > span {
+        display: flex;
+        align-items: center;
+        margin-left: 10px;
+        line-height: 18px;        
+    }
 `;
 
 export const TableHead = styled.thead`

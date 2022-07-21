@@ -41,7 +41,6 @@ const theme = createTheme({
             }
         }
     },
-
 });
 
 interface IProps {
@@ -50,7 +49,8 @@ interface IProps {
     onBlur: (e: any) => any,
     type: string,
     value: any,
-    width: number,
+    width: string | number,
+    maxWidth?: number,
     ref? : any,
     id?: string,
     name?: string
@@ -63,7 +63,7 @@ const CustomInput: React.FC <IProps> = (props) => {
         <ThemeProvider theme={theme}>
             <FormControl
                 variant="filled"
-                sx={{ width: props.width, height: 56, background: '#FFF  !important', borderRadius: '8px !important', border:'none'}}
+                sx={{ width: props.width, maxWidth: props.maxWidth, height: 56, background: '#FFF  !important', borderRadius: '8px !important', border:'none'}}
             >
                 <TextField
                     name={props.name} 

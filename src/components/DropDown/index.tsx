@@ -44,12 +44,6 @@ const Accordion = styled((props: AccordionProps ) => (
     height: '88px',
     background: "#FFFFFF",
     zIndex: '10',
-    '@media screen and (max-width: 1560px)':{
-        height: '108px',
-    },
-    '@media screen and (max-width: 1200px)':{
-        height: '88px',
-    },
 }));
   
 const AccordionSummary = styled((props: AccordionSummaryProps) => (
