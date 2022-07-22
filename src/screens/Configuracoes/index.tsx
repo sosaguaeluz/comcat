@@ -41,19 +41,19 @@ const Configuracoes: React.FC = () => {
                     <h1>{user?.name}</h1>
                 </div>
                 <div>
-                    <span>
+                    <span style={{ width: '275px'}}>
                         <p>Telefone</p>
                         <p>{regex(user?.phone_number)}</p>
                     </span>
-                    <span>
+                    <span style={{width: '284px'}}>
                         <p>E-mail</p>
                         <p>{user?.email}</p>
                     </span>
-                    <span>
+                    <span style={{width: '268px'}}>
                         <p>Estado</p>
                         <p>{user?.state}</p>
                     </span>
-                    <span>
+                    <span style={{width: 'auto'}}>
                         <p>Cidade</p>
                         <p>{user?.city}</p>
                     </span>

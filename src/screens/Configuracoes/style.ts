@@ -51,12 +51,14 @@ export const Container = styled.div`
 export const Card = styled.div`
     background: ${props => props.theme.colors.white};
     box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
-    border-radius: 8px !important;
     margin-top: 40px;
+    border-radius: 8px;
 
     > div:nth-child(1){
         background: #F8F8F8;
         padding: 32px 40px;
+        border-top: 8px;
+        margin-bottom: 4px;
 
         > p {
             padding: 4px 12px;
@@ -79,9 +81,10 @@ export const Card = styled.div`
         background: ${props => props.theme.colors.white};
         display: flex;
         padding: 32px 40px;
+        border-bottom: 8px;
+        
 
         > span {
-            margin-right: 160px;
             > p:nth-child(1) {
                 font-style: normal;
                 font-weight: 700;

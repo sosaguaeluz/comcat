@@ -21,6 +21,8 @@ const Notificacoes: React.FC = () => {
 
     const [ list, setList ] = useState<any>([]);
     const [ atualDate, setAtualDate ] = useState<any>();
+    const [ yesterday, setYesterday ] = useState<any>();
+
     const [ count, setCount ] = useState(10)
 
     const { data: occurrences } = useOccurrences(
@@ -81,6 +83,12 @@ const Notificacoes: React.FC = () => {
 
     }, []);
 
+    useEffect(() => {
+        let date = moment().utc(true).format('DD-MM-YYYY');
+
+        setYesterday(date)
+    }, []);
+
     function setDate(value: string){
         let aux = moment(value);
         let data = moment();
@@ -90,46 +98,119 @@ const Notificacoes: React.FC = () => {
 
     console.log(list)
 
+
     return (
         <S.Container>
+            
             <h1>Notificações</h1>
-            {list.map((id: any) => {
-                return (
-                    <div>
-                        <p>{id.date === atualDate ? 'Hoje' : id.date}</p>
-                        {id.items.map((item: any) => {
-                            return (
-                                <div>
-                                    <img src={orangeAlertNotify} alt="" />
-                                    <h2>Novas ocorrências estão esperando para serem aprovadas!</h2>
-                                    <b>Cerca de {occurrences?.data?.length} novas ocorrências estão esperando aprovação.</b>
-                                    <p>
-                                        {extractDate(item.createdAt) === atualDate 
-                                            ? `Rebido há ${setDate(item.createdAt)} horas`
-                                            : `Recebido as ${extractHours(item.createdAt)}`}
-                                    </p>
-                                    <S.ToOccurences to="/registros">
-                                        Clique aqui e veja no mapa
-                                        <img src={showBlueArow} alt="" />
-                                    </S.ToOccurences>
-                                    <S.Finished 
-                                        type='button'
-                                        onClick={() => {
-                                            putNotifications(token, item.id, {
-                                                status: 'Finished'
-                                            }).then(() => {
-                                                refetch()
-                                            })
-                                        }}
-                                    >
-                                        <img src={noTrusted} alt="" />
-                                    </S.Finished>
-                                </div>
-                            )
-                        })}
-                    </div>
-                );
-            })}
+            <div>
+                <p>
+                    Hoje
+                </p>
+                <div>
+                    <span>
+                        <img src={orangeAlertNotify} alt="" />
+                        <h2>Deletar os 2 textos exemplo antes de subir o codigo</h2>
+                    </span>
+                    <b>Cerca de 20 novas ocorrências estão esperando aprovação.</b>
+                    <p>
+                        Rebido há 10 horas
+                    </p>
+                    <S.ToOccurences to="/registros">
+                        Clique aqui e veja no mapa
+                        <img src={showBlueArow} alt="" />
+                    </S.ToOccurences>
+                    <S.Finished 
+                        type='button'
+                        onClick={() => {
+                            // putNotifications(token, teste {
+                            //     status: 'Finished'
+                            // }).then(() => {
+                            //     refetch()
+                            // })
+                        }}
+                    >
+                        <img src={noTrusted} alt="" />
+                    </S.Finished>
+                </div>
+            </div>
+            <div>
+                <p>
+                    Ontem
+                </p>
+                <div>
+                    <span>
+                        <img src={orangeAlertNotify} alt="" />
+                        <h2>deletar os 2 textos exemplo antes de subir o codigo</h2>
+                    </span>
+                    <b>Cerca de 20 novas ocorrências estão esperando aprovação.</b>
+                    <p>
+                        Rebido há 10 horas
+                    </p>
+                    <S.ToOccurences to="/registros">
+                        Clique aqui e veja no mapa
+                        <img src={showBlueArow} alt="" />
+                    </S.ToOccurences>
+                    <S.Finished 
+                        type='button'
+                        onClick={() => {
+                            // putNotifications(token, teste {
+                            //     status: 'Finished'
+                            // }).then(() => {
+                            //     refetch()
+                            // })
+                        }}
+                    >
+                        <img src={noTrusted} alt="" />
+                    </S.Finished>
+                </div>
+            </div> 
+
+        {list.map((id: any) => {
+            return (
+                <div>
+                    <p>
+                        {id.date === atualDate 
+                        ? 'Hoje' 
+                        : id.date === atualDate
+                        ? 'Ontem'
+                        : id.date
+                        }
+                    </p>
+                    {id.items.map((item: any) => {
+                        return (
+                            <div>
+                                <img src={orangeAlertNotify} alt="" />
+                                <h2>Novas ocorrências estão esperando para serem aprovadas!</h2>
+                                <b>Cerca de {occurrences?.data?.length} novas ocorrências estão esperando aprovação.</b>
+                                <p>
+                                    {extractDate(item.createdAt) === atualDate 
+                                        ? `Rebido há ${setDate(item.createdAt)} horas`
+                                        : `Recebido as ${extractHours(item.createdAt)}`}
+                                </p>
+                                <S.ToOccurences to="/registros">
+                                    Clique aqui e veja no mapa
+                                    <img src={showBlueArow} alt="" />
+                                </S.ToOccurences>
+                                <S.Finished 
+                                    type='button'
+                                    onClick={() => {
+                                        putNotifications(token, item.id, {
+                                            status: 'Finished'
+                                        }).then(() => {
+                                            refetch()
+                                        })
+                                    }}
+                                >
+                                    <img src={noTrusted} alt="" />
+                                </S.Finished>
+                            </div>
+                        )
+                    })}
+                </div>
+            );
+        })}
+
         </S.Container>
     )
 }

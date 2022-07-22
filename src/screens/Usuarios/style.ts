@@ -27,10 +27,22 @@ export const CardList = styled.div`
 `;
 
 export const SearchInputs = styled.div`
+    width: 100%;
     display: flex;
     justify-content: space-between;
-    align-items: center;
     padding: 32px 24px 40px;
+    align-items: center;
+
+    @media screen and (max-width: 1600px) {
+            align-items: start;
+            flex-wrap: wrap;
+            row-gap: 40px;
+    }
+
+    @media screen and (max-width: 1290px) {
+        flex-wrap: wrap; 
+        row-gap: 0px;   
+    }
 
     > p {
         font-style: normal;
@@ -38,18 +50,33 @@ export const SearchInputs = styled.div`
         font-size: 18px;
         line-height: 22px;
         color: ${props => props.theme.colors.dark};
-        width: 306px;
+        width: auto;
+        margin-right: 24px;
+        white-space: nowrap;
+
     }
 
     > div {
-        width: 1087px;
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+
+        @media screen and (max-width: 1290px) {
+            flex-wrap: wrap;    
+            row-gap: 24px;
+        }
+        > div{
+        width: 655px;
         display: flex;
         justify-content: space-between;
         align-items: center;
+        margin-left: 24px; 
+        }
     }
 `;
 
-export const ContainerListApp = styled.div`
+export const Container= styled.div`
     background-color: ${props => props.theme.colors.white};
     box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
@@ -155,9 +182,24 @@ export const Options = styled.span`
     margin-left: 10px;}
 `;
 
+export const ScrollDiv = styled.div`
+    width: 100%;
+    
+    @media screen and (max-width: 1919px) {
+        width: 100%;
+        overflow: hidden;
+        overflow-X: scroll;
+    }
+`
+
 export const Table = styled.table`
     width: 100%;    
     border-collapse: collapse;
+    border-spacing: 0;
+
+    @media screen and (max-width: 1919px) {
+        width: 1760px;
+    }
 
     th > span {
         > span {

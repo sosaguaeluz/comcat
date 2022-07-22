@@ -22,6 +22,8 @@ export const Container = styled.div`
     box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.1);
     border-radius: 8px;
     padding-bottom: 10px;
+    width: 100%;
+
     
     > h1 {
         font-style: normal;
@@ -31,7 +33,6 @@ export const Container = styled.div`
         color: ${props => props.theme.colors.dark};
         padding: 33px 24px 10px 24px;
     }
-    width: 100%;
 `;
 
 export const CardsContainer = styled.div`
@@ -87,11 +88,24 @@ export const Radios = styled.div`
     }
 `;
 
+export const ScrollDiv = styled.div`
+    width: 100%;
+
+    @media screen and (max-width: 1919px) {
+        width: 100%;
+        overflow: hidden;
+        overflow-X: scroll;
+    }
+`
 export const Table = styled.table`
     width: 100%;    
     border-collapse: collapse;
     border-spacing: 0;
 
+    @media screen and (max-width: 1919px) {
+        width: 1760px;
+    }
+    
     th > span {
         > span {
             display: flex;
@@ -209,17 +223,17 @@ export const Finished = styled.td<{ finished: string }>`
                 }
             }}
         }
-
     }
 `;
 export const Options = styled.span`
-> button {
-    display: flex;
-    justify-content: center;
-    border: none;
-    background: none;
-    width: 24px;
-    margin-left: 10px;}
+    > button {
+        display: flex;
+        justify-content: center;
+        border: none;
+        background: none;
+        width: 24px;
+        margin-left: 10px;
+    }
 `;
 
 export const Button = styled.td<{ showOccurence: boolean }>`

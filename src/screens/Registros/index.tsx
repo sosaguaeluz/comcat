@@ -499,152 +499,156 @@ const Registros: React.FC = () => {
                         <S.Container>
                             <h1>Ocorrências registradas no aplicativo</h1>
                             <RenderFiltersTop/>
-                            <S.Table>
-                                <S.TableHead>
-                                    <tr>
-                                        <th style={{ width: '226px' }}>
-                                            <span style={{ marginLeft: '24px' }}>
-                                                Serviço interrompido
-                                                <button>
-                                                    <img src={iconShow} alt="" />
-                                                </button>
-                                            </span>
-                                        </th>
-                                        <th style={{ width: '226px' }}>
-                                            <span>
-                                                Registrado por
-                                                <button>
-                                                    <img src={iconShow} alt="" />
-                                                </button>
-                                            </span>
-                                        </th>
-                                        <th style={{ width: '187px' }}>
-                                            <span>
-                                                Horá da ocorrência
-                                            </span>
-                                        </th>
-                                        <th style={{ width: 'auto' }}>
-                                            <span>
-                                                Endereço
-                                            </span>
-                                        </th>
-                                        <th style={{ width: '215px' }}>
-                                            <span>
-                                                Status ocorrência
-                                                <button>
-                                                    <img src={iconShow} alt="" />
-                                                </button>
-                                            </span>
-                                        </th>
-                                        <th style={{ width: '158px', height: '44px', display: 'Flex', justifyContent: 'center',alignItems: 'center', }}>
-                                            <span>
-                                                Já foi finalizada?
-                                            </span>
-                                        </th>
-                                        <th style={{ width: '91px' }}>
-                                            <span>
-                                                Ações
-                                            </span>
-                                        </th>
-                                        <th style={{ width: '135px' }}>
-                                            <span style={{ marginRight: '24px' }}>
-                                                Ver no mapa
-                                            </span>
-                                        </th>
-                                    </tr>
-                                </S.TableHead>
-                                <tbody>
-                                    
-                                    {occurrences?.data?.map((id: any) => {
-                                        return (
-                                            <tr>
-                                                <td style={{ width: '226px' }}>
-                                                    <span style={{ marginLeft: '24px' }}>
-                                                        <S.Icon backgroundColor={id?.service?.background_color}    >
-                                                            <img src={id?.service?.image} alt="" />
-                                                        </S.Icon>
-                                                        {id?.service?.name}
-                                                    </span>
-                                                </td>
-                                                <S.User>
-                                                    <span>
-                                                        {id?.user?.name}
-                                                        <CustomTolltip
-                                                            img={<img src={id?.user?.trusted == true ? trusted : noTrusted} alt="" />}
-                                                            placement="right"
-                                                            title={id.trusted == true ? 'Usuário confiavel' : 'Usuário não confiavel'}
-                                                        />
-                                                    </span>
-                                                </S.User>
-                                                <td style={{ width: '187px' }}>
-                                                    <span>
-                                                        {convertDate(id.date)}
-                                                    </span>
-                                                </td>
-                                                <td style={{ width: 'auto' }}>
-                                                    <span>
-                                                        {id.address}
-                                                    </span>
-                                                </td>
-                                                <S.Status status={id.status}>
-                                                    <span>
-                                                        <p>
-                                                            {setStatusName(id.status)}
-                                                        </p>
-                                                    </span>
-                                                </S.Status>
-                                                <S.Finished finished={id.finished_status}>
-                                                    <span>
-                                                        <p>
-                                                            {id.finished_status === 'Yes'
-                                                                ? 'Sim'
-                                                                : 'Não'
-                                                            }
-                                                        </p>
-                                                    </span>
-                                                </S.Finished>
-                                                <td style={{ width: '135px' }}>
-                                                    <span>
-                                                        <S.Options>
-                                                            <Poppover
-                                                                type='occurrences'
-                                                                onClick={() => {}}
-                                                                onEdit={() => {
-                                                                    setOccurrenceObj(id)
-                                                                    setEditOccurrence(!editOccurrence)
-                                                                }} 
-                                                                onView={() => {
-                                                                    setOccurrenceObj(id)
-                                                                    setViewOccurrence(!viewOccurrence)
-                                                                }}
-                                                                onFinish={() => {
-                                                                    setOccurrenceObj(id)
-                                                                    setFinishOccurrence(!finishOccurrence)
-                                                                }}
-                                                                onApprove={() => {
-                                                                    setOccurrenceObj(id)
-                                                                    setApproveReprove(true)
-                                                                }}
-                                                                onDelete={() => {
-                                                                    setIdDelete(id.id)
-                                                                    setOpenDelete(!openDelete)
-                                                                }}
-                                                            /> 
-                                                        </S.Options>
-                                                    </span>
-                                                </td>
-                                                <S.Button showOccurence={true} style={{ width: '135px' }}>
-                                                    <span style={{ marginRight: '24px' }}>
-                                                        <button>
-                                                            <img src={iconShow} alt="" />
-                                                        </button>
-                                                    </span>
-                                                </S.Button>
-                                            </tr>
-                                        )
-                                    })}
-                                </tbody>
-                            </S.Table>
+                            <S.ScrollDiv>
+                                <S.Table>
+                                    <S.TableHead>
+                                        <tr>
+                                            <th style={{ width: '226px' }}>
+                                                <span style={{ marginLeft: '24px' }}>
+                                                    Serviço interrompido
+                                                    <button>
+                                                        <img src={iconShow} alt="" />
+                                                    </button>
+                                                </span>
+                                            </th>
+                                            <th style={{ width: '226px' }}>
+                                                <span>
+                                                    Registrado por
+                                                    <button>
+                                                        <img src={iconShow} alt="" />
+                                                    </button>
+                                                </span>
+                                            </th>
+                                            <th style={{ width: '187px' }}>
+                                                <span>
+                                                    Horá da ocorrência
+                                                </span>
+                                            </th>
+                                            <th style={{ width: 'auto' }}>
+                                                <span>
+                                                    Endereço
+                                                </span>
+                                            </th>
+                                            <th style={{ width: '215px' }}>
+                                                <span>
+                                                    Status ocorrência
+                                                    <button>
+                                                        <img src={iconShow} alt="" />
+                                                    </button>
+                                                </span>
+                                            </th>
+                                            <th style={{ width: '158px'}}>
+                                                <span>
+                                                    Já foi finalizada?
+                                                </span>
+                                            </th>
+                                            <th style={{ width: '91px' }}>
+                                                <span>
+                                                    Ações
+                                                </span>
+                                            </th>
+                                            <th style={{ width: '135px' }}>
+                                                <span style={{ marginRight: '24px' }}>
+                                                    Ver no mapa
+                                                </span>
+                                            </th>
+                                        </tr>
+                                    </S.TableHead>
+                                    <tbody>
+                                        
+                                        {occurrences?.data?.map((id: any) => {
+                                            return (
+                                                <tr>
+                                                    <td style={{ width: '226px' }}>
+                                                        <span style={{ marginLeft: '24px' }}>
+                                                            <S.Icon backgroundColor={id?.service?.background_color}    >
+                                                                <img src={id?.service?.image} alt="" />
+                                                            </S.Icon>
+                                                            {id?.service?.name}
+                                                        </span>
+                                                    </td>
+                                                    <S.User>
+                                                        <span>
+                                                            {id?.user?.name}
+                                                            <CustomTolltip
+                                                                img={<img src={id?.user?.trusted == true ? trusted : noTrusted} alt="" />}
+                                                                placement="right"
+                                                                title={id.trusted == true ? 'Usuário confiavel' : 'Usuário não confiavel'}
+                                                            />
+                                                        </span>
+                                                    </S.User>
+                                                    <td style={{ width: '187px' }}>
+                                                        <span>
+                                                            {convertDate(id.date)}
+                                                        </span>
+                                                    </td>
+                                                    <td style={{ width: 'auto' }}>
+                                                        <span>
+                                                            {id.address}
+                                                        </span>
+                                                    </td>
+                                                    <S.Status status={id.status}>
+                                                        <span>
+                                                            <p>
+                                                                {setStatusName(id.status)}
+                                                            </p>
+                                                        </span>
+                                                    </S.Status>
+                                                    <S.Finished finished={id.finished_status}>
+                                                        <span style={{ paddingRight: '34px' }}>
+                                                            <p>
+                                                                {id.finished_status === 'Yes'
+                                                                    ? 'Sim'
+                                                                    : id.finished_status === 'No'
+                                                                        ? 'Não'
+                                                                        : 'Abandonado'
+                                                                }
+                                                            </p>
+                                                        </span>
+                                                    </S.Finished>
+                                                    <td style={{ width: '91px' }}>
+                                                        <span>
+                                                            <S.Options>
+                                                                <Poppover
+                                                                    type='occurrences'
+                                                                    onClick={() => {}}
+                                                                    onEdit={() => {
+                                                                        setOccurrenceObj(id)
+                                                                        setEditOccurrence(!editOccurrence)
+                                                                    }} 
+                                                                    onView={() => {
+                                                                        setOccurrenceObj(id)
+                                                                        setViewOccurrence(!viewOccurrence)
+                                                                    }}
+                                                                    onFinish={() => {
+                                                                        setOccurrenceObj(id)
+                                                                        setFinishOccurrence(!finishOccurrence)
+                                                                    }}
+                                                                    onApprove={() => {
+                                                                        setOccurrenceObj(id)
+                                                                        setApproveReprove(true)
+                                                                    }}
+                                                                    onDelete={() => {
+                                                                        setIdDelete(id.id)
+                                                                        setOpenDelete(!openDelete)
+                                                                    }}
+                                                                /> 
+                                                            </S.Options>
+                                                        </span>
+                                                    </td>
+                                                    <S.Button showOccurence={true} style={{ width: '135px' }}>
+                                                        <span style={{ marginRight: '24px' }}>
+                                                            <button>
+                                                                <img src={iconShow} alt="" />
+                                                            </button>
+                                                        </span>
+                                                    </S.Button>
+                                                </tr>
+                                            )
+                                        })}
+                                    </tbody>
+                                </S.Table>
+                            </S.ScrollDiv>
                         </S.Container>
                         <Pagination 
                             onPage={(e: any) => {
