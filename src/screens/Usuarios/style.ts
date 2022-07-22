@@ -26,23 +26,49 @@ export const CardList = styled.div`
     margin-bottom: 24px;
 `;
 
-export const SearchInputs = styled.div`
+export const SearchInputsApp = styled.div`
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 32px 24px 40px;
+
+    @media screen and (max-width: 1750px) {
+        flex-wrap: wrap;
+    }
+    > p {
+        font-style: normal;
+        font-weight: 600;
+        font-size: 18px;
+        line-height: 22px;
+        color: ${props => props.theme.colors.dark};
+        width: 100%;
+        margin-right: 150px;
+        white-space: nowrap;
+    }
+    >div{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    > span{
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-left: 24px; 
+        column-gap: 24px;
+    }
+`;
+
+export const SearchInputsPanel = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
     padding: 32px 24px 40px;
     align-items: center;
-
-    @media screen and (max-width: 1600px) {
-            align-items: start;
-            flex-wrap: wrap;
-            row-gap: 40px;
-    }
-
-    @media screen and (max-width: 1290px) {
-        flex-wrap: wrap; 
-        row-gap: 0px;   
-    }
 
     > p {
         font-style: normal;
@@ -50,30 +76,14 @@ export const SearchInputs = styled.div`
         font-size: 18px;
         line-height: 22px;
         color: ${props => props.theme.colors.dark};
-        width: auto;
-        margin-right: 24px;
+        width: 274px;
+        margin-right: 150px;
         white-space: nowrap;
-
     }
-
-    > div {
-        width: 100%;
-        display: flex;
-        justify-content: flex-end;
-        align-items: center;
-
-        @media screen and (max-width: 1290px) {
-            flex-wrap: wrap;    
-            row-gap: 24px;
-        }
-        > div{
-        width: 655px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-left: 24px; 
-        }
+    >div {
+        width: 822px;
     }
+    
 `;
 
 export const Container= styled.div`

@@ -195,7 +195,7 @@ const Usuarios: React.FC = () => {
                                 {regionUsers?.map((id: any, index: number) => {
                                     
                                     return (
-                                        <Grid item xs={6} sm={4} md={4} lg={2}> 
+                                        <Grid item xs={6} sm={4} md={4} lg={2}>
                                             <DropDown 
                                                 key={id.name}
                                                 icon=''
@@ -211,66 +211,76 @@ const Usuarios: React.FC = () => {
                                 </Grid>
                             </S.CardList>
                             <S.Container>
-                                <S.SearchInputs>
-                                    <p>
-                                        Usuários cadastrados no aplicativo
-                                    </p>
-                                    <div>
-                                        <span>
+                                <S.SearchInputsApp>
+                                    <Grid
+                                        container
+                                        spacing={2.5}
+                                        flex-wrap='wrap'
+                                    >
+                                        <Grid item xs={6} sm={4} md={4} lg={4} xl={4}>
+                                            <p>
+                                                Usuários cadastrados no aplicativo
+                                            </p>
+                                        </Grid>
+                                        <Grid item xs={6} sm={4} md={4} lg={4} xl={4}>
                                             <Search
                                                 onChange={(e) => {
                                                     // setUser(e.target.value);
                                                     // console.log(e.target.value)
                                                 }}
-
-                                                width='409px'
+                                                width='100%'
                                             />
-                                        </span>
-                                        <div>
-                                            <CustomSelect
-                                                onChange={(e) => {
-                                                    setBreed(e.target.value);                            
-                                                }}
-                                                id='Raça'
-                                                label='Raça'
-                                                // labelDefault='Raça'
-                                                // value={BREED[0].value}
-                                                defaultValue={BREED[0].value}
-                                                list={BREED}
-                                                width={176}
-                                            />
-                                            <CustomSelect
-                                                onChange={(e) => {
-                                                    setGenre(e.target.value);
-                                                }}
-                                                id='Genero'
-                                                label='Genero'
-                                                // labelDefault='Genero'
-                                                // value={GENRE[0].value}
-                                                defaultValue={GENRE[0].value}                                    
-                                                list={GENRE}
-                                                width={176}
-                                            />
-                                            <CustomSelect
-                                                onChange={(e) => {
-                                                    setUfValue(e.target.value);
-                                                }}
-                                                id="Estado"
-                                                label='Estado'
-                                                value='Todos os Estados'
-                                                defaultValue='Todos os Estados'
-                                                // labelDefault='Todos os Estados'                                                                                
-                                                list={[{
-                                                    id: 'All',
-                                                    nome: 'Todos os Estados',
-                                                    sigla: 'All',
-                                                    regiao: 'Todos',
-                                                },...uf ||[]]}
-                                                width={254}
-                                            />
-                                        </div>
-                                    </div>
-                                </S.SearchInputs>
+                                        </Grid>
+                                        <Grid 
+                                            item 
+                                            spacing={2.5}
+                                            xs={6} sm={4} md={4} lg={4} xl={4}
+                                            container
+                                        >
+                                                <CustomSelect
+                                                    onChange={(e) => {
+                                                        setBreed(e.target.value);                            
+                                                    }}
+                                                    id='Raça'
+                                                    label='Raça'
+                                                    // labelDefault='Raça'
+                                                    // value={BREED[0].value}
+                                                    defaultValue={BREED[0].value}
+                                                    list={BREED}
+                                                    width={176}
+                                                />
+                                                <CustomSelect
+                                                    onChange={(e) => {
+                                                        setGenre(e.target.value);
+                                                    }}
+                                                    id='Genero'
+                                                    label='Genero'
+                                                    // labelDefault='Genero'
+                                                    // value={GENRE[0].value}
+                                                    defaultValue={GENRE[0].value}                                    
+                                                    list={GENRE}
+                                                    width={176}
+                                                />
+                                                <CustomSelect
+                                                    onChange={(e) => {
+                                                        setUfValue(e.target.value);
+                                                    }}
+                                                    id="Estado"
+                                                    label='Estado'
+                                                    value='Todos os Estados'
+                                                    defaultValue='Todos os Estados'
+                                                    // labelDefault='Todos os Estados'                                                                                
+                                                    list={[{
+                                                        id: 'All',
+                                                        nome: 'Todos os Estados',
+                                                        sigla: 'All',
+                                                        regiao: 'Todos',
+                                                    },...uf ||[]]}
+                                                    width={254}
+                                                />
+                                        </Grid>
+                                    </Grid>
+                                </S.SearchInputsApp>
                                 <S.ScrollDiv>
                                     <S.Table>
                                         <S.TableHead>
@@ -410,15 +420,15 @@ const Usuarios: React.FC = () => {
                     {panel === true && (
                         <>
                             <S.Container>
-                                <S.SearchInputs>
+                                <S.SearchInputsPanel>
                                     <p>Usuários cadastrados no painel</p>
                                     <Search
                                         onChange={(e) => {
                                             // console.log(e.target.value)
                                         }}
-                                        width='822px'
+                                        width='100%'
                                     />
-                                </S.SearchInputs>
+                                </S.SearchInputsPanel>
                                 <S.ScrollDiv>
                                     <S.Table>
                                         <S.TableHead>
