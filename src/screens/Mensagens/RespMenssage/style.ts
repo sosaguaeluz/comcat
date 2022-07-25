@@ -1,6 +1,8 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+    height: 100%;
+    width: 100%;    
     > div {
         > h1 {
             font-style: normal;
@@ -30,6 +32,7 @@ export const Container = styled.div`
                     color: ${props => props.theme.colors.dark};
                 }
             }
+            
 
             > section {
                 display: flex;
@@ -52,7 +55,15 @@ export const Container = styled.div`
                 }
             }
         }
+
+        
     }
+    >form {
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 `;
 
 export const Text = styled.p`

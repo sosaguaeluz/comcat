@@ -103,7 +103,7 @@ const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
         <PersonalModal
             modalBackground={false}
             padding={4}
-            width={858}
+            width="858px"
             open={isModal}
             onClose={onClose}
         >

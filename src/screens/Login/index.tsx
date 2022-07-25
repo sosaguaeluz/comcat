@@ -160,7 +160,7 @@ const Login: React.FC = () => {
                 modalBackground={false}
                 open={recoveryPassword} 
                 onClose={() => setRecoveryPassword(!recoveryPassword)}
-                width={568}
+                width='568px'
                 padding={0}
                 children={
                     <RecoveryPassword 

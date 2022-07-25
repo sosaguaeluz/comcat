@@ -20,7 +20,7 @@ const ViewOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
             <PersonalModal
                 modalBackground={false}
                 padding={4}
-                width={1280}
+                width='1280px'
                 open={isModal}
                 onClose={onHide}
             >

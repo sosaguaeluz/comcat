@@ -194,7 +194,7 @@ const FormService: React.FC<IProps> = ({onHide, isModal}) => {
             onClose={onHide}
             padding={4}
             open={isModal}
-            width={861}        
+            width='861px'        
         >
             <S.Container>
                 <h1>Cadastrar serviço</h1>

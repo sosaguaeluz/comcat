@@ -131,7 +131,7 @@ const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                 onClose={onHide}
                 padding={4}
                 open={isModal}
-                width={1920}  
+                width='100%'
                 register={true}     
             >
                 <S.Container>

@@ -72,7 +72,7 @@ const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
             <PersonalModal 
                 modalBackground={false}
                 padding={5}
-                width={469}
+                width='469px'
                 open={isModal}
                 onClose={onClose}
             >

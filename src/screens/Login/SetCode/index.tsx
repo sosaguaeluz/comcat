@@ -142,7 +142,7 @@ const SetCode: React.FC<IProps> = ({onClose, closeOne}) => {
                 modalBackground={true}
                 open={recoveryPassword} 
                 onClose={() => setRecoveryPassword(false)}
-                width={568}
+                width='568px'
                 padding={0}
                 children={
                     <NewPassword 

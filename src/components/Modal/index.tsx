@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
 
@@ -6,13 +6,15 @@ interface IProps {
     open: boolean,
     onClose: () => void,
     children: any,
-    width: number,
+    width: string,
     padding: number,
     modalBackground: boolean,
     register?: boolean
+    height?: string,
 }
 
 const PersonalModal: React.FC <IProps> = (props) => {
+    
     const style = {
         display: 'block',
         position: 'absolute' as 'absolute',
@@ -24,7 +26,8 @@ const PersonalModal: React.FC <IProps> = (props) => {
         border: 'none',
         p: props.padding,
         borderRadius: '8px',
-        overflow:'hidden',
+        height: props.height,
+        overflow:'auto',
     };
     return (
         <Modal

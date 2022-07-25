@@ -67,7 +67,7 @@ const NewPassword: React.FC <IProps> = ({onHide, isModal, itemEdit}) => {
             <PersonalModal
                 modalBackground={false}
                 padding={4}
-                width={568}
+                width='568px'
                 open={isModal}
                 onClose={onHide}
             >

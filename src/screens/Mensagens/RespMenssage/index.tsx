@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './style';
 import { useForm, Controller } from 'react-hook-form';
 import { Messages } from '../../../@types';
@@ -40,10 +40,11 @@ const RespMessage: React.FC <IProps> = ({
                 onClose={onHide}
                 padding={4}
                 open={isModal}
-                width={1640}  
-                register={false}   
-            >
-                <S.Container>
+                width='calc(100% - 320px)'
+                register={false}
+                height='auto'
+            >  
+                <S.Container>              
                     <div>
                         <h1>Responder mensagem</h1>
                         <div>
@@ -87,7 +88,7 @@ const RespMessage: React.FC <IProps> = ({
                                         onChange={onChange} 
                                         onBlur={onBlur} 
                                         value={value} 
-                                        width='1508px' 
+                                        width='100%' 
                                         heigth='178px'                 
                                     />
                                 )
@@ -111,7 +112,7 @@ const RespMessage: React.FC <IProps> = ({
                             </button>
                         </S.ContainerBtn>
                     </form>
-                </S.Container>
+                </S.Container>  
             </PersonalModal>
             <ModalMsg 
                 open={open} 

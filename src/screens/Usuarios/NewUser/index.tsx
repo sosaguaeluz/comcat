@@ -76,7 +76,7 @@ const NewUser: React.FC <IProps> = ({onClose, isModal}) => {
         <PersonalModal
         modalBackground={false}
         padding={5}
-        width={858}
+        width='858px'
         open={isModal}
         onClose={onClose}
         >
