@@ -177,7 +177,7 @@ export const FieldMid = styled.fieldset`
         }
     }
     >span {
-        width: 100%px;
+        width: 100px;
         >img {
             width: 100%;
         }
