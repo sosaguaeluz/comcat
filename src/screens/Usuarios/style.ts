@@ -36,7 +36,7 @@ export const SearchInputsApp = styled.div`
     @media screen and (max-width: 1750px) {
         flex-wrap: wrap;
     }
-    > p {
+    p {
         font-style: normal;
         font-weight: 600;
         font-size: 18px;
@@ -46,21 +46,35 @@ export const SearchInputsApp = styled.div`
         margin-right: 150px;
         white-space: nowrap;
     }
-    >div{
-        width: 100%;
+
+    > div > div > div{
+            width: 100%;
+            display: flex;
+            justify-content: start;
+            align-items: center;
+    }
+    
+    > div > div:last-child {
         display: flex;
-        justify-content: space-between;
-        align-items: center;
+        justify-content: flex-end;
+
+        span{
+            width: 100%;
+            display: flex;
+            justify-content: end;
+            align-items: center;
+            gap: 24px;
+        }
     }
 
-    > span{
+    /* > span{
         width: 100%;
         display: flex;
         justify-content: space-between;
         align-items: center;
         margin-left: 24px; 
         column-gap: 24px;
-    }
+    } */
 `;
 
 export const SearchInputsPanel = styled.div`

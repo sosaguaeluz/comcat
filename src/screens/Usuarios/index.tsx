@@ -214,15 +214,17 @@ const Usuarios: React.FC = () => {
                                 <S.SearchInputsApp>
                                     <Grid
                                         container
-                                        spacing={2.5}
+                                        spacing={3}
                                         flex-wrap='wrap'
+                                        alignItems='center'
+
                                     >
-                                        <Grid item xs={6} sm={4} md={4} lg={4} xl={4}>
+                                        <Grid item xs={6} sm={6} md={12} lg={3} xl={3}>
                                             <p>
                                                 Usuários cadastrados no aplicativo
                                             </p>
                                         </Grid>
-                                        <Grid item xs={6} sm={4} md={4} lg={4} xl={4}>
+                                        <Grid item xs sm md lg xl>
                                             <Search
                                                 onChange={(e) => {
                                                     // setUser(e.target.value);
@@ -231,12 +233,8 @@ const Usuarios: React.FC = () => {
                                                 width='100%'
                                             />
                                         </Grid>
-                                        <Grid 
-                                            item 
-                                            spacing={2.5}
-                                            xs={6} sm={4} md={4} lg={4} xl={4}
-                                            container
-                                        >
+                                        <Grid item xs sm md lg xl>
+                                            <span>
                                                 <CustomSelect
                                                     onChange={(e) => {
                                                         setBreed(e.target.value);                            
@@ -260,7 +258,7 @@ const Usuarios: React.FC = () => {
                                                     defaultValue={GENRE[0].value}                                    
                                                     list={GENRE}
                                                     width={176}
-                                                />
+                                                />                                    
                                                 <CustomSelect
                                                     onChange={(e) => {
                                                         setUfValue(e.target.value);
@@ -276,8 +274,9 @@ const Usuarios: React.FC = () => {
                                                         sigla: 'All',
                                                         regiao: 'Todos',
                                                     },...uf ||[]]}
-                                                    width={254}
-                                                />
+                                                    width={255}
+                                                />                                            
+                                            </span>
                                         </Grid>
                                     </Grid>
                                 </S.SearchInputsApp>

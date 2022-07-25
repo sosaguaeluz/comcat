@@ -4,51 +4,32 @@ export const Container = styled.div`
     width: 155px;
     display: flex;
     align-items: center;
+    justify-content: space-between;
 
-    label {
-        font-style: normal;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 18px;
-        color: #2C3941;
-        cursor: pointer;
+    input {
+        height: 38px;
+        width:100%;
     }
 `;
 
 export const CheckedActive = styled.label<{ checked: boolean }>`
-        ${(props) => {
-            if(props.checked === true){
-                return `
-                    font-weight: 700;
-                `
-            } else {
-                return `
-                    font-weight: 400;
-                `
-            }
-        }}
+        font-weight: ${props => props.checked ===true? 600 : 400} !important;
+        width: 40px;
         font-style: normal;
         font-size: 16px;
         line-height: 18px;
         color: #2C3941;
         cursor: pointer;
+        text-align: center;
 `;
 
 export const CheckedInative = styled.label<{ checked: boolean }>`
-        ${(props) => {
-            if(props.checked === true){
-                return `
-                    font-weight: 400;
-                `
-            } else {
-                return `
-                    font-weight: 700;
-                `
-            }
-        }}
+        font-weight: ${props => props.checked ===true? '400' : '600'} !important;
+        width: 53px;
         font-style: normal;
         font-size: 16px;
         line-height: 18px;
         color: #2C3941;
         cursor: pointer;
+        text-align: center;
 `;
