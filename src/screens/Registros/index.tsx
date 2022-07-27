@@ -79,8 +79,6 @@ const Registros: React.FC = () => {
      const [dateValue, setDateValue] = React.useState<any | null>(
     new Date(Date.now()),
   );
-    console.log(dateValue, "teste")
-    console.log(initialDate, "teste")
 
     const {
         data: occurrences,
@@ -373,6 +371,7 @@ const Registros: React.FC = () => {
             </S.FiltersTop>
         )
     }
+    
     return (
         <>
             <ThemeProvider theme={theme}>         

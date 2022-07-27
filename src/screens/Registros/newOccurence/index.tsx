@@ -4,7 +4,6 @@ import {
     useService,
     api,
     useSources,
-    useOccurrences
 } from '../../../services';
 import MenuItem from '@mui/material/MenuItem';
 import { useSelector } from 'react-redux';
@@ -21,12 +20,10 @@ import {
 } from '../../../components';
 import { 
     blueAlert,
-    modalIconClose,
     mapsDefault
 } from '../../../assets';
 import {
     useForm,
-    SubmitHandler,
     Controller
 } from "react-hook-form";
 import {
@@ -41,6 +38,8 @@ import { useMutation } from 'react-query';
 import { queryClient } from '../../../services/index';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from './schema';
+import { createTheme, Grid, ThemeProvider } from '@mui/material';
+import { DivConatainerBtn } from '../../../components/Pagination/style';
 
 const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
     const { token } = useSelector((state: RootState) => state.clickState);
@@ -56,7 +55,6 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                 'Authorization': `Bearer ${token}`
             }
         }).then((resp) => {
-            console.log(resp.data, 'resp then')
             setIdOccurrence(resp.data.id)
         });
         return response;
@@ -107,7 +105,6 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
         onSuccess: (resp) => {
             setOpen(true)
             queryClient.invalidateQueries('occurence');
-            console.log(resp, 'onSuccess')
         },
 
     });
@@ -130,36 +127,36 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
         }
     }, [watchSpecialPlate])
 
-    console.log(isDirty, 'isDirty', isValid, 'isValid', dirtyFields);
+    const theme = createTheme({
+        breakpoints: {
+          values: {
+            xs: 600,
+            sm: 900,
+            md: 1200,
+            lg: 1700,
+            xl: 1920,
+          },
+        },
+      });
 
     return (
         <>
-            <PersonalModal
-                modalBackground={false}
-                onClose={onHide}
-                padding={4}
-                open={isModal}
-                width='100%'
-                register={true}
-            >
-                <S.Container>
-                    <div>
+            <ThemeProvider theme={theme}>  
+                <PersonalModal
+                    modalBackground={false}
+                    onClose={onHide}
+                    padding={4}
+                    open={isModal}
+                    width='100%'
+                    register={true}
+                >
+                    
+                    <S.Container>
                         <h1>Registrar ocorrência</h1>
-                        <button
-                            type='button'
-                            id='close-modal'
-                            onClick={() => {
-                                setCloseOccurrence(!closeOccurrence)
-                            }}
-                        >
-                            <img src={modalIconClose} alt="" />
-                        </button>
-                    </div>
-                    <S.Form onSubmit={handleSubmit(onSubmit)}>
-                        <div>
-                            <S.FormTop>
-                                <S.FieldsetTop>
-                                    <div>
+                        <S.Form onSubmit={handleSubmit(onSubmit)}>
+                            <div>
+                                <S.FieldService>
+                                    <Grid item xs sm md lg xl>
                                         <fieldset>
                                             <label htmlFor="">Qual serviço esta indisponível?</label>
                                             <div>
@@ -174,7 +171,6 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                                                                 onBlur={onBlur}
                                                                 value={value}
                                                                 label='Serviço disponível'
-                                                                labelDefault='Serviço disponível'
                                                                 width={254}
                                                                 children={
                                                                     services?.map((id: any) => {
@@ -196,9 +192,9 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                                                 <span>{errors.address?.message}</span>
                                             )}
                                         </fieldset>
-                                        {watch('service') !== undefined ? 
-                                            <fieldset>
-                                                <label htmlFor="" style={{color: '#fff'}}>***</label>
+                                        {watch('service') !== undefined 
+                                            ? <fieldset>
+                                                <label htmlFor="" style={{color: '#fff'}}></label>
                                                 <div>
                                                     <Controller 
                                                         name="source"
@@ -211,7 +207,6 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                                                                     onBlur={onBlur}
                                                                     value={value}
                                                                     label='Selecione a fonte'
-                                                                    labelDefault='Selecione a fonte'
                                                                     width={254}
                                                                     children={
                                                                         sources?.map((id: any) => {
@@ -230,15 +225,14 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                                                     />
                                                 </div>
                                             </fieldset>
-                                            :
-                                            <div style={{display: 'none', width: '0px'}}/>
-                                        }
-                                        <fieldset>
-                                            <label htmlFor="" style={{color: '#fff'}}>***</label>
-                                            {sources?.map((id) => {
-                                                if(watch('source') === id.id){
-                                                    if(id.name === "Outra fonte"){
-                                                        return (
+                                            : <span/>
+                                        }                                    
+                                        {sources?.map((id) => {
+                                            if(watch('source') === id.id){
+                                                if(id.name === "Outra fonte"){
+                                                    return (
+                                                        <fieldset>
+                                                            <label htmlFor="" style={{color: '#fff'}}></label>
                                                             <div>
                                                                 <Controller 
                                                                     name="source_name"
@@ -253,32 +247,33 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                                                                                 onBlur={onBlur}
                                                                                 value={value}
                                                                                 type='text'
-                                                                                width={372}
+                                                                                width="372px"
                                                                             />
                                                                         )
                                                                     }}
                                                                 />
                                                             </div>
-                                                        )
-                                                    } else {
-                                                        return <div style={{display: 'none', width: '0px'}}/>
-                                                    }
+                                                        </fieldset>
+                                                    )
+                                                } else {
+                                                    return <span/>
                                                 }
-                                            })}
-                                        </fieldset>
-                                    </div>
-                                    <div>
+                                            }
+                                        })} 
+                                    </Grid>                                                                          
                                         {services?.map((id: any) => {
                                             if(watch('service') === id.id){
                                                 if(id.name === 'Água'){
                                                     return (
-                                                        <>
+                                                        <Grid item xs sm md lg xl>
                                                             <S.RadioFieldset>
                                                                 <fieldset>
                                                                     <label>
                                                                         O imóvel possui hidrômetro (relógio)?
                                                                         <CustomTolltip
-                                                                            img={<img src={blueAlert} alt="" />}
+                                                                            img={<img src={blueAlert} alt="" 
+                                                                            style={{marginLeft: "5px"}}
+                                                                        />}
                                                                             title="Texto em falta"
                                                                         />                                                                        
                                                                     </label>
@@ -317,7 +312,7 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                                                                     </div>
                                                                 </fieldset>
                                                             </S.RadioFieldset>
-                                                            <S.RadioFieldset style={{width: '370px'}}>
+                                                            <S.RadioFieldset>
                                                                 <fieldset>
                                                                     <label>
                                                                         Você também faz uso de um reservatório, cisterna ou caixa d'água para armazenamento?
@@ -357,290 +352,298 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                                                                     </div>
                                                                 </fieldset>
                                                             </S.RadioFieldset>
-
-                                                        </>
+                                                        </Grid>
                                                     )
                                                 } else if (id.name === 'Energia'){
                                                     return (
-                                                        <S.RadioFieldset>
-                                                            <fieldset>
-                                                                <label>
-                                                                    O imóvel possui medidor de energia elétrica?                                                                
-                                                                    <CustomTolltip
-                                                                        img={<img src={blueAlert} alt="" />}
-                                                                        title="Texto em falta"
-                                                                    />                                                                    
-                                                                </label>
-                                                                <img src="" alt="" />
-                                                            </fieldset>
-                                                            <fieldset>
-                                                                <div>
-                                                                    <input 
-                                                                        {...register('have_energy_meter')}
-                                                                        type="radio" 
-                                                                        name="have_energy_meter" 
-                                                                        id="have_energy_meter_yes"
-                                                                        value="Yes"
-                                                                    />
-                                                                    <label htmlFor="Yes">Sim</label>
-                                                                </div>
-                                                                <div>
-                                                                    <input 
-                                                                        {...register('have_energy_meter')}
-                                                                        type="radio" 
-                                                                        name="have_energy_meter" 
-                                                                        id="have_energy_meter_no"
-                                                                        value="No"
-                                                                    />
-                                                                    <label htmlFor="No">Não</label>
-                                                                </div>
-                                                                <div>
-                                                                    <input
-                                                                        defaultChecked={true} 
-                                                                        {...register('have_energy_meter')}
-                                                                        type="radio" 
-                                                                        name="have_energy_meter" 
-                                                                        id="have_energy_meter_notKnow"
-                                                                        value="NotKnow"
-                                                                    />
-                                                                    <label htmlFor="">Não sei dizer</label>
-                                                                </div>
-                                                            </fieldset>
-                                                        </S.RadioFieldset>
+                                                        <Grid 
+                                                        item 
+                                                        xs sm md lg xl
+                                                        >
+                                                            <S.RadioFieldset>
+                                                                <fieldset>
+                                                                    <label>
+                                                                        <p>O imóvel possui medidor de energia elétrica?</p>                                                               
+                                                                        <CustomTolltip
+                                                                            img={<img src={blueAlert} alt="" />}
+                                                                            title="Texto em falta"
+                                                                        />                                                                    
+                                                                    </label>
+                                                                </fieldset>
+                                                                <fieldset>
+                                                                    <div>
+                                                                        <input 
+                                                                            {...register('have_energy_meter')}
+                                                                            type="radio" 
+                                                                            name="have_energy_meter" 
+                                                                            id="have_energy_meter_yes"
+                                                                            value="Yes"
+                                                                        />
+                                                                        <label htmlFor="Yes">Sim</label>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input 
+                                                                            {...register('have_energy_meter')}
+                                                                            type="radio" 
+                                                                            name="have_energy_meter" 
+                                                                            id="have_energy_meter_no"
+                                                                            value="No"
+                                                                        />
+                                                                        <label htmlFor="No">Não</label>
+                                                                    </div>
+                                                                    <div>
+                                                                        <input
+                                                                            defaultChecked={true} 
+                                                                            {...register('have_energy_meter')}
+                                                                            type="radio" 
+                                                                            name="have_energy_meter" 
+                                                                            id="have_energy_meter_notKnow"
+                                                                            value="NotKnow"
+                                                                        />
+                                                                        <label htmlFor="">Não sei dizer</label>
+                                                                    </div>
+                                                                </fieldset>
+                                                            </S.RadioFieldset>
+                                                            <div style={{width: '100%', maxWidth: '372px'}}></div>                                                            
+                                                        </Grid>
                                                     )
                                                 }
                                             }
                                         })}
-                                    </div>
-                                </S.FieldsetTop>
-                            </S.FormTop>
-                            <S.FormCenter>
-                                <fieldset>
-                                    <label htmlFor="">Data e hora da ocorrencia:</label>
-                                    <div>
-                                        <Controller 
-                                            name="date"
-                                            control={control}
-                                            render={({ field: { onChange, onBlur, value }}) => {
-                                                return (
-                                                    <CustomInputData 
-                                                        label='Data e hora'
-                                                        onBlur={onBlur}
-                                                        onChange={onChange}
-                                                        value={value}
-                                                        max={new Date().toISOString().slice(0, -8)}
-                                                        type="datetime-local"
-                                                        width="372px"
-                                                        id='date_time'
-                                                    />
-                                                )
-                                            }}
-                                        />
-                                        {errors.date && (
-                                            <span>Preencha o campo data.</span>
-                                        )}
-                                    </div>
-                                </fieldset>
-                                <fieldset>
-                                    <label htmlFor="">Endereço/Logradouro</label>
-                                    <Controller 
-                                        name="address"
-                                        control={control}
-                                        render={({ field: { onChange, onBlur, value }}) => {
-                                            return (
-                                                <CustomInput 
-                                                    label='Endereço/Logradouro'
-                                                    onBlur={onBlur}
-                                                    onChange={onChange}
-                                                    type="text"
-                                                    value={value}
-                                                    width={372}
-                                                    id='address'
-                                                />
-                                            )
-                                        }}
-                                    />
-
-                                    {errors.address && (
-                                        <span>{errors.address.message}</span>
-                                    )}
-                                </fieldset>
-                                <fieldset>
-                                    <label htmlFor="">
-                                        Em que escala é a área afetada?
-                                        <CustomTolltip
-                                            img={<img src={blueAlert} alt="" />}
-                                            title="Se enquadram como localizações especiais lugares como comunidades de assentamento, favelas, quilombos, entre outros"
-                                        /> 
-                                    </label>
-                                                                       
-                                    <Controller 
-                                        name='area'
-                                        control={control}
-                                        render={({field: { onChange, onBlur, value }}) => {
-                                            return (
-                                                <CustomSelect
-                                                    onChange={onChange}
-                                                    onBlur={onBlur}
-                                                    value={value}
-                                                    label='Área afetada'
-                                                    labelDefault='Área afetada'
-                                                    width={372}
-                                                    list={TYPE_LOCAL}
-                                                    id='area'
-                                                />
-                                            )
-                                        }}
-                                    />
-
-                                    {errors.area && (
-                                        <span>{errors.area.message}</span>
-                                    )}
-                                </fieldset>
-                                {watch('area') === 'House' && (
-                                    <fieldset>
-                                        <label htmlFor="">Quantos moradores vivem no domicílio afetado?</label>
-                                        <Controller 
-                                            name='number_residents'
-                                            control={control}
-                                            render={({field: { onChange, onBlur, value }}) => {
-                                                return (
-                                                    <CustomInput 
-                                                        label='Número de moradores'
-                                                        onBlur={onBlur}
-                                                        onChange={onChange}
-                                                        type="number"
-                                                        value={value}
-                                                        width={372}
-                                                        id='number_residents'
-                                                    />
-                                                )
-                                            }}
-                                        />
-
-                                    {errors.number_residents && (
-                                        <span>Verifique o numero digitado.</span>
-                                    )}
-                                    </fieldset>
-                                )}
-                            </S.FormCenter>                            
-                            <S.FieldMid>
-                                <div>
-                                    <fieldset style={{width: '370px'}}>
-                                        <label htmlFor="">A ocorrência é em uma localização especial?</label>                                        
-                                        <p>
-                                            Se enquadram em localizações especiais: favelas, comunidades, ocupações, quilombos, aldeias, assentamento e etc."
-                                        </p>
-
-                                        <fieldset>
-                                            <input 
-                                                {...register('special_place')}
-                                                type="radio" 
-                                                id="special_place_yes" 
-                                                value="Yes"
-                                            />
-                                            <label htmlFor="yes">Sim</label>
-                                            <input 
-                                                {...register('special_place')}
-                                                type="radio" 
-                                                id="special_place_no" 
-                                                value="No"
-                                            />
-                                            <label htmlFor="no">Não</label>
-                                            <input
-                                                {...register('special_place')}
-                                                defaultChecked={true}
-                                                type="radio" 
-                                                id="special_place_unknow" 
-                                                value="NotKnow"
-                                            />
-                                            <label htmlFor="unknow">Não sei</label>
-                                        </fieldset>
-                                    </fieldset>
-                                    {watch('special_place') === 'Yes' && (
-                                        <fieldset>
-                                            <label htmlFor="" style={{ marginBottom: '15px !important'}}>
-                                                Qual é o tipo de localização especial
-                                            </label>
-                                            <div>
+                                </S.FieldService>                                                                                  
+                                <S.FildMid>
+                                    <S.FildDate>
+                                        <div>
+                                            <fieldset>
+                                                <label htmlFor="">Data e hora da ocorrencia:</label>
                                                 <Controller 
-                                                    name='type_place'
+                                                    name="date"
                                                     control={control}
-                                                    render={({field: { onChange, onBlur, value }}) => {
+                                                    render={({ field: { onChange, onBlur, value }}) => {
                                                         return (
-                                                            <CustomSelect
-                                                                id="type_place"
-                                                                onChange={onChange}
+                                                            <CustomInputData 
+                                                                label='Data e hora'
                                                                 onBlur={onBlur}
+                                                                onChange={onChange}
                                                                 value={value}
-                                                                label='Localização especial'
-                                                                labelDefault='Localização especial'
-                                                                width={372}
-                                                                list={AREA}
+                                                                max={new Date().toISOString().slice(0, -8)}
+                                                                type="datetime-local"
+                                                                width='100%'
+                                                                id='date_time'
                                                             />
                                                         )
                                                     }}
                                                 />
-                                                {errors.type_place && (
-                                                    <p>{errors.type_place.message}</p>
+                                                {errors.date && (
+                                                    <span>Preencha o campo data.</span>
+                                                )}
+                                            </fieldset>                                            
+                                            <fieldset>
+                                                <label htmlFor="">Endereço/Logradouro</label>
+                                                <Controller 
+                                                    name="address"
+                                                    control={control}
+                                                    render={({ field: { onChange, onBlur, value }}) => {
+                                                        return (
+                                                            <CustomInput 
+                                                                label='Endereço/Logradouro'
+                                                                onBlur={onBlur}
+                                                                onChange={onChange}
+                                                                type="text"
+                                                                value={value}
+                                                                width='100%'
+                                                                id='address'
+                                                            />
+                                                        )
+                                                    }}
+                                                />
+
+                                                {errors.address && (
+                                                    <span>{errors.address.message}</span>
+                                                )}
+                                            </fieldset>                                           
+                                        </div>                                       
+                                        <fieldset>
+                                            <span>
+                                                <label htmlFor="">
+                                                    Em que escala é a área afetada?
+                                                    <CustomTolltip
+                                                        img={<img src={blueAlert} alt="" />}
+                                                        title="Se enquadram como localizações especiais lugares como comunidades de assentamento, favelas, quilombos, entre outros"
+                                                    /> 
+                                                </label>
+                                            </span>
+                                            <Controller 
+                                                name='area'
+                                                control={control}
+                                                render={({field: { onChange, onBlur, value }}) => {
+                                                    return (
+                                                        <CustomSelect
+                                                            onChange={onChange}
+                                                            onBlur={onBlur}
+                                                            value={value}
+                                                            label='Área afetada'
+                                                            width='100%'
+                                                            list={TYPE_LOCAL}
+                                                            id='area'
+                                                        />
+                                                    )
+                                                }}
+                                            />
+
+                                            {errors.area && (
+                                                <span>{errors.area.message}</span>
+                                            )}
+                                        </fieldset>                                                                                
+                                        {watch('area') === 'House' && (                                                
+                                            <fieldset>
+                                                <label htmlFor="">Quantos moradores vivem no domicílio afetado?</label>
+                                                <Controller 
+                                                    name='number_residents'
+                                                    control={control}
+                                                    render={({field: { onChange, onBlur, value }}) => {
+                                                        return (
+                                                            <CustomInput 
+                                                                label='Número de moradores'
+                                                                onBlur={onBlur}
+                                                                onChange={onChange}
+                                                                type="number"
+                                                                value={value}
+                                                                width='100%'
+                                                                id='number_residents'
+                                                            />
+                                                        )
+                                                    }}
+                                                />
+                                            {errors.number_residents && (
+                                                <span>Verifique o numero digitado.</span>
+                                            )}
+                                            </fieldset>                                            
+                                        )}                                        
+                                    </S.FildDate>
+                                    <div>
+                                        <S.FieldMap>
+                                            <div>
+                                                <fieldset>
+                                                    <label htmlFor="">A ocorrência é em uma localização especial?</label>                                        
+                                                    <p>
+                                                        Se enquadram em localizações especiais: favelas, comunidades, ocupações, quilombos, aldeias, assentamento e etc."
+                                                    </p>
+
+                                                    <fieldset>
+                                                        <input 
+                                                            {...register('special_place')}
+                                                            type="radio" 
+                                                            id="special_place_yes" 
+                                                            value="Yes"
+                                                        />
+                                                        <label htmlFor="yes">Sim</label>
+                                                        <input 
+                                                            {...register('special_place')}
+                                                            type="radio" 
+                                                            id="special_place_no" 
+                                                            value="No"
+                                                        />
+                                                        <label htmlFor="no">Não</label>
+                                                        <input
+                                                            {...register('special_place')}
+                                                            defaultChecked={true}
+                                                            type="radio" 
+                                                            id="special_place_unknow" 
+                                                            value="NotKnow"
+                                                        />
+                                                        <label htmlFor="unknow">Não sei</label>
+                                                    </fieldset>
+                                                </fieldset>
+                                                {watch('special_place') === 'Yes' && (
+                                                    <fieldset>
+                                                        <label htmlFor="" style={{ marginBottom: '15px !important'}}>
+                                                            Qual é o tipo de localização especial
+                                                        </label>
+                                                        <div>
+                                                            <Controller 
+                                                                name='type_place'
+                                                                control={control}
+                                                                render={({field: { onChange, onBlur, value }}) => {
+                                                                    return (
+                                                                        <CustomSelect
+                                                                            id="type_place"
+                                                                            onChange={onChange}
+                                                                            onBlur={onBlur}
+                                                                            value={value}
+                                                                            label='Localização especial'
+                                                                            labelDefault='Localização especial'
+                                                                            width={372}
+                                                                            list={AREA}
+                                                                        />
+                                                                    )
+                                                                }}
+                                                            />
+                                                            {errors.type_place && (
+                                                                <p>{errors.type_place.message}</p>
+                                                            )}
+                                                        </div>
+                                                    </fieldset>
                                                 )}
                                             </div>
-                                        </fieldset>
-                                    )}
-                                </div>
-                                <span>
-                                    <img src={mapsDefault} alt="" />
-                                </span>
-                            </S.FieldMid>
-                            <S.FieldTextArea>
-                                <label htmlFor="">Alguma observação sobre a ocorrência?</label>
-                                <Controller 
-                                    name="description"
-                                    control={control}
-                                    render={({ field: { onChange, onBlur, value }}) => {
-                                        return (
-                                            <CustomTextArea
-                                                onChange={onChange}
-                                                onBlur={onBlur}
-                                                value={value}
-                                                placeholder='Digite sua observação (Opcional)'
-                                                width='372px'
-                                                heigth='425px'
-                                                id="description"
+                                            <span>
+                                                <img src={mapsDefault} alt="" />
+                                            </span>
+                                        </S.FieldMap>
+                                        <S.FieldTextArea>
+                                            <label htmlFor="">
+                                                Alguma observação sobre a ocorrência?
+                                            </label>
+                                            <Controller 
+                                                name="description"
+                                                control={control}
+                                                render={({ field: { onChange, onBlur, value }}) => {
+                                                    return (
+                                                        <CustomTextArea
+                                                            onChange={onChange}
+                                                            onBlur={onBlur}
+                                                            value={value}
+                                                            placeholder='Digite sua observação (Opcional)'
+                                                            width='100%'
+                                                            heigth='100%'
+                                                            id="description"
+                                                        />
+                                                    )
+                                                }}
                                             />
-                                        )
-                                    }}
-                                />
-                            </S.FieldTextArea>
-                            <S.FormBottom>
-                                <label htmlFor="">                                
-                                    Caso entrem outras queixas da sua região, você autoriza que as informações da sua reclamação sejam juntadas à elas e compartilhadas com as autoridades competentes para solicitar que o abastecimento da sua residência seja feito pelas agências competentes.
-                                    <CustomTolltip
-                                        img={<img src={blueAlert} alt="" />}
-                                        title="Texto em falta"
-                                    />
-                                </label>
-                                <fieldset>
-                                    <input 
-                                        {...register('agree_share')}
-                                        type="radio" 
-                                        name="agree_share" 
-                                        id="agree_share_yes"
-                                        value="Yes"
-                                    />
-                                    <label htmlFor="Yes">Sim</label>
-                                    <input 
-                                        defaultChecked={true}
-                                        {...register('agree_share')}
-                                        type="radio" 
-                                        name="agree_share" 
-                                        id="agree_share_no"
-                                        value="No"
-                                    />
-                                    <label htmlFor="No">Não</label>
-                                </fieldset>
-                            </S.FormBottom>
-                        </div>
+                                        </S.FieldTextArea>                                        
+                                    </div>
+                                </S.FildMid>                              
+                                <S.FildRule>
+                                    <label htmlFor="">                                
+                                        Caso entrem outras queixas da sua região, você autoriza que as informações da sua reclamação sejam juntadas à elas e compartilhadas com as autoridades competentes para solicitar que o abastecimento da sua residência seja feito pelas agências competentes.
+                                        <CustomTolltip
+                                            img={<img src={blueAlert} alt="" />}
+                                            title="Texto em falta"
+                                        />
+                                    </label>
+                                    <fieldset>
+                                        <input 
+                                            {...register('agree_share')}
+                                            type="radio" 
+                                            name="agree_share" 
+                                            id="agree_share_yes"
+                                            value="Yes"
+                                        />
+                                        <label htmlFor="Yes">Sim</label>
+                                        <input 
+                                            defaultChecked={true}
+                                            {...register('agree_share')}
+                                            type="radio" 
+                                            name="agree_share" 
+                                            id="agree_share_no"
+                                            value="No"
+                                        />
+                                        <label htmlFor="No">Não</label>
+                                    </fieldset>
+                                </S.FildRule>
+                            </div>                                                        
+                        </S.Form> 
                         <S.ContainerBtn>
                             <S.CancelBtn 
                                 type='button' 
@@ -658,10 +661,11 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                             >
                                 {isLoading ? 'Cadastrando...' : 'Registrar ocorrência'}
                             </S.SubmitButton>
-                        </S.ContainerBtn>
-                    </S.Form>
-                </S.Container>
-            </PersonalModal>
+                        </S.ContainerBtn>                       
+                    </S.Container>
+                </PersonalModal>
+            </ThemeProvider > 
+
             <ModalMsg
                 height='477px'
                 modalBackground={false} 
@@ -683,6 +687,7 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                     onHide()
                 }}
             />
+
             <ModalDelete
                 backgroundColor='false'
                 buttonText="Sim, cancelar"
@@ -696,7 +701,7 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                 }}
                 open={closeOccurrence}
                 width={469}
-            />
+            />            
         </>
     );
 };
