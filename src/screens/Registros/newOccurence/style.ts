@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+export const Container = styled.form`
     background-color: #FFF;
     padding: 20px 40px;
     display: flex;
@@ -52,33 +52,12 @@ export const FieldService = styled.fieldset`
     flex-wrap: wrap;
     column-gap: 24px;
 
-    > div:nth-child(1) {
-        display: flex;
-        justify-content: flex-start;
-        width: auto;
-        column-gap: 24px;
-    }
-
     > div {
         display: flex;
         justify-content: space-between;
         margin-bottom: 32px;
         column-gap: 24px;
         
-        > fieldset { 
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 91px;
-        
-            > label {
-                font-style: normal;
-                font-weight: 600;
-                font-size: 16px;
-                line-height: 19px;
-                color: ${props => props.theme.colors.dark};
-            }
-        }
         >span {
             display: none;
             width: 0px;
@@ -86,10 +65,18 @@ export const FieldService = styled.fieldset`
         }
     }
 
+    > div:nth-child(1) {
+        display: flex;
+        justify-content: flex-start;
+        width: auto;
+        column-gap: 24px;
+    }
+
     > div:nth-child(2) {
         width: auto;
         height: 91px;
         justify-content: flex-end;
+        
 
         @media screen and (max-width: 1850px) {
             justify-content: flex-start;
@@ -104,7 +91,7 @@ export const FieldService = styled.fieldset`
     }
 `;
 
-export const FildMid = styled.fieldset`
+export const FieldMid = styled.fieldset`
     width: 100%;
     display: flex;
     justify-content: space-between;
@@ -126,25 +113,10 @@ export const FildMid = styled.fieldset`
             width: 100%;
             order: 2;
         }
-            > fieldset:nth-child(1){
-                width: 100%;
-                @media screen and (max-width: 1700px) {
-                    width: 100%;
-                    order: 2;
-                }
-            }
-        
-            > fieldset:nth-child(2){
-                @media screen and (max-width: 1700px) {
-                    order: 2;
-                    justify-content: flex-end;
-                }
-            }
-
     }
 `;
 
-export const FildDate = styled.fieldset`
+export const FieldDate = styled.fieldset`
     width: 100%;
     max-width: 372px;
     display: flex;
@@ -170,51 +142,10 @@ export const FildDate = styled.fieldset`
             height: auto;
         } 
     }
-    
-    fieldset {
-        width: 100%;   
-        max-width: 372px;
-        min-width: 250px;
-        height: auto;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        
-        > span {
-            width: 100%;  
-            max-width: 372px; 
-        }
-
-        label {
-            width: 100%;  
-            max-width: 372px;
-            width: auto;
-            display: flex;
-            align-items: center;
-            margin-bottom: 16px;
-            font-weight: 600;
-            font-size: 16px;
-            line-height: 19px;
-            color: ${props => props.theme.colors.dark};
-
-            > button {
-                margin-left: 5px;
-                display: flex;
-                align-items: center;                
-            }  
-        }
-
-        > div > div {
-            height: 56px;
-            > div {
-                height: 56px;
-            }
-        }
-    }
 `;
 
 export const FieldMap = styled.fieldset`
-    width: auto;
+    width: 100%;
     height: 460px;
     display: flex;
     flex-direction: column;
@@ -223,80 +154,20 @@ export const FieldMap = styled.fieldset`
     overflow: hidden;
 
     >div {
+        width: auto;
         display: flex;
         flex-direction: row;
         justify-content: space-between;
         column-gap: 24px;
 
         > fieldset {
-            height: 91px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-    
-        > fieldset:nth-child(1){
             width: 372px;
-        
-                > label {
-                    font-style: normal;
-                    font-weight: 600;
-                    font-size: 16px;
-                    line-height: 19px;
-                    color: ${props => props.theme.colors.dark};
-                    margin-right: 10px;
-                }
-    
-                > p {
-                    width: 100%;
-                    font-style: normal;
-                    font-weight: 400;
-                    font-size: 12px;
-                    line-height: 15px;
-                    color: #2C3941;
-                    opacity: 0.6;
-                }
-        
-                > fieldset {
-                    display: flex;
-                    align-items: center;
-        
-                    > label {
-                        margin-right: 24px;
-                    }
-        
-                    > input {
-                        margin-right: 8px;
-                    }
-                }
-            }
-    
-            > fieldset:nth-child(2) > label {    
-                display: flex;
-                align-items: center;
-                margin-bottom: 16px;
-                font-weight: 600;
-                font-size: 16px;
-                line-height: 19px;
-                color: ${props => props.theme.colors.dark};
-    
-                > button {
-                    margin-left: 5px;
-                    display: flex;
-                    align-items: center;                
-                }  
-            }
-    
-            > div > div {
-                height: 56px;
-                > div {
-                    height: 56px;
-                }
-            }
         }
+    }
+       
     >span {
         width: 100%;
-        height: auto;
+        height: 100%;
         >img {
             width: 100%;
         }
@@ -323,7 +194,7 @@ export const FieldTextArea = styled.fieldset`
     }
 `;
 
-export const FildRule = styled.fieldset`
+export const FieldRule = styled.fieldset`
     height: 91px;
     display: flex;
     flex-direction: column;
@@ -358,35 +229,88 @@ export const FildRule = styled.fieldset`
     }
 `;
 
-export const RadioFieldset = styled.fieldset`
-    width: 372px;
+export const Fieldset = styled.fieldset`
+    width: 100%;   
+    max-width: 372px;
+    min-width: 250px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
-    > fieldset:nth-child(1){
+    > label {
+        width: 100%;  
+        max-width: 372px;
         display: flex;
         align-items: center;
-        margin-bottom: 26px;
+        margin-bottom: 16px;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 19px;
+        color: ${props => props.theme.colors.dark};
+
+        > button {
+            margin-left: 5px;
+            display: flex;
+            align-items: center;                
+        }  
+    }
+
+    > div > div {
+        height: 56px;
+        > div {
+            height: 56px;
+        }
+    }
+`;
+
+export const RadioFieldset = styled.fieldset`
+    width: 372px;
+    height: 91px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    > fieldset:nth-child(1){
+        width: 372px;
+        display: flex;
+        align-items: start;
+        justify-content: flex-start;
+        flex-direction: column;
 
         > label {
             display: flex;
-            align-items: flex-start;
+            align-items: start;
             justify-content: flex-start;
             margin: 0 !important;
             font-weight: 700;
+
             >p {
                 width: auto;
                 white-space: nowrap;
             }
 
             > button {
-                
+                margin-left: 5px;
                 display: flex;
-                align-items: center;                
+                align-items: center;             
             }
+        }
+
+        > p {
+            font-style: normal;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 15px;
+            color: #2C3941;
+            opacity: 0.6;
         }
     }
 
     > fieldset:nth-child(2){
         display: flex;
+        width: 372px;
 
         > div {
             display: flex;
