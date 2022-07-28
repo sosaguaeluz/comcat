@@ -35,10 +35,15 @@ export const Container = styled.div`
 
 export const ProgressBar = styled.div`
     width: 50%;
+    height: auto;
     padding-left: 50px;
     padding-right: 38px;
     flex-direction: column;
     
+    div {
+    height: auto;
+    }
+
     span {
         display: flex;
         justify-content: space-between;

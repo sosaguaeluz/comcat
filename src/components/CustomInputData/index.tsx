@@ -3,7 +3,7 @@ import * as S from './style';
 import InputLabel from '@mui/material/InputLabel';
 import TextField from '@mui/material/TextField';
 import FormControl from '@mui/material/FormControl';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material';
 
 interface IProps {
     onChange?: (e: any)=> void,

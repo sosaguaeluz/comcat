@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.div <{ height?: string, width?: string}>`
 
-    @media screen and (max-width: 1560px) {
+    @media screen and (max-width: 1600px) {
         height: 68px;
     }
     @media screen and (max-width: 1200px) {

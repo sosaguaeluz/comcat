@@ -95,13 +95,12 @@ const YearGrafic: React.FC <IProps> = (props) => {
                     <S.ProgressBar>
                             <Grid 
                                 container
-                                spacing={{ xs: 2.5, md: 2, lg: 6 }}
-                                columns={{ sm: 2, md: 2, lg: 4 }}  
+                                spacing={{ xs: 2.5, md: 6, lg: 6, xl: 6 }}  
                                 columnSpacing={8}                      
                                 flex-wrap='nowrap'
                             >
                                 {Array.from(Array(8)).map((_, index) => (
-                                    <Grid item sm={1} md={2} lg={2} key={index}>
+                                    <Grid item xs sm md={6} lg={6} xl={6} key={index}>
                                         <span>
                                             <p>{props.title}</p>
                                             <h1>{props.number}</h1>

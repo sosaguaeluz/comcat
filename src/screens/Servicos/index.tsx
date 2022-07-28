@@ -40,9 +40,7 @@ const Servicos: React.FC = () => {
           setShowSuccess(true)
         }
     });
-
-    console.log(serviceTemp, 'service temp')
-
+    
     return (
         <>
             <S.Head>

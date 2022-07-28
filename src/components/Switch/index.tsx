@@ -1,6 +1,6 @@
 import React from 'react';
 import * as S from './style';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material';
 import Switch from '@mui/material/Switch';
 
 interface IProps {

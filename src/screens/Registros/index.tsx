@@ -45,9 +45,7 @@ import ApproveReprove from './ApproveReprove';
 import FinishOccurence from './FinishOccurrence';
 import ViewOccurrence from './ViewOccurrence';
 import EditOccurrence from './EditOccurrence';
-import { createTheme, Grid, ThemeProvider } from '@mui/material';
-import { date } from 'yup';
-import { Flex } from '../../components/Navigation/Aside/style';
+import { Grid } from '@mui/material';
 
 const Registros: React.FC = () => {
     const { token } = useSelector((state: RootState) => state.clickState);
@@ -167,18 +165,6 @@ const Registros: React.FC = () => {
     //     }
     // })
 
-    const theme = createTheme({
-        breakpoints: {
-          values: {
-            xs: 600,
-            sm: 900,
-            md: 1200,
-            lg: 1600,
-            xl: 1920,
-          },
-        },
-      });
- 
     function RenderFiltersTop (){
         return(
             <S.FiltersTop>
@@ -300,7 +286,6 @@ const Registros: React.FC = () => {
                     <Grid 
                         item 
                         spacing={3}
-                        xs={12} sm={12} md={12} lg={12} xl={12}
                         container
                     >
                         <Grid item xs sm md lg xl>
@@ -373,354 +358,352 @@ const Registros: React.FC = () => {
     }
     
     return (
-        <>
-            <ThemeProvider theme={theme}>         
-                <S.Header>
-                    <div>
-                        <DoubleButton
-                            text='Mapa'
-                            selected={maps}
-                            onSelect={() => {
-                                setMaps(true)
-                                setList(false)
-                            }}
-                        />
-                        <DoubleButton
-                            text='Lista'
-                            selected={list}
-                            onSelect={() => {
-                                setMaps(false)
-                                setList(true)
-                            }}
-                        />
-                    </div>
-                    <DefaultButton 
-                        onSelect={() => setNewOccurence(!newOccurence)}
-                        text="Registrar ocorrência"
-                        id="register_occurrence"
+        <>  
+            <S.Header>
+                <div>
+                    <DoubleButton
+                        text='Mapa'
+                        selected={maps}
+                        onSelect={() => {
+                            setMaps(true)
+                            setList(false)
+                        }}
                     />
-                </S.Header>
-                <S.CardsContainer>
-                    <Grid
-                        container
-                        spacing={2.5}
-                        flex-wrap='wrap'
-                    >
-                        <Grid item xs={6} sm={4} md={4} lg={2}>
-                            <DropDown
-                                icon={ocurrenceIcon}
-                                title="Total"
-                                value={20}
-                                type="list"
-                                width='100%'
-                                list={lista}
-                                open={openList}
-                                setOpen={() => setOpenList(!openList)}
-                            />
-                        </Grid>
-                        <Grid item xs={6} sm={4} md={4} lg={2}>
-                            <DropDown
-                                icon=''
-                                title="Sul"
-                                value={20}
-                                type="list"
-                                width='100%'
-                                list={lista}
-                                open={openList}
-                                setOpen={() => setOpenList(!openList)}
-                            />
-                        </Grid>
-                        <Grid item xs={6} sm={4} md={4} lg={2}>
-                            <DropDown
-                                icon=''
-                                title="Norte"
-                                value={20}
-                                type="list"
-                                width='100%'
-                                list={lista}
-                                open={openList}
-                                setOpen={() => setOpenList(!openList)}
-                            />
-                        </Grid>
-                        <Grid item xs={6} sm={4} md={4} lg={2}>
-                            <DropDown
-                                icon=''
-                                title="Sudeste"
-                                value={20}
-                                type="list"
-                                width='100%'
-                                list={lista}
-                                open={openList}
-                                setOpen={() => setOpenList(!openList)}
-                            />
-                        </Grid>
-                        <Grid item xs={6} sm={4} md={4} lg={2}>
-                            <DropDown
-                                icon=''
-                                title="Nordeste"
-                                value={20}
-                                type="list"
-                                width='100%'
-                                list={lista}
-                                open={openList}
-                                setOpen={() => setOpenList(!openList)}
-                            />
-                        </Grid>
-                        <Grid item xs={6} sm={4} md={4} lg={2}>
-                            <DropDown
-                                icon=''
-                                title="Centro-Oeste"
-                                value={20}
-                                type="list"
-                                width='100%'
-                                list={lista}
-                                open={openList}
-                                setOpen={() => setOpenList(!openList)}
-                            />
-                        </Grid>
-                    </Grid>
-                </S.CardsContainer>
-                {maps == true && (
-                    <>
-                        <Box
-                            padding='0'
+                    <DoubleButton
+                        text='Lista'
+                        selected={list}
+                        onSelect={() => {
+                            setMaps(false)
+                            setList(true)
+                        }}
+                    />
+                </div>
+                <DefaultButton 
+                    onSelect={() => setNewOccurence(!newOccurence)}
+                    text="Registrar ocorrência"
+                    id="register_occurrence"
+                />
+            </S.Header>
+            <S.CardsContainer>
+                <Grid
+                    container
+                    spacing={2.5}
+                    flex-wrap='wrap'
+                >
+                    <Grid item xs={6} sm={4} md={4} lg xl >
+                        <DropDown
+                            icon={ocurrenceIcon}
+                            title="Total"
+                            value={20}
+                            type="list"
                             width='100%'
-                            height='764px'
-                        >    
-                            <RenderFiltersTop/>                            
-                            <S.Map>
-                            </S.Map>
-                        </Box>
-                    </>
-                )}
-                {list == true && (
-                    <>
-                        <S.Container>
-                            <h1>Ocorrências registradas no aplicativo</h1>
-                            <RenderFiltersTop/>
-                            <S.ScrollDiv>
-                                <S.Table>
-                                    <S.TableHead>
-                                        <tr>
-                                            <th style={{ width: '226px' }}>
-                                                <span style={{ marginLeft: '24px' }}>
-                                                    Serviço interrompido
-                                                    <button>
-                                                        <img src={iconShow} alt="" />
-                                                    </button>
-                                                </span>
-                                            </th>
-                                            <th style={{ width: '226px' }}>
-                                                <span>
-                                                    Registrado por
-                                                    <button>
-                                                        <img src={iconShow} alt="" />
-                                                    </button>
-                                                </span>
-                                            </th>
-                                            <th style={{ width: '187px' }}>
-                                                <span>
-                                                    Horá da ocorrência
-                                                </span>
-                                            </th>
-                                            <th style={{ width: 'auto' }}>
-                                                <span>
-                                                    Endereço
-                                                </span>
-                                            </th>
-                                            <th style={{ width: '215px' }}>
-                                                <span>
-                                                    Status ocorrência
-                                                    <button>
-                                                        <img src={iconShow} alt="" />
-                                                    </button>
-                                                </span>
-                                            </th>
-                                            <th style={{ width: '158px'}}>
-                                                <span>
-                                                    Já foi finalizada?
-                                                </span>
-                                            </th>
-                                            <th style={{ width: '91px' }}>
-                                                <span>
-                                                    Ações
-                                                </span>
-                                            </th>
-                                            <th style={{ width: '135px' }}>
-                                                <span style={{ marginRight: '24px' }}>
-                                                    Ver no mapa
-                                                </span>
-                                            </th>
-                                        </tr>
-                                    </S.TableHead>
-                                    <tbody>
-                                        
-                                        {occurrences?.data?.map((id: any) => {
-                                            return (
-                                                <tr>
-                                                    <td style={{ width: '226px' }}>
-                                                        <span style={{ marginLeft: '24px' }}>
-                                                            <S.Icon backgroundColor={id?.service?.background_color}    >
-                                                                <img src={id?.service?.image} alt="" />
-                                                            </S.Icon>
-                                                            {id?.service?.name}
-                                                        </span>
-                                                    </td>
-                                                    <S.User>
-                                                        <span>
-                                                            {id?.user?.name}
-                                                            <CustomTolltip
-                                                                img={<img src={id?.user?.trusted == true ? trusted : noTrusted} alt="" />}
-                                                                placement="right"
-                                                                title={id.trusted == true ? 'Usuário confiavel' : 'Usuário não confiavel'}
-                                                            />
-                                                        </span>
-                                                    </S.User>
-                                                    <td style={{ width: '187px' }}>
-                                                        <span>
-                                                            {convertDate(id.date)}
-                                                        </span>
-                                                    </td>
-                                                    <td style={{ width: 'auto' }}>
-                                                        <span>
-                                                            {id.address}
-                                                        </span>
-                                                    </td>
-                                                    <S.Status status={id.status}>
-                                                        <span>
-                                                            <p>
-                                                                {setStatusName(id.status)}
-                                                            </p>
-                                                        </span>
-                                                    </S.Status>
-                                                    <S.Finished finished={id.finished_status}>
-                                                        <span style={{ paddingRight: '34px' }}>
-                                                            <p>
-                                                                {id.finished_status === 'Yes'
-                                                                    ? 'Sim'
-                                                                    : id.finished_status === 'No'
-                                                                        ? 'Não'
-                                                                        : 'Abandonado'
-                                                                }
-                                                            </p>
-                                                        </span>
-                                                    </S.Finished>
-                                                    <td style={{ width: '91px' }}>
-                                                        <span>
-                                                            <S.Options>
-                                                                <Poppover
-                                                                    type='occurrences'
-                                                                    onClick={() => {}}
-                                                                    onEdit={() => {
-                                                                        setOccurrenceObj(id)
-                                                                        setEditOccurrence(!editOccurrence)
-                                                                    }} 
-                                                                    onView={() => {
-                                                                        setOccurrenceObj(id)
-                                                                        setViewOccurrence(!viewOccurrence)
-                                                                    }}
-                                                                    onFinish={() => {
-                                                                        setOccurrenceObj(id)
-                                                                        setFinishOccurrence(!finishOccurrence)
-                                                                    }}
-                                                                    onApprove={() => {
-                                                                        setOccurrenceObj(id)
-                                                                        setApproveReprove(true)
-                                                                    }}
-                                                                    onDelete={() => {
-                                                                        setIdDelete(id.id)
-                                                                        setOpenDelete(!openDelete)
-                                                                    }}
-                                                                /> 
-                                                            </S.Options>
-                                                        </span>
-                                                    </td>
-                                                    <S.Button showOccurence={true} style={{ width: '135px' }}>
-                                                        <span style={{ marginRight: '24px' }}>
-                                                            <button>
-                                                                <img src={iconShow} alt="" />
-                                                            </button>
-                                                        </span>
-                                                    </S.Button>
-                                                </tr>
-                                            )
-                                        })}
-                                    </tbody>
-                                </S.Table>
-                            </S.ScrollDiv>
-                        </S.Container>
-                        <Pagination 
-                            onPage={(e: any) => {
-                            setPage(e)
-                            }} 
-                            value={page} 
-                        />                    
-                    </>
-                )}
-                <NewOccurence
-                    isModal={newOccurence}
-                    onHide={() => {
-                        setNewOccurence(!newOccurence)
-                        fetchOccurrences()
-                    }}
-                />
-                <ModalDelete 
-                    backgroundColor='false'
-                    open={openDelete}
-                    buttonText="Sim, excluir"
-                    mensage="Deseja mesmo excluir ocorrência"
-                    onClose={() => {
-                        setOpenDelete(!openDelete)
-                    }}
-                    onDelete={() => {
-                        onDelete(idDelete)
-                        setOpenDelete(!openDelete)
-                    }}
-                    width={469}
-                />
-                <ModalMsg 
-                    status="success"
-                    width={469}
-                    height='312px'
-                    mensage='Ocorrência foi excluida com sucesso!'
-                    modalBackground={false}
-                    onClose={() => {
-                        setSuccessDelete(!successDelete)
-                    }}
-                    open={successDelete}
-                />
-                <ApproveReprove 
-                    onHide={() => {
-                        setApproveReprove(!approveReprove)
-                    } } 
-                    isModal={approveReprove} 
-                    itemEdit={occurrenceObj}                
-                />
-                <FinishOccurence
-                    isModal={finishOccurrence}
-                    itemEdit={occurrenceObj}
-                    onHide={() => {
-                        setFinishOccurrence(!finishOccurrence)
-                        fetchOccurrences()
-                    }}
-                />
-                <ViewOccurrence
-                    itemEdit={occurrenceObj} 
-                    isModal={viewOccurrence}
-                    onHide={() => {
-                        setViewOccurrence(!viewOccurrence)
-                    }}
-                />
-                <EditOccurrence
-                    itemEdit={occurrenceObj}  
-                    isModal={editOccurrence} 
-                    onHide={() => {
-                        setEditOccurrence(!editOccurrence)
-                        setOccurrenceObj({})
-                        fetchOccurrences()
-                    }}
-                />
-            </ThemeProvider>
+                            list={lista}
+                            open={openList}
+                            setOpen={() => setOpenList(!openList)}
+                        />
+                    </Grid>
+                    <Grid item xs={6} sm={4} md={4} lg xl>
+                        <DropDown
+                            icon=''
+                            title="Sul"
+                            value={20}
+                            type="list"
+                            width='100%'
+                            list={lista}
+                            open={openList}
+                            setOpen={() => setOpenList(!openList)}
+                        />
+                    </Grid>
+                    <Grid item xs={6} sm={4} md={4} lg xl>
+                        <DropDown
+                            icon=''
+                            title="Norte"
+                            value={20}
+                            type="list"
+                            width='100%'
+                            list={lista}
+                            open={openList}
+                            setOpen={() => setOpenList(!openList)}
+                        />
+                    </Grid>
+                    <Grid item xs={6} sm={4} md={4} lg xl>
+                        <DropDown
+                            icon=''
+                            title="Sudeste"
+                            value={20}
+                            type="list"
+                            width='100%'
+                            list={lista}
+                            open={openList}
+                            setOpen={() => setOpenList(!openList)}
+                        />
+                    </Grid>
+                    <Grid item xs={6} sm={4} md={4} lg xl>
+                        <DropDown
+                            icon=''
+                            title="Nordeste"
+                            value={20}
+                            type="list"
+                            width='100%'
+                            list={lista}
+                            open={openList}
+                            setOpen={() => setOpenList(!openList)}
+                        />
+                    </Grid>
+                    <Grid item xs={6} sm={4} md={4} lg xl>
+                        <DropDown
+                            icon=''
+                            title="Centro-Oeste"
+                            value={20}
+                            type="list"
+                            width='100%'
+                            list={lista}
+                            open={openList}
+                            setOpen={() => setOpenList(!openList)}
+                        />
+                    </Grid>
+                </Grid>
+            </S.CardsContainer>
+            {maps == true && (
+                <>
+                    <Box
+                        padding='0'
+                        width='100%'
+                        height='764px'
+                    >    
+                        <RenderFiltersTop/>                            
+                        <S.Map>
+                        </S.Map>
+                    </Box>
+                </>
+            )}
+            {list == true && (
+                <>
+                    <S.Container>
+                        <h1>Ocorrências registradas no aplicativo</h1>
+                        <RenderFiltersTop/>
+                        <S.ScrollDiv>
+                            <S.Table>
+                                <S.TableHead>
+                                    <tr>
+                                        <th style={{ width: '226px' }}>
+                                            <span style={{ marginLeft: '24px' }}>
+                                                Serviço interrompido
+                                                <button>
+                                                    <img src={iconShow} alt="" />
+                                                </button>
+                                            </span>
+                                        </th>
+                                        <th style={{ width: '226px' }}>
+                                            <span>
+                                                Registrado por
+                                                <button>
+                                                    <img src={iconShow} alt="" />
+                                                </button>
+                                            </span>
+                                        </th>
+                                        <th style={{ width: '187px' }}>
+                                            <span>
+                                                Horá da ocorrência
+                                            </span>
+                                        </th>
+                                        <th style={{ width: 'auto' }}>
+                                            <span>
+                                                Endereço
+                                            </span>
+                                        </th>
+                                        <th style={{ width: '215px' }}>
+                                            <span>
+                                                Status ocorrência
+                                                <button>
+                                                    <img src={iconShow} alt="" />
+                                                </button>
+                                            </span>
+                                        </th>
+                                        <th style={{ width: '158px'}}>
+                                            <span>
+                                                Já foi finalizada?
+                                            </span>
+                                        </th>
+                                        <th style={{ width: '91px' }}>
+                                            <span>
+                                                Ações
+                                            </span>
+                                        </th>
+                                        <th style={{ width: '135px' }}>
+                                            <span style={{ marginRight: '24px' }}>
+                                                Ver no mapa
+                                            </span>
+                                        </th>
+                                    </tr>
+                                </S.TableHead>
+                                <tbody>
+                                    
+                                    {occurrences?.data?.map((id: any) => {
+                                        return (
+                                            <tr>
+                                                <td style={{ width: '226px' }}>
+                                                    <span style={{ marginLeft: '24px' }}>
+                                                        <S.Icon backgroundColor={id?.service?.background_color}    >
+                                                            <img src={id?.service?.image} alt="" />
+                                                        </S.Icon>
+                                                        {id?.service?.name}
+                                                    </span>
+                                                </td>
+                                                <S.User>
+                                                    <span>
+                                                        {id?.user?.name}
+                                                        <CustomTolltip
+                                                            img={<img src={id?.user?.trusted == true ? trusted : noTrusted} alt="" />}
+                                                            placement="right"
+                                                            title={id.trusted == true ? 'Usuário confiavel' : 'Usuário não confiavel'}
+                                                        />
+                                                    </span>
+                                                </S.User>
+                                                <td style={{ width: '187px' }}>
+                                                    <span>
+                                                        {convertDate(id.date)}
+                                                    </span>
+                                                </td>
+                                                <td style={{ width: 'auto' }}>
+                                                    <span>
+                                                        {id.address}
+                                                    </span>
+                                                </td>
+                                                <S.Status status={id.status}>
+                                                    <span>
+                                                        <p>
+                                                            {setStatusName(id.status)}
+                                                        </p>
+                                                    </span>
+                                                </S.Status>
+                                                <S.Finished finished={id.finished_status}>
+                                                    <span style={{ paddingRight: '34px' }}>
+                                                        <p>
+                                                            {id.finished_status === 'Yes'
+                                                                ? 'Sim'
+                                                                : id.finished_status === 'No'
+                                                                    ? 'Não'
+                                                                    : 'Abandonado'
+                                                            }
+                                                        </p>
+                                                    </span>
+                                                </S.Finished>
+                                                <td style={{ width: '91px' }}>
+                                                    <span>
+                                                        <S.Options>
+                                                            <Poppover
+                                                                type='occurrences'
+                                                                onClick={() => {}}
+                                                                onEdit={() => {
+                                                                    setOccurrenceObj(id)
+                                                                    setEditOccurrence(!editOccurrence)
+                                                                }} 
+                                                                onView={() => {
+                                                                    setOccurrenceObj(id)
+                                                                    setViewOccurrence(!viewOccurrence)
+                                                                }}
+                                                                onFinish={() => {
+                                                                    setOccurrenceObj(id)
+                                                                    setFinishOccurrence(!finishOccurrence)
+                                                                }}
+                                                                onApprove={() => {
+                                                                    setOccurrenceObj(id)
+                                                                    setApproveReprove(true)
+                                                                }}
+                                                                onDelete={() => {
+                                                                    setIdDelete(id.id)
+                                                                    setOpenDelete(!openDelete)
+                                                                }}
+                                                            /> 
+                                                        </S.Options>
+                                                    </span>
+                                                </td>
+                                                <S.Button showOccurence={true} style={{ width: '135px' }}>
+                                                    <span style={{ marginRight: '24px' }}>
+                                                        <button>
+                                                            <img src={iconShow} alt="" />
+                                                        </button>
+                                                    </span>
+                                                </S.Button>
+                                            </tr>
+                                        )
+                                    })}
+                                </tbody>
+                            </S.Table>
+                        </S.ScrollDiv>
+                    </S.Container>
+                    <Pagination 
+                        onPage={(e: any) => {
+                        setPage(e)
+                        }} 
+                        value={page} 
+                    />                    
+                </>
+            )}
+            <NewOccurence
+                isModal={newOccurence}
+                onHide={() => {
+                    setNewOccurence(!newOccurence)
+                    fetchOccurrences()
+                }}
+            />
+            <ModalDelete 
+                backgroundColor='false'
+                open={openDelete}
+                buttonText="Sim, excluir"
+                mensage="Deseja mesmo excluir ocorrência"
+                onClose={() => {
+                    setOpenDelete(!openDelete)
+                }}
+                onDelete={() => {
+                    onDelete(idDelete)
+                    setOpenDelete(!openDelete)
+                }}
+                width={469}
+            />
+            <ModalMsg 
+                status="success"
+                width={469}
+                height='312px'
+                mensage='Ocorrência foi excluida com sucesso!'
+                modalBackground={false}
+                onClose={() => {
+                    setSuccessDelete(!successDelete)
+                }}
+                open={successDelete}
+            />
+            <ApproveReprove 
+                onHide={() => {
+                    setApproveReprove(!approveReprove)
+                } } 
+                isModal={approveReprove} 
+                itemEdit={occurrenceObj}                
+            />
+            <FinishOccurence
+                isModal={finishOccurrence}
+                itemEdit={occurrenceObj}
+                onHide={() => {
+                    setFinishOccurrence(!finishOccurrence)
+                    fetchOccurrences()
+                }}
+            />
+            <ViewOccurrence
+                itemEdit={occurrenceObj} 
+                isModal={viewOccurrence}
+                onHide={() => {
+                    setViewOccurrence(!viewOccurrence)
+                }}
+            />
+            <EditOccurrence
+                itemEdit={occurrenceObj}  
+                isModal={editOccurrence} 
+                onHide={() => {
+                    setEditOccurrence(!editOccurrence)
+                    setOccurrenceObj({})
+                    fetchOccurrences()
+                }}
+            />
         </>
     )
 }

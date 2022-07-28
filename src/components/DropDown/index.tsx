@@ -4,7 +4,7 @@ import { iconShow } from '../../assets/index';
 import * as S from './style';
 import { DropDownButtom } from '../index';
 
-import { styled } from '@mui/material/styles';
+import { styled } from '@mui/material';
 import MuiAccordion, { AccordionProps } from '@mui/material/Accordion';
 import MuiAccordionSummary, { AccordionSummaryProps,} from '@mui/material/AccordionSummary';
 import MuiAccordionDetails from '@mui/material/AccordionDetails';

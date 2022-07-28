@@ -29,6 +29,7 @@ const PersonalModal: React.FC <IProps> = (props) => {
         height: props.height,
         overflow:'auto',
     };
+
     return (
         <Modal
             open={props.open}

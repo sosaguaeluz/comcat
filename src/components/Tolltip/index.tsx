@@ -1,5 +1,5 @@
 import React from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import styled from 'styled-components';
 

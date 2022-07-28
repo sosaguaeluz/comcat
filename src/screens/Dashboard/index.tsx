@@ -543,10 +543,9 @@ const Dashboard: React.FC = () => {
                             <Grid
                             container
                             spacing={{ xs: 2.5, md: 2.5, lg: 2.5 }}
-                            columns={{ sm: 4, md: 8, lg: 12 }}
                             flex-wrap='wrap'
                             >
-                                <Grid item sm={2} md={4} lg={3}>
+                                <Grid item xs sm={6} md lg xl>
                                     <CardInfo 
                                         icon={ocurrenceIcon}
                                         title="Ocorrências no período"
@@ -555,7 +554,7 @@ const Dashboard: React.FC = () => {
                                         width='100%'
                                     />
                                 </Grid>
-                                <Grid item sm={2} md={4} lg={3}>
+                                <Grid item xs sm={6} md lg xl>
                                     <CardInfo 
                                         icon=''
                                         title="Total de novas ocorrências (hoje)"
@@ -564,7 +563,7 @@ const Dashboard: React.FC = () => {
                                         width='100%'
                                     />
                                 </Grid>
-                                <Grid item sm={2} md={4} lg={3}>
+                                <Grid item xs sm={6} md lg xl>
                                     <CardInfo 
                                         icon=''
                                         title="Total de ocorrências aprovadas (hoje)"
@@ -573,7 +572,7 @@ const Dashboard: React.FC = () => {
                                         width='100%'
                                     />
                                 </Grid>
-                                <Grid item sm={2} md={4} lg={3}>
+                                <Grid item xs sm={6} md lg xl>
                                     <CardInfo 
                                         icon=''
                                         title="Total de ocorrências reprovadas (hoje)"
@@ -590,11 +589,10 @@ const Dashboard: React.FC = () => {
                         <S.GraficItemContainer>
                             <Grid
                                 container
-                                spacing={{ xs: 2.5, md: 2.5, lg: 2.5 }}
-                                columns={{ sm: 4, md: 8, lg: 12 }}
+                                spacing={2.5}
                                 flex-wrap='wrap'
                             >
-                                <Grid item sm={2} md={4} lg={3}>
+                                <Grid item xs sm={6} md={4} lg={3} xl={3}>
                                     <CardGraficItem
                                         width='100%' 
                                         list={card.list}
@@ -605,7 +603,7 @@ const Dashboard: React.FC = () => {
                                         heightGrafic={85}
                                     />
                                 </Grid>
-                                <Grid item sm={2} md={4} lg={3}>
+                                <Grid item xs sm={6} md={4} lg={3} xl={3}>
                                     <CardGraficItem
                                         width='100%'
                                         list={card2.list}
@@ -617,7 +615,7 @@ const Dashboard: React.FC = () => {
 
                                     />
                                 </Grid>
-                                <Grid item sm={2} md={4} lg={3}>
+                                <Grid item xs sm={6} md={4} lg={3} xl={3}>
                                     <CardGraficItem
                                         width='100%'
                                         list={card3.list}
@@ -629,7 +627,7 @@ const Dashboard: React.FC = () => {
 
                                     />
                                 </Grid>
-                                <Grid item sm={2} md={4} lg={3}>
+                                <Grid item xs sm={6} md={4} lg={3} xl={3}>
                                     <CardGraficItem
                                         width='100%'
                                         list={card4.list}
@@ -640,7 +638,7 @@ const Dashboard: React.FC = () => {
                                         heightGrafic={85}
                                     />
                                 </Grid>
-                                <Grid item sm={2} md={4} lg={3}>
+                                <Grid item xs sm={6} md={4} lg={3} xl={3}>
                                     <CardGraficItem
                                         width='100%' 
                                         list={card.list}
@@ -651,7 +649,7 @@ const Dashboard: React.FC = () => {
                                         heightGrafic={85}
                                     />
                                 </Grid>
-                                <Grid item sm={2} md={4} lg={3}>
+                                <Grid item xs sm={6} md={4} lg={3} xl={3}>
                                     <CardGraficItem
                                         width='100%'
                                         list={card2.list}
@@ -663,7 +661,7 @@ const Dashboard: React.FC = () => {
 
                                     />
                                 </Grid>
-                                <Grid item sm={2} md={4} lg={3}>
+                                <Grid item xs sm={6} md={4} lg={3} xl={3}>
                                     <CardGraficItem
                                         width='100%'
                                         list={card3.list}
@@ -675,7 +673,7 @@ const Dashboard: React.FC = () => {
 
                                     />
                                 </Grid>
-                                <Grid item sm={2} md={4} lg={3}>
+                                <Grid item xs sm={6} md={4} lg={3} xl={3}>
                                     <CardGraficItem
                                         width='100%'
                                         list={card4.list}
@@ -692,10 +690,9 @@ const Dashboard: React.FC = () => {
                             <Grid
                                 container
                                 spacing={{ xs: 2.5, md: 2.5, lg: 2.5 }}
-                                columns={{ sm: 1, md: 2, lg: 2 }}
                                 flex-wrap='wrap'
                             >
-                                <Grid item sm={1} md={1} lg={1}>
+                                <Grid item xs sm md={6} lg={6} xl={6}>
                                     <CardGraficArea 
                                         data={areaChart}
                                         valueItem={multValue}
@@ -709,7 +706,7 @@ const Dashboard: React.FC = () => {
                                         heightGrafic={210}
                                     />
                                 </Grid>
-                                <Grid item sm={1} md={1} lg={1}>
+                                <Grid item xs sm md={6} lg={6} xl={6}>
                                     <CardGraficArea
                                         data={areaChart2}
                                         valueItem={multValue}
@@ -744,11 +741,10 @@ const Dashboard: React.FC = () => {
                             <div>
                                 <Grid
                                     container
-                                    spacing={{ xs: 2.5, md: 2.5, lg: 2.5 }}
-                                    columns={{ sm: 2, md: 2, lg: 4 }}                        
+                                    spacing={2.5}                   
                                     flex-wrap='nowrap'
                                 >
-                                    <Grid item sm={1} md={1} lg={1}>
+                                    <Grid item xs sm md={3} lg={3} xl={3}>
                                         <CardInfo 
                                             icon={ocurrenceIcon}
                                             title="Total de ocorrências no ano"
@@ -758,7 +754,7 @@ const Dashboard: React.FC = () => {
                                             height='108px'
                                         />
                                     </Grid>
-                                    <Grid item sm={1} md={1} lg={1}>
+                                    <Grid item xs sm md={3} lg={3} xl={3}>
                                         <CardInfo 
                                             icon=''
                                             title="Média de novas ocorrências por mês"
@@ -776,7 +772,7 @@ const Dashboard: React.FC = () => {
                                     number={1000}
                                     data={ocurrences}
                                     width= "100%"
-                                    height='426px'                    
+                                    height='auto'                    
                                     heightGrafic={300}
                                 />
                             </span>
@@ -788,11 +784,10 @@ const Dashboard: React.FC = () => {
                         <S.StatusBox style={{marginBottom: '20px'}}>
                             <Grid
                                 container
-                                spacing={{ xs: 2.5, md: 2.5, lg: 2.5 }}
-                                columns={{ sm: 4, md: 8, lg: 12 }}
+                                spacing={2.5}
                                 flex-wrap='wrap'
                             >
-                                <Grid item sm={2} md={4} lg={3}>
+                                <Grid item xs sm md lg xl>
                                     <CardInfo 
                                         icon={ocurrenceIcon}
                                         title="Total de usuários"
@@ -802,7 +797,7 @@ const Dashboard: React.FC = () => {
                                         height="108px"
                                     />
                                 </Grid>
-                                <Grid item sm={2} md={4} lg={3}>
+                                <Grid item xs sm md lg xl>
                                     <CardInfo 
                                         icon=''
                                         title="Total de novas usuários (hoje)"
@@ -812,7 +807,7 @@ const Dashboard: React.FC = () => {
                                         height="108px"
                                     />
                                 </Grid>
-                                <Grid item sm={2} md={4} lg={3}>
+                                <Grid item xs sm md lg xl>
                                     <CardInfo 
                                         icon=''
                                         title="Total de usuários ativos (hoje)"
@@ -822,7 +817,7 @@ const Dashboard: React.FC = () => {
                                         height="108px"
                                     />
                                 </Grid>
-                                <Grid item sm={2} md={4} lg={3}>
+                                <Grid item xs sm md lg xl>
                                     <CardInfo 
                                         icon=''
                                         title="Total de usuários inativos (hoje)"
@@ -919,11 +914,11 @@ const Dashboard: React.FC = () => {
                             <Grid
                                 container
                                 spacing={{ xs: 2.5, md: 4, lg: 4 }}
-                                columns={{ sm: 4, md: 6, lg: 10 }}
+                                columns={{ xs: 6, sm: 6, md: 10, lg: 10, xl: 10}}
                                 flex-wrap='wrap'
                             >
                             
-                            <Grid item sm={2} md={2} lg={2}>
+                            <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
                                 <CardGraficItem
                                     icon=""
                                     list={card5.list}
@@ -935,7 +930,7 @@ const Dashboard: React.FC = () => {
                                     heightGrafic={85}
                                 />
                             </Grid>
-                            <Grid item sm={2} md={2} lg={2}>
+                            <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
                                 <CardGraficItem  
                                     icon=""
                                     list={card6.list}
@@ -947,7 +942,7 @@ const Dashboard: React.FC = () => {
                                     heightGrafic={85}
                                 />
                             </Grid>
-                            <Grid item sm={2} md={2} lg={2}>
+                            <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
                                 <CardGraficItem
                                     icon=""
                                     list={card7.list}
@@ -959,7 +954,7 @@ const Dashboard: React.FC = () => {
                                     heightGrafic={85}
                                 />
                             </Grid>
-                            <Grid item sm={2} md={2} lg={2}>
+                            <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
                                 <CardGraficItem
                                     icon=""
                                     list={card8.list}
@@ -971,7 +966,7 @@ const Dashboard: React.FC = () => {
                                     heightGrafic={85}
                                 />
                             </Grid>
-                            <Grid item sm={2} md={2} lg={2}>
+                            <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
                                 <CardGraficItem
                                     icon=""
                                     list={card9.list}
@@ -1004,11 +999,10 @@ const Dashboard: React.FC = () => {
                             <div>
                                 <Grid
                                     container
-                                    spacing={{ xs: 2.5, md: 2.5, lg: 2.5 }}
-                                    columns={{ sm: 2, md: 2, lg: 4 }}                        
+                                    spacing={2.5}                 
                                     flex-wrap='nowrap'
                                 >
-                                    <Grid item sm={1} md={1} lg={1}>
+                                    <Grid item xs sm md={3} lg={3} xl={3}>
                                         <CardInfo 
                                             icon={ocurrenceIcon}
                                             title="Total de novos usuários no ano"
@@ -1018,7 +1012,7 @@ const Dashboard: React.FC = () => {
                                             height='108px'
                                         />
                                     </Grid>
-                                    <Grid item sm={1} md={1} lg={1}>
+                                    <Grid item xs sm md={3} lg={3} xl={3}>
                                         <CardInfo 
                                             icon=''
                                             title="Média de novos usuários por mês"
@@ -1036,7 +1030,7 @@ const Dashboard: React.FC = () => {
                                     number={1000}
                                     data={ocurrences}
                                     width= "100%"
-                                    height='426px'                    
+                                    height='auto'                    
                                     heightGrafic={300}
                                 />
                             </span>

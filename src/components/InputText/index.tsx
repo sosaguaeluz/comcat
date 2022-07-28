@@ -1,6 +1,6 @@
 import React from 'react';
 import FormControl from '@mui/material/FormControl';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material';
 import TextField from '@mui/material/TextField';
 
 const theme = createTheme({

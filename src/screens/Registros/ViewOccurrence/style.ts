@@ -1,6 +1,16 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+    width: 1280px;
+    height: calc(100vh - 200px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    @media screen and (max-width: 1500px) {
+        width: calc(100vw - 200px);
+    }
+
     > h1 {
         margin-bottom: 24px;
         font-style: normal;
@@ -13,7 +23,7 @@ export const Container = styled.div`
     > div {
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
         border-radius: 8px;
-        height: 600px;
+        height: calc(100% - 140px);
     }
 
 `;
@@ -23,6 +33,8 @@ export const Header = styled.header<{ backgroundColor: string }>`
     padding: 18px 24px;
     display: flex;
     align-items: center;
+    border-top-left-radius: 8px;
+    height: auto;
 
     > div {
         width: 32px;
@@ -53,112 +65,83 @@ export const Header = styled.header<{ backgroundColor: string }>`
 `;
 
 export const Section = styled.section`
+    height: calc(100% - 68px);
     padding: 18px 24px;
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
+    overflow-x: hidden;
 
-    > div {
-        display: flex;
-        margin-bottom: 32px;
-        
+    >div{
         > div {
-            margin-right: 50px;
-            height: 44px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-
-            > p:nth-child(1){
-                font-style: normal;
-                font-weight: 400;
-                font-size: 14px;
-                line-height: 17px;
-                color: ${props => props.theme.colors.dark};
+            margin-bottom: 32px;
+            width: auto;
+            height: auto;
+            row-gap:32px;
+            
+            > div {
+                width: auto;
+                height: auto;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                gap: 8px;
+    
+                > p:nth-child(1){
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: 14px;
+                    line-height: 17px;
+                    color: ${props => props.theme.colors.dark};
+                }
+        
+                > p:nth-child(2){
+                    height:20px;
+                    font-style: normal;
+                    font-weight: 600;
+                    font-size: 16px;
+                    line-height: 19px;
+                    color: ${props => props.theme.colors.dark};
+                }
+    
+            }
+            > img {
+                height: 172px;
+                width: 100%;
+                object-fit: cover;
+                margin-right: 90px;
             }
     
-            > p:nth-child(2){
-                font-style: normal;
-                font-weight: 600;
-                font-size: 16px;
-                line-height: 19px;
-                color: ${props => props.theme.colors.dark};
-            }
-
-        }
-        > img {
-            height: 172px;
-            width: 607px;
-            object-fit: cover;
-            margin-right: 90px;
-        }
-
-        > span {
-            height: 44px;
-            width: 350px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-
-            > p:nth-child(1){
-                font-style: normal;
-                font-weight: 400;
-                font-size: 14px;
-                line-height: 17px;
-                color: ${props => props.theme.colors.dark};
-            }
+            > span {
+                height: 44px;
+                width: 350px;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
     
-            > p:nth-child(2){
-                font-style: normal;
-                font-weight: 600;
-                font-size: 16px;
-                line-height: 19px;
-                color: ${props => props.theme.colors.dark};
+                > p:nth-child(1){
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: 14px;
+                    line-height: 17px;
+                    color: ${props => props.theme.colors.dark};
+                }
+        
+                > p:nth-child(2){
+                    font-style: normal;
+                    font-weight: 600;
+                    font-size: 16px;
+                    line-height: 19px;
+                    color: ${props => props.theme.colors.dark};
+                }
             }
-        }
+
+    }
     }
 
     > div:nth-child(5){
         > div {
             height: 61px;
-        }
-    }
-`;
-
-export const Form = styled.form`
-    margin-top: 32px;
-
-    > fieldset {
-        display: flex;
-
-        > fieldset {
-            margin-right: 51px;
-            > label {
-                font-style: normal;
-                font-weight: 600;
-                font-size: 16px;
-                line-height: 19px;
-                color: ${props => props.theme.colors.dark};
-            }
-
-            > div {
-                margin-top: 24px !important;
-            }
-        }
-    }
-
-    > fieldset:nth-child(2) {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 32px;
-
-        button {
-            width: 274px;
-            height: 48px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: 600px;
-            border-radius: 8px;
         }
     }
 `;
@@ -175,12 +158,5 @@ export const Cancel = styled.button`
     background: none;
     border: 1px solid ${props => props.theme.colors.warning};
     color: ${props => props.theme.colors.warning};
-    font-weight: 600;
-`;
-
-export const Submit = styled.button<{ disabled: boolean }>`
-    border: none;
-    color: ${props => props.disabled == false ? props.theme.colors.white : '#2C3941'};
-    background: ${props => props.disabled == false ? props.theme.colors.blue : '#C7C7C7'};
     font-weight: 600;
 `;

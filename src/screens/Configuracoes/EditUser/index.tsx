@@ -258,9 +258,9 @@ const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
                             disabled={false}
                         >
                             {isSubmitting 
-                                    ? "Editando..."
-                                    : "Finalizar edição"
-                                }
+                                ? "Editando..."
+                                : "Finalizar edição"
+                            }
                         </S.Button>
                     </S.ContainerBnt>
                 </form>
