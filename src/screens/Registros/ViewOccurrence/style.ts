@@ -34,6 +34,7 @@ export const Header = styled.header<{ backgroundColor: string }>`
     display: flex;
     align-items: center;
     border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
     height: auto;
 
     > div {
@@ -74,10 +75,14 @@ export const Section = styled.section`
 
     >div{
         > div {
+            display:flex;
+            justify-content: flex-start;
             margin-bottom: 32px;
-            width: auto;
+            width: 100%;
             height: auto;
             row-gap:32px;
+            column-gap: 16px;
+            flex-wrap: wrap;
             
             > div {
                 width: auto;
@@ -96,47 +101,34 @@ export const Section = styled.section`
                 }
         
                 > p:nth-child(2){
-                    height:20px;
                     font-style: normal;
                     font-weight: 600;
                     font-size: 16px;
                     line-height: 19px;
                     color: ${props => props.theme.colors.dark};
                 }
-    
-            }
-            > img {
-                height: 172px;
-                width: 100%;
-                object-fit: cover;
-                margin-right: 90px;
-            }
-    
-            > span {
-                height: 44px;
-                width: 350px;
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-    
-                > p:nth-child(1){
-                    font-style: normal;
-                    font-weight: 400;
-                    font-size: 14px;
-                    line-height: 17px;
-                    color: ${props => props.theme.colors.dark};
-                }
-        
-                > p:nth-child(2){
-                    font-style: normal;
-                    font-weight: 600;
-                    font-size: 16px;
-                    line-height: 19px;
-                    color: ${props => props.theme.colors.dark};
-                }
-            }
 
-    }
+                > img {
+                    height: 172px;
+                    width: 600px;
+                    object-fit: cover;
+                }    
+            } 
+        }
+        > div:nth-child(2) > div:nth-child(2){
+            min-width:376px;
+            max-width:416px;
+        }
+        
+        > div:nth-child(3) > div:nth-child(1){
+            min-width:180px;
+            max-width:416px;
+
+            @media screen and (max-width: 1450px) {
+                min-width:376px;
+                max-width:376px;
+            }
+        }
     }
 
     > div:nth-child(5){
