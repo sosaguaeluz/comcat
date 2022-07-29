@@ -26,3 +26,4 @@ export { default as Poppover } from './Poppover/index';
 export { default as SwitchOptions } from './SwtichOption/index';
 export { default as DropDown } from './DropDown/index';
 export { default as DropDownButtom } from './DropDownButtom/index';
+export { default as InputPassword } from './InputPassword/index';

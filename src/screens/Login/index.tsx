@@ -5,7 +5,7 @@ import { api } from "../../services";
 import { useMutation } from 'react-query';
 import { queryClient } from '../../services/index';
 import { logoPng } from '../../assets';
-import { CustomInput, ModalMsg, PersonalModal } from '../../components';
+import { CustomInput, InputPassword, ModalMsg, PersonalModal } from '../../components';
 import { IProps } from "./types";
 import { useDispatch } from 'react-redux';
 import { TOKEN, USER } from '../../stores/actions';
@@ -104,7 +104,7 @@ const Login: React.FC = () => {
                                 render={({field: { onChange, onBlur, value }}) => (
                                     <span>
                                         <div>
-                                            <CustomInput 
+                                            <InputPassword 
                                                 label='Digite sua senha' 
                                                 onChange={onChange} 
                                                 onBlur={onBlur}  
