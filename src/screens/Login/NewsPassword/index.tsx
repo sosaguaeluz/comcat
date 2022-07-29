@@ -121,13 +121,13 @@ const NewPassword: React.FC <IProps> = ({onClose, closeOne, closeTwo}) => {
                             <span>As senhas devem ser identicas</span>
                         )}
                     </S.Form >
+                    <S.ButtonSend
+                        type="submit"
+                        disabled={!enable}
+                    >
+                        {isLoading == true ? 'Salvando senha...' : 'Salvar senha'}
+                    </S.ButtonSend>
                 </div>
-                <S.ButtonSend
-                    type="submit"
-                    disabled={!enable}
-                >
-                    {isLoading == true ? 'Salvando senha...' : 'Salvar senha'}
-                </S.ButtonSend>
             </S.Container>
 
             <ModalMsg 

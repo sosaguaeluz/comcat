@@ -1,6 +1,6 @@
 import React from 'react';
 import FormControl from '@mui/material/FormControl';
-import { Button, createTheme, IconButton, InputAdornment, ThemeProvider } from '@mui/material';
+import { Button, createTheme, IconButton, Input, InputAdornment, InputLabel, ThemeProvider } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import { PassThrough } from 'stream';
 
@@ -94,40 +94,41 @@ const InputPassword: React.FC <IProps> = (props) => {
                 variant="filled"
                 sx={{ width: props.width, maxWidth: props.maxWidth, height: 56, background: '#FFF  !important', borderRadius: '8px !important', border:'none'}}
             >
-                <TextField
-                    name={props.name} 
-                    variant="filled" 
+                <InputLabel htmlFor={props.id}>
+                    {props.label}
+                </InputLabel>
+                <Input
+                    name={props.name}
                     type='password'
-                    label={props.label}
                     value={props.value}
                     id={props.id}
                     ref={props.ref}
                     autoComplete="off"
                     defaultValue={props.defaultValue}
                     disabled= {props.disabled}
-                    InputProps={{
-                        disableUnderline: true,
-                        style: {
-                            color: '#2C3941',
-                            fontWeight: '700',
-                            fontFamily: 'Inter', 
-                            border: '0',
-                            borderRadius: '8px', 
-                            background: '#FFF', 
-                            outline: 'none',
-                        },
-                        // endAdornment: (
-                        //     <InputAdornment position="end">
-                        //       <Button
-                        //         onClick={handleClickShowPassword}
-                        //         onMouseDown={handleMouseDownPassword}
-                        //         edge="end"
-                        //       >
-                        //         {values.showPassword ? "Ver Senha" : "Desver"}
-                        //       </Button>
-                        //     </InputAdornment>
-                        // )
-                    }}
+                    // InputProps={{
+                    //     disableUnderline: true,
+                    //     style: {
+                    //         color: '#2C3941',
+                    //         fontWeight: '700',
+                    //         fontFamily: 'Inter', 
+                    //         border: '0',
+                    //         borderRadius: '8px', 
+                    //         background: '#FFF', 
+                    //         outline: 'none',
+                    //     },                        
+                    // }}
+                    endAdornment={
+                        <InputAdornment position="end">
+                          <IconButton
+                            onClick={handleClickShowPassword}
+                            onMouseDown={handleMouseDownPassword}
+                            edge="end"
+                          >
+                            {values.showPassword ? "Ver Senha" : "Desver"}
+                          </IconButton>
+                        </InputAdornment>
+                    }
                     onChange={props.onChange}
                     onBlur={props.onBlur}
                 />
