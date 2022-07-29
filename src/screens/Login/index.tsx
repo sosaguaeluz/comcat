@@ -10,9 +10,9 @@ import { IProps } from "./types";
 import { useDispatch } from 'react-redux';
 import { TOKEN, USER } from '../../stores/actions';
 import { NavLink } from 'react-router-dom';
-import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from './validation-schema';
 import RecoveryPassword from './RecoveryPassword';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const Login: React.FC = () => {
     const dispatch = useDispatch();
