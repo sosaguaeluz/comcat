@@ -3,6 +3,10 @@ import styled from "styled-components";
 export const Container = styled.div`
     width: 100%;
     padding: 40px 64px 32px;
+    display: flex;
+    flex-direction: column  ;
+    justify-content: space-between;
+    align-items: center;
     position: relative;
 
     > h1 {
@@ -43,7 +47,7 @@ export const Container = styled.div`
         }
 
         > div {
-            width: 400px;
+            width: 372px;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -117,9 +121,11 @@ export const InputCode = styled.div`
 
     --ReactInputVerificationCode-itemWidth: 54px;
     --ReactInputVerificationCode-itemHeight: 54px;
+    --ReactInputVerificationCode-itemSpacing: 9.5px;
     .ReactInputVerificationCode__item{
         border: none !important;
         color: ${props => props.theme.colors.dark};
         background: #F8F8F8;
+        border-color:  #F8F8F8;
     }
 `;

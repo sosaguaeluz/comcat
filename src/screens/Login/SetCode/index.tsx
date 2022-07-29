@@ -19,12 +19,12 @@ interface IProps {
     closeOne: () => void
 }
 
-interface Username {
-    username: string
+interface ValidateCode {
+    username: string,
 }
 
 const schema = Yup.object().shape({
-    username: Yup.string().required("E-mail ou WhatsApp são obrigatórios")
+    username: Yup.string().required("E-mail é obrigatório")
 })
 
 const SetCode: React.FC<IProps> = ({onClose, closeOne}) => {
@@ -39,13 +39,13 @@ const SetCode: React.FC<IProps> = ({onClose, closeOne}) => {
         register,
         handleSubmit,
         setValue
-    } = useForm<Username>({ 
+    } = useForm<ValidateCode>({ 
         mode: "onChange",
         resolver: yupResolver(schema)
     });
 
-    const postSendCode = async (user: Username) => {
-        const { data: resp } = await api.post('/send-code', user)
+    const postSendCode = async (user: any) => {
+        const { data: resp } = await api.post('/validate-recovery-code', user)
         dispatch({ type: SENDCODE, sendcode: resp})
         console.log(resp);
         return resp.data
@@ -53,7 +53,7 @@ const SetCode: React.FC<IProps> = ({onClose, closeOne}) => {
 
     const { mutate, isLoading, data } = useMutation(postSendCode, {
         onSuccess: () => {
-            queryClient.invalidateQueries('sendCode');
+            queryClient.invalidateQueries('/validate-recovery-code');
             
         },
         onError: (error) => {
@@ -61,9 +61,9 @@ const SetCode: React.FC<IProps> = ({onClose, closeOne}) => {
         }
     });
 
-    const onSubmit = (value: Username) => {
+    const onSubmit = (value: any) => {
         const obj = {
-            "username" : value.username
+            "username" : username,
         }
         mutate(obj);
     }
@@ -84,7 +84,7 @@ const SetCode: React.FC<IProps> = ({onClose, closeOne}) => {
     setValue("username", username)
 
     return (
-        <div>
+        <>
             <S.Container>
                 <S.ButtonBack
                     onClick={onClose}
@@ -101,7 +101,7 @@ const SetCode: React.FC<IProps> = ({onClose, closeOne}) => {
                         placeholder="-"
                         type="text"
                         length={6}
-                        value={codeValue}
+                        value={codeValue}                        
                     />
                 </S.InputCode>
                 <form onSubmit={handleSubmit(onSubmit)}>
@@ -109,6 +109,7 @@ const SetCode: React.FC<IProps> = ({onClose, closeOne}) => {
                     <div>
                         <p>Não recebeu o código ainda?</p>
                         <button
+                            id="re-send"
                             type='submit'
                         >
                             Enviar novamente
@@ -119,11 +120,17 @@ const SetCode: React.FC<IProps> = ({onClose, closeOne}) => {
                     type="button"
                     disabled={disable}
                     onClick={() => {
-                        if(codeValue == sendcode.code){
-                            setRecoveryPassword(true)
-                        } else {
-                            setErrorMsg(!errorMsg)
-                        }
+                        postSendCode({
+                            "username": username,
+                            "code": codeValue
+                        })
+                            .then(() => {
+                                dispatch({ type: SENDCODE, sendcode: codeValue})
+                                setRecoveryPassword(true)
+                            })
+                            .catch(() => {
+                                setErrorMsg(!errorMsg)
+                            })
                     }}
                 >
                     Confirmar código
@@ -152,7 +159,7 @@ const SetCode: React.FC<IProps> = ({onClose, closeOne}) => {
                     />
                 }
             />
-        </div>
+        </>
     );
 };
 
