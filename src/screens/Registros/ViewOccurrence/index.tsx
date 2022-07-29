@@ -35,16 +35,16 @@ const ViewOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                         <S.Section>
                             <Grid container >
                                 <Grid item flexWrap='wrap' container >
-                                    <Grid item xs={2} sm={2} md={2} lg={2} xl={2} style={{minWidth:"180px", maxWidth:"200px"}} >
+                                    <Grid item xs={2} sm={2} md={2} lg={2} xl={2} style={{minWidth:"200px", maxWidth:"200px"}} >
                                         <p>Registrador por</p>
                                         <p>{itemEdit?.user?.name}</p>
                                     </Grid>
-                                    <Grid item xs={2} sm={2} md={2} lg={2} xl={2} style={{minWidth:"180px", maxWidth:"200px"}} >
+                                    <Grid item xs={2} sm={2} md={2} lg={2} xl={2} style={{minWidth:"200px", maxWidth:"200px"}} >
                                         <p>Fonte do serviço</p>
                                         <p>{itemEdit?.source?.name}</p>
                                     </Grid>
                                     {itemEdit?.source?.name === 'Outra fonte' && (
-                                    <Grid item xs={2} sm={2} md={2} lg={2} xl={2} style={{minWidth:"180px", maxWidth:"200px"}} >
+                                    <Grid item xs={2} sm={2} md={2} lg={2} xl={2} style={{minWidth:"200px", maxWidth:"200px"}} >
                                         <p>Nome da fonte</p>
                                         <p>{itemEdit?.source_name}</p>
                                     </Grid>
@@ -69,27 +69,27 @@ const ViewOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                     )}
                                 </Grid>
                                 <Grid item flexWrap='wrap' container >
-                                    <Grid item xs={2} sm={2} md={2} lg={2} xl={2} style={{minWidth:"180px", maxWidth:"200px"}}>
+                                    <Grid item xs sm md lg xl>
                                         <p>Data e hora da ocorrência</p>
                                         <p>{convertDate(itemEdit?.date)}</p>
                                     </Grid>
-                                    <Grid item xs={3} sm={3} md lg xl>
+                                    <Grid item xs sm md lg xl>
                                         <p>A ocorrência é em uma localização especial?</p>
                                         <p>{itemEdit?.special_place === 'Yes' ? 'Sim' : 'Não'}</p>
                                     </Grid>
                                     {itemEdit?.special_place === 'Yes' && (
-                                        <Grid item xs={3} sm md lg xl>
+                                        <Grid item xs sm md lg xl>
                                             <p>Qual é o tipo de localização especial</p>
                                             <p>{itemEdit?.type_place}</p>
                                         </Grid>
                                     )}                                
                                 </Grid>
-                                <Grid item>
-                                    <Grid item xs={2} sm={2} md lg xl>
+                                <Grid item flexWrap='wrap' container >
+                                    <Grid item xs sm md lg xl>
                                         <p>Endereço/Logradouro</p>
                                         <p>{itemEdit?.address}</p>
                                     </Grid>
-                                    <Grid item xs={3} sm={3} md={3} lg={2} xl style={{minWidth:"190px", maxWidth:"200px"}}>
+                                    <Grid item xs sm md lg xl>
                                         <p>Em que escala é a área afetada?</p>
                                         <p>{itemEdit?.area}</p>
                                     </Grid>

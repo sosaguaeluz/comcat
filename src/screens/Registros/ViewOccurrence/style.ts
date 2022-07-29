@@ -90,7 +90,7 @@ export const Section = styled.section`
                 display: flex;
                 flex-direction: column;
                 justify-content: flex-start;
-                gap: 8px;
+                row-gap: 8px;
     
                 > p:nth-child(1){
                     font-style: normal;
@@ -110,25 +110,47 @@ export const Section = styled.section`
 
                 > img {
                     height: 172px;
-                    width: 600px;
+                    width: 632px;
                     object-fit: cover;
                 }    
             } 
         }
-        > div:nth-child(2) > div:nth-child(2){
-            min-width:376px;
-            max-width:416px;
-        }
-        
-        > div:nth-child(3) > div:nth-child(1){
-            min-width:180px;
-            max-width:416px;
+        > div:nth-child(2) {
 
-            @media screen and (max-width: 1450px) {
-                min-width:376px;
-                max-width:376px;
+            > div:nth-child(1){
+                min-width:180px;
+                max-width:200px;
+            }
+
+            > div:nth-child(2){
+                min-width:416px;
+                max-width:416px;
+                @media screen and (max-width: 1450px) {
+                        min-width:416px;
+                        max-width:416px;
+                    }
             }
         }
+        
+        > div:nth-child(3) {
+
+            > div:nth-child(1){
+                min-width:416px;
+                max-width:416px;
+    
+                @media screen and (max-width: 1450px) {
+                    min-width:416px;
+                    max-width:416px;
+                }
+            }
+            > div:nth-child(2){
+                min-width:180px;
+                max-width:200px;
+    
+                
+            }
+        }
+        
     }
 
     > div:nth-child(5){
