@@ -2,36 +2,59 @@ import styled from "styled-components";
 
 export const Container = styled.div`
     width: 100%;
+    height: 418px;
     padding: 40px 64px 32px;
     display: flex;
-    flex-direction: column  ;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
     position: relative;
 
-    > h1 {
-        text-align: center;
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 600;
-        font-size: 24px;
-        line-height: 34px;
-        color: ${props => props.theme.colors.dark};
-        margin-bottom: 24px;
-    }
+    > div {
+        > h1 {
+            text-align: center;
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 600;
+            font-size: 24px;
+            line-height: 34px;
+            color: ${props => props.theme.colors.dark};
+            margin-bottom: 24px;
+        }
 
-    > p {
-        font-family: 'Inter';
-        font-style: normal;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 25px;
-        color: ${props => props.theme.colors.dark};
-        text-align: center;
-        margin-bottom: 32px;
+        > p {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 25px;
+            color: ${props => props.theme.colors.dark};
+            text-align: center;
+            margin-bottom: 32px;
+        }
     }
+`;
 
-    > form {
+export const ButtonBack = styled.button`
+    position: absolute;
+    left: 32px;
+    border-radius: 100%;
+    background: none;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
+    width: 32px;
+    height: 32px;
+    border: 1px solid ${props => props.theme.colors.lightGray};
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    > img {
+        transform: rotate(90deg);
+    }
+`;
+
+export const Form = styled.form`
+        margin-top: 32px;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -51,7 +74,6 @@ export const Container = styled.div`
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-top: 24px;
             
             > p {
                 font-family: 'Inter';
@@ -74,26 +96,6 @@ export const Container = styled.div`
                 color: #1773E2;
             }
         }
-
-    }
-`;
-
-export const ButtonBack = styled.button`
-    position: absolute;
-    left: 32px;
-    border-radius: 100%;
-    background: none;
-    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.25);
-    width: 32px;
-    height: 32px;
-    border: 1px solid ${props => props.theme.colors.lightGray};
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    > img {
-        transform: rotate(90deg);
-    }
 `;
 
 export const ButtonSend = styled.button <{ disabled: boolean }>`

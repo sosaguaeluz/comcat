@@ -84,48 +84,50 @@ const NewPassword: React.FC <IProps> = ({onClose, closeOne, closeTwo}) => {
                 >
                     <img src={iconShow} alt="" />
                 </S.ButtonBack>
-                <h1>Alterar senha</h1>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <fieldset>
-                        <CustomInput 
-                            label='Digite sua senha' 
-                            onChange={(e: any) => {
-                                setPassword(e.target.value)
-                                console.log(e.target.value);
-                            }} 
-                            onBlur={() => {}}  
-                            type='password' 
-                            value={password} 
-                            width={372}
-                        />
-                    </fieldset>
-                    <fieldset style={{marginTop: '24px'}}>
-                        <Controller 
-                            control={control}
-                            name='password'
-                            defaultValue=""
-                            render={({field: { onChange, onBlur, value }}) => (
-                                <CustomInput 
-                                    label='Digite sua senha' 
-                                    onChange={onChange} 
-                                    onBlur={onBlur}  
-                                    type='password' 
-                                    value={value} 
-                                    width={372}
-                                />
-                            )}
-                        />
-                    </fieldset>
-                    {watchPassword != password && watchPassword == '' && password == '' && (
-                        <span>As senhas devem ser identicas</span>
-                    )}
-                    <S.ButtonSend
-                        type="submit"
-                        disabled={!enable}
-                    >
-                        {isLoading == true ? 'Salvando senha...' : 'Salvar senha'}
-                    </S.ButtonSend>
-                </form>
+                <div>
+                    <h1>Alterar senha</h1>
+                    <S.Form onSubmit={handleSubmit(onSubmit)}>
+                        <fieldset>
+                            <CustomInput 
+                                label='Digite sua senha' 
+                                onChange={(e: any) => {
+                                    setPassword(e.target.value)
+                                    console.log(e.target.value);
+                                }} 
+                                onBlur={() => {}}  
+                                type='password' 
+                                value={password} 
+                                width={372}
+                            />
+                        </fieldset>
+                        <fieldset style={{marginTop: '24px'}}>
+                            <Controller 
+                                control={control}
+                                name='password'
+                                defaultValue=""
+                                render={({field: { onChange, onBlur, value }}) => (
+                                    <CustomInput 
+                                        label='Digite sua senha' 
+                                        onChange={onChange} 
+                                        onBlur={onBlur}  
+                                        type='password' 
+                                        value={value} 
+                                        width={372}
+                                    />
+                                )}
+                            />
+                        </fieldset>
+                        {watchPassword != password && watchPassword == '' && password == '' && (
+                            <span>As senhas devem ser identicas</span>
+                        )}
+                    </S.Form >
+                </div>
+                <S.ButtonSend
+                    type="submit"
+                    disabled={!enable}
+                >
+                    {isLoading == true ? 'Salvando senha...' : 'Salvar senha'}
+                </S.ButtonSend>
             </S.Container>
 
             <ModalMsg 

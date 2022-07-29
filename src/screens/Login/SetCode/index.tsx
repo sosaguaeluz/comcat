@@ -91,31 +91,34 @@ const SetCode: React.FC<IProps> = ({onClose, closeOne}) => {
                 >
                     <img src={iconShow} alt="" />
                 </S.ButtonBack>
-                <h1>Código de segurança</h1>
-                <p>Digite no campo abaixo o código que você recebeu.</p>
-                <S.InputCode>
-                    <ReactInputVerificationCode
-                        onChange={(e: any) => {
-                            setCodeValeu(e)
-                        }}
-                        placeholder="-"
-                        type="text"
-                        length={6}
-                        value={codeValue}                        
-                    />
-                </S.InputCode>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <input type="hidden" {...register("username")}/>
-                    <div>
-                        <p>Não recebeu o código ainda?</p>
-                        <button
-                            id="re-send"
-                            type='submit'
-                        >
-                            Enviar novamente
-                        </button>
-                    </div>
-                </form>
+                <div>
+                    <h1>Código de segurança</h1>
+                    <p>Digite no campo abaixo o código que você recebeu.</p>
+                    <S.InputCode>
+                        <ReactInputVerificationCode
+                            onChange={(e: any) => {
+                                setCodeValeu(e)
+                            }}
+                            placeholder="-"
+                            type="text"
+                            length={6}
+                            value={codeValue}                        
+                        />
+                    </S.InputCode>
+                    <S.Form onSubmit={handleSubmit(onSubmit)}>
+                        <input type="hidden" {...register("username")}/>
+                        <div>
+                            <p>Não recebeu o código ainda?</p>
+                            <button
+                                id="re-send"
+                                type='submit'
+                                onClick={onClose}
+                            >
+                                Enviar novamente
+                            </button>
+                        </div>
+                    </S.Form>
+                </div>
                 <S.ButtonSend
                     type="button"
                     disabled={disable}
