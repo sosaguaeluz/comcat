@@ -513,7 +513,8 @@ const Dashboard: React.FC = () => {
                                         id='dateDe'
                                         width="176px"
                                         type='date'
-                                        label='De:'
+                                        label='De:'                                        
+                                        max={new Date().toISOString().slice(0, -12)}
                                         defaultValue='De:'
                                         onChange={(e: any) => {
                                             setData(e);
@@ -528,6 +529,7 @@ const Dashboard: React.FC = () => {
                                         width="176px"
                                         type='date'
                                         label='Até:'
+                                        max={new Date().toISOString().slice(0, -4)}
                                         defaultValue='Até:'
                                         value={data} 
                                         onChange={(e: any) => {

@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
     width: 1280px;
-    height: calc(100vh - 200px);
+    height: 90vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -12,7 +12,7 @@ export const Container = styled.div`
     }
 
     > h1 {
-        margin-bottom: 24px;
+        margin-bottom: 16px;
         font-style: normal;
         font-weight: 600;
         font-size: 24px;
@@ -23,7 +23,7 @@ export const Container = styled.div`
     > div {
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
         border-radius: 8px;
-        height: calc(100% - 140px);
+        height: calc(100% - 115px);
     }
 
 `;
@@ -161,7 +161,7 @@ export const Section = styled.section`
 `;
 
 export const Cancel = styled.button`
-    margin-top: 32px;
+    margin-top: 16px;
     width: 274px;
     height: 48px;
     display: flex;

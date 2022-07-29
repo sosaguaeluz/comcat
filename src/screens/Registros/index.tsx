@@ -72,7 +72,7 @@ const Registros: React.FC = () => {
     const [ ufValue, setUfValue ] = useState<any>();
     const [ cityValue, setCityValue ] = useState<any>();
     const [ initialDate, setInitialDate ] = useState<any>(undefined);
-    const [ finalDate, setFinalDate ] = useState<any>(new Date(Date.now()));
+    const [ finalDate, setFinalDate ] = useState<any>(undefined);
 
      const [dateValue, setDateValue] = React.useState<any | null>(
     new Date(Date.now()),
@@ -253,7 +253,6 @@ const Registros: React.FC = () => {
                                 maxWidth={300}
                                 type='date'
                                 label='De:'
-                                defaultValue={dateValue}
                                 value={initialDate}
                                 onChange={(e: any) => {
                                     setInitialDate(e.target.value)
@@ -358,7 +357,7 @@ const Registros: React.FC = () => {
     }
     
     return (
-        <>  
+        <> 
             <S.Header>
                 <div>
                     <DoubleButton

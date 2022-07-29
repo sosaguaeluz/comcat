@@ -115,8 +115,8 @@ const ViewOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                         </p>
                                     </div>
                                 </div>
-                                <Grid item>
-                                    <Grid item xs sm md lg xl style={{maxWidth:"960px"}}>
+                                <Grid item style={{margin: '0px'}}>
+                                    <Grid item xs sm md lg xl style={{maxWidth:"960px", margin: '0px'}}>
                                         <p>Caso entrem outras queixas da sua região, você autoriza que as informações da sua reclamação sejam juntadas à elas e compartilhadas com as autoridades competentes para solicitar que o abastecimento da sua residência seja feito pelas agências competentes.</p>
                                         <p>{itemEdit?.agree_share === 'Yes' ? 'Sim' : 'Não'}</p>
                                     </Grid>
