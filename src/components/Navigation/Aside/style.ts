@@ -5,7 +5,7 @@ export const Container = styled.div`
     grid-area: AS;
     height: 100vh;
     width: 80px;
-    background: ${props => props.theme.colors.white};
+    background: ${(props) => props.theme.colors.white};
     box-shadow: 1px 0px 10px rgba(0, 0, 0, 0.1);
     position: fixed;
     top: 0;
@@ -14,9 +14,8 @@ export const Container = styled.div`
 `;
 
 export const logo = styled.div`
-    //box-shadow: 1px 0px 10px rgba(0, 0, 0, 0.1);
     height: 80px;
-    padding: 20.78px 93.08px 19.78px 42.08px;
+    padding: 20px 0 20px 42px;
 
     > img {
         width: 156.83px;
@@ -24,15 +23,20 @@ export const logo = styled.div`
     }
 `;
 
-export const Navigation = styled.nav`
+export const Navigation = styled.nav<{ hamburger: boolean }>`
+    width: ${(props) => (props.hamburger === true ? "100%" : "292px")};
     display: flex;
     flex-direction: column;
     padding: 40px 20px;
+    > span > span {
+        color: ${(props) => props.theme.colors.white};
+        background: #e40b17;
+    }
 `;
 
-export const Link = styled(NavLink) <{hamburger: boolean}>`
-    background: ${props => props.theme.colors.whiteSecconday};
-    color: ${props => props.theme.colors.gray};
+export const Link = styled(NavLink)<{ hamburger: boolean }>`
+    background: ${(props) => props.theme.colors.whiteSecconday};
+    color: ${(props) => props.theme.colors.gray};
     text-decoration: none;
     font-style: normal;
     font-weight: 400;
@@ -41,26 +45,36 @@ export const Link = styled(NavLink) <{hamburger: boolean}>`
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: ${props => props.hamburger === true ? 'center' : 'flex-start'};
+    justify-content: ${(props) =>
+        props.hamburger === true ? "center" : "flex-start"};
     border-radius: 8px;
-    width: 100%;
+    width: ${(props) => (props.hamburger === true ? "100%" : "252px")};
     height: 40px;
     margin-bottom: 16px;
     transition: ease-in 0.5s;
 
-    > img{
-        filter: opacity(0.4) drop-shadow(0 0 0); 
+    > img {
+        filter: opacity(0.4) drop-shadow(0 0 0);
         width: 20px;
         transition: ease-in 0.5s;
-        margin-left: ${props => props.hamburger === true ? '0' : '12px'};
+        margin-left: ${(props) => (props.hamburger === true ? "0" : "12px")};
     }
-    >p {
-        margin-left: 16px;
+    > div {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        > p {
+            margin-left: 16px;
+        }
+        > div {
+            margin-right: 16px;
+        }
     }
 
-    :hover, &.active {
-        color: ${props => props.theme.colors.white};
-        background: ${props => props.theme.colors.blue};
+    :hover,
+    &.active {
+        color: ${(props) => props.theme.colors.white};
+        background: ${(props) => props.theme.colors.blue};
         font-style: normal;
         font-weight: 400;
         font-size: 18px;
@@ -72,18 +86,17 @@ export const Link = styled(NavLink) <{hamburger: boolean}>`
         }
     }
 
-    :hover{
+    :hover {
         opacity: 0.5;
         > img {
             width: 24px;
-
         }
     }
 `;
 
 export const Hamburguer = styled.button`
     margin: 20px 25px;
-    background: #FFFFFF;
+    background: #ffffff;
     border: none;
 
     > img {
@@ -93,8 +106,8 @@ export const Hamburguer = styled.button`
 `;
 
 export const Close = styled.button`
-    margin: 20px;   
-    background: #FFFFFF;
+    margin: 20px;
+    background: #ffffff;
     border: none;
 
     > img {
@@ -104,8 +117,30 @@ export const Close = styled.button`
 `;
 
 export const Flex = styled.div`
-    background: #FFFFFF;
+    background: #ffffff;
     display: flex;
     align-items: center;
     justify-content: space-between;
+`;
+
+export const Alert = styled.div`
+    background: #e40b17;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 24px;
+    height: 24px;
+
+    > p {
+        font-style: normal;
+        font-weight: 700;
+        font-size: 12px;
+        line-height: 15px;
+        display: flex;
+        align-items: center;
+        text-align: center;
+        letter-spacing: 0.1px;
+        color: #ffffff;
+    }
 `;

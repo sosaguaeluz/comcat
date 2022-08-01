@@ -1,127 +1,122 @@
-import React, { useEffect, useState } from 'react';
-import * as S from './style';
-import { useSelector } from 'react-redux';
-import { 
-    extractDate, 
-    useNotifications, 
-    useOccurrences, 
-    putNotifications 
-} from '../../services';
-import { RootState } from '../../stores';
+import React, { useEffect, useState } from "react";
+import * as S from "./style";
+import { useSelector } from "react-redux";
 import {
-    orangeAlertNotify,
-    showBlueArow,
-    noTrusted
-} from '../../assets/index'
-import moment from 'moment';
-import { extractHours } from '../../services/functions';
+    extractDate,
+    useNotifications,
+    useOccurrences,
+    putNotifications,
+} from "../../services";
+import { RootState } from "../../stores";
+import { orangeAlertNotify, showBlueArow, noTrusted } from "../../assets/index";
+import moment from "moment";
+import { extractHours } from "../../services/functions";
 
 const Notificacoes: React.FC = () => {
     const { token } = useSelector((state: RootState) => state.clickState);
 
-    const [ list, setList ] = useState<any>([]);
-    const [ atualDate, setAtualDate ] = useState<any>();
-    const [ yesterday, setYesterday ] = useState<any>();
+    const [list, setList] = useState<any>([]);
+    const [atualDate, setAtualDate] = useState<any>();
+    const [yesterday, setYesterday] = useState<any>();
 
-    const [ count, setCount ] = useState(10)
+    const [count, setCount] = useState(10);
 
     const { data: occurrences } = useOccurrences(
         token,
-        'DESC',
+        "DESC",
         1,
         undefined,
-        'No'
+        "No"
     );
     const { data: notifications, refetch } = useNotifications(
         token,
-        'DESC',
+        "DESC",
         1,
         count,
-        'Pending'
+        "Pending"
     );
 
-    function getList(){
-        let aux:any =  []
-        let arrayAuxList = []
-        let tempAuxList: any = []
-        let finalList = []
-        
+    function getList() {
+        let aux: any = [];
+        let arrayAuxList = [];
+        let tempAuxList: any = [];
+        let finalList = [];
+
         //@ts-ignore
-        notifications?.data?.forEach((id: any)=>{
-            aux.push(extractDate(id.createdAt))
-        })
-    
-        arrayAuxList = aux.filter((v: any, i: any, a: any) => a.indexOf(v) === i);
-    
-        arrayAuxList.forEach((id: any)=>{
+        notifications?.data?.forEach((id: any) => {
+            aux.push(extractDate(id.createdAt));
+        });
+
+        arrayAuxList = aux.filter(
+            (v: any, i: any, a: any) => a.indexOf(v) === i
+        );
+
+        arrayAuxList.forEach((id: any) => {
             tempAuxList.push({
-                "date": id,
-                "items": []
-            })
-        })
-    
+                date: id,
+                items: [],
+            });
+        });
+
         //@ts-ignore
-        notifications?.data?.forEach((contentLista: any)=>{
-            for(let i = 0; i < tempAuxList.length; i++){
-                if(tempAuxList[i].date == extractDate(contentLista.createdAt)){
-                    tempAuxList[i].items.push(contentLista)
+        notifications?.data?.forEach((contentLista: any) => {
+            for (let i = 0; i < tempAuxList.length; i++) {
+                if (
+                    tempAuxList[i].date == extractDate(contentLista.createdAt)
+                ) {
+                    tempAuxList[i].items.push(contentLista);
                 }
             }
-        })
-    
-        setList(tempAuxList)
+        });
+
+        setList(tempAuxList);
     }
 
     useEffect(() => {
-        getList()
-    }, [notifications])
+        getList();
+    }, [notifications]);
 
     useEffect(() => {
-        let date = moment().utc(true).format('DD-MM-YYYY');
+        let date = moment().utc(true).format("DD-MM-YYYY");
 
-        setAtualDate(date)
-
+        setAtualDate(date);
     }, []);
 
     useEffect(() => {
-        let date = moment().utc(true).format('DD-MM-YYYY');
+        let date = moment().utc(true).format("DD-MM-YYYY");
 
-        setYesterday(date)
+        setYesterday(date);
     }, []);
 
-    function setDate(value: string){
+    function setDate(value: string) {
         let aux = moment(value);
         let data = moment();
-        
-        return aux.diff(data, 'hours')
-    };
 
-    console.log(list)
-
+        return aux.diff(data, "hours");
+    }
 
     return (
         <S.Container>
-            
             <h1>Notificações</h1>
             <div>
-                <p>
-                    Hoje
-                </p>
+                <p>Hoje</p>
                 <div>
                     <span>
                         <img src={orangeAlertNotify} alt="" />
-                        <h2>Deletar os 2 textos exemplo antes de subir o codigo</h2>
+                        <h2>
+                            Deletar os 2 textos exemplo antes de subir o codigo
+                        </h2>
                     </span>
-                    <b>Cerca de 20 novas ocorrências estão esperando aprovação.</b>
-                    <p>
-                        Rebido há 10 horas
-                    </p>
+                    <b>
+                        Cerca de 20 novas ocorrências estão esperando aprovação.
+                    </b>
+                    <p>Rebido há 10 horas</p>
                     <S.ToOccurences to="/registros">
                         Clique aqui e veja no mapa
                         <img src={showBlueArow} alt="" />
                     </S.ToOccurences>
-                    <S.Finished 
-                        type='button'
+                    <S.Finished
+                        type="button"
                         onClick={() => {
                             // putNotifications(token, teste {
                             //     status: 'Finished'
@@ -135,24 +130,24 @@ const Notificacoes: React.FC = () => {
                 </div>
             </div>
             <div>
-                <p>
-                    Ontem
-                </p>
+                <p>Ontem</p>
                 <div>
                     <span>
                         <img src={orangeAlertNotify} alt="" />
-                        <h2>deletar os 2 textos exemplo antes de subir o codigo</h2>
+                        <h2>
+                            deletar os 2 textos exemplo antes de subir o codigo
+                        </h2>
                     </span>
-                    <b>Cerca de 20 novas ocorrências estão esperando aprovação.</b>
-                    <p>
-                        Rebido há 10 horas
-                    </p>
+                    <b>
+                        Cerca de 20 novas ocorrências estão esperando aprovação.
+                    </b>
+                    <p>Rebido há 10 horas</p>
                     <S.ToOccurences to="/registros">
                         Clique aqui e veja no mapa
                         <img src={showBlueArow} alt="" />
                     </S.ToOccurences>
-                    <S.Finished 
-                        type='button'
+                    <S.Finished
+                        type="button"
                         onClick={() => {
                             // putNotifications(token, teste {
                             //     status: 'Finished'
@@ -164,55 +159,65 @@ const Notificacoes: React.FC = () => {
                         <img src={noTrusted} alt="" />
                     </S.Finished>
                 </div>
-            </div> 
+            </div>
 
-        {list.map((id: any) => {
-            return (
-                <div>
-                    <p>
-                        {id.date === atualDate 
-                        ? 'Hoje' 
-                        : id.date === atualDate
-                        ? 'Ontem'
-                        : id.date
-                        }
-                    </p>
-                    {id.items.map((item: any) => {
-                        return (
-                            <div>
-                                <img src={orangeAlertNotify} alt="" />
-                                <h2>Novas ocorrências estão esperando para serem aprovadas!</h2>
-                                <b>Cerca de {occurrences?.data?.length} novas ocorrências estão esperando aprovação.</b>
-                                <p>
-                                    {extractDate(item.createdAt) === atualDate 
-                                        ? `Rebido há ${setDate(item.createdAt)} horas`
-                                        : `Recebido as ${extractHours(item.createdAt)}`}
-                                </p>
-                                <S.ToOccurences to="/registros">
-                                    Clique aqui e veja no mapa
-                                    <img src={showBlueArow} alt="" />
-                                </S.ToOccurences>
-                                <S.Finished 
-                                    type='button'
-                                    onClick={() => {
-                                        putNotifications(token, item.id, {
-                                            status: 'Finished'
-                                        }).then(() => {
-                                            refetch()
-                                        })
-                                    }}
-                                >
-                                    <img src={noTrusted} alt="" />
-                                </S.Finished>
-                            </div>
-                        )
-                    })}
-                </div>
-            );
-        })}
-
+            {list.map((id: any) => {
+                return (
+                    <div>
+                        <p>
+                            {id.date === atualDate
+                                ? "Hoje"
+                                : id.date === atualDate
+                                ? "Ontem"
+                                : id.date}
+                        </p>
+                        {id.items.map((item: any) => {
+                            return (
+                                <div>
+                                    <img src={orangeAlertNotify} alt="" />
+                                    <h2>
+                                        Novas ocorrências estão esperando para
+                                        serem aprovadas!
+                                    </h2>
+                                    <b>
+                                        Cerca de {occurrences?.data?.length}{" "}
+                                        novas ocorrências estão esperando
+                                        aprovação.
+                                    </b>
+                                    <p>
+                                        {extractDate(item.createdAt) ===
+                                        atualDate
+                                            ? `Rebido há ${setDate(
+                                                  item.createdAt
+                                              )} horas`
+                                            : `Recebido as ${extractHours(
+                                                  item.createdAt
+                                              )}`}
+                                    </p>
+                                    <S.ToOccurences to="/registros">
+                                        Clique aqui e veja no mapa
+                                        <img src={showBlueArow} alt="" />
+                                    </S.ToOccurences>
+                                    <S.Finished
+                                        type="button"
+                                        onClick={() => {
+                                            putNotifications(token, item.id, {
+                                                status: "Finished",
+                                            }).then(() => {
+                                                refetch();
+                                            });
+                                        }}
+                                    >
+                                        <img src={noTrusted} alt="" />
+                                    </S.Finished>
+                                </div>
+                            );
+                        })}
+                    </div>
+                );
+            })}
         </S.Container>
-    )
-}
+    );
+};
 
 export default Notificacoes;

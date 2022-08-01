@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
-import * as S from './style';
-import { 
-    logo,
+import React, { useEffect, useState } from "react";
+import * as S from "./style";
+import { useNotifications, useMessages } from "../../../services";
+import {
     logoPng,
     dashboard,
     configurations,
@@ -11,87 +11,148 @@ import {
     services,
     users,
     close,
-    hamburger
-} from '../../../assets';
-import { Drawer, Tooltip } from '@mui/material';
+    hamburger,
+} from "../../../assets";
+import { Badge, Drawer, Tooltip } from "@mui/material";
+import { RootState } from "../../../stores";
+import { useSelector } from "react-redux";
 
 const Aside: React.FC = () => {
-    const [ open, setOpen ] = useState(false);
+    const { token } = useSelector((state: RootState) => state.clickState);
+    const [open, setOpen] = useState(false);
+
+    const { data: AlertNotifications } = useNotifications(
+        token,
+        "DESC",
+        undefined,
+        undefined,
+        "Pending"
+    );
+    const { data: alertMessages } = useMessages(
+        token,
+        "DESC",
+        undefined,
+        undefined,
+        undefined
+    );
+
+    console.log(alertMessages?.data?.length, "teste");
+
     const link = [
-        {to: '/', icon: dashboard, label: 'Dashboard'},
-        {to:'/registros', icon: registers, label: 'Registros'},
-        {to: '/usuarios', icon: users, label: 'Usuários'},
-        {to:'/servicos', icon: services, label: 'Serviços'},
-        {to: '/notificacoes', icon: notification, label: 'Notificações'},
-        {to: '/mensagens', icon: mensage, label: 'Mensagens'},
-        {to:'/configuracoes', icon: configurations, label: 'Configurações'}
+        { to: "/", icon: dashboard, label: "Dashboard", alert: 0 },
+        { to: "/registros", icon: registers, label: "Registros", alert: 99 },
+        { to: "/usuarios", icon: users, label: "Usuários", alert: 0 },
+        { to: "/servicos", icon: services, label: "Serviços", alert: 0 },
+        {
+            to: "/notificacoes",
+            icon: notification,
+            label: "Notificações",
+            alert: 10, //AlertNotifications?.length,
+        },
+        {
+            to: "/mensagens",
+            icon: mensage,
+            label: "Mensagens",
+            alert: 100, //alertMessages?.data?.length,
+        },
+        {
+            to: "/configuracoes",
+            icon: configurations,
+            label: "Configurações",
+            alert: 0,
+        },
     ];
 
     return (
         <>
             <S.Container>
-                {/* <S.logo>
-                    <img src={logoPng} alt="" />
-                </S.logo> */}
-                <Tooltip title='Menu Lateral' arrow placement='right'>
-                    <S.Hamburguer 
-                        type='button'
-                        onClick={() => setOpen(true)}
-                    >
+                <Tooltip title="Menu Lateral" arrow placement="right">
+                    <S.Hamburguer type="button" onClick={() => setOpen(true)}>
                         <img src={hamburger} alt="" />
                     </S.Hamburguer>
                 </Tooltip>
-                <S.Navigation>
+                <S.Navigation hamburger={true}>
                     {link.map((id: any) => {
                         return (
-                            <Tooltip title={id.label} arrow placement='right'>
-                                <S.Link 
-                                    to={id.to}
-                                    id={id.label}
-                                    onClick={() => setOpen(false)}
-                                    hamburger={true}
+                            <Badge badgeContent={id.alert} max={99}>
+                                <Tooltip
+                                    title={id.label}
+                                    arrow
+                                    placement="right"
                                 >
-                                    <img src={id.icon} alt="" />
-                                </S.Link>
-                            </Tooltip>
-                        )
+                                    <S.Link
+                                        to={id.to}
+                                        id={id.label}
+                                        onClick={() => setOpen(false)}
+                                        hamburger={true}
+                                    >
+                                        <img src={id.icon} alt="" />
+                                    </S.Link>
+                                </Tooltip>
+                            </Badge>
+                        );
                     })}
                 </S.Navigation>
             </S.Container>
-            <Drawer
-                anchor='left'
-                open={open}
-                onClose={() => setOpen(!open)}
-            >   
+            <Drawer anchor="left" open={open} onClose={() => setOpen(!open)}>
                 <S.Flex>
                     <S.logo>
                         <img src={logoPng} alt="" />
                     </S.logo>
-                    <S.Close 
-                        type='button'
-                        onClick={() => setOpen(false)}
-                    >
+                    <S.Close type="button" onClick={() => setOpen(false)}>
                         <img src={close} alt="" />
                     </S.Close>
                 </S.Flex>
-                <S.Navigation>
+                <S.Navigation hamburger={false}>
                     {link.map((id: any) => {
                         return (
-                            <S.Link 
+                            <S.Link
                                 to={id.to}
                                 id={id.label}
                                 onClick={() => setOpen(false)}
                                 hamburger={false}
                             >
                                 <img src={id.icon} alt="" />
-                                <p>{id.label}</p>
+                                <div>
+                                    <p>{id.label}</p>
+                                    {id.alert <= 0 && (
+                                        <>
+                                        </>
+                                    )}
+                                    {id?.alert >= 100 && (
+                                        <>
+                                            <Tooltip
+                                                title={`mais de 99 ${id.label}`}
+                                                arrow
+                                                placement="right"
+                                            >
+                                                <S.Alert id={id.label}>
+                                                    <p>99+</p>
+                                                </S.Alert>
+                                            </Tooltip>
+                                        </>
+                                    )}
+                                    {(id.alert > 0) && (id.alert < 100) && (
+                                        <>
+                                            <Tooltip
+                                                title={`${id.alert} ${id.label}`}
+                                                arrow
+                                                placement="right"
+                                            >
+                                                <S.Alert id={id.label}>
+                                                    <p>{id.alert}</p>
+                                                </S.Alert>
+                                            </Tooltip>
+                                        </>
+                                    )}
+                                </div>
                             </S.Link>
-                        )
+                        );
                     })}
                 </S.Navigation>
-          </Drawer>
+            </Drawer>
         </>
-    )
-}
+    );
+};
 
 export default Aside;
