@@ -1,34 +1,32 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
-import { regex } from '../../services/functions/regex';
-import { RootState } from '../../stores';
-import EditForm from './EditUser';
-import NewPassword from './NewPassword';
-import * as S from './style';
+import React, { useState } from "react";
+import { useSelector } from "react-redux";
+import { regex } from "../../services/functions/regex";
+import { RootState } from "../../stores";
+import EditForm from "./EditUser";
+import NewPassword from "./NewPassword";
+import * as S from "./style";
 
 const Configuracoes: React.FC = () => {
-    const { user } = useSelector((state : RootState) => state.clickState);
-    const [ modalPassword, setModalPassword ] = useState(false);
-    const [ modalEdit, setModalEdit ] = useState(false);
+    const { user } = useSelector((state: RootState) => state.clickState);
+    const [modalPassword, setModalPassword] = useState(false);
+    const [modalEdit, setModalEdit] = useState(false);
     return (
         <S.Container>
             <div>
-                <h1>
-                    Configurações
-                </h1>
+                <h1>Configurações</h1>
                 <div>
-                    <button 
-                        type='button'
+                    <button
+                        type="button"
                         onClick={() => {
-                            setModalPassword(!modalPassword)
+                            setModalPassword(!modalPassword);
                         }}
                     >
                         Alterar senha
                     </button>
-                    <button 
-                        type='button'
+                    <button
+                        type="button"
                         onClick={() => {
-                            setModalEdit(!modalEdit)
+                            setModalEdit(!modalEdit);
                         }}
                     >
                         Editar dados
@@ -41,19 +39,19 @@ const Configuracoes: React.FC = () => {
                     <h1>{user?.name}</h1>
                 </div>
                 <div>
-                    <span style={{ width: '275px'}}>
+                    <span style={{ width: "275px" }}>
                         <p>Telefone</p>
                         <p>{regex(user?.phone_number)}</p>
                     </span>
-                    <span style={{width: '284px'}}>
+                    <span style={{ width: "284px" }}>
                         <p>E-mail</p>
                         <p>{user?.email}</p>
                     </span>
-                    <span style={{width: '268px'}}>
+                    <span style={{ width: "268px" }}>
                         <p>Estado</p>
                         <p>{user?.state}</p>
                     </span>
-                    <span style={{width: 'auto'}}>
+                    <span style={{ width: "auto" }}>
                         <p>Cidade</p>
                         <p>{user?.city}</p>
                     </span>
@@ -63,19 +61,19 @@ const Configuracoes: React.FC = () => {
                 itemEdit={user}
                 isModal={modalPassword}
                 onHide={() => {
-                    setModalPassword(!modalPassword)
+                    setModalPassword(!modalPassword);
                 }}
             />
-            
-            <EditForm 
+
+            <EditForm
                 itemEdit={user}
                 isModal={modalEdit}
                 onClose={() => {
-                    setModalEdit(!modalEdit)
+                    setModalEdit(!modalEdit);
                 }}
             />
         </S.Container>
-    )
-}
+    );
+};
 
 export default Configuracoes;

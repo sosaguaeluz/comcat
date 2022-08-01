@@ -6,18 +6,16 @@ export const Container = styled.div`
     grid-template-rows: 80px auto;
     overflow: hidden;
 
-    grid-template-areas: 
-        'AS MH'
-        'AS CT'
-    ;
+    grid-template-areas:
+        "AS MH"
+        "AS CT";
 `;
 
 export const Content = styled.div`
     grid-area: CT;
-    width: 100vw;
-    padding: 40px 40px 40px 120px;
-    margin-left: -80px;
-    background: ${props => props.theme.colors.whiteSecconday};
-    overflow: hidden;
-
+    width: calc(100vw - 80px);
+    height: calc(100vh - 80px);
+    padding: 40px;
+    background: ${(props) => props.theme.colors.whiteSecconday};
+    overflow-x: hidden;
 `;
