@@ -1,40 +1,34 @@
-import React, { useState } from 'react';
-import * as S from './style';
-import { useSelector } from 'react-redux';
-import { RootState } from '../../stores';
-import { convertDate, deleteMessage, putMessages, useMessages } from '../../services';
+import React, { useState } from "react";
+import * as S from "./style";
+import { useSelector } from "react-redux";
+import { RootState } from "../../stores";
 import {
-    getReason,
-    getStatus
-} from '../../services/index'
-import { 
-    Poppover,
-    ModalDelete,
-    ModalMsg,
-    Pagination
-} from '../../components';
-import RespMessage from './RespMenssage';
-import { iconShow } from '../../assets';
+    convertDate,
+    deleteMessage,
+    putMessages,
+    useMessages,
+} from "../../services";
+import { getReason, getStatus } from "../../services/index";
+import { Poppover, ModalDelete, ModalMsg, Pagination } from "../../components";
+import RespMessage from "./RespMenssage";
+import { iconShow } from "../../assets";
 
 const Mensagens: React.FC = () => {
     const { token } = useSelector((state: RootState) => state.clickState);
-    const [ page, setPage ] = useState<number>(1);
-    const [ status, setStatus ] = useState<any>(undefined);
-    const [ reason, setReason ] = useState<any>(undefined);
-    const [ idMessage, setIdMessage ] = useState('');
-    const [ objMessage, setObjMessage ] = useState(null);
-    const [ answer, setAnswer ] = useState(false);
-    const [ respObj, setRespObj ] = useState(false);
-    const [ deleteObj, setDeleteObj ] = useState(false);
-    const [ msgDelete, setMsgDelete ] = useState(false);
-    const [ msgAnswer, setMsgAnswer ] = useState(false);
+    const [page, setPage] = useState<number>(1);
+    const [status, setStatus] = useState<any>(undefined);
+    const [reason, setReason] = useState<any>(undefined);
+    const [idMessage, setIdMessage] = useState("");
+    const [objMessage, setObjMessage] = useState(null);
+    const [answer, setAnswer] = useState(false);
+    const [respObj, setRespObj] = useState(false);
+    const [deleteObj, setDeleteObj] = useState(false);
+    const [msgDelete, setMsgDelete] = useState(false);
+    const [msgAnswer, setMsgAnswer] = useState(false);
 
-    const { 
-        data: messages,
-        refetch 
-    } = useMessages(
+    const { data: messages, refetch } = useMessages(
         token,
-        'DESC',
+        "DESC",
         page,
         10,
         reason,
@@ -49,82 +43,82 @@ const Mensagens: React.FC = () => {
                     <span>
                         <p>Status:</p>
                         <input
-                            name="status" 
-                            type="radio" 
-                            value="" 
+                            name="status"
+                            type="radio"
+                            value=""
                             id="AllStatus"
                             onClick={() => {
-                                setStatus(undefined)
-                            }} 
+                                setStatus(undefined);
+                            }}
                             defaultChecked={true}
                         />
                         <label htmlFor="">Todos</label>
                         <input
-                            name="status" 
-                            type="radio" 
-                            value="Answered" 
-                            id="Answered" 
+                            name="status"
+                            type="radio"
+                            value="Answered"
+                            id="Answered"
                             onClick={() => {
-                                setStatus('Answered')
-                            }} 
+                                setStatus("Answered");
+                            }}
                         />
                         <label htmlFor="">Respondida</label>
                         <input
-                            name="status" 
-                            type="radio" 
-                            value="NotAnswered" 
-                            id="NotAnswered" 
+                            name="status"
+                            type="radio"
+                            value="NotAnswered"
+                            id="NotAnswered"
                             onClick={() => {
-                                setStatus('NotAnswered')
-                            }} 
+                                setStatus("NotAnswered");
+                            }}
                         />
                         <label htmlFor="">Não respondida</label>
-                    </span>                        
+                    </span>
                     <span>
                         <p>Motivo:</p>
-                        <input 
-                            type="radio" 
-                            name="reason" 
-                            id="allReason" 
+                        <input
+                            type="radio"
+                            name="reason"
+                            id="allReason"
                             onClick={() => {
-                                setReason(undefined)
+                                setReason(undefined);
                             }}
                             defaultChecked={true}
                         />
                         <label htmlFor="">Todos</label>
-                        <input 
-                            type="radio" 
-                            name="reason" 
-                            id="Denounce" 
+                        <input
+                            type="radio"
+                            name="reason"
+                            id="Denounce"
                             onClick={() => {
-                                setReason('Denounce')
+                                setReason("Denounce");
                             }}
                         />
                         <label htmlFor="">Denúncia</label>
-                        <input 
-                            type="radio" 
-                            name="reason" 
-                            id="Doubt" 
+                        <input
+                            type="radio"
+                            name="reason"
+                            id="Doubt"
                             onClick={() => {
-                                setReason('Doubt')
+                                setReason("Doubt");
                             }}
                         />
                         <label htmlFor="">Dúvida</label>
-                        <input 
-                            type="radio" 
-                            name="reason" 
-                            id="Complaint" 
+                        <input
+                            type="radio"
+                            name="reason"
+                            id="Complaint"
                             onClick={() => {
-                                setReason('Complaint')
+                                setReason("Complaint");
                             }}
                         />
                         <label htmlFor="">Queixa</label>
-                        <input 
-                            type="radio" 
-                            name="reason" 
-                            id="Surge" 
+                        <input
+                            type="radio"
+                            name="reason"
+                            id="Surge"
                             onClick={() => {
-                                setReason('Surge')
+                                setReason("Surge");
                             }}
                         />
                         <label htmlFor="">Sugestão</label>
@@ -136,27 +130,32 @@ const Mensagens: React.FC = () => {
                     <S.Table>
                         <S.TableHead>
                             <tr>
-                                <th style={{width: '157px'}}>
-                                    <span style={{ marginLeft: '24px' }}>
+                                <th style={{ width: "150px" }}>
+                                    <span style={{ marginLeft: "24px" }}>
                                         Data
                                         <button>
                                             <img src={iconShow} alt="" />
                                         </button>
-                                    </span>                                
+                                    </span>
                                 </th>
-                                <th style={{width: '215px'}}>
+                                <th style={{ width: "200px" }}>
                                     <span>Nome</span>
                                 </th>
-                                <th style={{width: '177px'}}>
+                                <th style={{ width: "300px" }}>
                                     <span>E-mail</span>
                                 </th>
-                                <th style={{width: '141px'}}>
+                                <th style={{ width: "140px" }}>
                                     <span>Motivo</span>
                                 </th>
-                                <th style={{width: 'auto'}}>
+                                <th
+                                    style={{
+                                        width: "auto",
+                                        minWidth: "400px",
+                                    }}
+                                >
                                     <span>Mensagem</span>
                                 </th>
-                                <th style={{width: '150px'}}>
+                                <th style={{ width: "130px" }}>
                                     <span>
                                         Status
                                         <button>
@@ -164,8 +163,8 @@ const Mensagens: React.FC = () => {
                                         </button>
                                     </span>
                                 </th>
-                                <th style={{width: '99px'}}>
-                                    <span style={{ marginRight: '34px' }}>
+                                <th style={{ width: "90px" }}>
+                                    <span style={{ marginRight: "24px" }}>
                                         Ações
                                     </span>
                                 </th>
@@ -175,139 +174,148 @@ const Mensagens: React.FC = () => {
                             {messages?.data?.map((id: any) => {
                                 return (
                                     <tr>
-                                        <td style={{width: '157px'}}>
-                                            <span>{convertDate(id?.createdAt)}</span>
+                                        <td style={{ width: "150px" }}>
+                                            <span>
+                                                {convertDate(id?.createdAt)}
+                                            </span>
                                         </td>
-                                        <td style={{width: '215px'}}>
+                                        <td style={{ width: "200px" }}>
                                             <span>{id?.name}</span>
                                         </td>
-                                        <td style={{width: '200px'}}>
+                                        <td style={{ width: "300px" }}>
                                             <span>{id?.email}</span>
                                         </td>
-                                        <S.Answer answer={id?.reason}>
-                                            <span style={{ paddingRight: '34px' }}>
-                                                <p>
+                                        <td style={{ width: "140px" }}>
+                                            <S.Answer answer={id?.reason}>
                                                 {getReason(id?.reason)}
-                                                </p>
-                                            </span>
-                                        </S.Answer>
-                                        <td>
+                                            </S.Answer>
+                                        </td>
+                                        <td
+                                            style={{
+                                                width: "auto",
+                                                minWidth: "400px",
+                                            }}
+                                        >
                                             <span>{id?.message}</span>
                                         </td>
-                                        <S.Status status={id?.status}>
-                                            <span>
-                                                <p>
-                                                    {getStatus(id?.status)}
-                                                </p>
-                                            </span>
-                                        </S.Status>
-                                        <td style={{width: '99px'}}>
-                                            <span  style={{ marginRight: '34px' }}>
+                                        <td style={{ width: "130px" }}>
+                                            <S.Status status={id?.status}>
+                                                {getStatus(id?.status)}
+                                            </S.Status>
+                                        </td>
+                                        <td style={{ width: "90px" }}>
+                                            <span
+                                                style={{ marginRight: "24px" }}
+                                            >
                                                 <S.Options>
                                                     <Poppover
-                                                        type='menssage'
-                                                        onClick={ () => {}}
-                                                        onAnswer={ () => {
-                                                            setObjMessage(id)
-                                                            setRespObj(!respObj)
+                                                        type="menssage"
+                                                        onClick={() => {}}
+                                                        onAnswer={() => {
+                                                            setObjMessage(id);
+                                                            setRespObj(
+                                                                !respObj
+                                                            );
                                                         }}
-                                                        onMark={ () => {
-                                                            setIdMessage(id.id)
-                                                            setAnswer(!answer)
+                                                        onMark={() => {
+                                                            setIdMessage(id.id);
+                                                            setAnswer(!answer);
                                                         }}
-                                                        onDelete={ () => {
-                                                            setIdMessage(id.id)
-                                                            setDeleteObj(!deleteObj)
+                                                        onDelete={() => {
+                                                            setIdMessage(id.id);
+                                                            setDeleteObj(
+                                                                !deleteObj
+                                                            );
                                                         }}
-                                                    />                                                    
+                                                    />
                                                 </S.Options>
                                             </span>
                                         </td>
                                     </tr>
-                                )
+                                );
                             })}
                         </tbody>
                     </S.Table>
                 </S.ScrollDiv>
             </S.Container>
 
-            <Pagination 
+            <Pagination
                 onPage={(e: any) => {
-                setPage(e)
-                }} 
-                value={page} 
-            />    
+                    setPage(e);
+                }}
+                value={page}
+            />
 
-            <ModalDelete 
-                open={deleteObj} 
+            <ModalDelete
+                open={deleteObj}
                 onClose={() => {
-                    setDeleteObj(false)
-                }} 
-                width={469} 
-                mensage='Deseja mesmo escluir essa mensagem?' 
+                    setDeleteObj(false);
+                }}
+                width={469}
+                mensage="Deseja mesmo escluir essa mensagem?"
                 onDelete={() => {
                     deleteMessage(token, idMessage).then(() => {
-                        setDeleteObj(false)
-                        setMsgDelete(true)
-                    })
-                }} 
-                buttonText='Sim, excluir' 
+                        setDeleteObj(false);
+                        setMsgDelete(true);
+                    });
+                }}
+                buttonText="Sim, excluir"
                 backgroundColor="false"
             />
 
-            <ModalDelete 
-                open={answer} 
+            <ModalDelete
+                open={answer}
                 onClose={() => {
-                    setAnswer(false)
-                }} 
-                width={469} 
-                mensage='Deseja marcar esta mensagem como respondida?' 
+                    setAnswer(false);
+                }}
+                width={469}
+                mensage="Deseja marcar esta mensagem como respondida?"
                 onDelete={() => {
                     let obj: any = {
-                        "status": "Answered"
-                    }
+                        status: "Answered",
+                    };
                     putMessages(token, idMessage, obj).then(() => {
-                        setAnswer(false)
-                        setMsgAnswer(true)
-                    })
-                }} 
-                buttonText='Sim, marcar' 
+                        setAnswer(false);
+                        setMsgAnswer(true);
+                    });
+                }}
+                buttonText="Sim, marcar"
                 backgroundColor="true"
             />
 
-            <ModalMsg 
-                open={msgDelete} 
+            <ModalMsg
+                open={msgDelete}
                 onClose={() => {
-                    refetch()
-                    setMsgDelete(false)
-                }} 
-                width={469} 
-                status='success' 
-                mensage='Mensagem excluida com sucesso' 
-                modalBackground={false} 
-                height='312px'
+                    refetch();
+                    setMsgDelete(false);
+                }}
+                width={469}
+                status="success"
+                mensage="Mensagem excluida com sucesso"
+                modalBackground={false}
+                height="312px"
             />
 
-            <ModalMsg 
-                open={msgAnswer} 
+            <ModalMsg
+                open={msgAnswer}
                 onClose={() => {
-                    refetch()
-                    setMsgAnswer(false)
-                }} 
-                width={469} 
-                status='success' 
-                mensage='A mensagem foi marcada como respondida com sucesso' 
-                modalBackground={false} 
-                height='312px'
+                    refetch();
+                    setMsgAnswer(false);
+                }}
+                width={469}
+                status="success"
+                mensage="A mensagem foi marcada como respondida com sucesso"
+                modalBackground={false}
+                height="312px"
             />
 
             <RespMessage
-                token={token} 
+                token={token}
                 itemEdit={objMessage}
                 isModal={respObj}
                 onHide={() => {
-                    refetch()
-                    setRespObj(!respObj)
+                    refetch();
+                    setRespObj(!respObj);
                 }}
             />
         </>
