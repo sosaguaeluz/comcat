@@ -41,13 +41,28 @@ export const ButtonBack = styled.button`
         transform: rotate(90deg);
     }
 `;
-
 export const Form = styled.form`
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+`
+export const DivForm = styled.div`
         height: auto;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: space-between;
+        > h1 {
+        text-align: center;
+        font-family: 'Inter';
+        font-style: normal;
+        font-weight: 600;
+        font-size: 24px;
+        line-height: 34px;
+        color: ${props => props.theme.colors.dark};
+        margin-bottom: 32px;
+    }
         
         > fieldset {
             display: flex;
@@ -55,23 +70,6 @@ export const Form = styled.form`
             > span {
                 color: red;
                 font-size: 14px;
-            }
-        }
-
-        > div {
-            width: 400px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-top: 24px;
-            
-            > p {
-                font-family: 'Inter';
-                font-style: normal;
-                font-weight: 400;
-                font-size: 14px;
-                line-height: 20px;
-                color: #2C3941;
             }
         }
 `
