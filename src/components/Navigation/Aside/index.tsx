@@ -38,9 +38,9 @@ const Aside: React.FC = () => {
     );
 
     const link = [
-        { to: "/", icon: dashboard, label: "Dashboard", alert: 0 },
-        { to: "/registros", icon: registers, label: "Registros", alert: 0},
-        { to: "/usuarios", icon: users, label: "Usuários", alert: 0 },
+        { to: "/", icon: dashboard, label: "Dashboard", alert: 999},
+        { to: "/registros", icon: registers, label: "Registros", alert: 10},
+        { to: "/usuarios", icon: users, label: "Usuários", alert: 99},
         { to: "/servicos", icon: services, label: "Serviços", alert: 0 },
         { to: "/notificacoes", icon: notification, label: "Notificações", alert: AlertNotifications?.length },
         { to: "/mensagens", icon: mensage, label: "Mensagens", alert: alertMessages?.length},
@@ -110,7 +110,7 @@ const Aside: React.FC = () => {
                                                 arrow
                                                 placement="right"
                                             >
-                                                <S.Alert id={id.label}>
+                                                <S.Alert id={id.label} style={{width: 'auto', padding:'0px 4px'}}>
                                                     <p>99+</p>
                                                 </S.Alert>
                                             </Tooltip>
