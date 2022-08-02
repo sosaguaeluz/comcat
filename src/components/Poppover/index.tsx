@@ -21,13 +21,15 @@ interface IProps {
 
 const Poppover: React.FC <IProps> = ({onDelete, onEdit, onClick, type, onView, onApprove, onFinish, onAnswer, onMark}) => {
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
+    const [close, setClose] = React.useState<HTMLButtonElement | null>(null);
+
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
       setAnchorEl(event.currentTarget);
     };
   
     const handleClose = () => {
-      setAnchorEl(null);
+        setAnchorEl(null);
     };
 
     const open = Boolean(anchorEl);
@@ -58,83 +60,94 @@ const Poppover: React.FC <IProps> = ({onDelete, onEdit, onClick, type, onView, o
                     }}
                                     
                 >
-                    {type === 'userApp' && (
-                        <S.TwoItens>
-                            <button 
+                    {type === 'menssageResponse' && (
+                        <S.DivPoppover width={'112px'}>
+                            <S.CloseButton 
                                 onClick={handleClose}
                                 type='button'
                             >
                                 <img src={closeRed} alt="" />
-                            </button>
-                            <button 
+                            </S.CloseButton>                            
+                            <S.DeleteButton 
+                                onClick={onDelete}
+                                type='button'
+                                id="onDelete_poppover"
+                            >
+                                Excluir
+                            </S.DeleteButton>
+                        </S.DivPoppover>
+                    )}
+                    {type === 'userApp' && (
+                        <S.DivPoppover width={'112px'}>
+                            <S.CloseButton 
+                                onClick={handleClose}
+                                type='button'
+                            >
+                                <img src={closeRed} alt="" />
+                            </S.CloseButton>
+                            <S.Button 
                                 onClick={onEdit}
                                 type='button'
                                 id="onEdit_poppover"
                             >
                                 Gerenciar
-                            </button>
-                            <button 
+                            </S.Button>
+                            <S.DeleteButton 
                                 onClick={onDelete}
                                 type='button'
                                 id="onDelete_poppover"
                             >
                                 Excluir
-                            </button>
-                        </S.TwoItens>
+                            </S.DeleteButton>
+                        </S.DivPoppover>
                     )}
                     {type === 'userPanel' && (
-                        <S.TwoItens>
-                            <button 
-                                onClick={()=>{
-                                    handleClose()
-                                }}
-                                type='button'
-                            >
-                                <img src={closeRed} alt="" />
-                            </button>
-                            <button 
-                                onClick={onEdit}
-                                type='button'
-                                id="onEdit_poppover"
-                            >
-                                Editar
-                            </button>
-                            <button 
-                                onClick={onDelete}
-                                type='button'
-                                id="onDelete_poppover"
-                            >
-                                Excluir
-                            </button>
-                        </S.TwoItens>
-                    )}
-                    {type === 'occurrences' && (
-                        <S.FiveItems>
-                            <button 
+                        <S.DivPoppover width={'112px'}>
+                            <S.CloseButton 
                                 onClick={handleClose}
                                 type='button'
                             >
                                 <img src={closeRed} alt="" />
-                            </button>
-                            <button 
+                            </S.CloseButton>
+                            <S.Button 
                                 onClick={onEdit}
                                 type='button'
                                 id="onEdit_poppover"
                             >
                                 Editar
-                            </button>
-                            <button 
-                                // onClick={() => {
-                                //     onView()
-                                //     handleClose()
-                                // }}
+                            </S.Button>
+                            <S.DeleteButton 
+                                onClick={onDelete}
+                                type='button'
+                                id="onDelete_poppover"
+                            >
+                                Excluir
+                            </S.DeleteButton>
+                        </S.DivPoppover>
+                    )}
+                    {type === 'occurrences' && (
+                        <S.DivPoppover width={'190px'}>
+                            <S.CloseButton 
+                                onClick={handleClose}
+                                type='button'
+                            >
+                                <img src={closeRed} alt="" />
+                            </S.CloseButton>
+                            <S.Button 
+                                onClick={onEdit}
+                                type='button'
+                                id="onEdit_poppover"
+                            >
+                                Editar
+                            </S.Button>
+                            <S.Button 
                                 onClick={onView}
                                 type='button'
                                 id="onView_poppover"
                             >
                                 Visualizar
-                            </button>
-                            <button 
+                            </S.Button>
+                            <S.Button 
                                 // onClick={() => {
                                 //     onFinish()
                                 //     handleClose()
@@ -144,8 +157,8 @@ const Poppover: React.FC <IProps> = ({onDelete, onEdit, onClick, type, onView, o
                                 id="onFinish_poppover"
                             >
                                 Finalizar ocorrência
-                            </button>
-                            <button 
+                            </S.Button>
+                            <S.Button 
                                 // onClick={() => {
                                 //     onApprove()
                                 //     handleClose()
@@ -155,25 +168,25 @@ const Poppover: React.FC <IProps> = ({onDelete, onEdit, onClick, type, onView, o
                                 id="onApprove_poppover"
                             >
                                 Aprovar/Reprovar
-                            </button>
-                            <button 
+                            </S.Button>
+                            <S.DeleteButton 
                                 onClick={onDelete}
                                 type='button'
                                 id="onDelete_poppover"
                             >
                                 Excluir
-                            </button>
-                        </S.FiveItems>
+                            </S.DeleteButton>
+                        </S.DivPoppover>
                     )}
                     {type === 'menssage' && (
-                        <S.TypeMessages>
-                            <button 
+                        <S.DivPoppover width={'220px'}>
+                            <S.CloseButton 
                                 onClick={handleClose}
                                 type='button'
                             >
                                 <img src={closeRed} alt="" />
-                            </button>
-                            <button 
+                            </S.CloseButton>
+                            <S.Button 
                                 // onClick={() => {
                                 //     onAnswer()                                    
                                 //     handleClose()
@@ -183,8 +196,8 @@ const Poppover: React.FC <IProps> = ({onDelete, onEdit, onClick, type, onView, o
                                 id="onAnswer_poppover"
                             >
                                 Responder
-                            </button>
-                            <button 
+                            </S.Button>
+                            <S.Button 
                                 // onClick={() => {
                                 //     onMark()
                                 //     handleClose()
@@ -194,15 +207,15 @@ const Poppover: React.FC <IProps> = ({onDelete, onEdit, onClick, type, onView, o
                                 id="onMark_poppover"
                             >
                                 Marcar como respondida
-                            </button>
-                            <button 
+                            </S.Button>
+                            <S.DeleteButton 
                                 onClick={onDelete}
                                 type='button'
                                 id="onDelete_poppover"
                             >
                                 Excluir
-                            </button>
-                        </S.TypeMessages>
+                            </S.DeleteButton>
+                        </S.DivPoppover>
                     )}
                 </Popover>
             </>

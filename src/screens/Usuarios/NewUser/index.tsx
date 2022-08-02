@@ -75,11 +75,7 @@ const NewUser: React.FC <IProps> = ({onClose, isModal}) => {
         if (!isModal) {
             reset()
         }
-    },[isModal,reset]) 
-
-    console.log(uf, 'ESTADO KKK')
-
-    // console.log(watch('active'))
+    },[isModal,reset])
 
     return (
         <PersonalModal

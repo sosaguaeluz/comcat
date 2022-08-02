@@ -87,7 +87,7 @@ const Registros: React.FC = () => {
         token,
         "DESC",
         page,
-        10,
+        20,
         status,
         service,
         address,

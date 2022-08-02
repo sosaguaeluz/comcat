@@ -32,7 +32,7 @@ import {
     noTrusted,
     userIcon,
 } from "../../assets";
-import { BREED, GENRE } from "../../constants/index";
+import { BREED, GENRE, } from "../../constants/index";
 import { regex } from "../../services/functions/regex";
 import { Grid } from "@mui/material";
 
@@ -92,7 +92,16 @@ const Usuarios: React.FC = () => {
         isLoading: loadUsers,
         refetch,
         isFetched: isFetchedUsers,
-    } = useUsers(token, "DESC", page, 100, user, breed, genre, ufValue, role);
+    } = useUsers(token,
+        "DESC",
+        page,
+        20,
+        user,
+        breed,
+        genre,
+        ufValue,
+        role
+    );
 
     const deleteUser = async (id: string) => {
         const data = await api.delete(`/users/${id}`, {
@@ -159,7 +168,7 @@ const Usuarios: React.FC = () => {
                                         list={totalList}
                                     />
                                 </Grid>
-                                {regionUsers?.map((id: any, index: number) => {
+                                {regionUsers?.map((id: any) => {
                                     return (
                                         <Grid item xs={6} sm={4} md={4} lg xl>
                                             <DropDown
@@ -199,7 +208,7 @@ const Usuarios: React.FC = () => {
                                     <Grid item xs sm md lg xl>
                                         <Search
                                             onChange={(e) => {
-                                                // setUser(e.target.value);
+                                                setUser(e.target.value);
                                             }}
                                             width="100%"
                                         />
@@ -237,7 +246,7 @@ const Usuarios: React.FC = () => {
                                                 id="Estado"
                                                 label="Estado"
                                                 value="Todos os Estados"
-                                                defaultValue="Todos os Estados"
+                                                defaultValue={"Todos os Estados"}
                                                 // labelDefault='Todos os Estados'
                                                 list={[
                                                     {
@@ -498,7 +507,6 @@ const Usuarios: React.FC = () => {
                         </S.Container>
                     </>
                 )}
-
                 {panel === true && (
                     <>
                         <S.Container>

@@ -97,73 +97,10 @@ const Notificacoes: React.FC = () => {
 
     return (
         <S.Container>
-            <h1>Notificações</h1>
-            <div>
-                <p>Hoje</p>
-                <div>
-                    <span>
-                        <img src={orangeAlertNotify} alt="" />
-                        <h2>
-                            Deletar os 2 textos exemplo antes de subir o codigo
-                        </h2>
-                    </span>
-                    <b>
-                        Cerca de 20 novas ocorrências estão esperando aprovação.
-                    </b>
-                    <p>Rebido há 10 horas</p>
-                    <S.ToOccurences to="/registros">
-                        Clique aqui e veja no mapa
-                        <img src={showBlueArow} alt="" />
-                    </S.ToOccurences>
-                    <S.Finished
-                        type="button"
-                        onClick={() => {
-                            // putNotifications(token, teste {
-                            //     status: 'Finished'
-                            // }).then(() => {
-                            //     refetch()
-                            // })
-                        }}
-                    >
-                        <img src={noTrusted} alt="" />
-                    </S.Finished>
-                </div>
-            </div>
-            <div>
-                <p>Ontem</p>
-                <div>
-                    <span>
-                        <img src={orangeAlertNotify} alt="" />
-                        <h2>
-                            deletar os 2 textos exemplo antes de subir o codigo
-                        </h2>
-                    </span>
-                    <b>
-                        Cerca de 20 novas ocorrências estão esperando aprovação.
-                    </b>
-                    <p>Rebido há 10 horas</p>
-                    <S.ToOccurences to="/registros">
-                        Clique aqui e veja no mapa
-                        <img src={showBlueArow} alt="" />
-                    </S.ToOccurences>
-                    <S.Finished
-                        type="button"
-                        onClick={() => {
-                            // putNotifications(token, teste {
-                            //     status: 'Finished'
-                            // }).then(() => {
-                            //     refetch()
-                            // })
-                        }}
-                    >
-                        <img src={noTrusted} alt="" />
-                    </S.Finished>
-                </div>
-            </div>
-
+            <h1>Notificações</h1>            
             {list.map((id: any) => {
                 return (
-                    <div>
+                    <S.Date>
                         <p>
                             {id.date === atualDate
                                 ? "Hoje"
@@ -173,12 +110,14 @@ const Notificacoes: React.FC = () => {
                         </p>
                         {id.items.map((item: any) => {
                             return (
-                                <div>
-                                    <img src={orangeAlertNotify} alt="" />
-                                    <h2>
-                                        Novas ocorrências estão esperando para
-                                        serem aprovadas!
-                                    </h2>
+                                <S.Message>
+                                    <span>
+                                        <img src={orangeAlertNotify} alt="" />
+                                        <h2>
+                                            Novas ocorrências estão esperando para
+                                            serem aprovadas!
+                                        </h2>
+                                    </span>
                                     <b>
                                         Cerca de {occurrences?.data?.length}{" "}
                                         novas ocorrências estão esperando
@@ -210,12 +149,16 @@ const Notificacoes: React.FC = () => {
                                     >
                                         <img src={noTrusted} alt="" />
                                     </S.Finished>
-                                </div>
+                                </S.Message>
                             );
                         })}
-                    </div>
+                    </S.Date>
                 );
             })}
+
+            <S.ButtonMore>
+                Carregar mais notificações
+            </S.ButtonMore>
         </S.Container>
     );
 };

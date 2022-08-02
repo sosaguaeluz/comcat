@@ -29,8 +29,6 @@ const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
     const [ open, setOpen ] = useState(false);
     const [ confirmManage, setConfirmManage ] = useState(false);
 
-
-    
     const {
         handleSubmit,
         formState: { errors, isSubmitting, isDirty, isValid,},

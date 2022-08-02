@@ -84,7 +84,7 @@ const Servicos: React.FC = () => {
                                     status={id.active} 
                                     image={id.image}
                                     backgrounColor={id.background_color}
-                                    fonte={20}
+                                    fonte={id.sources.length}
                                     width="100%"
                                 />
                             </Grid>

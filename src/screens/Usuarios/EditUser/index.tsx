@@ -68,8 +68,6 @@ const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
         })
      }, [itemEdit, setValue]);
 
-    // console.log(dirtyFields, 'teste')
-
     // const { mutate, isLoading } = useMutation(putUser, {
     //     onSuccess: () => {
     //       queryClient.invalidateQueries('users');
@@ -85,7 +83,6 @@ const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
             "active": values.active === true ? true : false     
         })
         // mutate(obj);
-        // console.log(obj, 'valores submit');
     };
 
     const watchPhone = watch('phone_number');

@@ -26,12 +26,13 @@ const Mensagens: React.FC = () => {
     const [deleteObj, setDeleteObj] = useState(false);
     const [msgDelete, setMsgDelete] = useState(false);
     const [msgAnswer, setMsgAnswer] = useState(false);
+    const [closePopover, setClosePopover] = useState(false);
 
     const { data: messages, refetch } = useMessages(
         token,
         "DESC",
         page,
-        10,
+        20,
         reason,
         status
     );
@@ -211,7 +212,7 @@ const Mensagens: React.FC = () => {
                                             >
                                                 <S.Options>
                                                     <Poppover
-                                                        type="menssage"
+                                                        type={id?.status === 'NotAnswered' ? 'menssage': 'menssageResponse'}
                                                         onClick={() => {}}
                                                         onAnswer={() => {
                                                             setObjMessage(id);
@@ -288,8 +289,9 @@ const Mensagens: React.FC = () => {
             <ModalMsg
                 open={msgDelete}
                 onClose={() => {
-                    refetch();
+                    setClosePopover(false)
                     setMsgDelete(false);
+                    refetch();
                 }}
                 width={469}
                 status="success"
@@ -301,8 +303,9 @@ const Mensagens: React.FC = () => {
             <ModalMsg
                 open={msgAnswer}
                 onClose={() => {
-                    refetch();
+                    setClosePopover(false)
                     setMsgAnswer(false);
+                    refetch();
                 }}
                 width={469}
                 status="success"
