@@ -3,11 +3,8 @@ import * as S from "./style";
 import {
     DoubleButton,
     DefaultButton,
-    PersonalModal,
-    CardInfo,
     Box,
     CustomSelect,
-    CustomInput,
     Search,
     MultSelect,
     Pagination,
@@ -16,6 +13,7 @@ import {
     ModalMsg,
     DropDown,
     CustomTolltip,
+    CustomInputData,
 } from "../../components";
 import {
     api,
@@ -244,27 +242,29 @@ const Registros: React.FC = () => {
                         justify-content="end"
                     >
                         <Grid item justify-content="end" xs sm md lg xl>
-                            <CustomInput
+                            <CustomInputData
                                 id="dateDe"
                                 width="100%"
-                                maxWidth={300}
                                 type="date"
                                 label="De:"
+                                defaultValue='De:'
+                                max={new Date().toISOString().slice(0, -8)}
                                 value={initialDate}
                                 onChange={(e: any) => {
                                     setInitialDate(e.target.value);
-                                    console.log(e.target.value);
+                                    // console.log(e.target.value);
                                 }}
                                 onBlur={() => {}}
                             />
                         </Grid>
                         <Grid item justify-content="end" xs sm md lg xl>
-                            <CustomInput
+                            <CustomInputData
                                 id="dateAte"
                                 width="100%"
-                                maxWidth={300}
                                 type="date"
                                 label="Até:"
+                                defaultValue='Até:'
+                                max={new Date().toISOString().slice(0, -4)}
                                 value={finalDate}
                                 onChange={(e: any) => {
                                     setFinalDate(e.target.value);

@@ -514,12 +514,12 @@ const Dashboard: React.FC = () => {
                                         width="176px"
                                         type='date'
                                         label='De:'                                        
-                                        max={new Date().toISOString().slice(0, -12)}
                                         defaultValue='De:'
+                                        max={new Date().toISOString().slice(0, -10)}
+                                        value={data} 
                                         onChange={(e: any) => {
                                             setData(e);
-                                            console.log(e);
-
+                                            // console.log(e);
                                         } }
                                         onBlur={function (e: any) {
                                             throw new Error('Function not implemented.');
@@ -529,8 +529,8 @@ const Dashboard: React.FC = () => {
                                         width="176px"
                                         type='date'
                                         label='Até:'
-                                        max={new Date().toISOString().slice(0, -4)}
                                         defaultValue='Até:'
+                                        max={new Date().toISOString().slice(0, -4)}
                                         value={data} 
                                         onChange={(e: any) => {
                                             setData(e.target.value);
