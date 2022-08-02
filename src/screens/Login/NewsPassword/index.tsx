@@ -133,7 +133,7 @@ const NewPassword: React.FC <IProps> = ({onClose, closeOne, closeTwo}) => {
             </S.Container>
 
             <ModalMsg 
-                height='280px'
+                height='300px'
                 modalBackground={true}
                 open={successMsg} 
                 onClose={() => {

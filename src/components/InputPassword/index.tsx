@@ -118,17 +118,17 @@ const InputPassword: React.FC <IProps> = (props) => {
                     //         outline: 'none',
                     //     },                        
                     // }}
-                    endAdornment={
-                        <InputAdornment position="end">
-                          <IconButton
-                            onClick={handleClickShowPassword}
-                            onMouseDown={handleMouseDownPassword}
-                            edge="end"
-                          >
-                            {values.showPassword ? "Ver Senha" : "Desver"}
-                          </IconButton>
-                        </InputAdornment>
-                    }
+                    // endAdornment={
+                    //     <InputAdornment position="end">
+                    //       <IconButton
+                    //         onClick={handleClickShowPassword}
+                    //         onMouseDown={handleMouseDownPassword}
+                    //         edge="end"
+                    //       >
+                    //         {values.showPassword ? "Ver Senha" : "Desver"}
+                    //       </IconButton>
+                    //     </InputAdornment>
+                    // }
                     onChange={props.onChange}
                     onBlur={props.onBlur}
                 />
