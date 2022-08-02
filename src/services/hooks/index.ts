@@ -28,7 +28,8 @@ export {
 export {
     useMessages,
     deleteMessage,
-    putMessages
+    putMessages,
+    useAlertMessages
 } from './useMessages'
 export { useUploads } from './useUploads';
 export { useDashboardRegionList } from './useRegionUsers';

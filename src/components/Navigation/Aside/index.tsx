@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import * as S from "./style";
-import { useNotifications, useMessages } from "../../../services";
+import { useNotifications, useMessages, useAlertMessages } from "../../../services";
 import {
     logoPng,
     dashboard,
@@ -28,39 +28,23 @@ const Aside: React.FC = () => {
         undefined,
         "Pending"
     );
-    const { data: alertMessages } = useMessages(
+    const { data: alertMessages } = useAlertMessages(
         token,
         "DESC",
         undefined,
         undefined,
-        undefined
+        undefined,
+        'NotAnswered'
     );
-
-    console.log(alertMessages?.data?.length, "teste");
 
     const link = [
         { to: "/", icon: dashboard, label: "Dashboard", alert: 0 },
-        { to: "/registros", icon: registers, label: "Registros", alert: 99 },
+        { to: "/registros", icon: registers, label: "Registros", alert: 0},
         { to: "/usuarios", icon: users, label: "Usuários", alert: 0 },
         { to: "/servicos", icon: services, label: "Serviços", alert: 0 },
-        {
-            to: "/notificacoes",
-            icon: notification,
-            label: "Notificações",
-            alert: 10, //AlertNotifications?.length,
-        },
-        {
-            to: "/mensagens",
-            icon: mensage,
-            label: "Mensagens",
-            alert: 100, //alertMessages?.data?.length,
-        },
-        {
-            to: "/configuracoes",
-            icon: configurations,
-            label: "Configurações",
-            alert: 0,
-        },
+        { to: "/notificacoes", icon: notification, label: "Notificações", alert: AlertNotifications?.length },
+        { to: "/mensagens", icon: mensage, label: "Mensagens", alert: alertMessages?.length},
+        { to: "/configuracoes", icon: configurations, label: "Configurações", alert: 0}
     ];
 
     return (

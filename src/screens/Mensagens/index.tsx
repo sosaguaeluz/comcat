@@ -12,6 +12,7 @@ import { getReason, getStatus } from "../../services/index";
 import { Poppover, ModalDelete, ModalMsg, Pagination } from "../../components";
 import RespMessage from "./RespMenssage";
 import { iconShow } from "../../assets";
+import { AllMessages } from "../../@types";
 
 const Mensagens: React.FC = () => {
     const { token } = useSelector((state: RootState) => state.clickState);
@@ -171,7 +172,8 @@ const Mensagens: React.FC = () => {
                             </tr>
                         </S.TableHead>
                         <tbody>
-                            {messages?.data?.map((id: any) => {
+                            
+                            {messages?.data?.map((id: any, index: number,) => {
                                 return (
                                     <tr>
                                         <td style={{ width: "150px" }}>

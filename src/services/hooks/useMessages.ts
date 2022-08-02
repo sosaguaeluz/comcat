@@ -69,6 +69,31 @@ export const useMessages = <T>(
     ))
 };
 
+export const useAlertMessages = <T>(
+    token: string,
+    order?: string,
+    page?: number,
+    take?: number,
+    reason?: string,
+    status?: string
+):UseQueryResult<AllMessages[]> => {
+    return useQuery(['messages', 
+    token,
+    order,
+    page,
+    take,
+    reason,
+    status
+], () => getMessages(
+        token,
+        order,
+        page,
+        take,
+        reason,
+        status
+    ))
+};
+
 export const deleteMessage = async (token: string, id: string) => {
     const resp = await api.delete(`/messages/${id}`, {
         headers: {

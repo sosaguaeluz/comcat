@@ -40,5 +40,6 @@ export {
     deleteMessage,
     putMessages,
     useNotifications,
-    putNotifications
+    putNotifications,
+    useAlertMessages,
 } from './hooks/index';
