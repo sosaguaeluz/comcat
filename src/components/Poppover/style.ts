@@ -21,6 +21,14 @@ export const DivPoppover = styled.div<{ width: string }>`
         line-height: 22px;
     }
 `;
+export const FakeButton = styled.button`
+    display: flex;
+    align-items: end;
+    flex-direction: column;
+    border: none;
+    width: 100%;
+    height: 100%;
+`;
    
 export const CloseButton = styled.button`
     margin-bottom: 16px;

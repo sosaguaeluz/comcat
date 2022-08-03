@@ -48,17 +48,18 @@ export const Top = styled.div<{ background: string }>`
             }
         }
     }
+`;
+export const Options = styled.span`
+    display: flex;
+    width: 24px;
+    height: 24px;
 
-    > span {
+    > button {
         display: flex;
+        justify-content: center;
+        border: none;
+        background: none;
         width: 24px;
-        height: 24px;
-        > button {
-            align-items: center;
-            align-content: center;
-            border: none;
-            background: none;
-        }
     }
 `;
 

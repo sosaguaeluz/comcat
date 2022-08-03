@@ -8,6 +8,7 @@ import {
     options,
     closeRed
 } from '../../assets/index'
+import Poppover from '../Poppover';
 
 interface IProps {
     onClick: () => any,
@@ -24,7 +25,6 @@ interface IProps {
 const CardService: React.FC <IProps> = (props) => {
 
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
-
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
       setAnchorEl(event.currentTarget);
     };
@@ -48,52 +48,21 @@ const CardService: React.FC <IProps> = (props) => {
                         <h1>{props.serviceName}</h1>
                     </div>
                 </div>
-                <span>
-                    <button
-                        id="open_triger"
-                        type='button'
-                        onClick={handleClick}
-                    >   
-                        <img src={options} alt="" />
-                    </button>
-                </span>                
-                <Popover
-                    id={id}
-                    open={open}
-                    anchorEl={anchorEl}
-                    onClose={handleClose}
-                    anchorOrigin={{
-                        vertical: -8,
-                        horizontal: 32,
-                    }}
-                    transformOrigin={{
-                        vertical: 'top',
-                         horizontal: 'right',
-                    }}
-                >
-                    <S.Dialog>
-                        <button 
-                            onClick={handleClose}
-                            type='button'
-                        >
-                            <img src={closeRed} alt="" />
-                        </button>
-                        <button 
-                            onClick={props.onEdit}
-                            type='button'
-                            id="edit_service"
-                        >
-                            Editar
-                        </button>
-                        <button 
-                            onClick={props.onDelete}
-                            type='button'
-                            id="delete_service"
-                        >
-                            Excluir
-                        </button>
-                    </S.Dialog>
-                </Popover>
+                <S.Options>
+                    <Poppover
+                        onClick={() => {}}
+                            
+                        onDelete={
+                            props.onDelete
+                        }
+                        onEdit={
+                            props.onEdit
+                        }
+                        type={
+                            "userPanel"
+                        }
+                    />
+                </S.Options>
             </S.Top>
             <S.Bottom status={props.status}>
                 <div>
