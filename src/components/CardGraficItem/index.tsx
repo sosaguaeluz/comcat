@@ -6,7 +6,6 @@ import {
     AreaChart,
     ResponsiveContainer,
 } from 'recharts';
-import { Container } from '@mui/material';
 
 type List = {
     label?: string,

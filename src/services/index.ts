@@ -7,11 +7,14 @@ export {
     queryClient
 } from './queryClient';
 
-export { 
+export {
     convertDate,
+    setDefaultData,
     getReason,
     getStatus,
-    extractDate
+    extractDate,
+    extractHours,
+    decode
 } from './functions/index';
 
 export {

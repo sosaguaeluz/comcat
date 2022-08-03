@@ -14,12 +14,8 @@ import {
 } from '../../components';
 import {
     ocurrenceIcon,
-    energiIcon,
-    whaterIcon,
-    wifiIcon,
-    gasIcon
 } from '../../assets/index';
-import { useDashboardOccurrences, useDashboardUsers } from '../../services';
+import { useDashboardOccurrences, useDashboardUsers, useUf, useCity, decode, } from '../../services';
 import { Grid } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../stores';
@@ -27,9 +23,10 @@ import { RootState } from '../../stores';
 
 const Dashboard: React.FC = () => {
     const { token } = useSelector((state: RootState) => state.clickState);
+    const { data: uf } = useUf();
 
-    const [ open, setOpen ] = useState(false);
-    const [ map, setMap ] = useState(true);
+    const [ open, setOpen ] = useState(false); 
+    const [ occurrences, setOccurrences ] = useState(true);
     const [ users, setUsers ] = useState(false);
     const [ value, setValue ] = useState('');
     const [ value2, setValue2 ] = useState('');
@@ -42,6 +39,12 @@ const Dashboard: React.FC = () => {
     const [ finalDateOccurrence, setFinalDateOccurrence ] = useState<any>(undefined);
     const [ ufValueOccurrence, setUfValueOccurrence ] = useState<any>();
     const [ cityValueOccurrence, setCityValueOccurrence ] = useState<any>();
+    const [ neighborhoodValueOccurrence, setNeighborhoodValueOccurrence ] = useState<any>();
+    const [ initialDateUsers, setInitialDateUsers ] = useState<any>(undefined);
+    const [ finalDateUsers, setFinalDateUsers ] = useState<any>(undefined);
+    const [ ufValueUsers, setUfValueUsers ] = useState<any>();
+    const [ cityValueUsers, setCityValueUsers ] = useState<any>();
+    const [ neighborhoodValueUsers, setNeighborhoodValueUsers ] = useState<any>();
     
     const{ data: dashboardOccurrences,
     }=useDashboardOccurrences (
@@ -50,18 +53,13 @@ const Dashboard: React.FC = () => {
         finalDateOccurrence,
         ufValueOccurrence,
         cityValueOccurrence,
-        undefined,
+        neighborhoodValueOccurrence,
         undefined,
         undefined,
         undefined
     )
     console.log(dashboardOccurrences, 'ocurrences')
-    
-    const [ initialDateUsers, setInitialDateUsers ] = useState<any>(undefined);
-    const [ finalDateUsers, setFinalDateUsers ] = useState<any>(undefined);
-    const [ ufValueUsers, setUfValueUsers ] = useState<any>();
-    const [ cityValueUsers, setCityValueUsers ] = useState<any>();
-  
+
     const{ data: DashboardUsers,        
     }=useDashboardUsers (
         token,
@@ -69,10 +67,12 @@ const Dashboard: React.FC = () => {
         finalDateUsers,
         ufValueUsers,
         cityValueUsers,
-        undefined
+        neighborhoodValueUsers,
     )
-    console.log(DashboardUsers, 'users')
-    
+    console.log(DashboardUsers, 'users')    
+
+    const { data: dataCityOccurrence } = useCity(ufValueOccurrence);
+    const { data: dataCityUsers } = useCity(ufValueUsers);
     
     let list = [
         {label: 'Pesquisar 1', value: 'pesquisa1'},
@@ -478,9 +478,9 @@ const Dashboard: React.FC = () => {
                 <DoubleButton
                     id="ButtonDashboardOcorrencias"
                     text='Ocorrências'
-                    selected={map}
+                    selected={occurrences}
                     onSelect={() => {
-                        setMap(true)
+                        setOccurrences(true)
                         setUsers(false)
                     }}
                 />
@@ -489,25 +489,31 @@ const Dashboard: React.FC = () => {
                     text='Usuários'
                     selected={users}
                     onSelect={() => {
-                        setMap(false)
+                        setOccurrences(false)
                         setUsers(true)
                     }}
                 />
                 </div>
             </S.Navigation>
             <S.Container>
-                {map == true && (
+                {occurrences == true && (
                     <>
                         <Box padding='24px 20px 0px 20px'>
                             <S.Header>
                                 <h1>Filtros</h1>
-                                {value != '' && data != '' && (
+                                {initialDateOccurrence != undefined 
+                                || finalDateOccurrence != undefined 
+                                || ufValueOccurrence != undefined 
+                                || cityValueOccurrence != undefined
+                                || neighborhoodValueOccurrence != undefined
+                                && (
                                     <button 
                                         onClick={() => {
-                                            setValue('');
-                                            setValue2('');
-                                            setValue3('');
-                                            setData('');
+                                            setInitialDateOccurrence(undefined);
+                                            setFinalDateOccurrence(undefined);
+                                            setUfValueOccurrence(undefined);
+                                            setCityValueOccurrence(undefined);
+                                            setNeighborhoodValueOccurrence(undefined);
                                         }}
                                     >
                                         Limpar filtros
@@ -520,8 +526,17 @@ const Dashboard: React.FC = () => {
                                         width={254}
                                         label='Estados'
                                         labelDefault='Filtrar por Estados'
-                                        value={value}
-                                        list={list}
+                                        value={ufValueOccurrence}
+                                        defaultValue={"Todos os Estados"}
+                                        list={[
+                                            {
+                                                id: "All",
+                                                nome: "Todos os Estados",
+                                                sigla: "All",
+                                                regiao: "Todos",
+                                            },
+                                            ...(uf || []),
+                                        ]}
                                         onChange={(e: any) => {
                                             setValue(e)
                                             console.log(e);
@@ -531,8 +546,8 @@ const Dashboard: React.FC = () => {
                                         width={254}
                                         label="Município"
                                         labelDefault="Filtrar por Município"
-                                        value={value2}
-                                        list={list}
+                                        value={cityValueOccurrence}
+                                        list={dataCityOccurrence}
                                         onChange={(e: any) => {
                                             setValue2(e)
                                         }}
@@ -541,7 +556,7 @@ const Dashboard: React.FC = () => {
                                         width={254}
                                         label="Bairro"
                                         labelDefault='Filtrar por Bairro'
-                                        value={value3}
+                                        value={neighborhoodValueOccurrence}
                                         list={list}
                                         onChange={(e: any) => {
                                             setValue3(e)
@@ -555,32 +570,33 @@ const Dashboard: React.FC = () => {
                                         type='date'
                                         label='De:'                                        
                                         defaultValue='De:'
-                                        max={new Date().toISOString().slice(0, -10)}
-                                        value={data} 
+                                        max={new Date().toISOString().slice(0, 0)}
+                                        value={initialDateOccurrence} 
                                         onChange={(e: any) => {
-                                            setData(e);
+                                            setInitialDateOccurrence(e.target.value );
                                             // console.log(e);
-                                        } }
+                                        }}
                                         onBlur={function (e: any) {
                                             throw new Error('Function not implemented.');
-                                        } }                                    />
+                                        }}                                    />
                                     <CustomInputData
                                         id='dateAte'
                                         width="176px"
                                         type='date'
                                         label='Até:'
                                         defaultValue='Até:'
-                                        max={new Date().toISOString().slice(0, -4)}
-                                        value={data} 
+                                        max={new Date().toISOString().slice(0, 0)}
+                                        value={finalDateOccurrence} 
                                         onChange={(e: any) => {
-                                            setData(e.target.value);
-                                        } }
+                                            setFinalDateOccurrence(e.target.value);
+                                        }}
                                         onBlur={function (e: any) {
                                             throw new Error('Function not implemented.');
-                                        } }                                    />
+                                        }}                                    />
                                 </div>
                             </S.SearchBar>
                         </Box>
+                        {/*PRONTO*/}
                         <S.StatusBox >
                             <Grid
                             container
@@ -590,8 +606,8 @@ const Dashboard: React.FC = () => {
                                 <Grid item xs sm={6} md lg xl>
                                     <CardInfo 
                                         icon={ocurrenceIcon}
-                                        title="Ocorrências no período"
-                                        value={20}
+                                        title={"Ocorrências no período"}
+                                        value={dashboardOccurrences?.total}
                                         type=""
                                         width='100%'
                                     />
@@ -600,7 +616,7 @@ const Dashboard: React.FC = () => {
                                     <CardInfo 
                                         icon=''
                                         title="Total de novas ocorrências (hoje)"
-                                        value={10}
+                                        value={dashboardOccurrences?.new_today}
                                         type=""
                                         width='100%'
                                     />
@@ -609,7 +625,7 @@ const Dashboard: React.FC = () => {
                                     <CardInfo 
                                         icon=''
                                         title="Total de ocorrências aprovadas (hoje)"
-                                        value={10}
+                                        value={dashboardOccurrences?.approved_today}
                                         type=""
                                         width='100%'
                                     />
@@ -618,58 +634,58 @@ const Dashboard: React.FC = () => {
                                     <CardInfo 
                                         icon=''
                                         title="Total de ocorrências reprovadas (hoje)"
-                                        value={0}
+                                        value={dashboardOccurrences?.disapproved_today}
                                         type=""
                                         width='100%'
                                     />
                                 </Grid>
                             </Grid>
                         </S.StatusBox>
+                        {/*PRONTO*/}
                         <p>
-                            Gráfico de ocorrências - <b>RJ, Rio de Janeiro, Duque de Caxias | De 11/11/21 até 11/01/22</b>
+                            Gráfico de ocorrências - 
+                            <b>
+                                {ufValueOccurrence != undefined
+                                && cityValueOccurrence != undefined 
+                                && neighborhoodValueOccurrence != undefined
+                                    ? `${ufValueOccurrence}, ${cityValueOccurrence}, ${neighborhoodValueOccurrence} `
+                                    : 'Todos os locais '
+                                }
+                                |
+                                {
+                                initialDateOccurrence != undefined 
+                                    ? ` de ${initialDateOccurrence}`
+                                    : ' Desde o inicio'
+                                }
+                                {
+                                finalDateOccurrence != undefined 
+                                    ? ` até ${finalDateOccurrence}` 
+                                    : ' até hoje'
+                                }
+                            </b>
                         </p>
+                        {/*FALTA IMAGEM*/}
                         <S.GraficItemContainer>
                             <Grid
                                 container
                                 spacing={2.5}
                                 flex-wrap='wrap'
                             >
-                                <Grid item xs sm={6} md={4} lg={3} xl={3}>
-                                    <CardGraficItem
-                                        width='100%' 
-                                        list={card.list}
-                                        title={card.title}
-                                        value='325'
-                                        icon={energiIcon}
-                                        id="energia"
-                                        heightGrafic={85}
-                                    />
-                                </Grid>
-                                <Grid item xs sm={6} md={4} lg={3} xl={3}>
-                                    <CardGraficItem
-                                        width='100%'
-                                        list={card2.list}
-                                        title={card2.title}
-                                        value='55'
-                                        icon={whaterIcon}
-                                        id="agua"
-                                        heightGrafic={85}
-
-                                    />
-                                </Grid>
-                                <Grid item xs sm={6} md={4} lg={3} xl={3}>
-                                    <CardGraficItem
-                                        width='100%'
-                                        list={card3.list}
-                                        title={card3.title}
-                                        value='25'
-                                        icon={wifiIcon}
-                                        id="wifi"
-                                        heightGrafic={85}
-
-                                    />
-                                </Grid>
-                                <Grid item xs sm={6} md={4} lg={3} xl={3}>
+                                {dashboardOccurrences?.line_charts?.map((id: any) => {
+                                    return (
+                                        <Grid item xs sm={6} md={4} lg={3} xl={3}>
+                                            <CardGraficItem
+                                                width='100%'
+                                                title={id.service.name}
+                                                value={id.value}
+                                                icon={id.service.image}
+                                                id={id.name}
+                                                heightGrafic={85}
+                                            />
+                                        </Grid>
+                                    );
+                                })}
+                                {/* <Grid item xs sm={6} md={4} lg={3} xl={3}>
                                     <CardGraficItem
                                         width='100%'
                                         list={card4.list}
@@ -679,53 +695,7 @@ const Dashboard: React.FC = () => {
                                         id="gas"
                                         heightGrafic={85}
                                     />
-                                </Grid>
-                                <Grid item xs sm={6} md={4} lg={3} xl={3}>
-                                    <CardGraficItem
-                                        width='100%' 
-                                        list={card.list}
-                                        title={card.title}
-                                        value='325'
-                                        icon={energiIcon}
-                                        id="energia"
-                                        heightGrafic={85}
-                                    />
-                                </Grid>
-                                <Grid item xs sm={6} md={4} lg={3} xl={3}>
-                                    <CardGraficItem
-                                        width='100%'
-                                        list={card2.list}
-                                        title={card2.title}
-                                        value='55'
-                                        icon={whaterIcon}
-                                        id="agua"
-                                        heightGrafic={85}
-
-                                    />
-                                </Grid>
-                                <Grid item xs sm={6} md={4} lg={3} xl={3}>
-                                    <CardGraficItem
-                                        width='100%'
-                                        list={card3.list}
-                                        title={card3.title}
-                                        value='25'
-                                        icon={wifiIcon}
-                                        id="wifi"
-                                        heightGrafic={85}
-
-                                    />
-                                </Grid>
-                                <Grid item xs sm={6} md={4} lg={3} xl={3}>
-                                    <CardGraficItem
-                                        width='100%'
-                                        list={card4.list}
-                                        title={card4.title}
-                                        value='155'
-                                        icon={gasIcon}
-                                        id="gas"
-                                        heightGrafic={85}
-                                    />
-                                </Grid>
+                                </Grid> */}
                             </Grid>
                         </S.GraficItemContainer>
                         <S.GraficBarsContainer>
@@ -765,7 +735,7 @@ const Dashboard: React.FC = () => {
                             </Grid>
                         </S.GraficBarsContainer>
                         <S.TextData>
-                            <p> Ocorrências no útimo ano - <b>2021</b></p>
+                            <p> Ocorrências no útimo ano - <b>{/* {yearValue} */}alterr ano</b></p>
                             <div style={{background: '#fff'}}>
                                 <CustomSelect
                                     width={254}
@@ -790,7 +760,7 @@ const Dashboard: React.FC = () => {
                                         <CardInfo 
                                             icon={ocurrenceIcon}
                                             title="Total de ocorrências no ano"
-                                            value={3160}
+                                            value={dashboardOccurrences?.annual_occurrences?.total}
                                             type=""
                                             width="100%"
                                             height='108px'
@@ -800,7 +770,7 @@ const Dashboard: React.FC = () => {
                                         <CardInfo 
                                             icon=''
                                             title="Média de novas ocorrências por mês"
-                                            value={540}
+                                            value={dashboardOccurrences?.annual_occurrences?.monthly}
                                             type=""
                                             width="100%"
                                             height='108px'
@@ -823,6 +793,7 @@ const Dashboard: React.FC = () => {
                 )}
                 {users == true && (
                     <> 
+                        {/*PRONTO*/}
                         <S.StatusBox style={{marginBottom: '20px'}}>
                             <Grid
                                 container
@@ -833,7 +804,7 @@ const Dashboard: React.FC = () => {
                                     <CardInfo 
                                         icon={ocurrenceIcon}
                                         title="Total de usuários"
-                                        value={3160}
+                                        value={DashboardUsers?.total}
                                         type=""
                                         width='100%'
                                         height="108px"
@@ -843,7 +814,7 @@ const Dashboard: React.FC = () => {
                                     <CardInfo 
                                         icon=''
                                         title="Total de novas usuários (hoje)"
-                                        value={540}
+                                        value={DashboardUsers?.new_today}
                                         type=""
                                         width='100%'
                                         height="108px"
@@ -853,7 +824,7 @@ const Dashboard: React.FC = () => {
                                     <CardInfo 
                                         icon=''
                                         title="Total de usuários ativos (hoje)"
-                                        value={540}
+                                        value={DashboardUsers?.active_today}
                                         type=""
                                         width='100%'
                                         height="108px"
@@ -863,7 +834,7 @@ const Dashboard: React.FC = () => {
                                     <CardInfo 
                                         icon=''
                                         title="Total de usuários inativos (hoje)"
-                                        value={540}
+                                        value={DashboardUsers?.inactive_today}
                                         type=""
                                         width='100%'
                                         height="108px"
@@ -874,13 +845,19 @@ const Dashboard: React.FC = () => {
                         <Box padding='24px 20px 0px 20px'>
                             <S.Header>
                                 <h1>Filtros</h1>
-                                {value != '' && data != '' && (
+                                {initialDateUsers != undefined 
+                                || finalDateUsers != undefined 
+                                || ufValueUsers != undefined 
+                                || cityValueUsers != undefined
+                                || neighborhoodValueUsers != undefined
+                                && (
                                     <button 
                                         onClick={() => {
-                                            setValue('');
-                                            setValue2('');
-                                            setValue3('');
-                                            setData('');
+                                            setInitialDateUsers(undefined);
+                                            setFinalDateUsers(undefined);
+                                            setUfValueUsers(undefined);
+                                            setCityValueUsers(undefined);
+                                            setNeighborhoodValueUsers(undefined);
                                         }}
                                     >
                                         Limpar filtros
@@ -892,9 +869,17 @@ const Dashboard: React.FC = () => {
                                     <CustomSelect
                                         width={254}
                                         label='Estados'
-                                        labelDefault='Filtrar por Estados'
-                                        value={value}
-                                        list={list}
+                                        value={ufValueUsers}
+                                        defaultValue={"Todos os Estados"}
+                                        list={[
+                                            {
+                                                id: "All",
+                                                nome: "Todos os Estados",
+                                                sigla: "All",
+                                                regiao: "Todos",
+                                            },
+                                            ...(uf || []),
+                                        ]}
                                         onChange={(e: any) => {
                                             setValue(e)
                                             console.log(e);
@@ -904,8 +889,8 @@ const Dashboard: React.FC = () => {
                                         width={254}
                                         label="Município"
                                         labelDefault="Filtrar por Município"
-                                        value={value2}
-                                        list={list}
+                                        value={cityValueUsers}
+                                        list={dataCityUsers}
                                         onChange={(e: any) => {
                                             setValue2(e)
                                         }}
@@ -914,7 +899,7 @@ const Dashboard: React.FC = () => {
                                         width={254}
                                         label="Bairro"
                                         labelDefault='Filtrar por Bairro'
-                                        value={value3}
+                                        value={neighborhoodValueUsers}
                                         list={list}
                                         onChange={(e: any) => {
                                             setValue3(e)
@@ -922,35 +907,61 @@ const Dashboard: React.FC = () => {
                                     />
                                 </div>
                                 <div>
-                                    <CustomInput
-                                        width={176} 
+                                    <CustomInputData
+                                        id='dateDe'
+                                        width="176px"
                                         type='date'
-                                        label='De:'
+                                        label='De:'                                        
+                                        defaultValue='De:'
+                                        max={new Date().toISOString().slice(0, 0)}
+                                        value={initialDateUsers} 
                                         onChange={(e: any) => {
-                                            setData(e.target.value);
-                                        } }
-                                        value={data} 
+                                            setInitialDateUsers(e.target.value );
+                                            // console.log(e);
+                                        }}
                                         onBlur={function (e: any) {
                                             throw new Error('Function not implemented.');
-                                        } }                                    
+                                        }}
                                     />
-                                    <CustomInput
-                                        width={176} 
+                                    <CustomInputData
+                                        id='dateAte'
+                                        width="176px"
                                         type='date'
                                         label='Até:'
+                                        defaultValue='Até:'
+                                        max={new Date().toISOString().slice(0, 0)}
+                                        value={finalDateUsers} 
                                         onChange={(e: any) => {
-                                            setData(e.target.value);
-                                        } }
-                                        value={data} 
+                                            setFinalDateUsers(e.target.value);
+                                        }}
                                         onBlur={function (e: any) {
                                             throw new Error('Function not implemented.');
-                                        } }                                    
+                                        }}
                                     />
                                 </div>
                             </S.SearchBar>
                         </Box>
                         <p  style={{margin: '48px 0 24px'}} >
-                            Gráfico de usuários por região - <b>Todos os locais | Desde o início</b>
+                            Gráfico de usuários por região - 
+                            <b>
+                                {ufValueUsers != undefined
+                                && cityValueUsers != undefined 
+                                && neighborhoodValueUsers != undefined
+                                    ? `${ufValueUsers}, ${cityValueUsers}, ${neighborhoodValueUsers} `
+                                    : 'Todos os locais '
+                                }
+                                |
+                                {
+                                initialDateUsers != undefined 
+                                    ? ` de ${initialDateUsers}`
+                                    : ' Desde o inicio'
+                                }
+                                {
+                                finalDateUsers != undefined 
+                                    ? ` até ${finalDateUsers}` 
+                                    : ' até hoje'
+                                }
+                            </b>
                         </p>           
                         <S.GraficItemContainer>
                             <Grid
@@ -960,66 +971,34 @@ const Dashboard: React.FC = () => {
                                 flex-wrap='wrap'
                             >
                             
-                            <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-                                <CardGraficItem
-                                    icon=""
-                                    list={card5.list}
-                                    title={card5.title}
-                                    value='325'
-                                    id="sul"
-                                    width='100%'
-                                    height='197px'
-                                    heightGrafic={85}
-                                />
-                            </Grid>
-                            <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-                                <CardGraficItem  
-                                    icon=""
-                                    list={card6.list}
-                                    title={card6.title}
-                                    value='55'
-                                    id="Norte"
-                                    width='100%'
-                                    height='197px'
-                                    heightGrafic={85}
-                                />
-                            </Grid>
-                            <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-                                <CardGraficItem
-                                    icon=""
-                                    list={card7.list}
-                                    title={card7.title}
-                                    value='25'
-                                    id="nordeste"
-                                    width='100%'
-                                    height='197px'
-                                    heightGrafic={85}
-                                />
-                            </Grid>
-                            <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-                                <CardGraficItem
-                                    icon=""
-                                    list={card8.list}
-                                    title={card8.title}
-                                    value='155'
-                                    id="sudeste"
-                                    width='100%'
-                                    height='197px'
-                                    heightGrafic={85}
-                                />
-                            </Grid>
-                            <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
-                                <CardGraficItem
-                                    icon=""
-                                    list={card9.list}
-                                    title={card9.title}
-                                    value='155'
-                                    id="centroOeste"
-                                    width='100%'
-                                    height='197px'
-                                    heightGrafic={85}
-                                />                                
-                            </Grid>
+                            {DashboardUsers?.line_charts?.map((id: any) => {
+                                    return (
+                                        <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+                                            <CardGraficItem
+                                                list={card6.list}
+                                                title={id.name}
+                                                value={id.value}
+                                                icon=""
+                                                id={id.name}
+                                                width='100%'
+                                                height='197px'
+                                                heightGrafic={85}
+                                            />
+                                        </Grid>
+                                    );
+                                })}
+                                {/* <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+                                    <CardGraficItem  
+                                        icon=""
+                                        list={card6.list}
+                                        title={card6.title}
+                                        value='55'
+                                        id="Norte"
+                                        width='100%'
+                                        height='197px'
+                                        heightGrafic={85}
+                                    />
+                                </Grid> */}
                             </Grid>
                         </S.GraficItemContainer>
                         <S.TextData>

@@ -17,7 +17,6 @@ async function postUser(data: FormData) {
 }
 
 const NewUser: React.FC <IProps> = ({onClose, isModal}) => {
-    const [ idUf, setIdUf ] = useState<any>(0);
     const { data: uf, isLoading: loadingUf } = useUf();
     const ref = useRef<any>(null)
     const [ open, setOpen ] = useState(false);
