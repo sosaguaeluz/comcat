@@ -42,4 +42,6 @@ export {
     useNotifications,
     putNotifications,
     useAlertMessages,
+    useDashboardOccurrences,
+    useDashboardUsers,
 } from './hooks/index';

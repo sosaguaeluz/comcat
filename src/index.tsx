@@ -25,7 +25,7 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
-  <React.StrictMode>
+  // <React.StrictMode>
     <Provider store={Store}>
       <MuiThemeProvider theme={BreakpointOverrides}>
         <StyledThemeProvider theme={colors}>
@@ -34,5 +34,5 @@ root.render(
         </StyledThemeProvider>
       </MuiThemeProvider>
     </Provider>
-  </React.StrictMode>
+  // </React.StrictMode>
 );

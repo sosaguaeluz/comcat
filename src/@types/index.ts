@@ -122,7 +122,7 @@ export interface User_setings {
     _id: string
 };
 
-export interface Dashboard_occurrences {
+export interface Dashboard_Occurrences {
     total: number,
     new_today: number,
     approved_today: number,
@@ -149,7 +149,7 @@ export interface Dashboard_occurrences {
     }
 };
 
-export interface Dashboard_users {
+export interface Dashboard_Users {
     total: number,
     new_today: number,
     active_today: number,

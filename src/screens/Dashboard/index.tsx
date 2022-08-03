@@ -19,10 +19,15 @@ import {
     wifiIcon,
     gasIcon
 } from '../../assets/index';
-import { Grid, Container } from '@mui/material';
+import { useDashboardOccurrences, useDashboardUsers } from '../../services';
+import { Grid } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../stores';
 
 
 const Dashboard: React.FC = () => {
+    const { token } = useSelector((state: RootState) => state.clickState);
+
     const [ open, setOpen ] = useState(false);
     const [ map, setMap ] = useState(true);
     const [ users, setUsers ] = useState(false);
@@ -32,7 +37,43 @@ const Dashboard: React.FC = () => {
     const [ data, setData] = useState('');
     const [ multValue, setMultValue ] = useState<string[]>([]);
     const [ yearValue, setYearValue ] = useState('');
-
+    
+    const [ initialDateOccurrence, setInitialDateOccurrence ] = useState<any>(undefined);
+    const [ finalDateOccurrence, setFinalDateOccurrence ] = useState<any>(undefined);
+    const [ ufValueOccurrence, setUfValueOccurrence ] = useState<any>();
+    const [ cityValueOccurrence, setCityValueOccurrence ] = useState<any>();
+    
+    const{ data: dashboardOccurrences,
+    }=useDashboardOccurrences (
+        token,
+        initialDateOccurrence,
+        finalDateOccurrence,
+        ufValueOccurrence,
+        cityValueOccurrence,
+        undefined,
+        undefined,
+        undefined,
+        undefined
+    )
+    console.log(dashboardOccurrences, 'ocurrences')
+    
+    const [ initialDateUsers, setInitialDateUsers ] = useState<any>(undefined);
+    const [ finalDateUsers, setFinalDateUsers ] = useState<any>(undefined);
+    const [ ufValueUsers, setUfValueUsers ] = useState<any>();
+    const [ cityValueUsers, setCityValueUsers ] = useState<any>();
+  
+    const{ data: DashboardUsers,        
+    }=useDashboardUsers (
+        token,
+        initialDateUsers,
+        finalDateUsers,
+        ufValueUsers,
+        cityValueUsers,
+        undefined
+    )
+    console.log(DashboardUsers, 'users')
+    
+    
     let list = [
         {label: 'Pesquisar 1', value: 'pesquisa1'},
         {label: 'Pesquisar 2', value: 'pesquisa2'},
@@ -42,7 +83,6 @@ const Dashboard: React.FC = () => {
         {label: 'Pesquisar 6', value: 'pesquisa6'},
         
     ]
-
     const card = {
         title: "Quedas de energia",
         list: [

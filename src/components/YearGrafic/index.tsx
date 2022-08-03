@@ -55,7 +55,7 @@ const YearGrafic: React.FC <IProps> = (props) => {
         <Box padding='40px 24px 35px 24px' width={props.width} height={props.height}>
             <S.Container>
                 <div>
-                    <h1>{props.title}</h1>
+                    <h1>{`${props.title} `} </h1>
                     <p>{props.number}</p>
                 </div>
                 <section>

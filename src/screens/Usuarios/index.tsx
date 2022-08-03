@@ -85,7 +85,7 @@ const Usuarios: React.FC = () => {
 
         setTotalUsers(sum);
         setTotalList(spam);
-    }, [regionUsers]);
+    });
 
     const {
         data: users,

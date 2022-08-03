@@ -37,3 +37,5 @@ export {
     useNotifications,
     putNotifications
 } from './useNotifications';
+export { useDashboardOccurrences } from './useDashboardOccurrences';
+export { useDashboardUsers } from './useDashboardUsers'
