@@ -7,7 +7,6 @@ import ListItemText from '@mui/material/ListItemText';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import Checkbox from '@mui/material/Checkbox';
 import { createTheme, ThemeProvider } from '@mui/material';
-import { borderColor } from '@mui/system';
 
 interface IProps {
     onChange: (e: any) => void,
@@ -95,7 +94,6 @@ const MultSelect: React.FC <IProps> = (props) => {
                 <Select
                     multiple
                     displayEmpty
-                    // disableUnderline
                     disableInjectingGlobalStyles
                     value={props.valueItem}
                     onChange={handleChange}

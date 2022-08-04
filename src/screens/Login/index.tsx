@@ -31,11 +31,12 @@ const Login: React.FC = () => {
         resolver: yupResolver(schema)
     });
     
-    const postUser = async (data: IProps) => {
-        const { data: response } = await api.post('/authorize', data);
+    const postUser = async (resp: any) => {
+        const { data: response } = await api.post('/authorize', resp);
         dispatch({type: TOKEN, token: response.token})
         dispatch({type: USER, user: response.user})
-        console.log(data);
+        localStorage.setItem("token", response.token);
+        console.log(resp);
         
         return response.data;
     };

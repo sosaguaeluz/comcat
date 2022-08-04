@@ -48,19 +48,19 @@ const CardGraficArea: React.FC <IProps> = (props) => {
     
       return toPercent(ratio, 2);
     };
+
+    const namePortugues = (value: string) => {
+           
+        let marge = [...BREED, ...GENRE]
+
+        return marge.find((e) => {if (e?.value === value){
+            return e
+        }})
+    };
     
     const renderTooltipContent = (o: any) => {
         const { payload, label } = o;
         const total = payload.reduce((result: any, entry: any) => result + entry.value, 0);
-        
-        function namePortugues(value: string) {
-           
-            let Marge = [...BREED, ...GENRE]
-
-            return Marge.find((marge) => {if (marge?.value === value){
-                return marge
-            }})
-        }
 
         return (
             <div className="customized-tooltip-content" 
@@ -92,9 +92,10 @@ const CardGraficArea: React.FC <IProps> = (props) => {
                     </div>
                     <MultSelect
                         width={228}
-                        onChange={props.onChange}
+                        maxWidth={400}
                         valueItem={props.valueItem} 
                         list={undefined}
+                        onChange={props.onChange}
                     />
                 </div>
                 <S.Values>

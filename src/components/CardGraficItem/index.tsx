@@ -6,6 +6,7 @@ import {
     AreaChart,
     ResponsiveContainer,
 } from 'recharts';
+import { matchMutation } from 'react-query/types/core/utils';
 
 type List = {
     label?: string,
@@ -28,11 +29,15 @@ interface IProps {
 const CardGraficItem: React.FC <IProps> = (props) => {
     const [ color, setColor ] = useState('');
 
+    function setValueGrafic(){
+        return Math.floor(Math.random() * 100)
+    }
+
     function setColorGrafic(){
-        if(props.title == 'Quedas de energia' || props.title == 'Sul'){
+        if(props.title == 'energia' || props.title == 'Sul'){
             setColor('#FF954E')
         } 
-        if(props.title == 'Falta de água' || props.title == 'Norte'){
+        if(props.title == 'água' || props.title == 'Norte'){
             setColor('#47DED0')
         }
         if(props.title == 'Quedas de internet' || props.title == 'Nordeste'){
@@ -51,6 +56,8 @@ const CardGraficItem: React.FC <IProps> = (props) => {
 
     useEffect(() => {
         setColorGrafic()
+        
+
     }, [color]);
     
     return (
@@ -79,7 +86,7 @@ const CardGraficItem: React.FC <IProps> = (props) => {
                                     </linearGradient>
                                 </defs>
                                 <Area type="monotone" dataKey="label" stroke={color} fillOpacity={1} fill={`url(#${props.id})`} />
-                                <Area type="monotone" dataKey="value" stroke={color} fillOpacity={1} fill={`url(#${props.id})`} />
+                                <Area type="monotone" dataKey={Math.floor(Math.random() * 100)} stroke={color} fillOpacity={1} fill={`url(#${props.id})`} />
                             </AreaChart>
                         </ResponsiveContainer>
                     </span>

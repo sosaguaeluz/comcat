@@ -1,5 +1,5 @@
 export const initialState = { 
-    token: '',
+    token: localStorage.getItem('token') || '',
     user: {
         "name": "",
         "age": "",

@@ -252,7 +252,6 @@ const Registros: React.FC = () => {
                                 value={initialDate}
                                 onChange={(e: any) => {
                                     setInitialDate(e.target.value);
-                                    // console.log(e.target.value);
                                 }}
                                 onBlur={() => {}}
                             />
