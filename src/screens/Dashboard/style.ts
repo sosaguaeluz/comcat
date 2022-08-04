@@ -127,8 +127,4 @@ export const GraficYearContainer = styled.div`
             padding-right: 0;
         }
     }
-    >span{
-    width: 100%;
-
-    }
 `;

@@ -33,18 +33,20 @@ const Dashboard: React.FC = () => {
     const [ value3, setValue3 ] = useState('');
     const [ data, setData] = useState('');
     const [ multValue, setMultValue ] = useState<string[]>([]);
-    const [ yearValue, setYearValue ] = useState('');
     
     const [ initialDateOccurrence, setInitialDateOccurrence ] = useState<any>(undefined);
     const [ finalDateOccurrence, setFinalDateOccurrence ] = useState<any>(undefined);
-    const [ ufValueOccurrence, setUfValueOccurrence ] = useState<any>();
-    const [ cityValueOccurrence, setCityValueOccurrence ] = useState<any>();
-    const [ neighborhoodValueOccurrence, setNeighborhoodValueOccurrence ] = useState<any>();
+    const [ ufValueOccurrence, setUfValueOccurrence ] = useState<any>(undefined);
+    const [ cityValueOccurrence, setCityValueOccurrence ] = useState<any>(undefined);
+    const [ neighborhoodValueOccurrence, setNeighborhoodValueOccurrence ] = useState<any>(undefined);
+    const [ yearValueOccurrence, setYearValueOccurrence ] = useState('');
+    
     const [ initialDateUsers, setInitialDateUsers ] = useState<any>(undefined);
     const [ finalDateUsers, setFinalDateUsers ] = useState<any>(undefined);
-    const [ ufValueUsers, setUfValueUsers ] = useState<any>();
-    const [ cityValueUsers, setCityValueUsers ] = useState<any>();
-    const [ neighborhoodValueUsers, setNeighborhoodValueUsers ] = useState<any>();
+    const [ ufValueUsers, setUfValueUsers ] = useState<any>(undefined);
+    const [ cityValueUsers, setCityValueUsers ] = useState<any>(undefined);
+    const [ neighborhoodValueUsers, setNeighborhoodValueUsers ] = useState<any>(undefined);
+    const [ yearValueUsers, setYearValueUsers ] = useState('');
     
     const{ data: dashboardOccurrences,
     }=useDashboardOccurrences (
@@ -83,235 +85,38 @@ const Dashboard: React.FC = () => {
         {label: 'Pesquisar 6', value: 'pesquisa6'},
         
     ]
-    const card = {
-        title: "Quedas de energia",
-        list: [
-            {
-                label: 'Quedas de energia',
-                value: '43'
-            }, {
-                label: 'Quedas de energia',
-                value: '63'
-            }, {
-                label: 'Quedas de energia',
-                value: '43'
-            }, {
-                label: 'Quedas de energia',
-                value: '13'
-            }, {
-                label: 'Quedas de energia',
-                value: '63'
-            },
-        ]
-    }
-
-    const card2 = {
-        title: "Falta de água",
-        list: [
-            {
-                label: 'Falta de água',
-                value: '43'
-            }, {
-                label: 'Falta de água',
-                value: '63'
-            }, {
-                label: 'Falta de água',
-                value: '43'
-            }, {
-                label: 'Falta de água',
-                value: '13'
-            }, {
-                label: 'Falta de água',
-                value: '63'
-            },
-        ]
-    }
-
-    const card3 = {
-        title: "Quedas de internet",
-        list: [
-            {
-                label: 'Quedas de internet',
-                value: '43'
-            }, {
-                label: 'Quedas de internet',
-                value: '63'
-            }, {
-                label: 'Quedas de internet',
-                value: '43'
-            }, {
-                label: 'Quedas de internet',
-                value: '13'
-            }, {
-                label: 'Quedas de internet',
-                value: '63'
-            },
-        ]
-    }
-
-    const card4 = {
-        title: "Falta de gás",
-        list: [
-            {
-                label: 'Falta de gás',
-                value: '43'
-            }, {
-                label: 'Falta de gás',
-                value: '63'
-            }, {
-                label: 'Falta de gás',
-                value: '43'
-            }, {
-                label: 'Falta de gás',
-                value: '13'
-            }, {
-                label: 'Falta de gás',
-                value: '63'
-            },
-        ]
-    }
-
-    const card5 = {
-        title: "Sul",
-        list: [
-            {
-                label: 'Sul',
-                value: '43'
-            }, {
-                label: 'Sul',
-                value: '63'
-            }, {
-                label: 'Sul',
-                value: '43'
-            }, {
-                label: 'Sul',
-                value: '13'
-            }, {
-                label: 'Sul',
-                value: '63'
-            },
-        ]
-    }
-
-    const card6 = {
-        title: "Norte",
-        list: [
-            {
-                label: 'Norte',
-                value: '43'
-            }, {
-                label: 'Norte',
-                value: '63'
-            }, {
-                label: 'Norte',
-                value: '43'
-            }, {
-                label: 'Norte',
-                value: '13'
-            }, {
-                label: 'Norte',
-                value: '63'
-            },
-        ]
-    }
-
-    const card7 = {
-        title: "Nordeste",
-        list: [
-            {
-                label: 'Nordeste',
-                value: '43'
-            }, {
-                label: 'Nordeste',
-                value: '63'
-            }, {
-                label: 'Nordeste',
-                value: '43'
-            }, {
-                label: 'Nordeste',
-                value: '13'
-            }, {
-                label: 'Nordeste',
-                value: '63'
-            },
-        ]
-    }
-
-    const card8 = {
-        title: "Sudeste",
-        list: [
-            {
-                label: 'Sudeste',
-                value: '43'
-            }, {
-                label: 'Sudeste',
-                value: '63'
-            }, {
-                label: 'Sudeste',
-                value: '43'
-            }, {
-                label: 'Sudeste',
-                value: '13'
-            }, {
-                label: 'Sudeste',
-                value: '63'
-            },
-        ]
-    }
-
-    const card9 = {
-        title: "Centro-Oeste",
-        list: [
-            {
-                label: 'Centro-Oeste',
-                value: '43'
-            }, {
-                label: 'Centro-Oeste',
-                value: '63'
-            }, {
-                label: 'Centro-Oeste',
-                value: '43'
-            }, {
-                label: 'Centro-Oeste',
-                value: '13'
-            }, {
-                label: 'Centro-Oeste',
-                value: '63'
-            },
-        ]
-    }
-
+    
     const areaChart = [
         {
           name: 'Energia',
-          masculino: 4000,
-          feminino: 2400,
-          naoBinario: 2400,
-          outros: 4350,
+          Male: 4000,
+          Female: 2400,
+          NonBinary: 2400,
+          Other: 4350,
           title: 'Masculino'
         },
         {
           name: 'Água',
-          masculino: 3000,
-          feminino: 1398,
-          naoBinario: 2210,
-          outros: 4350,
+          Male: 3000,
+          Female: 1398,
+          NonBinary: 2210,
+          Other: 4350,
           title: 'Feminino'
         },
         {
           name: 'Internet',
-          masculino: 2000,
-          feminino: 9800,
-          naoBinario: 2290,
-          outros: 4350,
+          Male: 2000,
+          Female: 9800,
+          NonBinary: 2290,
+          Other: 4350,
           title: 'Não-binário'
         },
         {
           name: 'Gás',
-          masculino: 2780,
-          feminino: 3908,
-          naoBinario: 2000,
-          outros: 4350,
+          Male: 2780,
+          Female: 3908,
+          NonBinary: 2000,
+          Other: 4350,
           title: 'Outros'
         }
     ];
@@ -319,47 +124,47 @@ const Dashboard: React.FC = () => {
     const areaChart2 = [
         {
           name: 'Energia',
-          white: 4000,
-          yellow: 2400,
-          indigenous: 2400,
-          black: 4350,
-          pard: 3852,
+          Yellow: 4000,
+          White: 2400,
+          Indigenous: 2400,
+          Brown: 4350,
+          Black: 3852,
           title: 'Amarela'
         },
         {
           name: 'Água',
-          white: 3000,
-          yellow: 1398,
-          indigenous: 2210,
-          black: 4350,
-          pard: 3852,
+          Yellow: 3000,
+          White: 1398,
+          Indigenous: 2210,
+          Black: 4350,
+          Brown: 3852,
           title: 'Branca'
         },
         {
           name: 'Internet',
-          white: 2000,
-          yellow: 5800,
-          indigenous: 2290,
-          black: 4350,
-          pard: 3852,
+          Yellow: 2000,
+          White: 5800,
+          Indigenous: 2290,
+          Black: 4350,
+          Brown: 3852,
           title: 'Indígena'
         },
         {
           name: 'Gás',
-          white: 2780,
-          yellow: 3908,
-          indigenous: 2000,
-          black: 4350,
-          pard: 3852,
+          Yellow: 2780,
+          White: 3908,
+          Indigenous: 2000,
+          Black: 4350,
+          Brown: 3852,
           title: 'Parda'
         },
         {
           name: 'Lorem ipsum',
-          white: 2780,
-          yellow: 3908,
-          indigenous: 2000,
-          black: 4350,
-          pard: 3852,
+          Yellow: 2780,
+          White: 3908,
+          Indigenous: 2000,
+          Black: 4350,
+          Brown: 3852,
           title: 'Preta'
         }
     ];
@@ -473,53 +278,57 @@ const Dashboard: React.FC = () => {
 
     return (
         <S.Main>
+            {/*PRONTO*/}
             <S.Navigation>
                 <div>
-                <DoubleButton
-                    id="ButtonDashboardOcorrencias"
-                    text='Ocorrências'
-                    selected={occurrences}
-                    onSelect={() => {
-                        setOccurrences(true)
-                        setUsers(false)
-                    }}
-                />
-                <DoubleButton
-                    id="ButtonDashBoardUsuarios"
-                    text='Usuários'
-                    selected={users}
-                    onSelect={() => {
-                        setOccurrences(false)
-                        setUsers(true)
-                    }}
-                />
+                    <DoubleButton
+                        id="ButtonDashboardOcorrencias"
+                        text='Ocorrências'
+                        selected={occurrences}
+                        onSelect={() => {
+                            setOccurrences(true)
+                            setUsers(false)
+                        }}
+                    />
+                    <DoubleButton
+                        id="ButtonDashBoardUsuarios"
+                        text='Usuários'
+                        selected={users}
+                        onSelect={() => {
+                            setOccurrences(false)
+                            setUsers(true)
+                        }}
+                    />
                 </div>
             </S.Navigation>
             <S.Container>
                 {occurrences == true && (
                     <>
+                        {/*resetar e colocar a lista de cidades e bairros*/} 
                         <Box padding='24px 20px 0px 20px'>
+                            {/*não esta resetando o dados*/}
                             <S.Header>
                                 <h1>Filtros</h1>
                                 {initialDateOccurrence != undefined 
                                 || finalDateOccurrence != undefined 
-                                || ufValueOccurrence != undefined 
-                                || cityValueOccurrence != undefined
-                                || neighborhoodValueOccurrence != undefined
-                                && (
+                                || ufValueOccurrence != '' 
+                                || cityValueOccurrence != ''
+                                || neighborhoodValueOccurrence != ''
+                                ? (
                                     <button 
                                         onClick={() => {
-                                            setInitialDateOccurrence(undefined);
-                                            setFinalDateOccurrence(undefined);
-                                            setUfValueOccurrence(undefined);
-                                            setCityValueOccurrence(undefined);
-                                            setNeighborhoodValueOccurrence(undefined);
+                                            setInitialDateOccurrence(null);
+                                            setFinalDateOccurrence(null);
+                                            setUfValueOccurrence('');
+                                            setCityValueOccurrence(null);
+                                            setNeighborhoodValueOccurrence(null);
                                         }}
                                     >
-                                        Limpar filtros
+                                        Remover filtros
                                     </button>
-                                )}
+                                ):<></>}
                             </S.Header>
+                            {/*resetar e colocar a lista de cidades e bairros*/}
                             <S.SearchBar>
                                 <div>
                                     <CustomSelect
@@ -664,7 +473,7 @@ const Dashboard: React.FC = () => {
                                 }
                             </b>
                         </p>
-                        {/*FALTA IMAGEM*/}
+                        {/*colocar o MATH.RANDON PARA FORMAR OS GRAFICOS*/}
                         <S.GraficItemContainer>
                             <Grid
                                 container
@@ -698,6 +507,7 @@ const Dashboard: React.FC = () => {
                                 </Grid> */}
                             </Grid>
                         </S.GraficItemContainer>
+                        {/*FALTA DADOS DA API */}
                         <S.GraficBarsContainer>
                             <Grid
                                 container
@@ -734,60 +544,60 @@ const Dashboard: React.FC = () => {
                                 </Grid>
                             </Grid>
                         </S.GraficBarsContainer>
+                        {/*PROBLEMAS NO RENDERIZAR O ANO, ESTA PUXANDO UM OBJETO*/}
                         <S.TextData>
-                            <p> Ocorrências no útimo ano - <b>{/* {yearValue} */}alterr ano</b></p>
+                            <p> Ocorrências no útimo ano - <b>{yearValueOccurrence}</b></p>
                             <div style={{background: '#fff'}}>
                                 <CustomSelect
                                     width={254}
                                     defaultValue="Ano"
                                     label='Filtrar por ano'
-                                    value={yearValue}
+                                    value={yearValueOccurrence} 
                                     list={year}
                                     onChange={(e: any) => {
-                                        setYearValue(e)
+                                        setYearValueOccurrence(e)
                                     }}
                                 />
                             </div>
                         </S.TextData>
+                        {/*FALTA DADOS DA API*/}
                         <S.GraficYearContainer>
-                            <div>
-                                <Grid
-                                    container
-                                    spacing={2.5}                   
-                                    flex-wrap='nowrap'
-                                >
-                                    <Grid item xs sm md={3} lg={3} xl={3}>
-                                        <CardInfo 
-                                            icon={ocurrenceIcon}
-                                            title="Total de ocorrências no ano"
-                                            value={dashboardOccurrences?.annual_occurrences?.total}
-                                            type=""
-                                            width="100%"
-                                            height='108px'
-                                        />
-                                    </Grid>
-                                    <Grid item xs sm md={3} lg={3} xl={3}>
-                                        <CardInfo 
-                                            icon=''
-                                            title="Média de novas ocorrências por mês"
-                                            value={dashboardOccurrences?.annual_occurrences?.monthly}
-                                            type=""
-                                            width="100%"
-                                            height='108px'
-                                        />
-                                    </Grid>
+                            {/*PRONTO*/}
+                            <Grid
+                                container
+                                spacing={2.5}                   
+                                flex-wrap='nowrap'
+                            >
+                                <Grid item xs sm md={3} lg={3} xl={3}>
+                                    <CardInfo 
+                                        icon={ocurrenceIcon}
+                                        title="Total de ocorrências no ano"
+                                        value={dashboardOccurrences?.annual_occurrences?.total}
+                                        type=""
+                                        width="100%"
+                                        height='108px'
+                                    />
                                 </Grid>
-                            </div>                            
-                            <span>
-                                <YearGrafic 
-                                    title='Ocorrências no ano'
-                                    number={1000}
-                                    data={ocurrences}
-                                    width= "100%"
-                                    height='auto'                    
-                                    heightGrafic={300}
-                                />
-                            </span>
+                                <Grid item xs sm md={3} lg={3} xl={3}>
+                                    <CardInfo 
+                                        icon=''
+                                        title="Média de novas ocorrências por mês"
+                                        value={dashboardOccurrences?.annual_occurrences?.monthly}
+                                        type=""
+                                        width="100%"
+                                        height='108px'
+                                    />
+                                </Grid>
+                            </Grid>
+                            {/*FALTA DADOS DA API*/}
+                            <YearGrafic 
+                                title='Ocorrências no ano'
+                                number={1000}
+                                data={ocurrences}
+                                width= "100%"
+                                height='auto'                    
+                                heightGrafic={300}
+                            />
                         </S.GraficYearContainer>
                     </>
                 )}
@@ -841,29 +651,32 @@ const Dashboard: React.FC = () => {
                                     />
                                 </Grid>
                             </Grid>
-                        </S.StatusBox>   
+                        </S.StatusBox>  
+                        {/*resetar e colocar a lista de cidades e bairros*/} 
                         <Box padding='24px 20px 0px 20px'>
+                            {/*não esta resetando o dados*/}
                             <S.Header>
                                 <h1>Filtros</h1>
                                 {initialDateUsers != undefined 
                                 || finalDateUsers != undefined 
-                                || ufValueUsers != undefined 
+                                || ufValueUsers != undefined
                                 || cityValueUsers != undefined
                                 || neighborhoodValueUsers != undefined
-                                && (
+                                ? (
                                     <button 
                                         onClick={() => {
                                             setInitialDateUsers(undefined);
                                             setFinalDateUsers(undefined);
-                                            setUfValueUsers(undefined);
+                                            setUfValueUsers('Todos os Estados');
                                             setCityValueUsers(undefined);
                                             setNeighborhoodValueUsers(undefined);
                                         }}
                                     >
-                                        Limpar filtros
+                                        Remover filtros
                                     </button>
-                                )}
+                                ):<></>}
                             </S.Header>
+                            {/*resetar e colocar a lista de cidades e bairros*/}
                             <S.SearchBar>
                                 <div>
                                     <CustomSelect
@@ -941,6 +754,7 @@ const Dashboard: React.FC = () => {
                                 </div>
                             </S.SearchBar>
                         </Box>
+                        {/*PRONTO*/}
                         <p  style={{margin: '48px 0 24px'}} >
                             Gráfico de usuários por região - 
                             <b>
@@ -962,7 +776,8 @@ const Dashboard: React.FC = () => {
                                     : ' até hoje'
                                 }
                             </b>
-                        </p>           
+                        </p>
+                        {/*colocar o MATH.RANDON PARA FORMAR OS GRAFICOS*/}
                         <S.GraficItemContainer>
                             <Grid
                                 container
@@ -975,7 +790,6 @@ const Dashboard: React.FC = () => {
                                     return (
                                         <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
                                             <CardGraficItem
-                                                list={card6.list}
                                                 title={id.name}
                                                 value={id.value}
                                                 icon=""
@@ -1001,60 +815,60 @@ const Dashboard: React.FC = () => {
                                 </Grid> */}
                             </Grid>
                         </S.GraficItemContainer>
+                        {/*PROBLEMAS NO RENDERIZAR O ANO, ESTA PUXANDO UM OBJETO*/}
                         <S.TextData>
-                            <p> Usuários no útimo ano - <b>2021</b></p>
+                            <p> Ocorrências no útimo ano - <b>{yearValueUsers}</b></p>
                             <div style={{background: '#fff'}}>
                                 <CustomSelect
                                     width={254}
                                     defaultValue="Ano"
                                     label='Filtrar por ano'
-                                    value={yearValue}
+                                    value={yearValueUsers}
                                     list={year}
                                     onChange={(e: any) => {
-                                        setYearValue(e)
+                                        setYearValueUsers(e)
                                     }}
                                 />
                             </div>
                         </S.TextData>
+                        {/*FALTA DADOS DA API*/}
                         <S.GraficYearContainer>
-                            <div>
-                                <Grid
-                                    container
-                                    spacing={2.5}                 
-                                    flex-wrap='nowrap'
-                                >
-                                    <Grid item xs sm md={3} lg={3} xl={3}>
-                                        <CardInfo 
-                                            icon={ocurrenceIcon}
-                                            title="Total de novos usuários no ano"
-                                            value={3160}
-                                            type=""
-                                            width="100%"
-                                            height='108px'
-                                        />
-                                    </Grid>
-                                    <Grid item xs sm md={3} lg={3} xl={3}>
-                                        <CardInfo 
-                                            icon=''
-                                            title="Média de novos usuários por mês"
-                                            value={540}
-                                            type=""
-                                            width="100%"
-                                            height='108px'
-                                        />
-                                    </Grid>
+                            {/*PRONTO*/}
+                            <Grid
+                                container
+                                spacing={2.5}                 
+                                flex-wrap='nowrap'
+                            >
+                                <Grid item xs sm md={3} lg={3} xl={3}>
+                                    <CardInfo 
+                                        icon={ocurrenceIcon}
+                                        title="Total de novos usuários no ano"
+                                        value={DashboardUsers?.annual_users?.total}
+                                        type=""
+                                        width="100%"
+                                        height='108px'
+                                    />
                                 </Grid>
-                            </div>                            
-                            <span>
-                                <YearGrafic 
-                                    title='Ocorrências no ano'
-                                    number={1000}
-                                    data={ocurrences}
-                                    width= "100%"
-                                    height='auto'                    
-                                    heightGrafic={300}
-                                />
-                            </span>
+                                <Grid item xs sm md={3} lg={3} xl={3}>
+                                    <CardInfo 
+                                        icon=''
+                                        title="Média de novos usuários por mês"
+                                        value={DashboardUsers?.annual_users?.monthly}
+                                        type=""
+                                        width="100%"
+                                        height='108px'
+                                    />
+                                </Grid>
+                            </Grid>
+                            {/*FALTA DADOS DA API*/}
+                            <YearGrafic 
+                                title='Usuarios em '
+                                number={1000}
+                                data={ocurrences}
+                                width= "100%"
+                                height='auto'                    
+                                heightGrafic={300}
+                            />
                         </S.GraficYearContainer>
                     </>
                 )}
