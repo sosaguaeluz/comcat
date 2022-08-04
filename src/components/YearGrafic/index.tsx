@@ -23,7 +23,7 @@ type List = {
 }
 
 interface IProps {
-    title: string,
+    title: string | undefined,
     number: number,
     data: List[],
     width?: string,
@@ -50,7 +50,7 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
 const YearGrafic: React.FC <IProps> = (props) => {
     const [focusBar, setFocusBar] = useState<any>(null);
     const [mouseLeave, setMouseLeave] = useState<any>(true);
-     
+
     return (
         <Box padding='40px 24px 35px 24px' width={props.width} height={props.height}>
             <S.Container>

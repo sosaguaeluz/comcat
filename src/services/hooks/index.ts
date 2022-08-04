@@ -37,5 +37,11 @@ export {
     useNotifications,
     putNotifications
 } from './useNotifications';
-export { useDashboardOccurrences } from './useDashboardOccurrences';
-export { useDashboardUsers } from './useDashboardUsers'
+export { 
+    useDashboardOccurrences,
+    useAnnualOccurrences,
+} from './useDashboardOccurrences';
+export { 
+    useDashboardUsers, 
+    useAnnualUsers,
+} from './useDashboardUsers'

@@ -130,22 +130,26 @@ export interface Dashboard_Occurrences {
     line_charts: [
       string
     ],
-    genre_chart: {
-      male_percent: number,
-      female_percent: number,
-      non_binary_percent: number,
-      others_percent: number
-    },
-    breed_chart: {
-      yellow_percent: number,
-      white_percent: number,
-      indigenous_percent: number,
-      brown_percent: number,
-      black_percent: number
-    },
+    // genre_chart: {
+    //   male_percent: number,
+    //   female_percent: number,
+    //   non_binary_percent: number,
+    //   others_percent: number
+    // },
+    // breed_chart: {
+    //   yellow_percent: number,
+    //   white_percent: number,
+    //   indigenous_percent: number,
+    //   brown_percent: number,
+    //   black_percent: number
+    // },
     annual_occurrences: {
+      year: string,
       total: number,
-      monthly: number
+      monthly_rate: number,
+      monthly: [
+        string
+      ]
     }
 };
 

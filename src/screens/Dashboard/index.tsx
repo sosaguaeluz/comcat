@@ -15,7 +15,7 @@ import {
 import {
     ocurrenceIcon,
 } from '../../assets/index';
-import { useDashboardOccurrences, useDashboardUsers, useUf, useCity, decode, } from '../../services';
+import { useDashboardOccurrences, useDashboardUsers, useUf, useCity, decode, useAnnualOccurrences, useAnnualUsers, } from '../../services';
 import { Grid } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../stores';
@@ -39,13 +39,19 @@ const Dashboard: React.FC = () => {
     const [ ufValueOccurrence, setUfValueOccurrence ] = useState<any>(undefined);
     const [ cityValueOccurrence, setCityValueOccurrence ] = useState<any>(undefined);
     const [ neighborhoodValueOccurrence, setNeighborhoodValueOccurrence ] = useState<any>(undefined);
-    const [ yearValueOccurrence, setYearValueOccurrence ] = useState('');
     
+    const [ initialDateAnnualOccurrence, setInitialDateAnnualOccurrence ] = useState<any>(undefined);
+    const [ finalDateAnnualOccurrence, setFinalDateAnnualOccurrence ] = useState<any>(undefined);
+    const [ yearValueOccurrence, setYearValueOccurrence ] = useState('');
+       
     const [ initialDateUsers, setInitialDateUsers ] = useState<any>(undefined);
     const [ finalDateUsers, setFinalDateUsers ] = useState<any>(undefined);
     const [ ufValueUsers, setUfValueUsers ] = useState<any>(undefined);
     const [ cityValueUsers, setCityValueUsers ] = useState<any>(undefined);
     const [ neighborhoodValueUsers, setNeighborhoodValueUsers ] = useState<any>(undefined);
+    
+    const [ initialDateAnnualUsers, setInitialDateAnnualUsers ] = useState<any>(undefined);
+    const [ finalDateAnnualUsers, setFinalDateAnnualUsers ] = useState<any>(undefined);
     const [ yearValueUsers, setYearValueUsers ] = useState('');
     
     const{ data: dashboardOccurrences,
@@ -55,12 +61,18 @@ const Dashboard: React.FC = () => {
         finalDateOccurrence,
         ufValueOccurrence,
         cityValueOccurrence,
-        neighborhoodValueOccurrence,
-        undefined,
-        undefined,
-        undefined
+        neighborhoodValueOccurrence
     )
     console.log(dashboardOccurrences, 'ocurrences')
+    
+    const{ data: annualOccurrences,
+    }=useAnnualOccurrences (
+        token,
+        initialDateAnnualOccurrence,
+        finalDateAnnualOccurrence,
+        yearValueOccurrence
+    )
+    console.log(annualOccurrences?.annual_occurrences, 'anualocurrences')
 
     const{ data: DashboardUsers,        
     }=useDashboardUsers (
@@ -69,13 +81,28 @@ const Dashboard: React.FC = () => {
         finalDateUsers,
         ufValueUsers,
         cityValueUsers,
-        neighborhoodValueUsers,
+        neighborhoodValueUsers
     )
-    console.log(DashboardUsers, 'users')    
+    console.log(DashboardUsers, 'users')
+
+    const{ data: AnnualUsers,        
+    }=useAnnualUsers (
+        token,
+        initialDateAnnualUsers,
+        finalDateAnnualUsers,
+        yearValueUsers
+    )
+    console.log(AnnualUsers?.annual_users, 'anualusers')    
 
     const { data: dataCityOccurrence } = useCity(ufValueOccurrence);
     const { data: dataCityUsers } = useCity(ufValueUsers);
     
+    //puxar todas as datas do annualOccurrences.annualOccurrences?.annual_occurrences?.year
+    //utilizando a data atual do usuario e todos anos que tiverem para tras
+    // do 01/
+
+
+
     let list = [
         {label: 'Pesquisar 1', value: 'pesquisa1'},
         {label: 'Pesquisar 2', value: 'pesquisa2'},
@@ -546,26 +573,23 @@ const Dashboard: React.FC = () => {
                         </S.GraficBarsContainer>
                         {/*PROBLEMAS NO RENDERIZAR O ANO, ESTA PUXANDO UM OBJETO*/}
                         <S.TextData>
-                            <p> Ocorrências no útimo ano - <b>{yearValueOccurrence}</b></p>
-                            <div style={{background: '#fff'}}>
-                                <CustomSelect
-                                    width={254}
-                                    defaultValue="Ano"
-                                    label='Filtrar por ano'
-                                    value={yearValueOccurrence} 
-                                    list={year}
-                                    onChange={(e: any) => {
-                                        setYearValueOccurrence(e)
-                                    }}
-                                />
-                            </div>
+                            <p> Ocorrências no útimo ano - <b>{annualOccurrences?.annual_occurrences?.year}</b></p>
+                            <CustomSelect
+                                width={254}
+                                defaultValue="Ano"
+                                label='Filtrar por ano'
+                                value={annualOccurrences?.annual_occurrences?.year} 
+                                list={year}
+                                onChange={(e: any) => {
+                                    setYearValueOccurrence(e)
+                                }}
+                            />
                         </S.TextData>
                         {/*FALTA DADOS DA API*/}
                         <S.GraficYearContainer>
                             {/*PRONTO*/}
                             <Grid
-                                container
-                                spacing={2.5}                   
+                                container                  
                                 flex-wrap='nowrap'
                             >
                                 <Grid item xs sm md={3} lg={3} xl={3}>
@@ -582,7 +606,7 @@ const Dashboard: React.FC = () => {
                                     <CardInfo 
                                         icon=''
                                         title="Média de novas ocorrências por mês"
-                                        value={dashboardOccurrences?.annual_occurrences?.monthly}
+                                        value={dashboardOccurrences?.annual_occurrences?.monthly_rate}
                                         type=""
                                         width="100%"
                                         height='108px'
@@ -591,7 +615,7 @@ const Dashboard: React.FC = () => {
                             </Grid>
                             {/*FALTA DADOS DA API*/}
                             <YearGrafic 
-                                title='Ocorrências no ano'
+                                title={`Ocorrências no ano de ${dashboardOccurrences?.annual_occurrences?.year}`}
                                 number={1000}
                                 data={ocurrences}
                                 width= "100%"

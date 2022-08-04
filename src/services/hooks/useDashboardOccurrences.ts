@@ -9,8 +9,6 @@ export const getDashboardOccurrences = async <T>(
     state?: string,
     city?: string,
     neighborhood?: string,
-    genre_chart?: string[] | any,
-    breed_chart?: string[] | any,
     annual_occurrences?: string[] | any,    
 
 ):Promise<Dashboard_Occurrences> => {
@@ -31,12 +29,6 @@ export const getDashboardOccurrences = async <T>(
     }
     if(neighborhood != undefined){
         params.append("neighborhood", neighborhood)
-    }
-    if(genre_chart == ['']){
-        params.append("genre_chart", genre_chart)
-    }
-    if(breed_chart == ['']){
-        params.append("breed_chart", breed_chart)
     }
     if(annual_occurrences == ['']){
         params.append("annual_occurrences", annual_occurrences)
@@ -59,10 +51,7 @@ export const useDashboardOccurrences = <T>(
     finaldate?: string,
     state?: string,
     city?: string,
-    neighborhood?: string,
-    genre_chart?: string[] | any,
-    breed_chart?: string[] | any,
-    annual_occurrences?: string[] | any, 
+    neighborhood?: string
 ):UseQueryResult<Dashboard_Occurrences> => {
     return useQuery(['dashboard/occurrences',
     token,
@@ -70,19 +59,32 @@ export const useDashboardOccurrences = <T>(
     finaldate,
     state,
     city,
-    neighborhood,
-    genre_chart,
-    breed_chart,
-    annual_occurrences
+    neighborhood
     ], () => getDashboardOccurrences(
         token,
         initialdate,
         finaldate,
         state,
         city,
-        neighborhood,
-        genre_chart,
-        breed_chart,
+        neighborhood
+    )
+)};
+
+export const useAnnualOccurrences = <T>(
+    token: string,
+    initialdate?: string,
+    finaldate?: string,
+    annual_occurrences?: string[] | any, 
+):UseQueryResult<Dashboard_Occurrences> => {
+    return useQuery(['dashboard/occurrences',
+    token,
+    initialdate,
+    finaldate,
+    annual_occurrences
+    ], () => getDashboardOccurrences(
+        token,
+        initialdate,
+        finaldate,
         annual_occurrences
     )
 )};

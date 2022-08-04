@@ -8,7 +8,8 @@ export const getDashboardUsers = async <T>(
     finaldate?: string,
     state?: string,
     city?: string,
-    annual_users?: string[] | any,    
+    neighborhood?: string,
+    annual_users?: string[] | any   
 
 ):Promise<Dashboard_Users > => {
 
@@ -25,6 +26,9 @@ export const getDashboardUsers = async <T>(
     }
     if(city != undefined){
         params.append("city", city)
+    }
+    if(neighborhood != undefined){
+        params.append("neighborhood", neighborhood)
     }
     if(annual_users == ['']){
         params.append("annual_users", annual_users)
@@ -46,7 +50,8 @@ export const useDashboardUsers = <T>(
     finaldate?: string,
     state?: string,
     city?: string,
-    annual_users?: string[] | any, 
+    neighborhood?: string,
+    annual_users?: string[] | any
 ):UseQueryResult<Dashboard_Users> => {
     return useQuery(['dashboard/users',
     token,
@@ -54,6 +59,7 @@ export const useDashboardUsers = <T>(
     finaldate,
     state,
     city,
+    neighborhood,
     annual_users
     ], () => getDashboardUsers(
         token,
@@ -61,6 +67,26 @@ export const useDashboardUsers = <T>(
         finaldate,
         state,
         city,
+        neighborhood,
+        annual_users
+    )
+)};
+
+export const useAnnualUsers = <T>(
+    token: string,
+    initialdate?: string,
+    finaldate?: string,
+    annual_users?: string[] | any, 
+):UseQueryResult<Dashboard_Users> => {
+    return useQuery(['dashboard/users',
+    token,
+    initialdate,
+    finaldate,
+    annual_users
+    ], () => getDashboardUsers(
+        token,
+        initialdate,
+        finaldate,
         annual_users
     )
 )};

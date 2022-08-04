@@ -117,14 +117,18 @@ export const GraficYearContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: start;
-    justify-content: space-between;
 
     > div { 
     width: 100%;
-    padding-right: 10px;
-    margin-bottom: 24px;
-        @media screen and (max-width: 1200px){
-            padding-right: 0;
+        > div{
+            padding-right: 20px;
+            margin-bottom: 24px;
+                @media screen and (max-width: 1200px){
+                    padding-right: 0;
+                }
+        }
+        > div:nth-child(2){
+            padding-right: 10px;           
         }
     }
 `;

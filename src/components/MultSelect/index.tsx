@@ -21,6 +21,7 @@ const theme = createTheme({
         MuiSelect: {
             styleOverrides: {
                 select: {
+                    width: '100%',
                     color: '#2C3941',
                     fontWeight: '700',
                     fontFamily: 'Inter', 
@@ -31,47 +32,64 @@ const theme = createTheme({
                     "& :hover": {
                         border: 'none',
                         borderColor: '#AFAFAF'
-                    }
+                    }                    
                 },
-                
             }
         },
         MuiInputLabel: {
             styleOverrides:{
                 root: {
                     color: '#AFAFAF',
-                    background: 'transparent',
+                    // background: 'transparent',
                     "&.Mui-focused": {
                         "color": "#AFAFAF",
-                        'background': 'transparent',
-                        'border': 'none'
-
+                        // 'background': 'transparent',
+                        // 'border': 'none'
                     },
-                },
-                
+                },                
             }
         },
-        MuiFormControl: {
-          styleOverrides: {
-              root: {
-                  border: '0',
-                  "*": {
-                      "border": 'none',
-                  }
-              },
-          }
-        },
-        MuiOutlinedInput: {
+        MuiTextField: {
             styleOverrides: {
                 root: {
                     color: '#2C3941',
                     fontWeight: '700',
                     fontFamily: 'Inter', 
-                    background: "transparent"
+                    border: '0',
+                    borderRadius: '8px  !important', 
+                    background: '#FFF !important'
                 }
             }
         },
-        
+        MuiFormControl: {
+            styleOverrides: {
+                 root: {
+                    border: '0',
+                    "*": {
+                        "border": 'none',
+                    }
+                },
+          }
+        },
+        MuiInput: {
+            styleOverrides: {
+                root: {
+                    color: '#2C3941',
+                    fontWeight: '700',
+                    fontFamily: 'Inter', 
+                    border: '1px solid #AFAFAF',
+                    borderRadius: '8px  !important', 
+                    background: '#FFF !important', 
+                }
+            }
+        },
+        MuiFilledInput: {
+            styleOverrides: {
+                root: {
+                    height: '100%',
+                }
+            }
+        }
     }
 });
 
@@ -85,9 +103,12 @@ const MultSelect: React.FC <IProps> = (props) => {
 
     return (
         <ThemeProvider theme={theme}>
-            <FormControl sx={{ width: props.width, maxWidth: props.maxWidth, height: 50 }} variant="filled">
+            <FormControl 
+                variant="filled"
+                sx={{ width: props.width, maxWidth: props.maxWidth, height: 58, background: '#FFF  !important', borderRadius: '8px !important', border:'none' }} 
+                >
                 {props.valueItem.length == 0 ? 
-                    <span style={{display: 'none'}}/>
+                    <></>                    
                     :
                     <InputLabel>Serviços</InputLabel>
                 }
@@ -97,18 +118,31 @@ const MultSelect: React.FC <IProps> = (props) => {
                     disableInjectingGlobalStyles
                     value={props.valueItem}
                     onChange={handleChange}
-                    input={<OutlinedInput label="Todos os serviços" />}
                     renderValue={(selected) => {
                         if (selected.length === 0) {
-                        return <em>Todos os serviços</em>;
+                        return 'Todos os serviços';
                         }
                         return selected.join(', ');
                     }}
-                    inputProps={{ 'aria-label': 'Without label' }}
+                    inputProps={{
+                        disableUnderline: true,
+                        style: {
+                            color: '#2C3941',
+                            fontWeight: '700',
+                            fontFamily: 'Inter', 
+                            border: '0',
+                            borderRadius: '8px', 
+                            background: '#FFF', 
+                            outline: 'none',
+                        }
+                    }}
+                    // inputProps={{ 'aria-label': 'Without label' }}
+                    style={{height: '58'}}
                 >
-                    <MenuItem disabled value="">
-                        <em style={{borderBottom: '1px solid #AFAFAF', width: '100%'}}>Todos os serviços</em>
-                    </MenuItem>
+                    {/* <MenuItem key='Todos os serviços' value="Todos os serviços">
+                        <Checkbox checked={props.valueItem.indexOf('Todos os serviços') > -1} />
+                        <ListItemText primary='Todos os serviços' />
+                    </MenuItem> */}
                 {props.list?.map((id: any, index: number) => (
                     <MenuItem key={index} value={id}>
                         <Checkbox checked={props.valueItem.indexOf(id) > -1} />
