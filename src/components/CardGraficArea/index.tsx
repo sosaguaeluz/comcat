@@ -28,8 +28,23 @@ type List = {
     title?: string
 }
 
+type Genre = {
+    male: number, 
+    female: number, 
+    nonbinary: number, 
+    others: number
+}
+
+type Breed = {
+    yellow: number,
+    white: number,
+    indigenous: number,
+    brown: number,
+    black: number
+}
+
 interface IProps {
-    data?: List[]
+    data?: List[] | Genre[] | Breed[] |any, 
     valueItem: string[],
     onChange: (e: any) => void,
     title: string,

@@ -1,4 +1,4 @@
-export type listCity = {
+export interface listCity {
   id: number,
   nome:string,
   sigla: string
@@ -8,7 +8,7 @@ export interface City {
   cities: listCity[]
 };
 
-export type listUf = {
+export interface listUf  {
   id: number,
   nome:string,
   sigla: string
@@ -173,6 +173,12 @@ export type State_List = {
 };
 
 export interface Dashboard_region_Users {
+  name: string,
+  state_list: State_List[]
+  user_total: number
+};
+
+export interface Dashboard_region_Occurrences{
   name: string,
   state_list: State_List[]
   user_total: number

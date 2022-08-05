@@ -6,6 +6,7 @@
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@hookform/resolvers": "^2.8.10",
+    "@mui/icons-material": "^5.8.4",
     "@mui/material": "^5.7.0",
     "@mui/styled-engine-sc": "^5.7.0",
     "@testing-library/jest-dom": "^5.16.4",

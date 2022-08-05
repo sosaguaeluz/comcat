@@ -23,86 +23,132 @@ import { RootState } from '../../stores';
 
 const Dashboard: React.FC = () => {
     const { token } = useSelector((state: RootState) => state.clickState);
-    const { data: uf } = useUf();
+    const [ idUf, setIdUf ] = useState('')  
+    const [ idCity, setIdCity] = useState<any>()
+    
+    const { data: ufList } = useUf();
+    const { data: CityList } = useCity(idUf);
 
-    const [ open, setOpen ] = useState(false); 
+    const [ initialDate, setInitialDate ] = useState<any>(undefined);
+    const [ finalDate, setFinalDate ] = useState<any>(undefined);
+
     const [ occurrences, setOccurrences ] = useState(true);
     const [ users, setUsers ] = useState(false);
-    const [ value, setValue ] = useState('');
-    const [ value2, setValue2 ] = useState('');
-    const [ value3, setValue3 ] = useState('');
-    const [ data, setData] = useState('');
-    const [ multValue, setMultValue ] = useState<string[]>([]);
-    
-    const [ initialDateOccurrence, setInitialDateOccurrence ] = useState<any>(undefined);
-    const [ finalDateOccurrence, setFinalDateOccurrence ] = useState<any>(undefined);
-    const [ ufValueOccurrence, setUfValueOccurrence ] = useState<any>(undefined);
-    const [ cityValueOccurrence, setCityValueOccurrence ] = useState<any>(undefined);
-    const [ neighborhoodValueOccurrence, setNeighborhoodValueOccurrence ] = useState<any>(undefined);
-    
-    const [ initialDateAnnualOccurrence, setInitialDateAnnualOccurrence ] = useState<any>(undefined);
-    const [ finalDateAnnualOccurrence, setFinalDateAnnualOccurrence ] = useState<any>(undefined);
-    const [ yearValueOccurrence, setYearValueOccurrence ] = useState('');
-       
-    const [ initialDateUsers, setInitialDateUsers ] = useState<any>(undefined);
-    const [ finalDateUsers, setFinalDateUsers ] = useState<any>(undefined);
-    const [ ufValueUsers, setUfValueUsers ] = useState<any>(undefined);
-    const [ cityValueUsers, setCityValueUsers ] = useState<any>(undefined);
-    const [ neighborhoodValueUsers, setNeighborhoodValueUsers ] = useState<any>(undefined);
-    
-    const [ initialDateAnnualUsers, setInitialDateAnnualUsers ] = useState<any>(undefined);
-    const [ finalDateAnnualUsers, setFinalDateAnnualUsers ] = useState<any>(undefined);
-    const [ yearValueUsers, setYearValueUsers ] = useState('');
+  
+    const [ multValueGenre, setMultValueGenre ] = useState<string[]>([]);
+    const [ multValueBreed, setMultValueBreed ] = useState<string[]>([]);
+   
+    const [ initialDateAnnual, setInitialDateAnnual ] = useState<any>(undefined);
+    const [ finalDateAnnual, setFinalDateAnnual ] = useState<any>(undefined);
+    const [ yearValue, setYearValue ] = useState('');
     
     const{ data: dashboardOccurrences,
     }=useDashboardOccurrences (
         token,
-        initialDateOccurrence,
-        finalDateOccurrence,
-        ufValueOccurrence,
-        cityValueOccurrence,
-        neighborhoodValueOccurrence
+        initialDate,
+        finalDate,
+        idUf,
+        idCity,
+
     )
     console.log(dashboardOccurrences, 'ocurrences')
     
     const{ data: annualOccurrences,
     }=useAnnualOccurrences (
         token,
-        initialDateAnnualOccurrence,
-        finalDateAnnualOccurrence,
-        yearValueOccurrence
-    )
+        initialDateAnnual,
+        finalDateAnnual,
+        yearValue
+        )
     console.log(annualOccurrences?.annual_occurrences, 'anualocurrences')
 
-    const{ data: DashboardUsers,        
+    const{ data: dashboardUsers,        
     }=useDashboardUsers (
         token,
-        initialDateUsers,
-        finalDateUsers,
-        ufValueUsers,
-        cityValueUsers,
-        neighborhoodValueUsers
+        initialDate,
+        finalDate,
+        idUf,
+        idCity,
     )
-    console.log(DashboardUsers, 'users')
-
-    const{ data: AnnualUsers,        
+    console.log(dashboardUsers, 'users')
+    
+    const{ data: annualUsers,        
     }=useAnnualUsers (
         token,
-        initialDateAnnualUsers,
-        finalDateAnnualUsers,
-        yearValueUsers
+        initialDateAnnual,
+        finalDateAnnual,
+        yearValue
     )
-    console.log(AnnualUsers?.annual_users, 'anualusers')    
+    console.log(annualUsers?.annual_users, 'anualusers')    
+        
+    const [ resetSearch, setResetSearch] = useState(false)
+     
+    function ResetSearch() {
+        
+    }
 
-    const { data: dataCityOccurrence } = useCity(ufValueOccurrence);
-    const { data: dataCityUsers } = useCity(ufValueUsers);
+    function ButtonResetSearch() {
+        return (
+            resetSearch 
+                ? <button 
+                    onClick={() => {
+                        setInitialDate(null);
+                        setFinalDate(null);
+                        setIdUf('');
+                        setIdCity(0);
+                    }}
+                >
+                    Remover filtros
+                </button>
+                : <></>
+        )  
+    }
+
+    function Description(select: any) {
+        return (
+            <S.Description>
+                Gráfico de {select} - 
+                <b>
+                    {idUf != undefined
+                    && idCity != undefined 
+                        ? `${idUf}, ${idCity}`
+                        : 'Todos os locais '
+                    }
+                    |
+                    {
+                    initialDate != undefined 
+                        ? ` de ${initialDate}`
+                        : ' Desde o inicio'
+                    }
+                    {
+                    finalDate != undefined 
+                        ? ` até ${finalDate}` 
+                        : ' até hoje'
+                    }
+                </b>
+            </S.Description>
+        )  
+    }
     
-    //puxar todas as datas do annualOccurrences.annualOccurrences?.annual_occurrences?.year
-    //utilizando a data atual do usuario e todos anos que tiverem para tras
-    // do 01/
+    function SelectYear(select: any) {
+        return (
+            <S.TextData>
+                <p> Ocorrências no útimo ano - <b>{select === 'ocorrências' ?  annualOccurrences?.annual_occurrences?.year : annualUsers?.annual_users?.total }</b></p>
+                {/* <CustomSelect
+                    width={254}
+                    defaultValue="Ano"
+                    label='Filtrar por ano'
+                    value={{select === 'ocorrências' ?  annualOccurrences?.annual_occurrences?.year : annualUsers?.annual_users?.total }} 
+                    list={year}
+                    onChange={(e: any) => {
+                        setYearValue(e)
+                    }}
+                /> */}
+            </S.TextData>
+        )  
+    }
 
-
-
+        
     let list = [
         {label: 'Pesquisar 1', value: 'pesquisa1'},
         {label: 'Pesquisar 2', value: 'pesquisa2'},
@@ -324,6 +370,7 @@ const Dashboard: React.FC = () => {
                         onSelect={() => {
                             setOccurrences(false)
                             setUsers(true)
+                            
                         }}
                     />
                 </div>
@@ -336,68 +383,44 @@ const Dashboard: React.FC = () => {
                             {/*não esta resetando o dados*/}
                             <S.Header>
                                 <h1>Filtros</h1>
-                                {initialDateOccurrence != undefined 
-                                || finalDateOccurrence != undefined 
-                                || ufValueOccurrence != '' 
-                                || cityValueOccurrence != ''
-                                || neighborhoodValueOccurrence != ''
-                                ? (
-                                    <button 
-                                        onClick={() => {
-                                            setInitialDateOccurrence(null);
-                                            setFinalDateOccurrence(null);
-                                            setUfValueOccurrence('');
-                                            setCityValueOccurrence(null);
-                                            setNeighborhoodValueOccurrence(null);
-                                        }}
-                                    >
-                                        Remover filtros
-                                    </button>
-                                ):<></>}
+                                <ButtonResetSearch/>
                             </S.Header>
                             {/*resetar e colocar a lista de cidades e bairros*/}
                             <S.SearchBar>
                                 <div>
                                     <CustomSelect
                                         width={254}
-                                        label='Estados'
-                                        labelDefault='Filtrar por Estados'
-                                        value={ufValueOccurrence}
-                                        defaultValue={"Todos os Estados"}
-                                        list={[
-                                            {
-                                                id: "All",
-                                                nome: "Todos os Estados",
-                                                sigla: "All",
-                                                regiao: "Todos",
-                                            },
-                                            ...(uf || []),
-                                        ]}
+                                        label='Estados'      
+                                        labelDefault="Filtrar por estado"
+                                        value={idUf}
+                                        defaultValue="Todos os estados"
+                                        list={ufList}
                                         onChange={(e: any) => {
-                                            setValue(e)
-                                            console.log(e);
+                                            setIdUf(e.target.value)
                                         }}
                                     />
                                     <CustomSelect
                                         width={254}
                                         label="Município"
-                                        labelDefault="Filtrar por Município"
-                                        value={cityValueOccurrence}
-                                        list={dataCityOccurrence}
+                                        labelDefault="Filtrar por município"
+                                        value={idCity}
+                                        defaultValue="Todos os municípios"
+                                        list={CityList}
                                         onChange={(e: any) => {
-                                            setValue2(e)
+                                            setIdCity(e.target.value)
                                         }}
                                     />
-                                    <CustomSelect
+                                    {/* <CustomSelect
                                         width={254}
                                         label="Bairro"
-                                        labelDefault='Filtrar por Bairro'
-                                        value={neighborhoodValueOccurrence}
+                                        labelDefault='Filtrar por bairro'
+                                        value={idNeighborhoodOccurrence}
+                                        defaultValue="Todos os bairros"
                                         list={list}
                                         onChange={(e: any) => {
-                                            setValue3(e)
+                                            setIdNeighborhoodOccurrence(e.target.value)
                                         }}
-                                    />
+                                    /> */}
                                 </div>
                                 <div>
                                     <CustomInputData
@@ -407,9 +430,9 @@ const Dashboard: React.FC = () => {
                                         label='De:'                                        
                                         defaultValue='De:'
                                         max={new Date().toISOString().slice(0, 0)}
-                                        value={initialDateOccurrence} 
+                                        value={initialDate} 
                                         onChange={(e: any) => {
-                                            setInitialDateOccurrence(e.target.value );
+                                            setInitialDate(e.target.value );
                                             // console.log(e);
                                         }}
                                         onBlur={function (e: any) {
@@ -422,9 +445,9 @@ const Dashboard: React.FC = () => {
                                         label='Até:'
                                         defaultValue='Até:'
                                         max={new Date().toISOString().slice(0, 0)}
-                                        value={finalDateOccurrence} 
+                                        value={finalDate} 
                                         onChange={(e: any) => {
-                                            setFinalDateOccurrence(e.target.value);
+                                            setFinalDate(e.target.value);
                                         }}
                                         onBlur={function (e: any) {
                                             throw new Error('Function not implemented.');
@@ -478,28 +501,9 @@ const Dashboard: React.FC = () => {
                             </Grid>
                         </S.StatusBox>
                         {/*PRONTO*/}
-                        <p>
-                            Gráfico de ocorrências - 
-                            <b>
-                                {ufValueOccurrence != undefined
-                                && cityValueOccurrence != undefined 
-                                && neighborhoodValueOccurrence != undefined
-                                    ? `${ufValueOccurrence}, ${cityValueOccurrence}, ${neighborhoodValueOccurrence} `
-                                    : 'Todos os locais '
-                                }
-                                |
-                                {
-                                initialDateOccurrence != undefined 
-                                    ? ` de ${initialDateOccurrence}`
-                                    : ' Desde o inicio'
-                                }
-                                {
-                                finalDateOccurrence != undefined 
-                                    ? ` até ${finalDateOccurrence}` 
-                                    : ' até hoje'
-                                }
-                            </b>
-                        </p>
+                        <Description
+                            select='ocorrências'
+                        />                            
                         {/*colocar o MATH.RANDON PARA FORMAR OS GRAFICOS*/}
                         <S.GraficItemContainer>
                             <Grid
@@ -544,9 +548,9 @@ const Dashboard: React.FC = () => {
                                 <Grid item xs sm md={6} lg={6} xl={6}>
                                     <CardGraficArea 
                                         data={areaChart}
-                                        valueItem={multValue}
+                                        valueItem={multValueGenre}
                                         onChange={(e) => {
-                                            setMultValue(e)
+                                            setMultValueGenre(e)
                                         }}
                                         title="Genero"
                                         type="genero"
@@ -558,9 +562,9 @@ const Dashboard: React.FC = () => {
                                 <Grid item xs sm md={6} lg={6} xl={6}>
                                     <CardGraficArea
                                         data={areaChart2}
-                                        valueItem={multValue}
+                                        valueItem={multValueBreed}
                                         onChange={(e) => {
-                                            setMultValue(e)
+                                            setMultValueBreed(e)
                                         }}
                                         title="Raça"
                                         type="raca"
@@ -572,19 +576,9 @@ const Dashboard: React.FC = () => {
                             </Grid>
                         </S.GraficBarsContainer>
                         {/*PROBLEMAS NO RENDERIZAR O ANO, ESTA PUXANDO UM OBJETO*/}
-                        <S.TextData>
-                            <p> Ocorrências no útimo ano - <b>{annualOccurrences?.annual_occurrences?.year}</b></p>
-                            <CustomSelect
-                                width={254}
-                                defaultValue="Ano"
-                                label='Filtrar por ano'
-                                value={annualOccurrences?.annual_occurrences?.year} 
-                                list={year}
-                                onChange={(e: any) => {
-                                    setYearValueOccurrence(e)
-                                }}
-                            />
-                        </S.TextData>
+                        <SelectYear
+                            select='ocorrências'
+                        />
                         {/*FALTA DADOS DA API*/}
                         <S.GraficYearContainer>
                             {/*PRONTO*/}
@@ -638,7 +632,7 @@ const Dashboard: React.FC = () => {
                                     <CardInfo 
                                         icon={ocurrenceIcon}
                                         title="Total de usuários"
-                                        value={DashboardUsers?.total}
+                                        value={dashboardUsers?.total}
                                         type=""
                                         width='100%'
                                         height="108px"
@@ -648,7 +642,7 @@ const Dashboard: React.FC = () => {
                                     <CardInfo 
                                         icon=''
                                         title="Total de novas usuários (hoje)"
-                                        value={DashboardUsers?.new_today}
+                                        value={dashboardUsers?.new_today}
                                         type=""
                                         width='100%'
                                         height="108px"
@@ -658,7 +652,7 @@ const Dashboard: React.FC = () => {
                                     <CardInfo 
                                         icon=''
                                         title="Total de usuários ativos (hoje)"
-                                        value={DashboardUsers?.active_today}
+                                        value={dashboardUsers?.active_today}
                                         type=""
                                         width='100%'
                                         height="108px"
@@ -668,11 +662,11 @@ const Dashboard: React.FC = () => {
                                     <CardInfo 
                                         icon=''
                                         title="Total de usuários inativos (hoje)"
-                                        value={DashboardUsers?.inactive_today}
+                                        value={dashboardUsers?.inactive_today}
                                         type=""
                                         width='100%'
                                         height="108px"
-                                    />
+                                    />s
                                 </Grid>
                             </Grid>
                         </S.StatusBox>  
@@ -681,24 +675,7 @@ const Dashboard: React.FC = () => {
                             {/*não esta resetando o dados*/}
                             <S.Header>
                                 <h1>Filtros</h1>
-                                {initialDateUsers != undefined 
-                                || finalDateUsers != undefined 
-                                || ufValueUsers != undefined
-                                || cityValueUsers != undefined
-                                || neighborhoodValueUsers != undefined
-                                ? (
-                                    <button 
-                                        onClick={() => {
-                                            setInitialDateUsers(undefined);
-                                            setFinalDateUsers(undefined);
-                                            setUfValueUsers('Todos os Estados');
-                                            setCityValueUsers(undefined);
-                                            setNeighborhoodValueUsers(undefined);
-                                        }}
-                                    >
-                                        Remover filtros
-                                    </button>
-                                ):<></>}
+                                <ButtonResetSearch/>
                             </S.Header>
                             {/*resetar e colocar a lista de cidades e bairros*/}
                             <S.SearchBar>
@@ -706,33 +683,24 @@ const Dashboard: React.FC = () => {
                                     <CustomSelect
                                         width={254}
                                         label='Estados'
-                                        value={ufValueUsers}
+                                        value={idUf}
                                         defaultValue={"Todos os Estados"}
-                                        list={[
-                                            {
-                                                id: "All",
-                                                nome: "Todos os Estados",
-                                                sigla: "All",
-                                                regiao: "Todos",
-                                            },
-                                            ...(uf || []),
-                                        ]}
+                                        list={ufList}
                                         onChange={(e: any) => {
-                                            setValue(e)
-                                            console.log(e);
+                                            setIdUf(e)
                                         }}
                                     />
                                     <CustomSelect
                                         width={254}
                                         label="Município"
                                         labelDefault="Filtrar por Município"
-                                        value={cityValueUsers}
-                                        list={dataCityUsers}
+                                        value={idCity}
+                                        list={CityList}
                                         onChange={(e: any) => {
-                                            setValue2(e)
+                                            setIdCity(e)
                                         }}
                                     />
-                                    <CustomSelect
+                                    {/* <CustomSelect
                                         width={254}
                                         label="Bairro"
                                         labelDefault='Filtrar por Bairro'
@@ -741,7 +709,7 @@ const Dashboard: React.FC = () => {
                                         onChange={(e: any) => {
                                             setValue3(e)
                                         }}
-                                    />
+                                    /> */}
                                 </div>
                                 <div>
                                     <CustomInputData
@@ -751,9 +719,9 @@ const Dashboard: React.FC = () => {
                                         label='De:'                                        
                                         defaultValue='De:'
                                         max={new Date().toISOString().slice(0, 0)}
-                                        value={initialDateUsers} 
+                                        value={initialDate} 
                                         onChange={(e: any) => {
-                                            setInitialDateUsers(e.target.value );
+                                            setInitialDate(e.target.value );
                                             // console.log(e);
                                         }}
                                         onBlur={function (e: any) {
@@ -767,9 +735,9 @@ const Dashboard: React.FC = () => {
                                         label='Até:'
                                         defaultValue='Até:'
                                         max={new Date().toISOString().slice(0, 0)}
-                                        value={finalDateUsers} 
+                                        value={finalDate} 
                                         onChange={(e: any) => {
-                                            setFinalDateUsers(e.target.value);
+                                            setFinalDate(e.target.value);
                                         }}
                                         onBlur={function (e: any) {
                                             throw new Error('Function not implemented.');
@@ -779,28 +747,9 @@ const Dashboard: React.FC = () => {
                             </S.SearchBar>
                         </Box>
                         {/*PRONTO*/}
-                        <p  style={{margin: '48px 0 24px'}} >
-                            Gráfico de usuários por região - 
-                            <b>
-                                {ufValueUsers != undefined
-                                && cityValueUsers != undefined 
-                                && neighborhoodValueUsers != undefined
-                                    ? `${ufValueUsers}, ${cityValueUsers}, ${neighborhoodValueUsers} `
-                                    : 'Todos os locais '
-                                }
-                                |
-                                {
-                                initialDateUsers != undefined 
-                                    ? ` de ${initialDateUsers}`
-                                    : ' Desde o inicio'
-                                }
-                                {
-                                finalDateUsers != undefined 
-                                    ? ` até ${finalDateUsers}` 
-                                    : ' até hoje'
-                                }
-                            </b>
-                        </p>
+                        <Description
+                            select='usuários'
+                        />  
                         {/*colocar o MATH.RANDON PARA FORMAR OS GRAFICOS*/}
                         <S.GraficItemContainer>
                             <Grid
@@ -810,7 +759,7 @@ const Dashboard: React.FC = () => {
                                 flex-wrap='wrap'
                             >
                             
-                            {DashboardUsers?.line_charts?.map((id: any) => {
+                            {dashboardUsers?.line_charts?.map((id: any) => {
                                     return (
                                         <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
                                             <CardGraficItem
@@ -840,21 +789,10 @@ const Dashboard: React.FC = () => {
                             </Grid>
                         </S.GraficItemContainer>
                         {/*PROBLEMAS NO RENDERIZAR O ANO, ESTA PUXANDO UM OBJETO*/}
-                        <S.TextData>
-                            <p> Ocorrências no útimo ano - <b>{yearValueUsers}</b></p>
-                            <div style={{background: '#fff'}}>
-                                <CustomSelect
-                                    width={254}
-                                    defaultValue="Ano"
-                                    label='Filtrar por ano'
-                                    value={yearValueUsers}
-                                    list={year}
-                                    onChange={(e: any) => {
-                                        setYearValueUsers(e)
-                                    }}
-                                />
-                            </div>
-                        </S.TextData>
+                        <SelectYear
+                            select='usuários'
+                        />
+                            
                         {/*FALTA DADOS DA API*/}
                         <S.GraficYearContainer>
                             {/*PRONTO*/}
@@ -867,7 +805,7 @@ const Dashboard: React.FC = () => {
                                     <CardInfo 
                                         icon={ocurrenceIcon}
                                         title="Total de novos usuários no ano"
-                                        value={DashboardUsers?.annual_users?.total}
+                                        value={dashboardUsers?.annual_users?.total}
                                         type=""
                                         width="100%"
                                         height='108px'
@@ -877,7 +815,7 @@ const Dashboard: React.FC = () => {
                                     <CardInfo 
                                         icon=''
                                         title="Média de novos usuários por mês"
-                                        value={DashboardUsers?.annual_users?.monthly}
+                                        value={dashboardUsers?.annual_users?.monthly}
                                         type=""
                                         width="100%"
                                         height='108px'

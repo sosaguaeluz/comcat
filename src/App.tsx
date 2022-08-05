@@ -15,9 +15,9 @@ const App: React.FC = () => {
   return (
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-        {token == '' ?
+        {/* {token == '' ?
           <Login />
-          :
+          : */}
           <Container>
             <Header />
             <Aside />
@@ -25,7 +25,7 @@ const App: React.FC = () => {
               <AuthRoutes />
             </Content>
           </Container>
-        }
+        {/* } */}
         </BrowserRouter>
       </QueryClientProvider>
   );

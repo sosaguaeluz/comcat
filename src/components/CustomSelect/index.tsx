@@ -3,8 +3,12 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { createTheme, ThemeProvider } from '@mui/material';
+import { createTheme, Input, ThemeProvider } from '@mui/material';
 import { listCity, listUf, Services } from '../../@types';
+import { iconShow } from '../../assets';
+import { DropDownEspecial } from '..';
+import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRounded';
+
 
 type List = {
     value?: string,
@@ -17,7 +21,7 @@ interface IProps {
     onClick?: () => void,
     label?: string,
     list?: List[] | listUf[] | listCity[] | Services[] | any,
-    value?: string,
+    value?: string | number ,
     defaultValue?: string,
     width?: string | number,
     labelDefault?: string,
@@ -31,7 +35,7 @@ interface IProps {
 const CustomSelect: React.FC<IProps> = (props) => {
     const theme = createTheme({
         components: {
-            MuiSelect: {
+            MuiSelect: {                
                 styleOverrides: {
                     select: {
                         color: '#2C3941',
@@ -42,13 +46,23 @@ const CustomSelect: React.FC<IProps> = (props) => {
                         background: '#fff',
                         paddingTop: '25px',
                     },
-
+                    iconFilled:{
+                        transform: 'rotate(90deg)',
+                        width: '24px',
+                        right: '10px',
+                        fontSize: '20px',
+                        fill: '#2C3941',
+                        color: '#2C3941',
+                    },
+                    iconOpen: {
+                        transform: 'rotate(270deg)',
+                    }
                 }
             },
             MuiInputLabel: {
                 styleOverrides: {
                     root: {
-                        color: '#AFAFAF',
+                        color: '#AFAFAF',                       
                         "&.Mui-focused": {
                             "color": "#AFAFAF",
                         },
@@ -65,7 +79,7 @@ const CustomSelect: React.FC<IProps> = (props) => {
                         }
                     },
                 }
-            }
+            },            
         }
     });
 
@@ -74,22 +88,22 @@ const CustomSelect: React.FC<IProps> = (props) => {
     return (
         <ThemeProvider theme={theme} >
             <FormControl variant="filled" sx={{ width: props.width, height: 56 }}>
-                {props.value === 'All' ?
-                    <InputLabel>{props.labelDefault}</InputLabel>
-                    :
-                    <InputLabel>{props.label}</InputLabel>
+                {props.value === '' 
+                    ?<InputLabel>{props.labelDefault}</InputLabel>
+                    :<InputLabel>{props.label}</InputLabel>
                 }
                 <Select
                     labelId={props.id}
                     id={props.id}
                     disableUnderline
+                    label={props.label}
                     onChange={props.onChange}
-                    onBlur={props.onBlur}
-                    defaultValue={props.defaultValue}
+                    onBlur={props.onBlur}                    
                     disabled={props.disabled}
+                    IconComponent={ArrowBackIosNewRoundedIcon}                    
                 >
-                    <MenuItem disabled value={props.value}>
-                        <em>{props.labelDefault}</em>
+                    <MenuItem value={'All'}>
+                       {props.defaultValue}
                     </MenuItem>
                     {props.list?.map((id: any, index: number) => {
                         return (

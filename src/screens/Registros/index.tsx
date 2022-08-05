@@ -23,18 +23,14 @@ import {
     useOccurrences,
     useService,
     useUf,
+    useDashboardRegionOccurrences
 } from "../../services/index";
 import { useSelector } from "react-redux";
 import { useMutation } from "react-query";
 import { RootState } from "../../stores";
 import {
-    options,
     iconShow,
-    energiIcon,
-    whaterIcon,
-    wifiIcon,
     ocurrenceIcon,
-    MAPTESTE,
     trusted,
     noTrusted,
 } from "../../assets/index";
@@ -47,11 +43,17 @@ import { Grid } from "@mui/material";
 
 const Registros: React.FC = () => {
     const { token } = useSelector((state: RootState) => state.clickState);
+    const { data: dataServices } = useService(token);
+    const { data: dataUf } = useUf();
+    const [ ufValue, setUfValue ] = useState<any>();
+    const { data: dataCity } = useCity(ufValue);
+    const { data: regionOccurrences } = useDashboardRegionOccurrences(token);
+    
+    const [totalList, setTotalList] = useState<any>();
+    const [totalOccurrences, setTotalOccurrences] = useState<any>();
 
-    const [openList, setOpenList] = useState(false);
     const [maps, setMaps] = useState(true);
     const [list, setList] = useState(false);
-    const [open, setOpen] = useState(false);
     const [idDelete, setIdDelete] = useState("");
     const [listServices, setListServices] = useState<any>();
     const [occurrenceObj, setOccurrenceObj] = useState<any>({});
@@ -67,7 +69,7 @@ const Registros: React.FC = () => {
     const [status, setStatus] = useState<any>(undefined);
     const [service, setService] = useState<string[]>([]);
     const [address, setAddress] = useState<any>();
-    const [ufValue, setUfValue] = useState<any>();
+    
     const [cityValue, setCityValue] = useState<any>();
     const [initialDate, setInitialDate] = useState<any>(undefined);
     const [finalDate, setFinalDate] = useState<any>(undefined);
@@ -75,6 +77,31 @@ const Registros: React.FC = () => {
     const [dateValue, setDateValue] = React.useState<any | null>(
         new Date(Date.now())
     );
+
+    useEffect(() => {
+        let spam: any = [];
+        let sum = 0;
+
+        regionOccurrences?.forEach((e) => {
+            e.state_list?.forEach((id) => {
+                spam.push({
+                    name: id.name,
+                    user_total: id.user_total,
+                });
+            });
+        });
+
+        spam.sort(function (a: any, b: any) {
+            let x = a.name.toUpperCase(),
+                y = b.name.toUpperCase();
+            return x === y ? 0 : x > y ? 1 : -1;
+        });
+
+        regionOccurrences?.forEach((total) => (sum += total.user_total));
+
+        setTotalOccurrences(sum);
+        setTotalList(spam);
+    });
 
     const {
         data: occurrences,
@@ -95,18 +122,7 @@ const Registros: React.FC = () => {
         initialDate,
         finalDate
     );
-    const { data: dataServices } = useService(token);
-    const { data: dataUf } = useUf();
-    const { data: dataCity } = useCity(ufValue);
 
-    let lista = [
-        { label: "Pesquisar 1", value: "pesquisa1" },
-        { label: "Pesquisar 2", value: "pesquisa2" },
-        { label: "Pesquisar 3", value: "pesquisa3" },
-        { label: "Pesquisar 4", value: "pesquisa4" },
-        { label: "Pesquisar 5", value: "pesquisa5" },
-        { label: "Pesquisar 6", value: "pesquisa6" },
-    ];
 
     function setStatusName(status: string) {
         if (status == "Waiting") {
@@ -179,43 +195,47 @@ const Registros: React.FC = () => {
                     >
                         <Grid item xs={4} sm md lg xl>
                             <CustomSelect
-                                onChange={(e) => {
-                                    setUfValue(e.target.value);
-                                    console.log(e.target.value);
-                                }}
+                                width="100%"
+                                id='Estado'
                                 label="Selecione o Estado"
                                 labelDefault="Estado"
-                                list={dataUf}
                                 value={ufValue}
-                                width="100%"
+                                defaultValue="Todos os estados"
+                                list={dataUf}
+                                onChange={(e) => {
+                                    setUfValue(e.target.value);
+                                }}
                             />
                         </Grid>
                         <Grid item xs={4} sm md lg xl>
                             <CustomSelect
+                                width="100%"
+                                id='Cidade'
+                                label="Selecione a Cidade"
+                                labelDefault="Cidade"
+                                value={cityValue}
+                                defaultValue="Todos os municípios"
+                                list={dataCity}
                                 onChange={(e) => {
                                     setCityValue(e.target.value);
                                 }}
-                                label="Selecione a Cidade"
-                                labelDefault="Cidade"
-                                list={dataCity}
-                                value={cityValue}
-                                width="100%"
                             />
                         </Grid>
-                        <Grid item xs={4} sm md lg xl>
+                        {/* <Grid item xs={4} sm md lg xl>
                             <CustomSelect
+                                width="100%"
+                                label="Selecione o Bairro"
+                                labelDefault="Bairro"
+                                value=""
+                                defaultValue="Todos os bairros"
+                                list={lista}
                                 onChange={function (e: any) {
                                     throw new Error(
                                         "Function not implemented."
                                     );
                                 }}
-                                label="Selecione o Bairro"
-                                labelDefault="Bairro"
-                                list={lista}
-                                value=""
-                                width="100%"
                             />
-                        </Grid>
+                        </Grid> */}
                     </Grid>
                     {/* Tela numero 2 */}
                     <Grid item xs={4} sm={5} md={7} lg={2} xl={2} container>
@@ -394,76 +414,30 @@ const Registros: React.FC = () => {
                 <Grid container spacing={2.5} flex-wrap="wrap">
                     <Grid item xs={6} sm={4} md={4} lg xl>
                         <DropDown
+                            key="Total"
                             icon={ocurrenceIcon}
                             title="Total"
-                            value={20}
+                            value={totalOccurrences}
                             type="list"
                             width="100%"
-                            list={lista}
-                            open={openList}
-                            setOpen={() => setOpenList(!openList)}
+                            list={totalList}
                         />
                     </Grid>
-                    <Grid item xs={6} sm={4} md={4} lg xl>
-                        <DropDown
-                            icon=""
-                            title="Sul"
-                            value={20}
-                            type="list"
-                            width="100%"
-                            list={lista}
-                            open={openList}
-                            setOpen={() => setOpenList(!openList)}
-                        />
-                    </Grid>
-                    <Grid item xs={6} sm={4} md={4} lg xl>
-                        <DropDown
-                            icon=""
-                            title="Norte"
-                            value={20}
-                            type="list"
-                            width="100%"
-                            list={lista}
-                            open={openList}
-                            setOpen={() => setOpenList(!openList)}
-                        />
-                    </Grid>
-                    <Grid item xs={6} sm={4} md={4} lg xl>
-                        <DropDown
-                            icon=""
-                            title="Sudeste"
-                            value={20}
-                            type="list"
-                            width="100%"
-                            list={lista}
-                            open={openList}
-                            setOpen={() => setOpenList(!openList)}
-                        />
-                    </Grid>
-                    <Grid item xs={6} sm={4} md={4} lg xl>
-                        <DropDown
-                            icon=""
-                            title="Nordeste"
-                            value={20}
-                            type="list"
-                            width="100%"
-                            list={lista}
-                            open={openList}
-                            setOpen={() => setOpenList(!openList)}
-                        />
-                    </Grid>
-                    <Grid item xs={6} sm={4} md={4} lg xl>
-                        <DropDown
-                            icon=""
-                            title="Centro-Oeste"
-                            value={20}
-                            type="list"
-                            width="100%"
-                            list={lista}
-                            open={openList}
-                            setOpen={() => setOpenList(!openList)}
-                        />
-                    </Grid>
+                    {regionOccurrences?.map((id: any) => {
+                        return (
+                            <Grid item xs={6} sm={4} md={4} lg xl>
+                                <DropDown
+                                    key={id.name}
+                                    icon=""
+                                    title={id.name}
+                                    value={id.Occurrences_total}
+                                    type="list"
+                                    width="100%"
+                                    list={id.state_list}
+                                />
+                            </Grid>
+                        );
+                    })}
                 </Grid>
             </S.CardsContainer>
             {maps == true && (

@@ -9,6 +9,10 @@ export const Container = styled.div`
     }
 `;
 
+export const Description = styled.p`
+    margin-bottom: 32px;
+`
+
 export const Navigation = styled.nav`
     margin-bottom: 24px;
     

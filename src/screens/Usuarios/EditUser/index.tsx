@@ -29,7 +29,9 @@ import { on } from 'events';
 
 const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
     const { token } = useSelector((state : RootState) => state.clickState);
-    const { data: uf, isLoading: loadingUf } = useUf();
+    const [ idUf, setIdUf] = useState('')
+    const { data: uf } = useUf();
+    const { data: city } = useCity(idUf);
     
     const [ user, setUser ] = useState<any>();
     const [ idUser, setIdUser ] = useState('');
@@ -87,8 +89,6 @@ const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
 
     const watchPhone = watch('phone_number');
     const watchUf = watch('state');
-
-    const { data: city, isLoading: loadingCity } = useCity(watchUf);
 
     useEffect(() => {
         if (!isModal) {
@@ -229,6 +229,7 @@ const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
                                             defaultValue={itemEdit.state}
                                             onBlur={onBlur}
                                             onChange={onChange}
+                                            onClick={() => {setIdUf(value)}}
                                             width={372}
                                         />
                                     </div>                                    

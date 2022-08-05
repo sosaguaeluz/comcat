@@ -20,7 +20,7 @@ import {
     useUf,
     queryClient,
     useUsers,
-    useDashboardRegionList,
+    useDashboardRegionUsers,
 } from "../../services";
 import { useSelector } from "react-redux";
 import { RootState } from "../../stores";
@@ -38,8 +38,9 @@ import { Grid } from "@mui/material";
 
 const Usuarios: React.FC = () => {
     const { token } = useSelector((state: RootState) => state.clickState);
-    const { data: uf, isLoading: loadingUf } = useUf();
-    const { data: regionUsers } = useDashboardRegionList(token);
+    const { data: dataUf} = useUf();
+    const { data: regionUsers } = useDashboardRegionUsers(token);
+    
     const [idUser, setIdUser] = useState("");
     const [objUser, setObjUser] = useState<any>(null);
 
@@ -57,9 +58,9 @@ const Usuarios: React.FC = () => {
 
     const [page, setPage] = useState<number>(1);
     const [user, setUser] = useState<any>();
-    const [genre, setGenre] = useState<string>();
-    const [breed, setBreed] = useState<string>();
-    const [ufValue, setUfValue] = useState<any>();
+    const [genre, setGenre] = useState<string>('');
+    const [breed, setBreed] = useState<string>('');
+    const [ufValue, setUfValue] = useState<any>('');
     const [role, setRole] = useState<any>();
 
     useEffect(() => {
@@ -85,7 +86,7 @@ const Usuarios: React.FC = () => {
 
         setTotalUsers(sum);
         setTotalList(spam);
-    });
+    }, []);
 
     const {
         data: users,
@@ -159,7 +160,7 @@ const Usuarios: React.FC = () => {
                             <Grid container spacing={2.5} flex-wrap="wrap">
                                 <Grid item xs={6} sm={4} md={4} lg xl>
                                     <DropDown
-                                        key={"Total"}
+                                        key="Total"
                                         icon={userIcon}
                                         title="Total"
                                         value={totalUsers}
@@ -216,48 +217,40 @@ const Usuarios: React.FC = () => {
                                     <Grid item xs sm md lg xl>
                                         <span>
                                             <CustomSelect
+                                                width={176}
+                                                id="Raça"
+                                                label="Raça"
+                                                labelDefault='Todas as raças'
+                                                value={breed}
+                                                defaultValue='Todas'
+                                                list={BREED}
                                                 onChange={(e) => {
                                                     setBreed(e.target.value);
                                                 }}
-                                                id="Raça"
-                                                label="Raça"
-                                                // labelDefault='Raça'
-                                                // value={BREED[0].value}
-                                                defaultValue={BREED[0].value}
-                                                list={BREED}
-                                                width={176}
                                             />
                                             <CustomSelect
+                                                width={176}
+                                                id="Genero"
+                                                label="Genero"
+                                                labelDefault='Todos os generos'
+                                                value={genre}
+                                                defaultValue='Todos'
+                                                list={GENRE}
                                                 onChange={(e) => {
                                                     setGenre(e.target.value);
                                                 }}
-                                                id="Genero"
-                                                label="Genero"
-                                                // labelDefault='Genero'
-                                                // value={GENRE[0].value}
-                                                defaultValue={GENRE[0].value}
-                                                list={GENRE}
-                                                width={176}
                                             />
                                             <CustomSelect
+                                                width={255}
+                                                id="Estado"
+                                                label="Estado"
+                                                labelDefault='Todos os estados'
+                                                value={ufValue}
+                                                defaultValue="Todos os estados"
+                                                list={dataUf}
                                                 onChange={(e) => {
                                                     setUfValue(e.target.value);
                                                 }}
-                                                id="Estado"
-                                                label="Estado"
-                                                value="Todos os Estados"
-                                                defaultValue={"Todos os Estados"}
-                                                // labelDefault='Todos os Estados'
-                                                list={[
-                                                    {
-                                                        id: "All",
-                                                        nome: "Todos os Estados",
-                                                        sigla: "All",
-                                                        regiao: "Todos",
-                                                    },
-                                                    ...(uf || []),
-                                                ]}
-                                                width={255}
                                             />
                                         </span>
                                     </Grid>

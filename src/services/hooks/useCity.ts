@@ -1,19 +1,13 @@
-import { 
-    ibge,
-    queryClient
-} from "../index";
-import { useQuery } from "react-query";
+import { ibge } from "../index";
 import { City } from "../../@types/index";
+import { useQuery, UseQueryResult } from "react-query";
 
-const getCity = async <T>(
-    id: string
-): Promise<City> => {
-    const { data } = await ibge.get<City>(`/estados/${id}/municipios`)
-    return data;
+export const getCity = async (sigla: string):Promise<City[]> => {
+    const { data: resp } = await ibge.get<City []>(`/estados/${sigla}/municipios?orderBy=nome`)
+
+    return resp;
 }
 
-export const useCity = <T>(id: string) => {
-    return useQuery(["city", id], () => getCity<T>(id), {
-        staleTime: 30 * 1000
-    })
+export const useCity = (sigla: string):UseQueryResult<City []> => {
+    return useQuery(["city", sigla], () => getCity(sigla))
 }

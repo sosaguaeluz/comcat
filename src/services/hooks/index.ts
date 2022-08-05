@@ -32,7 +32,8 @@ export {
     useAlertMessages
 } from './useMessages'
 export { useUploads } from './useUploads';
-export { useDashboardRegionList } from './useRegionUsers';
+export { useDashboardRegionUsers } from './useDashboardRegionUsers';
+export { useDashboardRegionOccurrences } from './useDashboardRegionOccurrences';
 export {
     useNotifications,
     putNotifications
