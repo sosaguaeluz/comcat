@@ -15,7 +15,7 @@ import {
 import {
     ocurrenceIcon,
 } from '../../assets/index';
-import { useDashboardOccurrences, useDashboardUsers, useUf, useCity, decode, useAnnualOccurrences, useAnnualUsers, } from '../../services';
+import { useDashboardOccurrences, useDashboardUsers, useUf, useCity, useAnnualOccurrences, useAnnualUsers, } from '../../services';
 import { Grid } from '@mui/material';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../stores';

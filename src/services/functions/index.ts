@@ -8,7 +8,6 @@ import {
 
 import { getReason } from './getReason';
 import { getStatus } from './getStatus';
-import { decode } from './decode';
 
 export {
     api,
@@ -18,5 +17,4 @@ export {
     getStatus,
     extractDate,
     extractHours,
-    decode
 } 

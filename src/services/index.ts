@@ -14,7 +14,6 @@ export {
     getStatus,
     extractDate,
     extractHours,
-    decode
 } from './functions/index';
 
 export {
