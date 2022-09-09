@@ -66,9 +66,7 @@ const NewUser: React.FC <IProps> = ({onClose, isModal}) => {
         mutate(obj);
     };
 
-    const watchPhone = watch('phone_number')
-
-    const { data: city, isLoading: loadingCity } = useCity(watchUf);
+    const { data: city } = useCity(watchUf);
 
     useEffect(() => {
         if (!isModal) {

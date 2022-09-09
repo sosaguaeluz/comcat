@@ -1,20 +1,16 @@
 import React, { useEffect, useState } from "react";
 import * as S from "./style";
-import { useSelector } from "react-redux";
 import {
     extractDate,
     useNotifications,
     useOccurrences,
     putNotifications,
 } from "../../services";
-import { RootState } from "../../stores";
 import { orangeAlertNotify, showBlueArow, noTrusted } from "../../assets/index";
 import moment from "moment";
 import { extractHours } from "../../services/functions";
 
 const Notificacoes: React.FC = () => {
-    const { token } = useSelector((state: RootState) => state.clickState);
-
     const [list, setList] = useState<any>([]);
     const [atualDate, setAtualDate] = useState<any>();
     const [yesterday, setYesterday] = useState<any>();
@@ -22,14 +18,12 @@ const Notificacoes: React.FC = () => {
     const [count, setCount] = useState(10);
 
     const { data: occurrences } = useOccurrences(
-        token,
         "DESC",
         1,
         undefined,
         "No"
     );
     const { data: notifications, refetch } = useNotifications(
-        token,
         "DESC",
         1,
         count,
@@ -140,7 +134,7 @@ const Notificacoes: React.FC = () => {
                                     <S.Finished
                                         type="button"
                                         onClick={() => {
-                                            putNotifications(token, item.id, {
+                                            putNotifications(item.id, {
                                                 status: "Finished",
                                             }).then(() => {
                                                 refetch();

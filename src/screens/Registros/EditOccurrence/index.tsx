@@ -44,19 +44,14 @@ import { setDefaultData } from '../../../services/functions';
 import { Grid } from '@mui/material';
 
 const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
-    const { token } = useSelector((state: RootState) => state.clickState);
-    const { data: services } = useService(token);
-    const { data: sources } = useSources(token);
+    const { data: services } = useService();
+    const { data: sources } = useSources();
     const [ idOccurrence, setIdOccurrence ] = useState('');
     const [ open, setOpen ] = useState(false);
     const [ closeOccurrence, setCloseOccurrence ] = useState(false);
 
     const putOccurence = async(id: string, data: any) => {
-        const { data: response } = await api.put(`/occurrences/${id}`, data, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+        const { data: response } = await api.put(`/occurrences/${id}`, data);
         return response.data;
     };
 
@@ -106,7 +101,7 @@ const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
     }, [itemEdit]);
     
     const onSubmit = (values: FormData) => {
-        putOccurrences(token, itemEdit.id, values).then((resp) => {
+        putOccurrences(itemEdit.id, values).then((resp) => {
             setOpen(true)
             setIdOccurrence(itemEdit?.id)
             queryClient.invalidateQueries('occurence');

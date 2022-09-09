@@ -15,7 +15,7 @@ import { Grid } from '@mui/material';
 
 const Servicos: React.FC = () => {
     const { token } = useSelector((state : RootState) => state.clickState);
-    const { data: services, refetch } = useService(token);
+    const { data: services, refetch } = useService();
     const [ serviceTemp, setServiceTemp ] = useState<any>(null);
     const [ idService, setIdService ] = useState<string>('')
     const [ newService, setNewService ] = useState(false);
@@ -24,11 +24,7 @@ const Servicos: React.FC = () => {
     const [ showSuccess, setShowSuccess ] = useState(false);
 
     const deleteService = async (id: string) => {
-        const data = await api.delete(`/services/${id}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
+        const data = await api.delete(`/services/${id}`)
 
         return data
     };

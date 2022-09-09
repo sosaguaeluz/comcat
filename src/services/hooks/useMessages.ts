@@ -3,7 +3,6 @@ import { useQuery, UseQueryResult } from "react-query";
 import { AllMessages, Messages } from "../../@types";
 
 const getMessages = async <T>(
-    token: string,
     order?: string,
     page?: number,
     take?: number,
@@ -36,16 +35,12 @@ const getMessages = async <T>(
     }
 
     const  resp = await api.get<AllMessages>('/messages', {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        },
         params: params
     })
     return resp.data;
 };
 
 export const useMessages = <T>(
-    token: string,
     order?: string,
     page?: number,
     take?: number,
@@ -53,14 +48,12 @@ export const useMessages = <T>(
     status?: string
 ):UseQueryResult<AllMessages> => {
     return useQuery(['messages', 
-    token,
     order,
     page,
     take,
     reason,
     status
 ], () => getMessages(
-        token,
         order,
         page,
         take,
@@ -70,7 +63,6 @@ export const useMessages = <T>(
 };
 
 export const useAlertMessages = <T>(
-    token: string,
     order?: string,
     page?: number,
     take?: number,
@@ -78,14 +70,12 @@ export const useAlertMessages = <T>(
     status?: string
 ):UseQueryResult<AllMessages[]> => {
     return useQuery(['messages', 
-    token,
     order,
     page,
     take,
     reason,
     status
 ], () => getMessages(
-        token,
         order,
         page,
         take,
@@ -95,21 +85,13 @@ export const useAlertMessages = <T>(
 };
 
 export const deleteMessage = async (token: string, id: string) => {
-    const resp = await api.delete(`/messages/${id}`, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
+    const resp = await api.delete(`/messages/${id}`)
   
     return resp.data;
 };
 
-export const putMessages = async (token: string, id: string, formData: Messages ) => {
-    const resp = await api.put(`/messages/${id}`, formData, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
+export const putMessages = async (id: string, formData: Messages ) => {
+    const resp = await api.put(`/messages/${id}`, formData)
 
     return resp.data
 };

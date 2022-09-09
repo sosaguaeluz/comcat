@@ -3,7 +3,6 @@ import { useQuery, UseQueryResult } from "react-query";
 import { Notifications } from "../../@types";
 
 const getNotifications = async (
-    token: string,
     order?: string,
     page?: number,
     take?: number,
@@ -31,9 +30,6 @@ const getNotifications = async (
     }
 
     const { data: resp } = await api.get<Notifications[]>(`/notifications`, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        },
         params: params
     })
 
@@ -41,20 +37,17 @@ const getNotifications = async (
 }
 
 export const useNotifications = <T>(
-    token: string,
     order?: string,
     page?: number,
     take?: number,
     status?: string
 ):UseQueryResult<Notifications[]> => {
     return useQuery(['notifications', 
-    token,
     order,
     page,
     take,
     status
 ], () => getNotifications(
-    token,
     order,
     page,
     take,
@@ -62,15 +55,10 @@ export const useNotifications = <T>(
 ))}
 
 export const putNotifications = async (
-    token: string,
     id: string,
     formData: any,
 ) => {
-    const resp = await api.put(`/notifications/${id}`, formData, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
+    const resp = await api.put(`/notifications/${id}`, formData)
 
     return resp.data
 }

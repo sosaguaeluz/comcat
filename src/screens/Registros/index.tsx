@@ -42,12 +42,11 @@ import EditOccurrence from "./EditOccurrence";
 import { Grid } from "@mui/material";
 
 const Registros: React.FC = () => {
-    const { token } = useSelector((state: RootState) => state.clickState);
-    const { data: dataServices } = useService(token);
+    const { data: dataServices } = useService();
     const { data: dataUf } = useUf();
     const [ ufValue, setUfValue ] = useState<any>();
     const { data: dataCity } = useCity(ufValue);
-    const { data: regionOccurrences } = useDashboardRegionOccurrences(token);
+    const { data: regionOccurrences } = useDashboardRegionOccurrences();
     
     const [totalList, setTotalList] = useState<any>();
     const [totalOccurrences, setTotalOccurrences] = useState<any>();
@@ -109,7 +108,6 @@ const Registros: React.FC = () => {
         refetch: fetchOccurrences,
         isFetched: isFetchedOccurence,
     } = useOccurrences(
-        token,
         "DESC",
         page,
         20,
@@ -145,20 +143,12 @@ const Registros: React.FC = () => {
     }, [dataServices]);
 
     const deleteOccurrence = (id: string) => {
-        const resp = api.delete(`/occurrences/${id}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+        const resp = api.delete(`/occurrences/${id}`);
         return resp;
     };
 
     const putOccurrence = (id: string, dados: any) => {
-        const resp = api.put(`/occurrences/${id}`, dados, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+        const resp = api.put(`/occurrences/${id}`, dados);
 
         return resp;
     };

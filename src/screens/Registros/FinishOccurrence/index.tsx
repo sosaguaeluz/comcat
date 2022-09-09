@@ -21,7 +21,6 @@ interface IProps {
 }
 
 const FinishOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
-    const { token } = useSelector((state: RootState) => state.clickState);
     const [ cancelModal, setCancelModal ] = useState(false);
     const [ success, setSuccess ] = useState(false);
 
@@ -42,7 +41,7 @@ const FinishOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
             "finished_status": "Yes",
         })
 
-        putOccurrences(token, itemEdit.id, obj).then(() => {
+        putOccurrences(itemEdit.id, obj).then(() => {
             onHide()
             setSuccess(!success)
         })

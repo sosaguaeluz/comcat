@@ -24,8 +24,6 @@ const Login: React.FC = () => {
         formState: { errors, isDirty, isValid },
         control,
         watch,
-        getValues,
-        getFieldState
     } = useForm<IProps>({ 
         mode: "onChange",
         resolver: yupResolver(schema)
@@ -35,9 +33,8 @@ const Login: React.FC = () => {
         const { data: response } = await api.post('/authorize', resp);
         dispatch({type: TOKEN, token: response.token})
         dispatch({type: USER, user: response.user})
+        localStorage.setItem("user", JSON.stringify(response.user));
         localStorage.setItem("token", response.token);
-        console.log(resp);
-        
         return response.data;
     };
 
@@ -57,9 +54,6 @@ const Login: React.FC = () => {
         }
         mutate(obj);
     };
-
-    const password =  watch('password');
-    const username = watch('username');
 
     return (
         <>

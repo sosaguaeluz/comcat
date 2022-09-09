@@ -3,7 +3,6 @@ import { useQuery, UseQueryResult } from "react-query";
 import { Occurrences } from "../../@types";
 
 const getOccurrences = async <T>(
-    token: string,
     order?: string,
     page?: number,
     take?: number,
@@ -34,9 +33,6 @@ const getOccurrences = async <T>(
     if(finished_status != undefined){
         params.append("finished_status", finished_status)
     }
-    if(services == ['']){
-        params.append("services", services)
-    }
     if(address != undefined){
         params.append("address", address)
     }
@@ -57,16 +53,12 @@ const getOccurrences = async <T>(
     }
 
     const resp = await api.get<Occurrences[]>('/occurrences', {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        },
         params: params
     })
     return resp.data;
 }
 
 export const useOccurrences = <T>(
-    token: string,
     order?: string,
     page?: number,
     take?: number,
@@ -80,7 +72,6 @@ export const useOccurrences = <T>(
     final_date?: string
 ):UseQueryResult<Occurrences> => {
     return useQuery(['ocurrence', 
-    token,
     order,
     page,
     take,
@@ -93,7 +84,6 @@ export const useOccurrences = <T>(
     initial_date,
     final_date 
     ], () => getOccurrences(
-        token,
         order,
         page,
         take,
@@ -108,12 +98,7 @@ export const useOccurrences = <T>(
     )
 )}
 
-export const putOccurrences = async (token: string, id: string, dados: any) => {
-    const resp =  await api.put(`/occurrences/${id}`, dados, { 
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
-    //useOccurrences(token)
+export const putOccurrences = async (id: string, dados: any) => {
+    const resp =  await api.put(`/occurrences/${id}`, dados)
     return resp
 };

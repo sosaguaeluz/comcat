@@ -42,7 +42,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from './validation-schema';
 
 const EditForm: React.FC<IProps> = ({onHide, isModal, itemEdit}) => {
-    const { token } = useSelector((state : RootState) => state.clickState);
     const [ isSourceConfirm, setSourceConfirm ] = useState(false);
     const [ isVisibleModal, setVisibleModal ] = useState<string | false >(false);
     const [ service, setService ] = useState<IServices>();
@@ -74,10 +73,7 @@ const EditForm: React.FC<IProps> = ({onHide, isModal, itemEdit}) => {
         name: 'sources'
     })
 
-    const watchName = watch('name');
-    const watchBg = watch('background_color');
     const watchId = watch('id');
-    const watchSources = watch('sources');
 
     useEffect(() => {
         if(!itemEdit) return;
@@ -102,8 +98,8 @@ const EditForm: React.FC<IProps> = ({onHide, isModal, itemEdit}) => {
         if(Object.entries(data).length === 0) return;
 
         const method: Promise<AxiosResponse<any, any>> = !!data.id
-            ? putService(token, data.id, data)
-            : postService(token, data);
+            ? putService(data.id, data)
+            : postService(data);
         
         return await method
             .then((resp) => {
@@ -127,10 +123,8 @@ const EditForm: React.FC<IProps> = ({onHide, isModal, itemEdit}) => {
             
             _data?.forEach((id, index) => {
                 if(id.id === null || id.id === undefined || id.id === ""){
-                    postSource(token, {
-                        name: id.name, 
-                        service: id.service
-                    }).then((resp) => {
+                    postSource({name: id.name, service: id.service})
+                    .then((resp) => {
                         update(index, resp.data)
                     })
                 } else {
@@ -300,7 +294,7 @@ const EditForm: React.FC<IProps> = ({onHide, isModal, itemEdit}) => {
                                         type='button'
                                         onClick={() => {
                                             if(field.id !== null && field.id !== undefined && field.id !== ""){
-                                                deleteSource(token, field.id)
+                                                deleteSource(field.id)
                                             }
                                             remove(index)
                                         }}

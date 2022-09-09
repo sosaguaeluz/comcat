@@ -41,7 +41,6 @@ import { schema } from './validation-schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 const FormService: React.FC<IProps> = ({onHide, isModal}) => {
-    const { token } = useSelector((state : RootState) => state.clickState);
     const [ isSourceConfirm, setSourceConfirm ] = useState(false);
     const [ isVisibleModal, setVisibleModal ] = useState<string | false >(false);
     const [ service, setService ] = useState<IServices>();
@@ -68,9 +67,6 @@ const FormService: React.FC<IProps> = ({onHide, isModal}) => {
         mode: "onChange",
         resolver: yupResolver(schema)
     });
-
-    const watchName = watch('name');
-    const watchBg = watch('background_color');
 
     const sourceFieldArray = useFieldArray({
         control,
@@ -99,8 +95,8 @@ const FormService: React.FC<IProps> = ({onHide, isModal}) => {
         if(Object.entries(data).length === 0) return;
 
         const method: Promise<AxiosResponse<any, any>> = !!data.id
-            ? putService(token, data.id, data)
-            : postService(token, data);
+            ? putService(data.id, data)
+            : postService(data);
         
         return await method
             .then((resp) => {
@@ -143,8 +139,8 @@ const FormService: React.FC<IProps> = ({onHide, isModal}) => {
                 });
 
                 if (!!data) {
-                    await postSource(token, data).then((resp) => {
-                        putSource(token, resp.data.id, {
+                    await postSource(data).then((resp) => {
+                        putSource(resp.data.id, {
                             "service": _service.id
                         })
                     })
@@ -169,7 +165,7 @@ const FormService: React.FC<IProps> = ({onHide, isModal}) => {
         if (!id) return removeField(fieldArray, index);
 
         try {
-            await deleteSource(token, id);
+            await deleteSource(id);
             removeField(fieldArray, index);
             
           } catch (error) {

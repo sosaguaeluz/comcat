@@ -1,32 +1,8 @@
+const user = localStorage.getItem('user');
+
 export const initialState = { 
     token: localStorage.getItem('token') || '',
-    user: {
-        "name": "",
-        "age": "",
-        "phone_number": "",
-        "email": "",
-        "password": "",
-        "state": "",
-        "city": "",
-        "genre": "",
-        "breed": "",
-        "active": false,
-        "trusted": false,
-        "role": "",
-        "first_access": false,
-        "settings": {
-            "user": "",
-            "service_notifications": [
-                ""
-            ],
-            "all_notifications": false,
-            "push_token": "",
-            "_id": ""
-        },
-        "_id": "",
-        "createdAt": "",
-        "updatedAt": ""
-    },
+    user: (user ? JSON.parse(user) : ''),
     sendcode: {
         "user_id": "",
         "code": "",

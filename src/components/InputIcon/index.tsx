@@ -17,8 +17,7 @@ interface IProps {
 }
 
 const InputIcon: React.FC = () => {
-    const { token } = useSelector((state : RootState) => state.clickState);
-    const { data: uploads } = useUploads(token);
+    const { data: uploads } = useUploads();
     const ref = useRef<HTMLInputElement>(null);
 
     return (
@@ -35,11 +34,8 @@ const InputIcon: React.FC = () => {
                         let base64 = image.result;
                         let file = { "file": base64 }
                         
-                        api.post('/uploads', file,{
-                            headers: {
-                                'Authorization': `Bearer ${token}`
-                            }
-                        }).then((resp: any) => {
+                        api.post('/uploads', file)
+                        .then((resp: any) => {
                             console.log(resp.data);
                         }).catch((err) => {
                             console.log(err);

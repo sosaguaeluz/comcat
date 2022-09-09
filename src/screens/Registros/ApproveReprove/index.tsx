@@ -24,7 +24,6 @@ interface IProps {
 }
 
 const ApproveReprove: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
-    const { token } = useSelector((state: RootState) => state.clickState);
     const [ confirmOccurrence, setConfirmOccurrence ] = useState(false);
     const [ msgSuccess, setMsgSuccess ] = useState(false);
 
@@ -48,7 +47,7 @@ const ApproveReprove: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
             "source": itemEdit.source.id
         })
 
-        putOccurrences(token, itemEdit.id, obj).then(() => {
+        putOccurrences(itemEdit.id, obj).then(() => {
             onHide()
             setConfirmOccurrence(false)
             setMsgSuccess(true)

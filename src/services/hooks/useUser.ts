@@ -3,7 +3,6 @@ import { useQuery, UseQueryResult } from "react-query";
 import { User, AllUsers } from "../../@types";
 
 const getUsers = async <T>(
-    token: string,
     order?: string,
     page?: number,
     take?: number,
@@ -44,16 +43,12 @@ const getUsers = async <T>(
     }
     console.log('teste', params)
     const resp  = await api.get<AllUsers>('/users', {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        },
         params: params
     })
     return resp.data;
 }
 
 export const useUsers = <T>(
-    token: string,
     order?: string,
     page?: number,
     take?: number,
@@ -64,7 +59,6 @@ export const useUsers = <T>(
     role?: string,
 ):UseQueryResult<AllUsers> => {
     return useQuery(['users',
-    token,
     order,
     page,
     take,
@@ -74,7 +68,6 @@ export const useUsers = <T>(
     state,
     role,
     ], () => getUsers(
-        token,
         order,
         page,
         take,
@@ -86,41 +79,25 @@ export const useUsers = <T>(
     )
 )}
 
-export function postUser(token: string, { id, ...dados }: any){
-    const resp =  api.post(`/users`, dados, { 
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
+export function postUser({ id, ...dados }: any){
+    const resp =  api.post(`/users`, dados)
     
     return resp
 };
 
-export const putUser = async (token: string, id: string, dados: any) => {
-    const resp =  await api.put(`/users/${id}`, dados, { 
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
-    getUsers(token)
+export const putUser = async (id: string, dados: any) => {
+    const resp =  await api.put(`/users/${id}`, dados)
+    getUsers()
     return resp.data
 };
 
-export const deleteUser = async (token: string, id: string) => {
-    const data = await api.delete(`/users/${id}`, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
-    getUsers(token)
+export const deleteUser = async (id: string) => {
+    const data = await api.delete(`/users/${id}`)
+    getUsers()
     return data
 };
 
-export const getUserById = async (token: string, id: string) => {
-    const data = await api.get(`/users/${id}`, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
+export const getUserById = async (id: string) => {
+    const data = await api.get(`/users/${id}`)
     return data
 };

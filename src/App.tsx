@@ -10,14 +10,17 @@ import { useSelector } from 'react-redux';
 import { RootState } from './stores';
 
 const App: React.FC = () => {
-  const { token } = useSelector((state : RootState) => state.clickState)
+  const { token } = useSelector((state : RootState) => state.clickState);
+
+  console.log(localStorage.getItem('token'), 'token');
+  
 
   return (
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-        {/* {token == '' ?
+        {localStorage.getItem('token') === null ?
           <Login />
-          : */}
+          :
           <Container>
             <Header />
             <Aside />
@@ -25,7 +28,7 @@ const App: React.FC = () => {
               <AuthRoutes />
             </Content>
           </Container>
-        {/* } */}
+        }
         </BrowserRouter>
       </QueryClientProvider>
   );

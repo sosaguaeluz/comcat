@@ -29,7 +29,6 @@ const Mensagens: React.FC = () => {
     const [closePopover, setClosePopover] = useState(false);
 
     const { data: messages, refetch } = useMessages(
-        token,
         "DESC",
         page,
         20,
@@ -277,7 +276,7 @@ const Mensagens: React.FC = () => {
                     let obj: any = {
                         status: "Answered",
                     };
-                    putMessages(token, idMessage, obj).then(() => {
+                    putMessages(idMessage, obj).then(() => {
                         setAnswer(false);
                         setMsgAnswer(true);
                     });

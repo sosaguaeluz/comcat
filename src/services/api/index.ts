@@ -1,7 +1,12 @@
 import axios from 'axios';
 
+let token = localStorage.getItem('token');
+
 export const api = axios.create({
-    baseURL: 'https://upbm088rng.execute-api.us-east-2.amazonaws.com/dev'
+    baseURL: 'https://comcat-backend-kqb8t.ondigitalocean.app/',
+    headers: {
+        Authorization: `Bearer ${token}`
+    }
 })
 
 export const ibge = axios.create({

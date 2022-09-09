@@ -72,8 +72,7 @@ const Header: React.FC = () => {
                                 id="to_singup"
                                 to="/singup"
                                 onClick={() => {
-                                    dispatch({type: USER, user: {}})
-                                    dispatch({type: TOKEN, token: ''})
+                                    localStorage.removeItem('token')
                                     setOpen(false)
                                 }}                        
                             >

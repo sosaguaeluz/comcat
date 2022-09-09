@@ -25,7 +25,6 @@ interface IProps {
 }
 
 const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
-    const { token } = useSelector((state : RootState) => state.clickState);
     const [ open, setOpen ] = useState(false);
     const [ confirmManage, setConfirmManage ] = useState(false);
 
@@ -44,7 +43,7 @@ const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
         }
     })
     function onSubmit (values: FormData) {
-        putUser(token, itemEdit.id, values).then(() => {
+        putUser(itemEdit.id, values).then(() => {
             onClose()
             setConfirmManage(false)
             setOpen(true)

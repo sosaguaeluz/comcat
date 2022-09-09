@@ -73,7 +73,7 @@ const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
             "active": values.active === true ? true : false     
         })
 
-        putUser(token, itemEdit?.id, obj)
+        putUser(itemEdit?.id, obj)
             .then((resp) => {
                 dispatch({type: USER, user: resp})
                 setSuccessMsg(true)

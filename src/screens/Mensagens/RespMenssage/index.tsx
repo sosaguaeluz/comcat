@@ -13,7 +13,7 @@ interface IProps {
 }
 
 const RespMessage: React.FC <IProps> = ({
-    isModal, onHide, itemEdit, token
+    isModal, onHide, itemEdit
 }) => {
     const [ open, setOpen ] = useState(false);
 
@@ -28,7 +28,7 @@ const RespMessage: React.FC <IProps> = ({
     });
 
     function onSubmit(values: any){
-        putMessages(token, itemEdit?.id, values).then(() => {
+        putMessages(itemEdit?.id, values).then(() => {
             setOpen(true);
         })
     }

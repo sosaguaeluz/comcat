@@ -41,30 +41,22 @@ import { schema } from './schema';
 import { Grid } from '@mui/material';
 
 const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
-    const { token } = useSelector((state: RootState) => state.clickState);
-    const { data: services } = useService(token);
-    const { data: sources } = useSources(token);
+    const { data: services } = useService();
+    const { data: sources } = useSources();
     const [ idOccurrence, setIdOccurrence ] = useState('');
     const [ open, setOpen ] = useState(false);
     const [ closeOccurrence, setCloseOccurrence ] = useState(false);
 
     const postOccurence = async (data: FormData) => {
-        const response  = await api.post('/occurrences', data, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        }).then((resp) => {
+        const response  = await api.post('/occurrences', data)
+        .then((resp) => {
             setIdOccurrence(resp.data.id)
         });
         return response;
     };
 
     const putOccurence = async(id: string, data: any) => {
-        const { data: response } = await api.put(`/occurrences/${id}`, data, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
+        const { data: response } = await api.put(`/occurrences/${id}`, data);
         return response.data;
     };
 

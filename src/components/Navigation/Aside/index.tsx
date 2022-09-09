@@ -22,14 +22,12 @@ const Aside: React.FC = () => {
     const [open, setOpen] = useState(false);
 
     const { data: AlertNotifications } = useNotifications(
-        token,
         "DESC",
         undefined,
         undefined,
         "Pending"
     );
     const { data: alertMessages } = useAlertMessages(
-        token,
         "DESC",
         undefined,
         undefined,

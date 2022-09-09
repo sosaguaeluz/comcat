@@ -37,9 +37,8 @@ import { regex } from "../../services/functions/regex";
 import { Grid } from "@mui/material";
 
 const Usuarios: React.FC = () => {
-    const { token } = useSelector((state: RootState) => state.clickState);
     const { data: dataUf} = useUf();
-    const { data: regionUsers } = useDashboardRegionUsers(token);
+    const { data: regionUsers } = useDashboardRegionUsers();
     
     const [idUser, setIdUser] = useState("");
     const [objUser, setObjUser] = useState<any>(null);
@@ -93,7 +92,7 @@ const Usuarios: React.FC = () => {
         isLoading: loadUsers,
         refetch,
         isFetched: isFetchedUsers,
-    } = useUsers(token,
+    } = useUsers(
         "DESC",
         page,
         20,
@@ -105,11 +104,7 @@ const Usuarios: React.FC = () => {
     );
 
     const deleteUser = async (id: string) => {
-        const data = await api.delete(`/users/${id}`, {
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
+        const data = await api.delete(`/users/${id}`);
         return data;
     };
 
