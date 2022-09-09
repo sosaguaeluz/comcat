@@ -20,40 +20,48 @@ export const Container = styled.div`
     }
 
     > section {
+        width: 100%;
         display: flex;
         justify-content: space-between;
+        row-gap: 20px;
+
+        >span {
+            width: 50%;
+            padding-Left: 56px;
+            padding-right: 50px;
+        }
     }
 `;
 
 export const ProgressBar = styled.div`
-    width: 643px;
-    > div {
+    width: 50%;
+    height: auto;
+    padding-left: 50px;
+    padding-right: 38px;
+    flex-direction: column;
+    
+    div {
+    height: auto;
+    }
+
+    span {
         display: flex;
-        flex-wrap: wrap;
         justify-content: space-between;
+        padding-bottom: 3px;
 
-        > div {
-            margin-bottom: 48px;
-            > div {
-                display: flex;
-                justify-content: space-between;
-
-                > p {
-                    font-style: normal;
-                    font-weight: 400;
-                    font-size: 16px;
-                    line-height: 22px;
-                    color: ${props => props.theme.colors.gray};
-                }
-
-                > h1 {
-                    font-style: normal;
-                    font-weight: 400;
-                    font-size: 16px;
-                    line-height: 22px;
-                    color: ${props => props.theme.colors.dark};
-                }
-            }
+        >p {
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 22px;
+            color: ${props => props.theme.colors.gray};
+        }
+        >h1 {
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 22px;
+            color: ${props => props.theme.colors.dark};
         }
     }
 `;

@@ -1,15 +1,22 @@
 import styled from "styled-components";
 
-export const Container = styled.div <{ width: string }>`
-    max-width: 392px;   
+export const Container = styled.div <{ height?: string, width?: string}>`
+
+    @media screen and (max-width: 1600px) {
+        height: 68px;
+    }
+    @media screen and (max-width: 1200px) {
+        height: 48px;
+    }
 `;
 
 export const Card = styled.div`
     display: flex;
     position: relative;
-
+    height: 100%;
     > img {
         margin-right: 12px;
+        width: 48px;
     }
 `;
 
@@ -23,19 +30,23 @@ export const ContainerList = styled.div`
 
 export const Content = styled.div`
     display: flex;
-    align-items: center;
     justify-content: space-between;
     width: 100%;
+    height: 100%;
 
     > div {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        height: 100%;
         > h1 {
             font-style: normal;
             font-weight: 400;
             font-size: 16px;
             line-height: 22px;
             color: ${props => props.theme.colors.lightGray};
-        }
 
+        }
         > p {
             font-family: 'Inter';
             font-style: normal;

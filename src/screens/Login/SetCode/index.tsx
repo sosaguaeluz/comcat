@@ -19,12 +19,12 @@ interface IProps {
     closeOne: () => void
 }
 
-interface Username {
-    username: string
+interface ValidateCode {
+    username: string,
 }
 
 const schema = Yup.object().shape({
-    username: Yup.string().required("E-mail ou WhatsApp são obrigatórios")
+    username: Yup.string().required("E-mail é obrigatório")
 })
 
 const SetCode: React.FC<IProps> = ({onClose, closeOne}) => {
@@ -39,13 +39,13 @@ const SetCode: React.FC<IProps> = ({onClose, closeOne}) => {
         register,
         handleSubmit,
         setValue
-    } = useForm<Username>({ 
+    } = useForm<ValidateCode>({ 
         mode: "onChange",
         resolver: yupResolver(schema)
     });
 
-    const postSendCode = async (user: Username) => {
-        const { data: resp } = await api.post('/send-code', user)
+    const postSendCode = async (user: any) => {
+        const { data: resp } = await api.post('/validate-recovery-code', user)
         dispatch({ type: SENDCODE, sendcode: resp})
         console.log(resp);
         return resp.data
@@ -53,7 +53,7 @@ const SetCode: React.FC<IProps> = ({onClose, closeOne}) => {
 
     const { mutate, isLoading, data } = useMutation(postSendCode, {
         onSuccess: () => {
-            queryClient.invalidateQueries('sendCode');
+            queryClient.invalidateQueries('/validate-recovery-code');
             
         },
         onError: (error) => {
@@ -61,9 +61,9 @@ const SetCode: React.FC<IProps> = ({onClose, closeOne}) => {
         }
     });
 
-    const onSubmit = (value: Username) => {
+    const onSubmit = (value: any) => {
         const obj = {
-            "username" : value.username
+            "username" : username,
         }
         mutate(obj);
     }
@@ -84,46 +84,56 @@ const SetCode: React.FC<IProps> = ({onClose, closeOne}) => {
     setValue("username", username)
 
     return (
-        <div>
+        <>
             <S.Container>
                 <S.ButtonBack
                     onClick={onClose}
                 >
                     <img src={iconShow} alt="" />
                 </S.ButtonBack>
-                <h1>Código de segurança</h1>
-                <p>Digite no campo abaixo o código que você recebeu.</p>
-                <S.InputCode>
-                    <ReactInputVerificationCode
-                        onChange={(e: any) => {
-                            setCodeValeu(e)
-                        }}
-                        placeholder="-"
-                        type="text"
-                        length={6}
-                        value={codeValue}
-                    />
-                </S.InputCode>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <input type="hidden" {...register("username")}/>
-                    <div>
-                        <p>Não recebeu o código ainda?</p>
-                        <button
-                            type='submit'
-                        >
-                            Enviar novamente
-                        </button>
-                    </div>
-                </form>
+                <div>
+                    <h1>Código de segurança</h1>
+                    <p>Digite no campo abaixo o código que você recebeu.</p>
+                    <S.InputCode>
+                        <ReactInputVerificationCode
+                            onChange={(e: any) => {
+                                setCodeValeu(e)
+                            }}
+                            placeholder="-"
+                            type="text"
+                            length={6}
+                            value={codeValue}                        
+                        />
+                    </S.InputCode>
+                    <S.Form onSubmit={handleSubmit(onSubmit)}>
+                        <input type="hidden" {...register("username")}/>
+                        <div>
+                            <p>Não recebeu o código ainda?</p>
+                            <button
+                                id="re-send"
+                                type='submit'
+                                onClick={onClose}
+                            >
+                                Enviar novamente
+                            </button>
+                        </div>
+                    </S.Form>
+                </div>
                 <S.ButtonSend
                     type="button"
                     disabled={disable}
                     onClick={() => {
-                        if(codeValue == sendcode.code){
-                            setRecoveryPassword(true)
-                        } else {
-                            setErrorMsg(!errorMsg)
-                        }
+                        postSendCode({
+                            "username": username,
+                            "code": codeValue
+                        })
+                            .then(() => {
+                                dispatch({ type: SENDCODE, sendcode: codeValue})
+                                setRecoveryPassword(true)
+                            })
+                            .catch(() => {
+                                setErrorMsg(!errorMsg)
+                            })
                     }}
                 >
                     Confirmar código
@@ -142,7 +152,7 @@ const SetCode: React.FC<IProps> = ({onClose, closeOne}) => {
                 modalBackground={true}
                 open={recoveryPassword} 
                 onClose={() => setRecoveryPassword(false)}
-                width={568}
+                width='568px'
                 padding={0}
                 children={
                     <NewPassword 
@@ -152,7 +162,7 @@ const SetCode: React.FC<IProps> = ({onClose, closeOne}) => {
                     />
                 }
             />
-        </div>
+        </>
     );
 };
 

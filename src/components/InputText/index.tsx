@@ -1,6 +1,6 @@
 import React from 'react';
 import FormControl from '@mui/material/FormControl';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material';
 import TextField from '@mui/material/TextField';
 
 const theme = createTheme({
@@ -8,10 +8,10 @@ const theme = createTheme({
         MuiInputLabel: {
             styleOverrides:{
                 root: {
-                color: '#AFAFAF',
-                "&.Mui-focused": {
-                    "color": "#AFAFAF",
-                    },
+                    color: '#AFAFAF',
+                    "&.Mui-focused": {
+                        "color": "#AFAFAF",
+                        },
                 },
                 
             }
@@ -41,7 +41,6 @@ const theme = createTheme({
             }
         }
     },
-
 });
 
 interface IProps {
@@ -50,7 +49,8 @@ interface IProps {
     onBlur: (e: any) => any,
     type: string,
     value: any,
-    width: number,
+    width: string | number,
+    maxWidth?: number,
     ref? : any,
     id?: string,
     name?: string
@@ -63,7 +63,7 @@ const CustomInput: React.FC <IProps> = (props) => {
         <ThemeProvider theme={theme}>
             <FormControl
                 variant="filled"
-                sx={{ width: props.width, height: 56, background: '#FFF  !important', borderRadius: '8px !important', border:'none'}}
+                sx={{ width: props.width, maxWidth: props.maxWidth, height: 56, background: '#FFF  !important', borderRadius: '8px !important', border:'none'}}
             >
                 <TextField
                     name={props.name} 

@@ -4,7 +4,9 @@ import { Box } from '../index';
 import { 
     Area, 
     AreaChart,
+    ResponsiveContainer,
 } from 'recharts';
+import { matchMutation } from 'react-query/types/core/utils';
 
 type List = {
     label?: string,
@@ -19,16 +21,23 @@ interface IProps {
     list?: List[],
     width?: string,
     widthChart?: number;
+    height?: string;
+    heightGrafic?: number
+
 }
 
 const CardGraficItem: React.FC <IProps> = (props) => {
     const [ color, setColor ] = useState('');
 
+    function setValueGrafic(){
+        return Math.floor(Math.random() * 100)
+    }
+
     function setColorGrafic(){
-        if(props.title == 'Quedas de energia' || props.title == 'Sul'){
+        if(props.title == 'energia' || props.title == 'Sul'){
             setColor('#FF954E')
         } 
-        if(props.title == 'Falta de água' || props.title == 'Norte'){
+        if(props.title == 'água' || props.title == 'Norte'){
             setColor('#47DED0')
         }
         if(props.title == 'Quedas de internet' || props.title == 'Nordeste'){
@@ -47,35 +56,42 @@ const CardGraficItem: React.FC <IProps> = (props) => {
 
     useEffect(() => {
         setColorGrafic()
+        
+
     }, [color]);
     
     return (
-        <Box padding='0' width={props.width}>
-            <S.Container>
-                <div>
-                    <img src={props.icon} alt="" />
-                    <div>
-                        <h1>{props.title}</h1>
-                        <p>{props.value}</p>
-                    </div>
-                </div>
-                <AreaChart 
-                    width={props.widthChart} 
-                    height={82} 
-                    data={props.list}
-                    style={{background: '#fff'}}
+            <Box padding='0px' width={props.width} height={props.height}>
+                <S.Container
+                    icon={props.icon}
                 >
-                    <defs>
-                        <linearGradient id={props.id} x1="0" y1="0" x2="0" y2="1">
-                            <stop offset="5%" stopColor={color} stopOpacity={0.8}/>
-                            <stop offset="100%" stopColor={color} stopOpacity={0}/>
-                        </linearGradient>
-                    </defs>
-                    <Area type="monotone" dataKey="label" stroke={color} fillOpacity={1} fill={`url(#${props.id})`} />
-                    <Area type="monotone" dataKey="value" stroke={color} fillOpacity={1} fill={`url(#${props.id})`} />
-                </AreaChart>
-            </S.Container>
-        </Box>
+                    <div>
+                        <img src={props.icon} alt="" />
+                        <div>
+                            <h1>{props.title}</h1>
+                            <p>{props.value}</p>
+                        </div>
+                    </div>
+                    <span>
+                        <ResponsiveContainer width="100%" height={props.heightGrafic}>
+                            <AreaChart 
+                                height={props.heightGrafic} 
+                                data={props.list}
+                                style={{background: '#fff', borderRadius: '8px'}}
+                            >
+                                <defs>
+                                    <linearGradient id={props.id} x1="0" y1="0" x2="0" y2="1">
+                                        <stop offset="5%" stopColor={color} stopOpacity={0.8}/>
+                                        <stop offset="100%" stopColor={color} stopOpacity={0}/>
+                                    </linearGradient>
+                                </defs>
+                                <Area type="monotone" dataKey="label" stroke={color} fillOpacity={1} fill={`url(#${props.id})`} />
+                                <Area type="monotone" dataKey={Math.floor(Math.random() * 100)} stroke={color} fillOpacity={1} fill={`url(#${props.id})`} />
+                            </AreaChart>
+                        </ResponsiveContainer>
+                    </span>
+                </S.Container>
+            </Box>
     );
 };
 

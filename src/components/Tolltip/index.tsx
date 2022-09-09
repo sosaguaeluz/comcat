@@ -1,31 +1,19 @@
 import React from 'react';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material';
 import Tooltip from '@mui/material/Tooltip';
 import styled from 'styled-components';
 
 interface IProps {
+    img: any,
     title: any,
-    desciption: any
+    placement?: any
 }
 
 const Button = styled.button`
   border: none;
   background: none;
-  
 `;
-// const useStyles = makeStyles(theme => ({
-//   arrow: {
-//     "&:before": {
-//       border: "1px solid #E6E8ED"
-//     },
-//     color: theme.palette.common.white
-//   },
-//   tooltip: {
-//     backgroundColor: theme.palette.common.white,
-//     border: "1px solid #E6E8ED",
-//     color: "#4A4A4A"
-//   }
-// }));
+
 
 const CustomTolltip: React.FC <IProps> = (props) => {
   const theme = createTheme({
@@ -50,11 +38,11 @@ const CustomTolltip: React.FC <IProps> = (props) => {
       <ThemeProvider theme={theme}>
         <Tooltip 
           arrow 
-          title={props.desciption} 
-          placement="top"
+          title={props.title} 
+          placement={props.placement}
         >
           <Button type="button">
-            {props.title}
+            {props.img}
           </Button>
         </Tooltip>
       </ThemeProvider>

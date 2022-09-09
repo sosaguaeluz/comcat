@@ -2,13 +2,15 @@ import styled from "styled-components";
 import { NavLink } from "react-router-dom";
 
 export const Container = styled.div`
-    grid-area: MH;
-    width: 100%;
+    
+    /* grid-area: MH; */
+    width: 100vw;
+    padding-left: 80px;
     height: 80px;
     background: ${props => props.theme.colors.white};
     box-shadow: 1px 0px 10px rgba(0, 0, 0, 0.1);
     display: flex;
-    justify-content: flex-end;
+    justify-content: end;
     
     > div {
         margin: 16px 40px;

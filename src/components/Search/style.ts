@@ -1,10 +1,12 @@
 
 import styled from 'styled-components';
 
-export const Input = styled.div <{ width: string }> `
+export const Input = styled.div <{ width: string, maxWidth?: number} > `
     display: flex;
     justify-content: space-between;
     align-items: center;
+    max-width: ${props => props.maxWidth}px;
+    min-width: 200px;
     width: ${props => props.width};
     height: 56px;
     border-radius: 6px;

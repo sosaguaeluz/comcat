@@ -21,9 +21,9 @@ export const Header = styled.div`
     height: 136px;
     display: flex;
     justify-content: space-between;
+    gap: 32px;
 
     > div:nth-child(2) {
-        margin-left: 32px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;

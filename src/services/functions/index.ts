@@ -1,11 +1,20 @@
 import { api } from '../index';
 import { 
     convertDate,
-    setDefaultData 
+    setDefaultData ,
+    extractDate,
+    extractHours
 } from './date';
+
+import { getReason } from './getReason';
+import { getStatus } from './getStatus';
 
 export {
     api,
     convertDate,
-    setDefaultData
+    setDefaultData,
+    getReason,
+    getStatus,
+    extractDate,
+    extractHours,
 } 

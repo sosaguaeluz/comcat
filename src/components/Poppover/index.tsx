@@ -8,9 +8,9 @@ import {
 
 
 interface IProps {
-    onClick: () => any,
-    onDelete: () => void,
-    onEdit: () => void,
+    onClick?: () => any,
+    onDelete?: () => void,
+    onEdit?: () => void,
     onFinish?: () => void,
     onApprove?: () => void,
     onView?: () => void,
@@ -21,13 +21,15 @@ interface IProps {
 
 const Poppover: React.FC <IProps> = ({onDelete, onEdit, onClick, type, onView, onApprove, onFinish, onAnswer, onMark}) => {
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null);
+    const [close, setClose] = React.useState<HTMLButtonElement | null>(null);
+
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
       setAnchorEl(event.currentTarget);
     };
   
     const handleClose = () => {
-      setAnchorEl(null);
+        setAnchorEl(null);
     };
 
     const open = Boolean(anchorEl);
@@ -58,172 +60,166 @@ const Poppover: React.FC <IProps> = ({onDelete, onEdit, onClick, type, onView, o
                     }}
                                     
                 >
-                    {type === 'userApp' && (
-                        <S.TwoItens>
-                            <button 
+                    {type === 'menssageResponse' && (
+                        <S.DivPoppover width={'112px'}>
+                            <S.CloseButton 
                                 onClick={handleClose}
                                 type='button'
                             >
                                 <img src={closeRed} alt="" />
-                            </button>
-                            <button 
-                                onClick={() => {
-                                    onEdit()
-                                    handleClose()
-                                }}
-                                type='button'
-                                id="onEdit_poppover"
+                            </S.CloseButton>  
+                            <S.FakeButton
+                                onClick={handleClose}
                             >
-                                Gerenciar
-                            </button>
-                            <button 
-                                onClick={() => {
-                                    onDelete()
-                                    handleClose()
-                                }}
+                                <S.DeleteButton 
+                                    onClick={onDelete}
+                                    type='button'
+                                    id="onDelete_poppover"
+                                >
+                                    Excluir
+                                </S.DeleteButton>
+                            </S.FakeButton>                          
+                        </S.DivPoppover>
+                    )}
+                    {type === 'userApp' && (
+                        <S.DivPoppover width={'112px'}>
+                            <S.CloseButton 
+                                onClick={handleClose}
                                 type='button'
-                                id="onDelete_poppover"
                             >
-                                Excluir
-                            </button>
-                        </S.TwoItens>
+                                <img src={closeRed} alt="" />
+                            </S.CloseButton>
+                            <S.FakeButton
+                                onClick={handleClose}
+                            >
+                                <S.Button 
+                                    onClick={onEdit}
+                                    type='button'
+                                    id="onEdit_poppover"
+                                >
+                                    Gerenciar
+                                </S.Button>
+                                <S.DeleteButton 
+                                    onClick={onDelete}
+                                    type='button'
+                                    id="onDelete_poppover"
+                                >
+                                    Excluir
+                                </S.DeleteButton>
+                            </S.FakeButton>
+                        </S.DivPoppover>
                     )}
                     {type === 'userPanel' && (
-                        <S.TwoItens>
-                            <button 
-                                onClick={()=>{
-                                    handleClose()
-                                }}
+                        <S.DivPoppover width={'112px'}>
+                            <S.CloseButton 
+                                onClick={handleClose}
                                 type='button'
                             >
                                 <img src={closeRed} alt="" />
-                            </button>
-                            <button 
-                                onClick={()=>{
-                                    onEdit();
-                                    handleClose();
-                                }}
-                                type='button'
-                                id="onEdit_poppover"
+                            </S.CloseButton>
+                            <S.FakeButton
+                                onClick={handleClose}
                             >
-                                Editar
-                            </button>
-                            <button 
-                                onClick={() => {
-                                    onDelete()
-                                    handleClose()
-                                }}
-                                type='button'
-                                id="onDelete_poppover"
-                            >
-                                Excluir
-                            </button>
-                        </S.TwoItens>
+                                <S.Button 
+                                    onClick={onEdit}
+                                    type='button'
+                                    id="onEdit_poppover"
+                                >
+                                    Editar
+                                </S.Button>
+                                <S.DeleteButton 
+                                    onClick={onDelete}
+                                    type='button'
+                                    id="onDelete_poppover"
+                                >
+                                    Excluir
+                                </S.DeleteButton>
+                            </S.FakeButton>
+                        </S.DivPoppover>
                     )}
                     {type === 'occurrences' && (
-                        <S.FiveItems>
-                            <button 
+                        <S.DivPoppover width={'190px'}>
+                            <S.CloseButton 
                                 onClick={handleClose}
                                 type='button'
                             >
                                 <img src={closeRed} alt="" />
-                            </button>
-                            <button 
-                                onClick={() => {
-                                    onEdit()
-                                    handleClose()
-                                }}
-                                type='button'
-                                id="onEdit_poppover"
+                            </S.CloseButton>
+                            <S.FakeButton
+                                onClick={handleClose}
                             >
-                                Editar
-                            </button>
-                            <button 
-                                // onClick={() => {
-                                //     onView()
-                                //     handleClose()
-                                // }}
-                                onClick={onView}
-                                type='button'
-                                id="onView_poppover"
-                            >
-                                Visualizar
-                            </button>
-                            <button 
-                                // onClick={() => {
-                                //     onFinish()
-                                //     handleClose()
-                                // }}
-                                onClick={onFinish}
-                                type='button'
-                                id="onFinish_poppover"
-                            >
-                                Finalizar ocorrência
-                            </button>
-                            <button 
-                                // onClick={() => {
-                                //     onApprove()
-                                //     handleClose()
-                                // }}
-                                onClick={onApprove}
-                                type='button'
-                                id="onApprove_poppover"
-                            >
-                                Aprovar/Reprovar
-                            </button>
-                            <button 
-                                onClick={() => {
-                                    onDelete()
-                                    handleClose()
-                                }}
-                                type='button'
-                                id="onDelete_poppover"
-                            >
-                                Excluir
-                            </button>
-                        </S.FiveItems>
+                                <S.Button 
+                                    onClick={onEdit}
+                                    type='button'
+                                    id="onEdit_poppover"
+                                >
+                                    Editar
+                                </S.Button>
+                                <S.Button 
+                                    onClick={onView}
+                                    type='button'
+                                    id="onView_poppover"
+                                >
+                                    Visualizar
+                                </S.Button>
+                                <S.Button
+                                    onClick={onFinish}
+                                    type='button'
+                                    id="onFinish_poppover"
+                                >
+                                    Finalizar ocorrência
+                                </S.Button>
+                                <S.Button
+                                    onClick={onApprove}
+                                    type='button'
+                                    id="onApprove_poppover"
+                                >
+                                    Aprovar/Reprovar
+                                </S.Button>
+                                <S.DeleteButton 
+                                    onClick={onDelete}
+                                    type='button'
+                                    id="onDelete_poppover"
+                                >
+                                    Excluir
+                                </S.DeleteButton>
+                            </S.FakeButton>
+                        </S.DivPoppover>
                     )}
                     {type === 'menssage' && (
-                        <S.ThreeItems>
-                            <button 
+                        <S.DivPoppover width={'220px'}>
+                            <S.CloseButton 
                                 onClick={handleClose}
                                 type='button'
                             >
                                 <img src={closeRed} alt="" />
-                            </button>
-                            <button 
-                                // onClick={() => {
-                                //     onAnswer()                                    
-                                //     handleClose()
-                                // }}
-                                onClick={onAnswer}
-                                type='button'
-                                id="onAnswer_poppover"
+                            </S.CloseButton>
+                            <S.FakeButton
+                                onClick={handleClose}
                             >
-                                Responder
-                            </button>
-                            <button 
-                                // onClick={() => {
-                                //     onMark()
-                                //     handleClose()
-                                // }}
-                                onClick={onMark}
-                                type='button'
-                                id="onMark_poppover"
-                            >
-                                Marcar como respondida
-                            </button>
-                            <button 
-                                onClick={() => {
-                                    onDelete()
-                                    handleClose()
-                                }}
-                                type='button'
-                                id="onDelete_poppover"
-                            >
-                                Excluir
-                            </button>
-                        </S.ThreeItems>
+                                <S.Button
+                                    onClick={onAnswer}
+                                    type='button'
+                                    id="onAnswer_poppover"
+                                >
+                                    Responder
+                                </S.Button>
+                                <S.Button
+                                    onClick={onMark}
+                                    type='button'
+                                    id="onMark_poppover"
+                                >
+                                    Marcar como respondida
+                                </S.Button>
+                                <S.DeleteButton 
+                                    onClick={onDelete}
+                                    type='button'
+                                    id="onDelete_poppover"
+                                >
+                                    Excluir
+                                </S.DeleteButton>
+                            </S.FakeButton>
+                        </S.DivPoppover>
                     )}
                 </Popover>
             </>

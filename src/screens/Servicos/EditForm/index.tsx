@@ -175,7 +175,7 @@ const EditForm: React.FC<IProps> = ({onHide, isModal, itemEdit}) => {
             onClose={onHide}
             padding={4}
             open={isModal}
-            width={861}        
+            width='861px'
         >
             <S.Container>
                 <h1>Editar serviço</h1>

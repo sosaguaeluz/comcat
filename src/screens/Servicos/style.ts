@@ -1,9 +1,7 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-    display: grid;
-    grid-template-columns: 372px 372px 372px 372px;
-    gap: 20px 20px;
+    width: 100%;
 `;
 
 export const Head = styled.div`

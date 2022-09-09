@@ -34,8 +34,8 @@ const Header: React.FC = () => {
             <S.Container>
                 <div>
                     <div>
-                        <h1>{user.role}</h1>
-                        <p>{user.name}</p>
+                        <h1>{user?.role}</h1>
+                        <p>{user?.name}</p>
                     </div>
                     <div>
                         <p>Sair</p>

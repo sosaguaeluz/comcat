@@ -76,7 +76,7 @@ const ApproveReprove: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
             <PersonalModal
                 modalBackground={false}
                 padding={4}
-                width={469}
+                width='469px'
                 open={isModal}
                 onClose={onHide}
             >

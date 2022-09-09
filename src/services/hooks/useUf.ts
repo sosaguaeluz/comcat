@@ -1,24 +1,13 @@
 import { ibge } from "../index";
+import { listUf } from "../../@types/index";
 import { useQuery, UseQueryResult } from "react-query";
 
-type List = {
-    nome: string,
-    id: number,
-    sigla: string,
+
+const getState = async (): Promise<listUf []> => {
+    const { data: resp} = await ibge.get<listUf []>('/estados?orderBy=nome')
+    return resp;
 }
 
-interface UF {
-    id: number
-    nome: string
-    sigla: string  
-    regiao: List
-}
-
-const getState = async (): Promise<UF> => {
-    const { data } = await ibge.get<UF>('/estados?orderBy=nome')
-    return data;
-}
-
-export const useUf = <T>(): UseQueryResult<UF[]> => {
-    return useQuery("state", () => getState())
+export const useUf = <T>(): UseQueryResult<listUf []> => {
+    return useQuery(["state"], () => getState())
 }

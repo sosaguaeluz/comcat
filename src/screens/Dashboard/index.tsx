@@ -9,27 +9,146 @@ import {
     CardGraficItem,
     CardGraficArea,
     YearGrafic,
-    CustomInput
+    CustomInput,
+    CustomInputData
 } from '../../components';
 import {
     ocurrenceIcon,
-    energiIcon,
-    whaterIcon,
-    wifiIcon,
-    gasIcon
 } from '../../assets/index';
+import { useDashboardOccurrences, useDashboardUsers, useUf, useCity, useAnnualOccurrences, useAnnualUsers, } from '../../services';
+import { Grid } from '@mui/material';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../stores';
+
 
 const Dashboard: React.FC = () => {
-    const [ open, setOpen ] = useState(false);
-    const [ map, setMap ] = useState(true);
-    const [ users, setUsers ] = useState(false);
-    const [ value, setValue ] = useState('');
-    const [ value2, setValue2 ] = useState('');
-    const [ value3, setValue3 ] = useState('');
-    const [ data, setData] = useState('');
-    const [ multValue, setMultValue ] = useState<string[]>([]);
-    const [ yearValue, setYearValue ] = useState('');
+    const { token } = useSelector((state: RootState) => state.clickState);
+    const [ idUf, setIdUf ] = useState('')  
+    const [ idCity, setIdCity] = useState<any>()
+    
+    const { data: ufList } = useUf();
+    const { data: CityList } = useCity(idUf);
 
+    const [ initialDate, setInitialDate ] = useState<any>(undefined);
+    const [ finalDate, setFinalDate ] = useState<any>(undefined);
+
+    const [ occurrences, setOccurrences ] = useState(true);
+    const [ users, setUsers ] = useState(false);
+  
+    const [ multValueGenre, setMultValueGenre ] = useState<string[]>([]);
+    const [ multValueBreed, setMultValueBreed ] = useState<string[]>([]);
+   
+    const [ initialDateAnnual, setInitialDateAnnual ] = useState<any>(undefined);
+    const [ finalDateAnnual, setFinalDateAnnual ] = useState<any>(undefined);
+    const [ yearValue, setYearValue ] = useState('');
+    
+    const{ data: dashboardOccurrences,
+    }=useDashboardOccurrences (
+        token,
+        initialDate,
+        finalDate,
+        idUf,
+        idCity,
+
+    )
+    console.log(dashboardOccurrences, 'ocurrences')
+    
+    const{ data: annualOccurrences,
+    }=useAnnualOccurrences (
+        token,
+        initialDateAnnual,
+        finalDateAnnual,
+        yearValue
+        )
+    console.log(annualOccurrences?.annual_occurrences, 'anualocurrences')
+
+    const{ data: dashboardUsers,        
+    }=useDashboardUsers (
+        token,
+        initialDate,
+        finalDate,
+        idUf,
+        idCity,
+    )
+    console.log(dashboardUsers, 'users')
+    
+    const{ data: annualUsers,        
+    }=useAnnualUsers (
+        token,
+        initialDateAnnual,
+        finalDateAnnual,
+        yearValue
+    )
+    console.log(annualUsers?.annual_users, 'anualusers')    
+        
+    const [ resetSearch, setResetSearch] = useState(false)
+     
+    function ResetSearch() {
+        
+    }
+
+    function ButtonResetSearch() {
+        return (
+            resetSearch 
+                ? <button 
+                    onClick={() => {
+                        setInitialDate(null);
+                        setFinalDate(null);
+                        setIdUf('');
+                        setIdCity(0);
+                    }}
+                >
+                    Remover filtros
+                </button>
+                : <></>
+        )  
+    }
+
+    function Description(select: any) {
+        return (
+            <S.Description>
+                Gráfico de {select} - 
+                <b>
+                    {idUf != undefined
+                    && idCity != undefined 
+                        ? `${idUf}, ${idCity}`
+                        : 'Todos os locais '
+                    }
+                    |
+                    {
+                    initialDate != undefined 
+                        ? ` de ${initialDate}`
+                        : ' Desde o inicio'
+                    }
+                    {
+                    finalDate != undefined 
+                        ? ` até ${finalDate}` 
+                        : ' até hoje'
+                    }
+                </b>
+            </S.Description>
+        )  
+    }
+    
+    function SelectYear(select: any) {
+        return (
+            <S.TextData>
+                <p> Ocorrências no útimo ano - <b>{select === 'ocorrências' ?  annualOccurrences?.annual_occurrences?.year : annualUsers?.annual_users?.total }</b></p>
+                {/* <CustomSelect
+                    width={254}
+                    defaultValue="Ano"
+                    label='Filtrar por ano'
+                    value={{select === 'ocorrências' ?  annualOccurrences?.annual_occurrences?.year : annualUsers?.annual_users?.total }} 
+                    list={year}
+                    onChange={(e: any) => {
+                        setYearValue(e)
+                    }}
+                /> */}
+            </S.TextData>
+        )  
+    }
+
+        
     let list = [
         {label: 'Pesquisar 1', value: 'pesquisa1'},
         {label: 'Pesquisar 2', value: 'pesquisa2'},
@@ -39,236 +158,38 @@ const Dashboard: React.FC = () => {
         {label: 'Pesquisar 6', value: 'pesquisa6'},
         
     ]
-
-    const card = {
-        title: "Quedas de energia",
-        list: [
-            {
-                label: 'Quedas de energia',
-                value: '43'
-            }, {
-                label: 'Quedas de energia',
-                value: '63'
-            }, {
-                label: 'Quedas de energia',
-                value: '43'
-            }, {
-                label: 'Quedas de energia',
-                value: '13'
-            }, {
-                label: 'Quedas de energia',
-                value: '63'
-            },
-        ]
-    }
-
-    const card2 = {
-        title: "Falta de água",
-        list: [
-            {
-                label: 'Falta de água',
-                value: '43'
-            }, {
-                label: 'Falta de água',
-                value: '63'
-            }, {
-                label: 'Falta de água',
-                value: '43'
-            }, {
-                label: 'Falta de água',
-                value: '13'
-            }, {
-                label: 'Falta de água',
-                value: '63'
-            },
-        ]
-    }
-
-    const card3 = {
-        title: "Quedas de internet",
-        list: [
-            {
-                label: 'Quedas de internet',
-                value: '43'
-            }, {
-                label: 'Quedas de internet',
-                value: '63'
-            }, {
-                label: 'Quedas de internet',
-                value: '43'
-            }, {
-                label: 'Quedas de internet',
-                value: '13'
-            }, {
-                label: 'Quedas de internet',
-                value: '63'
-            },
-        ]
-    }
-
-    const card4 = {
-        title: "Falta de gás",
-        list: [
-            {
-                label: 'Falta de gás',
-                value: '43'
-            }, {
-                label: 'Falta de gás',
-                value: '63'
-            }, {
-                label: 'Falta de gás',
-                value: '43'
-            }, {
-                label: 'Falta de gás',
-                value: '13'
-            }, {
-                label: 'Falta de gás',
-                value: '63'
-            },
-        ]
-    }
-
-    const card5 = {
-        title: "Sul",
-        list: [
-            {
-                label: 'Sul',
-                value: '43'
-            }, {
-                label: 'Sul',
-                value: '63'
-            }, {
-                label: 'Sul',
-                value: '43'
-            }, {
-                label: 'Sul',
-                value: '13'
-            }, {
-                label: 'Sul',
-                value: '63'
-            },
-        ]
-    }
-
-    const card6 = {
-        title: "Norte",
-        list: [
-            {
-                label: 'Norte',
-                value: '43'
-            }, {
-                label: 'Norte',
-                value: '63'
-            }, {
-                label: 'Norte',
-                value: '43'
-            }, {
-                label: 'Norte',
-                value: '13'
-            }, {
-                label: 'Norte',
-                value: '63'
-            },
-        ]
-    }
-
-    const card7 = {
-        title: "Nordeste",
-        list: [
-            {
-                label: 'Nordeste',
-                value: '43'
-            }, {
-                label: 'Nordeste',
-                value: '63'
-            }, {
-                label: 'Nordeste',
-                value: '43'
-            }, {
-                label: 'Nordeste',
-                value: '13'
-            }, {
-                label: 'Nordeste',
-                value: '63'
-            },
-        ]
-    }
-
-    const card8 = {
-        title: "Sudeste",
-        list: [
-            {
-                label: 'Sudeste',
-                value: '43'
-            }, {
-                label: 'Sudeste',
-                value: '63'
-            }, {
-                label: 'Sudeste',
-                value: '43'
-            }, {
-                label: 'Sudeste',
-                value: '13'
-            }, {
-                label: 'Sudeste',
-                value: '63'
-            },
-        ]
-    }
-
-    const card9 = {
-        title: "Centro-Oeste",
-        list: [
-            {
-                label: 'Centro-Oeste',
-                value: '43'
-            }, {
-                label: 'Centro-Oeste',
-                value: '63'
-            }, {
-                label: 'Centro-Oeste',
-                value: '43'
-            }, {
-                label: 'Centro-Oeste',
-                value: '13'
-            }, {
-                label: 'Centro-Oeste',
-                value: '63'
-            },
-        ]
-    }
-
+    
     const areaChart = [
         {
           name: 'Energia',
-          masculino: 4000,
-          feminino: 2400,
-          naoBinario: 2400,
-          outros: 4350,
+          Male: 4000,
+          Female: 2400,
+          NonBinary: 2400,
+          Other: 4350,
           title: 'Masculino'
         },
         {
           name: 'Água',
-          masculino: 3000,
-          feminino: 1398,
-          naoBinario: 2210,
-          outros: 4350,
+          Male: 3000,
+          Female: 1398,
+          NonBinary: 2210,
+          Other: 4350,
           title: 'Feminino'
         },
         {
           name: 'Internet',
-          masculino: 2000,
-          feminino: 9800,
-          naoBinario: 2290,
-          outros: 4350,
+          Male: 2000,
+          Female: 9800,
+          NonBinary: 2290,
+          Other: 4350,
           title: 'Não-binário'
         },
         {
           name: 'Gás',
-          masculino: 2780,
-          feminino: 3908,
-          naoBinario: 2000,
-          outros: 4350,
+          Male: 2780,
+          Female: 3908,
+          NonBinary: 2000,
+          Other: 4350,
           title: 'Outros'
         }
     ];
@@ -276,47 +197,47 @@ const Dashboard: React.FC = () => {
     const areaChart2 = [
         {
           name: 'Energia',
-          white: 4000,
-          yellow: 2400,
-          indigenous: 2400,
-          black: 4350,
-          pard: 3852,
+          Yellow: 4000,
+          White: 2400,
+          Indigenous: 2400,
+          Brown: 4350,
+          Black: 3852,
           title: 'Amarela'
         },
         {
           name: 'Água',
-          white: 3000,
-          yellow: 1398,
-          indigenous: 2210,
-          black: 4350,
-          pard: 3852,
+          Yellow: 3000,
+          White: 1398,
+          Indigenous: 2210,
+          Black: 4350,
+          Brown: 3852,
           title: 'Branca'
         },
         {
           name: 'Internet',
-          white: 2000,
-          yellow: 5800,
-          indigenous: 2290,
-          black: 4350,
-          pard: 3852,
+          Yellow: 2000,
+          White: 5800,
+          Indigenous: 2290,
+          Black: 4350,
+          Brown: 3852,
           title: 'Indígena'
         },
         {
           name: 'Gás',
-          white: 2780,
-          yellow: 3908,
-          indigenous: 2000,
-          black: 4350,
-          pard: 3852,
+          Yellow: 2780,
+          White: 3908,
+          Indigenous: 2000,
+          Black: 4350,
+          Brown: 3852,
           title: 'Parda'
         },
         {
           name: 'Lorem ipsum',
-          white: 2780,
-          yellow: 3908,
-          indigenous: 2000,
-          black: 4350,
-          pard: 3852,
+          Yellow: 2780,
+          White: 3908,
+          Indigenous: 2000,
+          Black: 4350,
+          Brown: 3852,
           title: 'Preta'
         }
     ];
@@ -429,439 +350,492 @@ const Dashboard: React.FC = () => {
     ]
 
     return (
-        <>
+        <S.Main>
+            {/*PRONTO*/}
             <S.Navigation>
                 <div>
-                <DoubleButton
-                    id="ButtonDashboardOcorrencias"
-                    text='Ocorrências'
-                    selected={map}
-                    onSelect={() => {
-                        setMap(true)
-                        setUsers(false)
-                    }}
-                />
-                <DoubleButton
-                    id="ButtonDashBoardUsuarios"
-                    text='Usuários'
-                    selected={users}
-                    onSelect={() => {
-                        setMap(false)
-                        setUsers(true)
-                    }}
-                />
+                    <DoubleButton
+                        id="ButtonDashboardOcorrencias"
+                        text='Ocorrências'
+                        selected={occurrences}
+                        onSelect={() => {
+                            setOccurrences(true)
+                            setUsers(false)
+                        }}
+                    />
+                    <DoubleButton
+                        id="ButtonDashBoardUsuarios"
+                        text='Usuários'
+                        selected={users}
+                        onSelect={() => {
+                            setOccurrences(false)
+                            setUsers(true)
+                            
+                        }}
+                    />
                 </div>
             </S.Navigation>
             <S.Container>
-                {map == true && (
+                {occurrences == true && (
                     <>
-                        <Box padding='24px 20px'>
+                        {/*resetar e colocar a lista de cidades e bairros*/} 
+                        <Box padding='24px 20px 0px 20px'>
+                            {/*não esta resetando o dados*/}
                             <S.Header>
                                 <h1>Filtros</h1>
-                                {value != '' && data != '' && (
-                                    <button 
-                                        onClick={() => {
-                                            setValue('');
-                                            setValue2('');
-                                            setValue3('');
-                                            setData('');
-                                        }}
-                                    >
-                                        Limpar filtros
-                                    </button>
-                                )}
+                                <ButtonResetSearch/>
                             </S.Header>
+                            {/*resetar e colocar a lista de cidades e bairros*/}
                             <S.SearchBar>
                                 <div>
                                     <CustomSelect
                                         width={254}
-                                        label='Estados'
-                                        labelDefault='Filtrar por Estados'
-                                        value={value}
-                                        list={list}
+                                        label='Estados'      
+                                        labelDefault="Filtrar por estado"
+                                        value={idUf}
+                                        defaultValue="Todos os estados"
+                                        list={ufList}
                                         onChange={(e: any) => {
-                                            setValue(e)
-                                            console.log(e);
+                                            setIdUf(e.target.value)
                                         }}
                                     />
                                     <CustomSelect
                                         width={254}
                                         label="Município"
-                                        labelDefault="Filtrar por Município"
-                                        value={value2}
-                                        list={list}
+                                        labelDefault="Filtrar por município"
+                                        value={idCity}
+                                        defaultValue="Todos os municípios"
+                                        list={CityList}
                                         onChange={(e: any) => {
-                                            setValue2(e)
+                                            setIdCity(e.target.value)
                                         }}
                                     />
-                                    <CustomSelect
+                                    {/* <CustomSelect
                                         width={254}
                                         label="Bairro"
-                                        labelDefault='Filtrar por Bairro'
-                                        value={value3}
+                                        labelDefault='Filtrar por bairro'
+                                        value={idNeighborhoodOccurrence}
+                                        defaultValue="Todos os bairros"
                                         list={list}
                                         onChange={(e: any) => {
-                                            setValue3(e)
+                                            setIdNeighborhoodOccurrence(e.target.value)
                                         }}
-                                    />
+                                    /> */}
                                 </div>
                                 <div>
-                                    <CustomInput
-                                        width={176} 
+                                    <CustomInputData
+                                        id='dateDe'
+                                        width="176px"
                                         type='date'
-                                        label='De:'
+                                        label='De:'                                        
+                                        defaultValue='De:'
+                                        max={new Date().toISOString().slice(0, 0)}
+                                        value={initialDate} 
                                         onChange={(e: any) => {
-                                            setData(e);
-                                            console.log(e);
-
-                                        } }
-                                        value={data} 
+                                            setInitialDate(e.target.value );
+                                            // console.log(e);
+                                        }}
                                         onBlur={function (e: any) {
                                             throw new Error('Function not implemented.');
-                                        } }                                    />
-                                    <CustomInput
-                                        width={176} 
+                                        }}                                    />
+                                    <CustomInputData
+                                        id='dateAte'
+                                        width="176px"
                                         type='date'
                                         label='Até:'
+                                        defaultValue='Até:'
+                                        max={new Date().toISOString().slice(0, 0)}
+                                        value={finalDate} 
                                         onChange={(e: any) => {
-                                            setData(e.target.value);
-                                        } }
-                                        value={data} 
+                                            setFinalDate(e.target.value);
+                                        }}
                                         onBlur={function (e: any) {
                                             throw new Error('Function not implemented.');
-                                        } }                                    />
+                                        }}                                    />
                                 </div>
                             </S.SearchBar>
                         </Box>
-                        <S.StatusBox>
-                            <CardInfo 
-                                icon={ocurrenceIcon}
-                                title="Ocorrências no período"
-                                value={20}
-                                type=""
-                                width='372px'
-                            />
-                            <CardInfo 
-                                icon=''
-                                title="Total de novas ocorrências (hoje)"
-                                value={10}
-                                type=""
-                                width='372px'
-                            />
-                            <CardInfo 
-                                icon=''
-                                title="Total de ocorrências aprovadas (hoje)"
-                                value={10}
-                                type=""
-                                width='372px'
-                            />
-                            <CardInfo 
-                                icon=''
-                                title="Total de ocorrências reprovadas (hoje)"
-                                value={0}
-                                type=""
-                                width='372px'
-                            />
+                        {/*PRONTO*/}
+                        <S.StatusBox >
+                            <Grid
+                            container
+                            spacing={{ xs: 2.5, md: 2.5, lg: 2.5 }}
+                            flex-wrap='wrap'
+                            >
+                                <Grid item xs sm={6} md lg xl>
+                                    <CardInfo 
+                                        icon={ocurrenceIcon}
+                                        title={"Ocorrências no período"}
+                                        value={dashboardOccurrences?.total}
+                                        type=""
+                                        width='100%'
+                                    />
+                                </Grid>
+                                <Grid item xs sm={6} md lg xl>
+                                    <CardInfo 
+                                        icon=''
+                                        title="Total de novas ocorrências (hoje)"
+                                        value={dashboardOccurrences?.new_today}
+                                        type=""
+                                        width='100%'
+                                    />
+                                </Grid>
+                                <Grid item xs sm={6} md lg xl>
+                                    <CardInfo 
+                                        icon=''
+                                        title="Total de ocorrências aprovadas (hoje)"
+                                        value={dashboardOccurrences?.approved_today}
+                                        type=""
+                                        width='100%'
+                                    />
+                                </Grid>
+                                <Grid item xs sm={6} md lg xl>
+                                    <CardInfo 
+                                        icon=''
+                                        title="Total de ocorrências reprovadas (hoje)"
+                                        value={dashboardOccurrences?.disapproved_today}
+                                        type=""
+                                        width='100%'
+                                    />
+                                </Grid>
+                            </Grid>
                         </S.StatusBox>
-                        <p>
-                            Gráfico de ocorrências - <b>RJ, Rio de Janeiro, Duque de Caxias | De 11/11/21 até 11/01/22</b>
-                        </p>
+                        {/*PRONTO*/}
+                        <Description
+                            select='ocorrências'
+                        />                            
+                        {/*colocar o MATH.RANDON PARA FORMAR OS GRAFICOS*/}
                         <S.GraficItemContainer>
-                            <CardGraficItem
-                                width='372px'
-                                widthChart={372} 
-                                list={card.list}
-                                title={card.title}
-                                value='325'
-                                icon={energiIcon}
-                                id="energia"
-                            />
-
-                            <CardGraficItem
-                                width='372px'
-                                widthChart={372} 
-                                list={card2.list}
-                                title={card2.title}
-                                value='55'
-                                icon={whaterIcon}
-                                id="agua"
-                            />
-
-                            <CardGraficItem
-                                width='372px'
-                                widthChart={372} 
-                                list={card3.list}
-                                title={card3.title}
-                                value='25'
-                                icon={wifiIcon}
-                                id="wifi"
-                            />
-
-                            <CardGraficItem
-                                width='372px'
-                                widthChart={372} 
-                                list={card4.list}
-                                title={card4.title}
-                                value='155'
-                                icon={gasIcon}
-                                id="gas"
-                            />
+                            <Grid
+                                container
+                                spacing={2.5}
+                                flex-wrap='wrap'
+                            >
+                                {dashboardOccurrences?.line_charts?.map((id: any) => {
+                                    return (
+                                        <Grid item xs sm={6} md={4} lg={3} xl={3}>
+                                            <CardGraficItem
+                                                width='100%'
+                                                title={id.service.name}
+                                                value={id.value}
+                                                icon={id.service.image}
+                                                id={id.name}
+                                                heightGrafic={85}
+                                            />
+                                        </Grid>
+                                    );
+                                })}
+                                {/* <Grid item xs sm={6} md={4} lg={3} xl={3}>
+                                    <CardGraficItem
+                                        width='100%'
+                                        list={card4.list}
+                                        title={card4.title}
+                                        value='155'
+                                        icon={gasIcon}
+                                        id="gas"
+                                        heightGrafic={85}
+                                    />
+                                </Grid> */}
+                            </Grid>
                         </S.GraficItemContainer>
-                        <S.StatusBox>
-                            <CardGraficArea 
-                                data={areaChart}
-                                valueItem={multValue}
-                                onChange={(e) => {
-                                    setMultValue(e)
-                                }}
-                                title="Genero"
-                                type="genero"
-                            />
-                            <CardGraficArea 
-                                data={areaChart2}
-                                valueItem={multValue}
-                                onChange={(e) => {
-                                    setMultValue(e)
-                                }}
-                                title="Raça"
-                                type="raca"
-                            />
-                        </S.StatusBox>
-                        <S.StatusBox style={{marginBottom: '-50px'}}>
-                            <p> Ocorrências no útimo ano - <b>2021</b></p>
-                            <div style={{background: '#fff'}}>
-                                <CustomSelect
-                                    width={254}
-                                    defaultValue="Ano"
-                                    label='Filtrar por ano'
-                                    value={yearValue}
-                                    list={year}
-                                    onChange={(e: any) => {
-                                        setYearValue(e)
-                                    }}
-                                />
-                            </div>
-                        </S.StatusBox>
-                        <div style={{width: '764px', display: 'flex', justifyContent: 'space-between', margin: '40px 0 24px'}}>
-                            <CardInfo 
-                                icon={ocurrenceIcon}
-                                title="Total de ocorrências no ano"
-                                value={3160}
-                                type=""
-                                width='372px'
-                            />
-                            <CardInfo 
-                                icon=''
-                                title="Média de novas ocorrências por mês"
-                                value={540}
-                                type=""
-                                width='372px'
-                            />
-                        </div>            
-                        <YearGrafic 
-                            title='Ocorrências no ano'
-                            number={1000}
-                            data={ocurrences}
+                        {/*FALTA DADOS DA API */}
+                        <S.GraficBarsContainer>
+                            <Grid
+                                container
+                                spacing={{ xs: 2.5, md: 2.5, lg: 2.5 }}
+                                flex-wrap='wrap'
+                            >
+                                <Grid item xs sm md={6} lg={6} xl={6}>
+                                    <CardGraficArea 
+                                        data={areaChart}
+                                        valueItem={multValueGenre}
+                                        onChange={(e) => {
+                                            setMultValueGenre(e)
+                                        }}
+                                        title="Genero"
+                                        type="genero"
+                                        width= "100%"
+                                        height="389px"
+                                        heightGrafic={210}
+                                    />
+                                </Grid>
+                                <Grid item xs sm md={6} lg={6} xl={6}>
+                                    <CardGraficArea
+                                        data={areaChart2}
+                                        valueItem={multValueBreed}
+                                        onChange={(e) => {
+                                            setMultValueBreed(e)
+                                        }}
+                                        title="Raça"
+                                        type="raca"
+                                        width= "100%"
+                                        height="389px"
+                                        heightGrafic={210}
+                                    />
+                                </Grid>
+                            </Grid>
+                        </S.GraficBarsContainer>
+                        {/*PROBLEMAS NO RENDERIZAR O ANO, ESTA PUXANDO UM OBJETO*/}
+                        <SelectYear
+                            select='ocorrências'
                         />
+                        {/*FALTA DADOS DA API*/}
+                        <S.GraficYearContainer>
+                            {/*PRONTO*/}
+                            <Grid
+                                container                  
+                                flex-wrap='nowrap'
+                            >
+                                <Grid item xs sm md={3} lg={3} xl={3}>
+                                    <CardInfo 
+                                        icon={ocurrenceIcon}
+                                        title="Total de ocorrências no ano"
+                                        value={dashboardOccurrences?.annual_occurrences?.total}
+                                        type=""
+                                        width="100%"
+                                        height='108px'
+                                    />
+                                </Grid>
+                                <Grid item xs sm md={3} lg={3} xl={3}>
+                                    <CardInfo 
+                                        icon=''
+                                        title="Média de novas ocorrências por mês"
+                                        value={dashboardOccurrences?.annual_occurrences?.monthly_rate}
+                                        type=""
+                                        width="100%"
+                                        height='108px'
+                                    />
+                                </Grid>
+                            </Grid>
+                            {/*FALTA DADOS DA API*/}
+                            <YearGrafic 
+                                title={`Ocorrências no ano de ${dashboardOccurrences?.annual_occurrences?.year}`}
+                                number={1000}
+                                data={ocurrences}
+                                width= "100%"
+                                height='auto'                    
+                                heightGrafic={300}
+                            />
+                        </S.GraficYearContainer>
                     </>
                 )}
                 {users == true && (
                     <> 
+                        {/*PRONTO*/}
                         <S.StatusBox style={{marginBottom: '20px'}}>
-                            <CardInfo 
-                                icon={ocurrenceIcon}
-                                title="Total de usuários"
-                                value={3160}
-                                type=""
-                                width='372px'
-                            />
-                            <CardInfo 
-                                icon=''
-                                title="Total de novas usuários (hoje)"
-                                value={540}
-                                type=""
-                                width='372px'
-                            />
-                            <CardInfo 
-                                icon=''
-                                title="Total de usuários ativos (hoje)"
-                                value={540}
-                                type=""
-                                width='372px'
-                            />
-                            <CardInfo 
-                                icon=''
-                                title="Total de usuários inativos (hoje)"
-                                value={540}
-                                type=""
-                                width='372px'
-                            />
-                        </S.StatusBox>   
-                        <Box padding='24px 20px'>
+                            <Grid
+                                container
+                                spacing={2.5}
+                                flex-wrap='wrap'
+                            >
+                                <Grid item xs sm md lg xl>
+                                    <CardInfo 
+                                        icon={ocurrenceIcon}
+                                        title="Total de usuários"
+                                        value={dashboardUsers?.total}
+                                        type=""
+                                        width='100%'
+                                        height="108px"
+                                    />
+                                </Grid>
+                                <Grid item xs sm md lg xl>
+                                    <CardInfo 
+                                        icon=''
+                                        title="Total de novas usuários (hoje)"
+                                        value={dashboardUsers?.new_today}
+                                        type=""
+                                        width='100%'
+                                        height="108px"
+                                    />
+                                </Grid>
+                                <Grid item xs sm md lg xl>
+                                    <CardInfo 
+                                        icon=''
+                                        title="Total de usuários ativos (hoje)"
+                                        value={dashboardUsers?.active_today}
+                                        type=""
+                                        width='100%'
+                                        height="108px"
+                                    />
+                                </Grid>
+                                <Grid item xs sm md lg xl>
+                                    <CardInfo 
+                                        icon=''
+                                        title="Total de usuários inativos (hoje)"
+                                        value={dashboardUsers?.inactive_today}
+                                        type=""
+                                        width='100%'
+                                        height="108px"
+                                    />s
+                                </Grid>
+                            </Grid>
+                        </S.StatusBox>  
+                        {/*resetar e colocar a lista de cidades e bairros*/} 
+                        <Box padding='24px 20px 0px 20px'>
+                            {/*não esta resetando o dados*/}
                             <S.Header>
                                 <h1>Filtros</h1>
-                                {value != '' && data != '' && (
-                                    <button 
-                                        onClick={() => {
-                                            setValue('');
-                                            setValue2('');
-                                            setValue3('');
-                                            setData('');
-                                        }}
-                                    >
-                                        Limpar filtros
-                                    </button>
-                                )}
+                                <ButtonResetSearch/>
                             </S.Header>
+                            {/*resetar e colocar a lista de cidades e bairros*/}
                             <S.SearchBar>
                                 <div>
                                     <CustomSelect
                                         width={254}
                                         label='Estados'
-                                        labelDefault='Filtrar por Estados'
-                                        value={value}
-                                        list={list}
+                                        value={idUf}
+                                        defaultValue={"Todos os Estados"}
+                                        list={ufList}
                                         onChange={(e: any) => {
-                                            setValue(e)
-                                            console.log(e);
+                                            setIdUf(e)
                                         }}
                                     />
                                     <CustomSelect
                                         width={254}
                                         label="Município"
                                         labelDefault="Filtrar por Município"
-                                        value={value2}
-                                        list={list}
+                                        value={idCity}
+                                        list={CityList}
                                         onChange={(e: any) => {
-                                            setValue2(e)
+                                            setIdCity(e)
                                         }}
                                     />
-                                    <CustomSelect
+                                    {/* <CustomSelect
                                         width={254}
                                         label="Bairro"
                                         labelDefault='Filtrar por Bairro'
-                                        value={value3}
+                                        value={neighborhoodValueUsers}
                                         list={list}
                                         onChange={(e: any) => {
                                             setValue3(e)
                                         }}
-                                    />
+                                    /> */}
                                 </div>
                                 <div>
-                                    <CustomInput
-                                        width={176} 
+                                    <CustomInputData
+                                        id='dateDe'
+                                        width="176px"
                                         type='date'
-                                        label='De:'
+                                        label='De:'                                        
+                                        defaultValue='De:'
+                                        max={new Date().toISOString().slice(0, 0)}
+                                        value={initialDate} 
                                         onChange={(e: any) => {
-                                            setData(e.target.value);
-                                        } }
-                                        value={data} 
+                                            setInitialDate(e.target.value );
+                                            // console.log(e);
+                                        }}
                                         onBlur={function (e: any) {
                                             throw new Error('Function not implemented.');
-                                        } }                                    
+                                        }}
                                     />
-                                    <CustomInput
-                                        width={176} 
+                                    <CustomInputData
+                                        id='dateAte'
+                                        width="176px"
                                         type='date'
                                         label='Até:'
+                                        defaultValue='Até:'
+                                        max={new Date().toISOString().slice(0, 0)}
+                                        value={finalDate} 
                                         onChange={(e: any) => {
-                                            setData(e.target.value);
-                                        } }
-                                        value={data} 
+                                            setFinalDate(e.target.value);
+                                        }}
                                         onBlur={function (e: any) {
                                             throw new Error('Function not implemented.');
-                                        } }                                    
+                                        }}
                                     />
                                 </div>
                             </S.SearchBar>
                         </Box>
-                        <p  style={{margin: '20px 0'}} >Gráfico de usuários por região - <b>Todos os locais | Desde o início</b></p>           
+                        {/*PRONTO*/}
+                        <Description
+                            select='usuários'
+                        />  
+                        {/*colocar o MATH.RANDON PARA FORMAR OS GRAFICOS*/}
                         <S.GraficItemContainer>
-                            <CardGraficItem
-                                width='284px' 
-                                widthChart={284}
-                                list={card5.list}
-                                title={card5.title}
-                                value='325'
-                                id="sul"
-                            />
-
-                            <CardGraficItem
-                                width='284px' 
-                                widthChart={284}
-                                list={card6.list}
-                                title={card6.title}
-                                value='55'
-                                id="Norte"
-                            />
-
-                            <CardGraficItem
-                                width='284px' 
-                                widthChart={284}
-                                list={card7.list}
-                                title={card7.title}
-                                value='25'
-                                id="nordeste"
-                            />
-
-                            <CardGraficItem
-                                width='284px' 
-                                widthChart={284}
-                                list={card8.list}
-                                title={card8.title}
-                                value='155'
-                                id="sudeste"
-                            />
-
-                            <CardGraficItem
-                                width='284px' 
-                                widthChart={284}
-                                list={card9.list}
-                                title={card9.title}
-                                value='155'
-                                id="centroOeste"
-                            />
+                            <Grid
+                                container
+                                spacing={{ xs: 2.5, md: 4, lg: 4 }}
+                                columns={{ xs: 6, sm: 6, md: 10, lg: 10, xl: 10}}
+                                flex-wrap='wrap'
+                            >
+                            
+                            {dashboardUsers?.line_charts?.map((id: any) => {
+                                    return (
+                                        <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+                                            <CardGraficItem
+                                                title={id.name}
+                                                value={id.value}
+                                                icon=""
+                                                id={id.name}
+                                                width='100%'
+                                                height='197px'
+                                                heightGrafic={85}
+                                            />
+                                        </Grid>
+                                    );
+                                })}
+                                {/* <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
+                                    <CardGraficItem  
+                                        icon=""
+                                        list={card6.list}
+                                        title={card6.title}
+                                        value='55'
+                                        id="Norte"
+                                        width='100%'
+                                        height='197px'
+                                        heightGrafic={85}
+                                    />
+                                </Grid> */}
+                            </Grid>
                         </S.GraficItemContainer>
-                        <S.StatusBox style={{marginBottom: '-50px'}}>
-                            <p> Usuários no útimo ano - <b>2021</b></p>
-                            <div style={{background: '#fff'}}>
-                                <CustomSelect
-                                    width={254}
-                                    defaultValue="Ano"
-                                    label='Filtrar por ano'
-                                    value={yearValue}
-                                    list={year}
-                                    onChange={(e: any) => {
-                                        setYearValue(e)
-                                    }}
-                                />
-                            </div>
-                        </S.StatusBox>
-                        <div style={{width: '764px', display: 'flex', justifyContent: 'space-between', margin: '40px 0 24px'}}>
-                            <CardInfo 
-                                icon={ocurrenceIcon}
-                                title="Total de novos usuários no ano"
-                                value={3160}
-                                type=""
-                                width='372px'
-                            />
-                            <CardInfo 
-                                icon=''
-                                title="Média de novos usuários por mês"
-                                value={540}
-                                type=""
-                                width='372px'
-                            />
-                        </div>            
-                        <YearGrafic 
-                            title='Ocorrências no ano'
-                            number={1000}
-                            data={ocurrences}
+                        {/*PROBLEMAS NO RENDERIZAR O ANO, ESTA PUXANDO UM OBJETO*/}
+                        <SelectYear
+                            select='usuários'
                         />
+                            
+                        {/*FALTA DADOS DA API*/}
+                        <S.GraficYearContainer>
+                            {/*PRONTO*/}
+                            <Grid
+                                container
+                                spacing={2.5}                 
+                                flex-wrap='nowrap'
+                            >
+                                <Grid item xs sm md={3} lg={3} xl={3}>
+                                    <CardInfo 
+                                        icon={ocurrenceIcon}
+                                        title="Total de novos usuários no ano"
+                                        value={dashboardUsers?.annual_users?.total}
+                                        type=""
+                                        width="100%"
+                                        height='108px'
+                                    />
+                                </Grid>
+                                <Grid item xs sm md={3} lg={3} xl={3}>
+                                    <CardInfo 
+                                        icon=''
+                                        title="Média de novos usuários por mês"
+                                        value={dashboardUsers?.annual_users?.monthly}
+                                        type=""
+                                        width="100%"
+                                        height='108px'
+                                    />
+                                </Grid>
+                            </Grid>
+                            {/*FALTA DADOS DA API*/}
+                            <YearGrafic 
+                                title='Usuarios em '
+                                number={1000}
+                                data={ocurrences}
+                                width= "100%"
+                                height='auto'                    
+                                heightGrafic={300}
+                            />
+                        </S.GraficYearContainer>
                     </>
                 )}
             </S.Container>
-        </>
+        </S.Main>
     );
 };
 

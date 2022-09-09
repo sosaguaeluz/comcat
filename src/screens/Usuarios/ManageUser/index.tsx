@@ -29,8 +29,6 @@ const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
     const [ open, setOpen ] = useState(false);
     const [ confirmManage, setConfirmManage ] = useState(false);
 
-
-    
     const {
         handleSubmit,
         formState: { errors, isSubmitting, isDirty, isValid,},
@@ -72,7 +70,7 @@ const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
             <PersonalModal 
                 modalBackground={false}
                 padding={5}
-                width={469}
+                width='469px'
                 open={isModal}
                 onClose={onClose}
             >
@@ -84,11 +82,11 @@ const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
                             <span>
                                 <p>Confiabilidade do usuário:</p>
                                 <CustomTolltip 
-                                    title={<img 
+                                    img={<img 
                                         style={{width: '13.3px', height: '13.3px', }} 
                                         src={blueAlert} alt="" 
                                     />}
-                                    desciption="Usuários que são marcados como não confiáveis precisarão passar pela aprovação dos moderadores antes de serem publicadas"
+                                    title="Usuários que são marcados como não confiáveis precisarão passar pela aprovação dos moderadores antes de serem publicadas"
                                 />
                             </span>                            
                             {/* <SwitchOptions

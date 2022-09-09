@@ -5,14 +5,14 @@ import { api } from "../../services";
 import { useMutation } from 'react-query';
 import { queryClient } from '../../services/index';
 import { logoPng } from '../../assets';
-import { CustomInput, ModalMsg, PersonalModal } from '../../components';
+import { CustomInput, InputPassword, ModalMsg, PersonalModal } from '../../components';
 import { IProps } from "./types";
 import { useDispatch } from 'react-redux';
 import { TOKEN, USER } from '../../stores/actions';
 import { NavLink } from 'react-router-dom';
-import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from './validation-schema';
 import RecoveryPassword from './RecoveryPassword';
+import { yupResolver } from '@hookform/resolvers/yup';
 
 const Login: React.FC = () => {
     const dispatch = useDispatch();
@@ -31,11 +31,12 @@ const Login: React.FC = () => {
         resolver: yupResolver(schema)
     });
     
-    const postUser = async (data: IProps) => {
-        const { data: response } = await api.post('/authorize', data);
+    const postUser = async (resp: any) => {
+        const { data: response } = await api.post('/authorize', resp);
         dispatch({type: TOKEN, token: response.token})
         dispatch({type: USER, user: response.user})
-        console.log(data);
+        localStorage.setItem("token", response.token);
+        console.log(resp);
         
         return response.data;
     };
@@ -70,59 +71,60 @@ const Login: React.FC = () => {
                         <h1>Para acessar a nossa plataforma!</h1>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <fieldset>
-                            <Controller 
-                                control={control}
-                                name='username'
-                                defaultValue=""
-                                render={({field: { onChange, onBlur, value }}) => (
-                                    <span>
-                                        <div>
-                                            <CustomInput 
-                                                label='Digite seu e-mail ou celular' 
-                                                onChange={onChange} 
-                                                onBlur={onBlur} 
-                                                type='text' 
-                                                value={value}
-                                                width={372}  
-                                                id="username"         
-                                            />
-                                        </div>
-                                        {errors?.username && (
-                                            <span>
-                                                {errors?.username?.message}
-                                            </span>
-                                        )}
-                                    </span>
-                                )}
-                            />
+                                <Controller 
+                                    control={control}
+                                    name='username'
+                                    defaultValue=""
+                                    render={({field: { onChange, onBlur, value }}) => (
+                                        <span>
+                                            <div>
+                                                <CustomInput 
+                                                    label='Digite seu e-mail ou celular' 
+                                                    onChange={onChange} 
+                                                    onBlur={onBlur} 
+                                                    type='text' 
+                                                    value={value}
+                                                    width={372}  
+                                                    id="username"         
+                                                />
+                                            </div>
+                                            {errors?.username && (
+                                                <span>
+                                                    {errors?.username?.message}
+                                                </span>
+                                            )}
+                                        </span>
+                                    )}
+                                />
                             </fieldset>
                             <fieldset>
-                            <Controller 
-                                control={control}
-                                name='password'
-                                defaultValue=""
-                                render={({field: { onChange, onBlur, value }}) => (
-                                    <span>
-                                        <div>
-                                            <CustomInput 
-                                                label='Digite sua senha' 
-                                                onChange={onChange} 
-                                                onBlur={onBlur}  
-                                                type='password' 
-                                                value={value} 
-                                                width={372}
-                                                id="password"                      
-                                            />
-                                        </div> 
-                                        {errors?.password && (
-                                            <span>
-                                                Senha é obrigatória
-                                            </span>
-                                        )}
-                                    </span>
-                                )}
-                            />                      
+                                <Controller 
+                                    control={control}
+                                    name='password'
+                                    defaultValue=""
+                                    render={({field: { onChange, onBlur, value }}) => (
+                                        <span>
+                                            <div>
+                                                <CustomInput 
+                                                    label='Digite sua senha' 
+                                                    onChange={onChange} 
+                                                    onBlur={onBlur}  
+                                                    type='password' 
+                                                    value={value} 
+                                                    width={372}
+                                                    id="password"                      
+                                                />
+                                            </div> 
+                                            {errors?.password && (
+                                                <span>
+                                                    Senha é obrigatória
+                                                </span>
+                                            )}
+                                        </span>
+                                    )}
+                                />                      
                             </fieldset>
+                            
                             <S.RemeberPassword
                                 id="remeber_password"
                                 type='button'
@@ -142,24 +144,24 @@ const Login: React.FC = () => {
                             </S.Button>
                             <NavLink to="/" style={{display: 'none'}} ref={ref}/>
                         </form>
-                </div>
+                    </div>
                 
-                <ModalMsg 
-                    height='312px'
-                    modalBackground={false}
-                    open={open} 
-                    onClose={() => setOpen(!open)} 
-                    width={375} 
-                    status={''} 
-                    mensage='Usuário ou senha inválida'            
-                />
-            </div>
+                    <ModalMsg 
+                        height='312px'
+                        modalBackground={false}
+                        open={open} 
+                        onClose={() => setOpen(!open)} 
+                        width={375} 
+                        status={''} 
+                        mensage='Usuário ou senha inválida'            
+                    />
+                </div>
             </S.Container>
             <PersonalModal 
                 modalBackground={false}
                 open={recoveryPassword} 
                 onClose={() => setRecoveryPassword(!recoveryPassword)}
-                width={568}
+                width='568px'
                 padding={0}
                 children={
                     <RecoveryPassword 

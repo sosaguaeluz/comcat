@@ -2,8 +2,7 @@ import React from 'react';
 import * as S from './style';
 import { Box } from '../index';
 import { iconShow } from '../../assets/index';
-
-
+import { Container } from '@mui/material';
 
 type List = {
     name?: string,
@@ -21,13 +20,16 @@ interface IProps {
     setOpen?: () => void,
     type: string,
     width: string | any,
+    height?: string | any,
 }
 
 const CardInfo: React.FC<IProps> = (props) => {
     return (
-        <div>
-            <S.Container width={props.width}>
-                <Box padding='20px' width={props.width}>
+        <>
+            <Box padding='20px'>
+                <S.Container 
+                    width={props.width} 
+                >
                     <S.Card>
                         {props.icon != "" && (
                             <img src={props.icon} alt="" />
@@ -52,9 +54,8 @@ const CardInfo: React.FC<IProps> = (props) => {
                             )}
                         </S.Content>
                     </S.Card>
-
-                </Box>
-            </S.Container>
+                </S.Container>
+            </Box>
             <S.ContainerList onMouseLeave={props.setOpen}>
                 {props.open == true && (
                     <S.List width={props.width}>
@@ -69,7 +70,7 @@ const CardInfo: React.FC<IProps> = (props) => {
                     </S.List>
                 )}
             </S.ContainerList>
-        </div>
+        </>
     );
 };
 

@@ -9,29 +9,49 @@ import {
     Bar, 
     XAxis, 
     YAxis, 
-    Tooltip, 
+    Tooltip,
+    ResponsiveContainer, 
 } from 'recharts';
+import {BREED, GENRE} from '../../constants'
 
 type List = {
     name?: string,
-    masculino?: number,
-    feminino?: number,
-    naoBinario?: number,
-    outros?: number,
-    pard?: number,
-    yellow?: number,
-    white?: number,
-    indigenous?: number,
-    black?: number,
+    Male?: number,
+    Female?: number,
+    NonBinary?: number,
+    Other?: number,
+    Yellow?: number,
+    White?: number,
+    Indigenous?: number,
+    Brown?: number,
+    Black?: number,
     title?: string
 }
 
+type Genre = {
+    male: number, 
+    female: number, 
+    nonbinary: number, 
+    others: number
+}
+
+type Breed = {
+    yellow: number,
+    white: number,
+    indigenous: number,
+    brown: number,
+    black: number
+}
+
 interface IProps {
-    data?: List[]
+    data?: List[] | Genre[] | Breed[] |any, 
     valueItem: string[],
     onChange: (e: any) => void,
     title: string,
-    type: string
+    type: string,
+    width?: string,
+    height?: string,
+    heightGrafic?: number,
 }
 
 
@@ -43,34 +63,42 @@ const CardGraficArea: React.FC <IProps> = (props) => {
     
       return toPercent(ratio, 2);
     };
+
+    const namePortugues = (value: string) => {
+           
+        let marge = [...BREED, ...GENRE]
+
+        return marge.find((e) => {if (e?.value === value){
+            return e
+        }})
+    };
     
     const renderTooltipContent = (o: any) => {
         const { payload, label } = o;
         const total = payload.reduce((result: any, entry: any) => result + entry.value, 0);
-        
+
         return (
             <div className="customized-tooltip-content" 
                 style={{
                     background: '#2C3941',
+                    opacity: '0.8',
                     borderRadius: '8px',
                     padding: '8px'
                 }}
             >
-            <ul className="list" >
-                {payload.map((entry: any, index: any) => (
-                <li key={`item-${index}`} style={{ color: '#FFF', listStyleType: 'none' }}>
-                    {`${entry.name}: `} <b>{`${getPercent(entry.value, total)}`}</b>
-                </li>
-                ))}
-            </ul>
+                <ul className="list" >
+                    {payload.map((entry: any, index: any) => (
+                    <li key={`item-${index}`} style={{ color: '#FFF', listStyleType: 'none' }}>
+                        {`${namePortugues(entry.name)?.label} - `} <b>{`${getPercent(entry.value, total)}`}</b>
+                    </li>
+                    ))}
+                </ul>
             </div>
         );
     };
 
-    console.log(props.valueItem, 'item')
-
     return (
-        <Box padding='32px' width='764px'>
+        <Box padding='32px' width={props.width} height={props.height}>
             <S.Container>
                 <div>
                     <div>
@@ -79,9 +107,10 @@ const CardGraficArea: React.FC <IProps> = (props) => {
                     </div>
                     <MultSelect
                         width={228}
-                        onChange={props.onChange}
+                        maxWidth={400}
                         valueItem={props.valueItem} 
                         list={undefined}
+                        onChange={props.onChange}
                     />
                 </div>
                 <S.Values>
@@ -100,43 +129,37 @@ const CardGraficArea: React.FC <IProps> = (props) => {
                         })}
                     </div>
                 </S.Values>
-                <BarChart
-                    width={700}
-                    height={300}
-                    data={props.data}
-                >
-                    <XAxis dataKey="name" />
-                    <YAxis />
-                    <Tooltip content={renderTooltipContent} 
-                        contentStyle={{
-                            background: '#2C3941',
-                            borderRadius: '8px',
-                            opacity: '0.8',
-                            color: '#FFF'
-                        }}
-                        cursor={false} 
-                    />
-                    {props.type == 'genero' ? 
-                        <>
-                            <>
-                                <Bar radius={[25, 25, 0, 0]} dataKey="masculino" fill="#47DED0" />
-                                <Bar radius={[25, 25, 0, 0]} dataKey="feminino" fill="#FF77F1" />
-                                <Bar radius={[25, 25, 0, 0]} dataKey="naoBinario" fill="#9D86ED" />
-                                <Bar radius={[25, 25, 0, 0]} dataKey="outros" fill="#FF954E" />
-                            </>
-                        </>
-                        :
-                        <>
-                            <Bar radius={[25, 25, 0, 0]} dataKey="yellow" fill="#FF954E" />
-                            <Bar radius={[25, 25, 0, 0]} dataKey="white" fill="#FF77F1" />
-                            <Bar radius={[25, 25, 0, 0]} dataKey="indigenous" fill="#9D86ED" />
-                            <Bar radius={[25, 25, 0, 0]} dataKey="pard" fill="#B8D335" />
-                            <Bar radius={[25, 25, 0, 0]} dataKey="black" fill="#47DED0" />
-                        </>
-                    }
-
-
-                </BarChart>
+                <span>
+                    <ResponsiveContainer width="100%" height={props.heightGrafic}>
+                        <BarChart
+                            height={props.heightGrafic}
+                            data={props.data}
+                        >
+                            <XAxis dataKey="name" />
+                            <YAxis />
+                            <Tooltip content={renderTooltipContent} 
+                                cursor={false}
+                            />
+                            {props.type == 'genero' 
+                            ? 
+                                <>
+                                    <Bar radius={[25, 25, 0, 0]} dataKey="Male" fill="#47DED0" />
+                                    <Bar radius={[25, 25, 0, 0]} dataKey="Female" fill="#FF77F1" />
+                                    <Bar radius={[25, 25, 0, 0]} dataKey="NonBinary" fill="#9D86ED" />
+                                    <Bar radius={[25, 25, 0, 0]} dataKey="Other" fill="#FF954E" />
+                                </>
+                            :
+                                <>
+                                    <Bar radius={[25, 25, 0, 0]} dataKey="Yellow" fill="#FF954E" />
+                                    <Bar radius={[25, 25, 0, 0]} dataKey="White" fill="#FF77F1" />
+                                    <Bar radius={[25, 25, 0, 0]} dataKey="Indigenous" fill="#9D86ED" />
+                                    <Bar radius={[25, 25, 0, 0]} dataKey="Brown" fill="#B8D335" />
+                                    <Bar radius={[25, 25, 0, 0]} dataKey="Black" fill="#47DED0" />
+                                </>
+                            }
+                        </BarChart>
+                    </ResponsiveContainer>
+                </span>
             </S.Container>
         </Box>
     );

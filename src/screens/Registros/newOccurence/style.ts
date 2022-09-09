@@ -1,284 +1,209 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
+export const Container = styled.form`
     background-color: #FFF;
-    overflow: scroll;
+    padding: 20px 40px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
     height: 100vh;
-    padding: 20px 40px 20px 40px;
-    position: relative;
+    width: 100%;
+    overflow: hidden;
 
-    > h1 {
+    > h1 { 
+        margin-bottom: 24px;
+        height: 40px;
         font-style: normal;
         font-weight: 600;
         font-size: 24px;
         line-height: 34px;
-        text-align: left;
         color: ${props => props.theme.colors.dark};
-        margin-bottom: 32px;
-    }
-
-    > button {
-        background: none;
-        border: none;
-        position: absolute;
-        right: 60px;
-        top: 40px;
-    }
-
-    span {
-        color: red;
     }
 `;
 
-export const FormTop = styled.div`
-    width: 1508px;
+export const Form = styled.form`
+    width: 100%;
+    height: calc(100% - 150px); 
     display: flex;
     justify-content: space-between;
+    flex-direction: column;
+    
+    > div {
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+        border-radius: 8px;
+        padding: 24px;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: space-between;
+        height: 100%;
+
+        @media screen and (max-height: 1079px) {
+            overflow-y: scroll;
+            overflow-x: hidden;
+        }
+    }
 `;
 
-export const FieldsetTop = styled.fieldset`
+export const FieldService = styled.fieldset`
     width: 100%;
+    height: auto;
     display: flex;
-    margin-bottom: 32px;
+    flex-wrap: wrap;
+    column-gap: 24px;
 
     > div {
         display: flex;
+        justify-content: space-between;
+        margin-bottom: 32px;
+        column-gap: 24px;
         
-        > fieldset { 
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            height: 91px;
-            margin-right: 25px;
-        
-            > label {
-                font-style: normal;
-                font-weight: 600;
-                font-size: 16px;
-                line-height: 19px;
-                color: ${props => props.theme.colors.dark};
-            }
+        >span {
+            display: none;
+            width: 0px;
+            margin-right: 0px;
         }
     }
-    
+
+    > div:nth-child(1) {
+        display: flex;
+        justify-content: flex-start;
+        width: auto;
+        column-gap: 24px;
+    }
+
+    > div:nth-child(2) {
+        width: auto;
+        height: 91px;
+        justify-content: flex-end;
+        
+
+        @media screen and (max-width: 1850px) {
+            justify-content: flex-start;
+        }
+        
+        > div {
+            display: flex;
+            justify-content: flex-end;
+            width: auto;
+            column-gap: 24px;
+        }
+    }
 `;
 
 export const FieldMid = styled.fieldset`
+    width: 100%;
     display: flex;
-
-    > fieldset {
-        margin-right: 70px;
-        height: 91px;
+    justify-content: space-between;
+    column-gap: 24px;
+    row-gap: 24px;
+    margin-bottom: 24px;
+    @media screen and (max-width: 1700px) {
+        flex-wrap: wrap;
     }
 
-    > fieldset:nth-child(1){
+    >div {
         display: flex;
-        flex-direction: column;
         justify-content: space-between;
+        gap: 24px;
+        width: 100%;
+        flex-wrap: nowrap;
 
-        > label {
-            font-style: normal;
-            font-weight: 600;
-            font-size: 16px;
-            line-height: 19px;
-            color: ${props => props.theme.colors.dark};
-        }
-    }
-
-    > fieldset:nth-child(2){
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        margin-left: 20px;
-    
-        > div {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-
-            > label {
-                font-style: normal;
-                font-weight: 600;
-                font-size: 16px;
-                line-height: 19px;
-                color: ${props => props.theme.colors.dark};
-                margin-right: 10px;
-            }
-        }
-
-        > p {
-            width: 879px;
-            font-style: normal;
-            font-weight: 400;
-            font-size: 12px;
-            line-height: 15px;
-            color: #2C3941;
-            opacity: 0.6;
-        }
-
-        > fieldset {
-            display: flex;
-            align-items: center;
-
-            > label {
-                margin-right: 24px;
-            }
-
-            > input {
-                margin-right: 8px;
-            }
-        }
-    }
-
-    > fieldset:nth-child(3){
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-
-        > label {
-            font-style: normal;
-            font-weight: 600;
-            font-size: 16px;
-            line-height: 19px;
-            color: ${props => props.theme.colors.dark};
+        @media screen and (max-width: 1700px) {
+            width: 100%;
+            order: 2;
         }
     }
 `;
 
-export const FieldsetTopCenter = styled.fieldset`
-    width: 372px;
+export const FieldDate = styled.fieldset`
+    width: 100%;
+    max-width: 372px;
+    display: flex;
+    flex-direction: column;    
+    gap: 24px;
+    @media screen and (max-width: 1700px) {
+        max-width: 100%;
+        flex-direction: row;
+        justify-content: space-between;
+    } 
+      
+    > div {
+        width: 100%;
+        max-width: 372px;
+        display: flex;
+        flex-direction: column;    
+        gap: 24px;
+        @media screen and (max-width: 1700px) {
+            width: 100%;
+            max-width: 768px;
+            flex-direction: row;
+            justify-content: flex-start;
+            height: auto;
+        } 
+    }
+`;
+
+export const FieldMap = styled.fieldset`
+    width: 100%;
+    height: 460px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 24px;
+    overflow: hidden;
+
+    >div {
+        width: auto;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        column-gap: 24px;
+
+        > fieldset {
+            width: 372px;
+        }
+    }
+       
+    >span {
+        width: 100%;
+        height: 100%;
+        >img {
+            width: 100%;
+        }
+
+    }
+`;
+
+export const FieldTextArea = styled.fieldset`
+    width: 100%;   
+    max-width: 372px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     > label {
-        font-style: normal;
+        width: 100%;  
+        max-width: 372px;   
+        margin-bottom: 16px;
         font-weight: 600;
         font-size: 16px;
         line-height: 19px;
         color: ${props => props.theme.colors.dark};
     }
-
-    > div {
-        margin-top: 24px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-    }
 `;
 
-export const FieldsetTopRight = styled.fieldset`
-    width: 374px;
-
-    > div:nth-child(1) {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        > label {
-            font-style: normal;
-            font-weight: 600;
-            font-size: 16px;
-            line-height: 19px;
-            color: ${props => props.theme.colors.dark};
-        }
-    }
-
-    > div:nth-child(2) {
-        margin-top: 24px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-
-        > input {
-            margin-right: 15px;
-        }
-
-        > label {
-            margin-right: 24px;
-        }
-    }
-`;
-
-export const FormCenter = styled.fieldset`
-    width: 100%;
-    > div {
-        margin-top: 40px;
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-
-        > fieldset:nth-child(1) {
-            margin-right: 60px;
-            > fieldset {
-                display: flex;
-                flex-direction: column;
-                justify-content: space-between;
-                height: 91px;
-                margin-bottom: 24px !important;
-            }
-
-            > fieldset:nth-child(2) {
-                > div {
-                    display: flex;
-                    > label {
-                        margin-right: 5px;
-                    }
-                }
-            }
-        }
-
-        > fieldset:nth-child(2) {
-            > img {
-                height: 338px;
-                object-fit: cover;
-            }
-        }
-    }
-`;
-
-export const FieldTextArea = styled.fieldset`
-    margin-left: 60px;
-    > div {
-        margin-top: 24px !important;
-    }
-`;
-
-export const RadioFieldset = styled.fieldset`
-    > fieldset:nth-child(1){
-        width: 325px;
-        display: flex;
-        align-items: center;
-        margin-bottom: 26px;
-        margin-right: 10px;
-
-        > label {
-            display: flex;
-            align-items: center;
-            margin: 0 !important;
-            font-weight: 700;
-
-            > div {
-                margin-left: 5px;
-            }
-        }
-    }
-
-    > fieldset:nth-child(2){
-        display: flex;
-
-        > div {
-            display: flex;
-            align-items: center;
-            margin-right: 24px;
-
-            > label {
-                margin-left: 6px;
-            }
-        }
-    }
-`;
-
-export const FormBottom = styled.fieldset`
-    margin-top: 32px;
+export const FieldRule = styled.fieldset`
+    height: 91px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 
     > label {
+        width: auto;
+        height: 71px;
+        max-width: 900px;
         font-style: normal;
         font-weight: 600;
         font-size: 16px;
@@ -287,22 +212,114 @@ export const FormBottom = styled.fieldset`
         display: flex;
         align-items: flex-start;
 
-        > p {
-            width: 1138px;
+        > button {
+            margin-left: 5px;
+            display: flex;
+            align-items: center;                
         }
     }
     
     > fieldset {
         display: flex;
         align-items: center;
-        margin-top: 24px;
+        > label {
+            margin-left: 10px;
+            margin-right: 26px;
+        }
+    }
+`;
+
+export const Fieldset = styled.fieldset`
+    width: 100%;   
+    max-width: 372px;
+    min-width: 250px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    > label {
+        width: 100%;  
+        max-width: 372px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 16px;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 19px;
+        color: ${props => props.theme.colors.dark};
+
+        > button {
+            margin-left: 5px;
+            display: flex;
+            align-items: center;                
+        }  
+    }
+
+    > div > div {
+        height: 56px;
+        > div {
+            height: 56px;
+        }
+    }
+`;
+
+export const RadioFieldset = styled.fieldset`
+    width: 372px;
+    height: 91px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: space-between;
+
+    > fieldset:nth-child(1){
+        width: 372px;
+        display: flex;
+        align-items: start;
+        justify-content: flex-start;
+        flex-direction: column;
 
         > label {
-            margin-right: 10px;
+            display: flex;
+            align-items: start;
+            justify-content: flex-start;
+            margin: 0 !important;
+            font-weight: 700;
+
+            >p {
+                width: auto;
+                white-space: nowrap;
+            }
+
+            > button {
+                margin-left: 5px;
+                display: flex;
+                align-items: center;             
+            }
         }
 
-        > input {
-            margin-right: 8px;
+        > p {
+            font-style: normal;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 15px;
+            color: #2C3941;
+            opacity: 0.6;
+        }
+    }
+
+    > fieldset:nth-child(2){
+        display: flex;
+        width: 372px;
+
+        > div {
+            display: flex;
+            align-items: center;
+
+            > label {
+                margin-left: 10px;
+                margin-right: 26px;
+            }
         }
     }
 `;
@@ -312,7 +329,7 @@ export const ContainerBtn = styled.fieldset`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-top: 32px;
+    margin-top: 24px;
 `;
 
 export const CancelBtn = styled.button`

@@ -78,7 +78,7 @@ export const useOccurrences = <T>(
     neighborhood?: string,
     initial_date?: string,
     final_date?: string
-):UseQueryResult<Occurrences[]> => {
+):UseQueryResult<Occurrences> => {
     return useQuery(['ocurrence', 
     token,
     order,

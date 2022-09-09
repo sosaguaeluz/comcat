@@ -21,7 +21,7 @@ interface IProps {
 }
 
 const schema = Yup.object().shape({
-    username: Yup.string().required("E-mail ou WhatsApp são obrigatórios")
+    username: Yup.string().required("E-mail é obrigatório")
 })
 
 const RecoveryPassword: React.FC<IProps> = ({onClose}) => {
@@ -40,15 +40,17 @@ const RecoveryPassword: React.FC<IProps> = ({onClose}) => {
     });
 
     const postSendCode = async (user: Username) => {
-        const { data: resp } = await api.post('/send-code', user)
+        const { data: resp } = await api.post('/forgot-password', user)
         dispatch({ type: SENDCODE, sendcode: resp})
-        console.log(resp);
+        console.log(resp, 'reso remeber');
+        console.log(resp.data, 'reso remeber');
         return resp.data
     }
 
     const { mutate, isLoading, data } = useMutation(postSendCode, {
-        onSuccess: () => {
+        onSuccess: (resp) => {
             queryClient.invalidateQueries('sendCode');
+            console.log(data)
         },
         onError: (error) => {
             console.log(error)
@@ -63,29 +65,31 @@ const RecoveryPassword: React.FC<IProps> = ({onClose}) => {
         mutate(obj);
 
         dispatch({ type: USERNAME, username: value.username})
+
+        
     }
 
     return (
         <>
-            <div>
-                <S.Container>
-                    <S.ButtonBack
-                        onClick={onClose}
-                    >
-                        <img src={iconShow} alt="" />
-                    </S.ButtonBack>
+            <S.Container>
+                <S.ButtonBack
+                    onClick={onClose}
+                >
+                    <img src={iconShow} alt="" />
+                </S.ButtonBack>
+                <div>
                     <h1>Esqueci minha senha</h1>
                     <p>
-                        Digite o e-mail ou número de telefone que você utilizou na hora do cadastro para receber o código de segurança.
+                        Digite o e-mail que você utilizou na hora do cadastro para receber o código de segurança.
                     </p>
-                    <form onSubmit={handleSubmit(onSubmit)}>
+                    <S.Form onSubmit={handleSubmit(onSubmit)}>
                         <Controller 
                             control={control}
                             name="username"
                             defaultValue=""
                             render={({field: { onChange, onBlur, value }}) => (
                                 <CustomInput 
-                                    label='Digite seu e-mail ou celular'
+                                    label='Digite seu e-mail'
                                     onChange={onChange} 
                                     onBlur={onBlur} 
                                     type='text' 
@@ -108,22 +112,31 @@ const RecoveryPassword: React.FC<IProps> = ({onClose}) => {
                         >
                             {isLoading == true ? 'Enviando código...' : 'Enviar código'}
                         </S.ButtonSend>
-                    </form>
-                </S.Container>
-                <PersonalModal 
-                    modalBackground={true}
-                    open={recoveryPassword} 
-                    onClose={() => setRecoveryPassword(!recoveryPassword)}
-                    width={568}
-                    padding={0}
-                    children={
-                        <SetCode 
-                            onClose={() => setRecoveryPassword(!recoveryPassword)}
-                            closeOne={() => onClose()}
-                        />
-                    }
-                />
-            </div>
+                    </S.Form>
+                </div>
+                    <S.ReceiveButton
+                        type='button'
+                        disabled={!isDirty || !isValid}
+                        onClick={() => {
+                            setRecoveryPassword(!recoveryPassword)
+                        }}
+                    >
+                        Já recebi o código
+                    </S.ReceiveButton>
+            </S.Container>
+            <PersonalModal 
+                modalBackground={true}
+                open={recoveryPassword} 
+                onClose={() => setRecoveryPassword(!recoveryPassword)}
+                width='568px'
+                padding={0}
+                children={
+                    <SetCode 
+                        onClose={() => setRecoveryPassword(!recoveryPassword)}
+                        closeOne={() => onClose()}
+                    />
+                }
+            />
         </>
     );
 };

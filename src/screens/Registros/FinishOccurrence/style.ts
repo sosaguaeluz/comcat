@@ -1,8 +1,18 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
+    width: 1280px;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    @media screen and (max-width: 1500px) {
+        width: calc(100vw - 200px);
+    }
+
     > h1 {
-        margin-bottom: 24px;
+        margin-bottom: 16px;
         font-style: normal;
         font-weight: 600;
         font-size: 24px;
@@ -13,8 +23,8 @@ export const Container = styled.div`
     > div {
         box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
         border-radius: 8px;
-        height: 600px;
-    }
+        height: calc(100% - 270px);
+    }   
 
 `;
 
@@ -23,6 +33,9 @@ export const Header = styled.header<{ backgroundColor: string }>`
     padding: 18px 24px;
     display: flex;
     align-items: center;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    height: auto;
 
     > div {
         width: 32px;
@@ -53,71 +66,86 @@ export const Header = styled.header<{ backgroundColor: string }>`
 `;
 
 export const Section = styled.section`
+    height: calc(100% - 68px);
     padding: 18px 24px;
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
+    overflow-x: hidden;
 
-    > div {
-        display: flex;
-        margin-bottom: 32px;
-        
+    >div{
         > div {
-            margin-right: 50px;
-            height: 44px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-
-            > p:nth-child(1){
-                font-style: normal;
-                font-weight: 400;
-                font-size: 14px;
-                line-height: 17px;
-                color: ${props => props.theme.colors.dark};
-            }
+            display:flex;
+            justify-content: flex-start;
+            margin-bottom: 32px;
+            width: 100%;
+            height: auto;
+            row-gap:32px;
+            column-gap: 16px;
+            flex-wrap: wrap;
+            
+            > div {
+                width: auto;
+                height: auto;
+                display: flex;
+                flex-direction: column;
+                justify-content: flex-start;
+                row-gap: 8px;
     
-            > p:nth-child(2){
-                font-style: normal;
-                font-weight: 600;
-                font-size: 16px;
-                line-height: 19px;
-                color: ${props => props.theme.colors.dark};
-            }
-
+                > p:nth-child(1){
+                    font-style: normal;
+                    font-weight: 400;
+                    font-size: 14px;
+                    line-height: 17px;
+                    color: ${props => props.theme.colors.dark};
+                }
+                > p:nth-child(2){
+                    font-style: normal;
+                    font-weight: 600;
+                    font-size: 16px;
+                    line-height: 19px;
+                    color: ${props => props.theme.colors.dark};
+                }
+                > img {
+                    height: 172px;
+                    width: 632px;
+                    object-fit: cover;
+                }    
+            } 
         }
+        > div:nth-child(2) {
 
-        > img {
-            height: 172px;
-            width: 607px;
-            object-fit: cover;
-            margin-right: 90px;
-        }
-
-        > span {
-            height: 44px;
-            width: 350px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-
-            > p:nth-child(1){
-                font-style: normal;
-                font-weight: 400;
-                font-size: 14px;
-                line-height: 17px;
-                color: ${props => props.theme.colors.dark};
+            > div:nth-child(1){
+                min-width:180px;
+                max-width:200px;
             }
-    
-            > p:nth-child(2){
-                font-style: normal;
-                font-weight: 600;
-                font-size: 16px;
-                line-height: 19px;
-                color: ${props => props.theme.colors.dark};
+            > div:nth-child(2){
+                min-width:416px;
+                max-width:416px;
+                @media screen and (max-width: 1450px) {
+                        min-width:416px;
+                        max-width:416px;
+                    }
+            }
+        }
+        
+        > div:nth-child(3) {
+
+            > div:nth-child(1){
+                min-width:416px;
+                max-width:416px;
+                @media screen and (max-width: 1450px) {
+                    min-width:416px;
+                    max-width:416px;
+                }
+            }
+            > div:nth-child(2){
+                min-width:180px;
+                max-width:200px;
             }
         }
     }
-    
+
     > div:nth-child(5){
         > div {
             height: 61px;
@@ -126,45 +154,68 @@ export const Section = styled.section`
 `;
 
 export const Form = styled.form`
-    margin-top: 32px;
+    margin-top: 16px;
 
     > fieldset {
         display: flex;
+        justify-content: flex-start;
+        gap:32px;
+    }
+`;
 
-        > fieldset {
-            margin-right: 51px;
-            > label {
-                font-style: normal;
-                font-weight: 600;
-                font-size: 16px;
-                line-height: 19px;
-                color: ${props => props.theme.colors.dark};
-            }
+export const Fieldset = styled.fieldset`
+    width: 100%;   
+    max-width: 372px;
+    min-width: 250px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 
-            > div {
-                margin-top: 24px !important;
-            }
-        }
+    > label {
+        width: 100%;  
+        max-width: 372px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 16px;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 19px;
+        color: ${props => props.theme.colors.dark};
+
+        > button {
+            margin-left: 5px;
+            display: flex;
+            align-items: center;                
+        }  
     }
 
-    > fieldset:nth-child(2) {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 32px;
-
-        button {
-            width: 274px;
-            height: 48px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-weight: 600px;
-            border-radius: 8px;
+    > div > div {
+        height: 56px;
+        > div {
+            height: 56px;
         }
     }
 `;
 
+export const Buttons = styled.div`
+    margin-top: 16px;
+    width: 100%;
+    height: 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+`
+
 export const Cancel = styled.button`
+    width: 274px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600px;
+    border-radius: 8px;
     background: none;
     border: 1px solid ${props => props.theme.colors.warning};
     color: ${props => props.theme.colors.warning};
@@ -172,6 +223,14 @@ export const Cancel = styled.button`
 `;
 
 export const Submit = styled.button<{ disabled: boolean }>`
+    width: 274px;
+    height: 48px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600px;
+    border-radius: 8px;
+    background: none;
     border: none;
     color: ${props => props.disabled == false ? props.theme.colors.white : '#2C3941'};
     background: ${props => props.disabled == false ? props.theme.colors.blue : '#C7C7C7'};

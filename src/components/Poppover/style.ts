@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const TwoItens = styled.div`
+export const DivPoppover = styled.div<{ width: string }>`
     background: ${props => props.theme.colors.white};
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.25);
     border-radius: 8px;
@@ -9,8 +9,8 @@ export const TwoItens = styled.div`
     justify-content: space-between;
     align-items: flex-end;
     padding: 8px 8px 24px 8px;
-    width: 112px;
-    height: 142px;
+    width: ${props => props.width};
+    height: auto;
 
     button {
         background: none;
@@ -19,72 +19,30 @@ export const TwoItens = styled.div`
         font-weight: 400;
         font-size: 16px;
         line-height: 22px;
-    }
-
-    > button:nth-child(2){
-        color: ${props => props.theme.colors.dark};
-    }
-    
-    > button:nth-child(3){
-        color: ${props => props.theme.colors.warning};
     }
 `;
-
-export const FiveItems = styled.div`
-    background: ${props => props.theme.colors.white};
-    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.25);
-    border-radius: 8px;
+export const FakeButton = styled.button`
     display: flex;
+    align-items: end;
     flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-end;
-    padding: 8px 8px 24px 8px;
-    width: 190px;
-    height: 279px;
-
-    button {
-        background: none;
-        border: none;
-        font-style: normal;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 22px;
-    }
-
-    > button:nth-child(2){
-        color: ${props => props.theme.colors.dark};
-    }
-    
-    > button:nth-child(6){
-        color: ${props => props.theme.colors.warning};
-    }
+    border: none;
+    width: 100%;
+    height: 100%;
 `;
-export const ThreeItems = styled.div`
-    background: ${props => props.theme.colors.white};
-    box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.25);
-    border-radius: 8px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-end;
-    padding: 8px 8px 24px 8px;
-    width: 190px;
-    height: 279px;
+   
+export const CloseButton = styled.button`
+    margin-bottom: 16px;
+    width: 24px;
+    height: 24px;
+`;
 
-    button {
-        background: none;
-        border: none;
-        font-style: normal;
-        font-weight: 400;
-        font-size: 16px;
-        line-height: 22px;
-    }
+export const DeleteButton = styled.button`
+    height: 23px;
+    color: ${props => props.theme.colors.warning};
+`;
 
-    > button:nth-child(2){
-        color: ${props => props.theme.colors.dark};
-    }
-    
-    > button:nth-child(6){
-        color: ${props => props.theme.colors.warning};
-    }
+export const Button = styled.button`
+    height: 23px;
+    margin-bottom: 24px;
+    color: ${props => props.theme.colors.dark};
 `;

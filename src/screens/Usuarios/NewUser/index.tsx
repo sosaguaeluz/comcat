@@ -17,7 +17,6 @@ async function postUser(data: FormData) {
 }
 
 const NewUser: React.FC <IProps> = ({onClose, isModal}) => {
-    const [ idUf, setIdUf ] = useState<any>(0);
     const { data: uf, isLoading: loadingUf } = useUf();
     const ref = useRef<any>(null)
     const [ open, setOpen ] = useState(false);
@@ -48,19 +47,26 @@ const NewUser: React.FC <IProps> = ({onClose, isModal}) => {
         }
     });
 
+    const watchUf = watch('state');
+
     const onSubmit = (values: FormData) => {
-        
+        let aux = ''
+        uf?.forEach((id: any) => {
+            if(id.sigla === watchUf){
+                return aux = id.nome
+            }
+        });
+
         let obj = Object.assign(values, { 
             "phone_number": numberClean(values.phone_number),
             "role": "Administrador",
-            "active": values.active === true ? true : false            
+            "active": values.active === true ? true : false,
+            "state": aux
         })
         mutate(obj);
     };
 
     const watchPhone = watch('phone_number')
-
-    const watchUf = watch('state');
 
     const { data: city, isLoading: loadingCity } = useCity(watchUf);
 
@@ -68,15 +74,13 @@ const NewUser: React.FC <IProps> = ({onClose, isModal}) => {
         if (!isModal) {
             reset()
         }
-    },[isModal,reset]) 
-
-    // console.log(watch('active'))
+    },[isModal,reset])
 
     return (
         <PersonalModal
         modalBackground={false}
         padding={5}
-        width={858}
+        width='858px'
         open={isModal}
         onClose={onClose}
         >

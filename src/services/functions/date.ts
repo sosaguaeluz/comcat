@@ -8,3 +8,11 @@ export function convertDate(date: string | number | Date) {
 export function setDefaultData(date: any){
     return moment(date).utc(true).format('YYYY-MM-DDTHH:mm')
 }
+
+export function extractDate(date: string){
+    return moment(date).utc(true).format('DD-MM-YYYY')
+}
+
+export function extractHours(date: string){
+    return moment(date).utc(true).format('HH:mm')
+}

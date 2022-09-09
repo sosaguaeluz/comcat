@@ -12,8 +12,9 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../../stores';
 
 interface NewPassword {
-    user_id: string,
-    new_password: string
+    username: string,
+    code: string,
+    password: string,
 }
 
 interface IProps {
@@ -23,11 +24,11 @@ interface IProps {
 }
 
 const schema = Yup.object().shape({
-    new_password: Yup.string().required("Senha é obrigatória")
+    password: Yup.string().required("Senha é obrigatória")
 })
 
 const NewPassword: React.FC <IProps> = ({onClose, closeOne, closeTwo}) => {
-    const { sendcode } = useSelector((state : RootState) => state.clickState);
+    const { sendcode, username } = useSelector((state : RootState) => state.clickState);
     const [ password, setPassword ] = useState<string>('');
     const [ enable, setEnable ] = useState<boolean>(true);
     const [ successMsg, setSuccess ] = useState<boolean>(false);
@@ -41,14 +42,14 @@ const NewPassword: React.FC <IProps> = ({onClose, closeOne, closeTwo}) => {
         resolver: yupResolver(schema)
     });
 
-    const postNewPassword = async (user: NewPassword) => {
-        const resp = await api.post('/forgot-password', user)
+    const postNewPassword = async (user: any) => {
+        const resp = await api.post('/change-password', user)
         return resp
     };
 
     const { mutate, isLoading} = useMutation(postNewPassword, {
         onSuccess: () => {
-            queryClient.invalidateQueries('forget-password');
+            queryClient.invalidateQueries('change-password');
             setSuccess(true);
         },
         onError: (error) => {
@@ -56,15 +57,16 @@ const NewPassword: React.FC <IProps> = ({onClose, closeOne, closeTwo}) => {
         }
     });
 
-    const onSubmit = (value: NewPassword) => {
+    const onSubmit = (value: any) => {
         const obj = {
-            "user_id": sendcode.user_id,
-            "new_password": value.new_password
+            "username": username,
+            'code': sendcode,
+            "password": value.password
         }
         mutate(obj);
     };
 
-    const watchPassword = watch('new_password');
+    const watchPassword = watch('password');
 
     useEffect(() => {
         if(watchPassword === password && watchPassword !== '' && password !== ''){
@@ -82,52 +84,56 @@ const NewPassword: React.FC <IProps> = ({onClose, closeOne, closeTwo}) => {
                 >
                     <img src={iconShow} alt="" />
                 </S.ButtonBack>
-                <h1>Alterar senha</h1>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <fieldset>
-                        <CustomInput 
-                            label='Digite sua senha' 
-                            onChange={(e: any) => {
-                                setPassword(e.target.value)
-                                console.log(e.target.value);
-                            }} 
-                            onBlur={() => {}}  
-                            type='password' 
-                            value={password} 
-                            width={372}
-                        />
-                    </fieldset>
-                    <fieldset style={{marginTop: '24px'}}>
-                        <Controller 
-                            control={control}
-                            name='new_password'
-                            defaultValue=""
-                            render={({field: { onChange, onBlur, value }}) => (
-                                <CustomInput 
-                                    label='Digite sua senha' 
-                                    onChange={onChange} 
-                                    onBlur={onBlur}  
-                                    type='password' 
-                                    value={value} 
-                                    width={372}
-                                />
-                            )}
-                        />
-                    </fieldset>
-                    {watchPassword != password && watchPassword == '' && password == '' && (
-                        <span>As senhas devem ser identicas</span>
-                    )}
+                <S.Form onSubmit={handleSubmit(onSubmit)}>
+                    <S.DivForm>
+                        <h1>Alterar senha</h1>
+                        <fieldset>
+                            <CustomInput 
+                                id="new_password"
+                                label='Digite sua senha' 
+                                onChange={(e: any) => {
+                                    setPassword(e.target.value)
+                                    console.log(e.target.value);
+                                }} 
+                                onBlur={() => {}}  
+                                type='password' 
+                                value={password} 
+                                width={372}
+                            />
+                        </fieldset>
+                        <fieldset style={{marginTop: '24px'}}>
+                            <Controller                                 
+                                control={control}
+                                name='password'
+                                defaultValue=""
+                                render={({field: { onChange, onBlur, value }}) => (
+                                    <CustomInput 
+                                        id="confirm_password"
+                                        label='Digite sua senha' 
+                                        onChange={onChange} 
+                                        onBlur={onBlur}  
+                                        type='password' 
+                                        value={value} 
+                                        width={372}
+                                    />
+                                )}
+                            />
+                        </fieldset>
+                        {watchPassword != password && watchPassword == '' && password == '' && (
+                            <span>As senhas devem ser identicas</span>
+                        )}
+                    </S.DivForm >
                     <S.ButtonSend
                         type="submit"
                         disabled={!enable}
                     >
                         {isLoading == true ? 'Salvando senha...' : 'Salvar senha'}
                     </S.ButtonSend>
-                </form>
+                </S.Form>
             </S.Container>
 
             <ModalMsg 
-                height='280px'
+                height='300px'
                 modalBackground={true}
                 open={successMsg} 
                 onClose={() => {

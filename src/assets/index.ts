@@ -35,9 +35,15 @@ import closeRed from './closeRed.svg';
 import disabledError from './disableError.svg';
 import disabledSuccess from './disableSuccess.svg';
 import close from './close.png';
-import hamburger from './hamburger.png'
+import hamburger from './hamburger.png';
+import userIcon from './userIcon.svg';
+import orangeAlertNotify from './orangeAlertNotify.svg';
+import showBlueArow from './showBlueArow.svg'
+import MAPTESTE from './MAPTESTE.svg';
 
 export {
+    showBlueArow,
+    orangeAlertNotify,
     close,
     hamburger,
     logOut,
@@ -75,5 +81,7 @@ export {
     mapsDefault,
     closeRed,
     disabledError,
-    disabledSuccess
+    disabledSuccess,
+    userIcon,
+    MAPTESTE,
 }

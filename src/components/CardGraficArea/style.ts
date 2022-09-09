@@ -25,6 +25,9 @@ export const Container = styled.div`
             }
         }
     }
+    >span {
+        width: 100%;
+    }
 `;
 
 export const Values = styled.section`

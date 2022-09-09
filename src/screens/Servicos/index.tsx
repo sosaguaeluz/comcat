@@ -11,6 +11,7 @@ import {
 import { useMutation } from 'react-query';
 import Form from './Form';
 import EditForm from './EditForm';
+import { Grid } from '@mui/material';
 
 const Servicos: React.FC = () => {
     const { token } = useSelector((state : RootState) => state.clickState);
@@ -39,9 +40,7 @@ const Servicos: React.FC = () => {
           setShowSuccess(true)
         }
     });
-
-    console.log(serviceTemp, 'service temp')
-
+    
     return (
         <>
             <S.Head>
@@ -59,28 +58,39 @@ const Servicos: React.FC = () => {
                 </div>
             </S.Head>
             <S.Container>
-                {services?.map((id: any) => {
-                    return (
-                        <CardService
-                            onClick={() => {
-                            }} 
-                            onDelete={() => {
-                                setIdService(id.id)
-                                setShowDelete(true)
-                            }}
-                            onEdit={() => {
-                                setServiceTemp(id)
-                                setIdService(id.id)
-                                setEditService(!editService)
-                            }}
-                            key={id.id}
-                            serviceName={id.name} 
-                            status={id.active} 
-                            image={id.image}
-                            backgrounColor={id.background_color}
-                        />
-                    )
-                })}
+                <Grid
+                    container
+                    spacing={{ xs: 2.5, md: 2.5, lg: 2.5, xl: 2.5 }}
+                    columns={{ sm: 2, md: 4, lg: 6, xl: 12 }}
+                    flex-wrap='wrap'
+                >
+                    {services?.map((id: any) => {
+                        return (
+                            <Grid item sm={2} md={2} lg={2} xl={3}>
+                                <CardService
+                                    onClick={() => {
+                                    }} 
+                                    onDelete={() => {
+                                        setIdService(id.id)
+                                        setShowDelete(true)
+                                    }}
+                                    onEdit={() => {
+                                        setServiceTemp(id)
+                                        setIdService(id.id)
+                                        setEditService(!editService)
+                                    }}
+                                    key={id.id}
+                                    serviceName={id.name} 
+                                    status={id.active} 
+                                    image={id.image}
+                                    backgrounColor={id.background_color}
+                                    fonte={id.sources.length}
+                                    width="100%"
+                                />
+                            </Grid>
+                        )
+                    })}
+                </Grid>
             </S.Container>
             
             <Form

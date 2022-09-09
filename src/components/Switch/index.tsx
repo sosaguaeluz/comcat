@@ -1,6 +1,6 @@
 import React from 'react';
 import * as S from './style';
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material';
 import Switch from '@mui/material/Switch';
 
 interface IProps {
@@ -63,14 +63,14 @@ const CustomSwitch: React.FC <IProps> = (props) => {
         <ThemeProvider theme={theme}>
             <S.Container >
                 <S.CheckedInative checked={props.value} htmlFor="switch">{props.leftLabel}</S.CheckedInative>
-                    <Switch 
-                        id='switch'
-                        name="switch"
-                        value={props.value}
-                        onChange={handleChange}
-                        onBlur={props.onBlur}
-                        defaultChecked={props.defaultValue}
-                    />
+                <Switch 
+                    id='switch'
+                    name="switch"
+                    value={props.value}
+                    onChange={handleChange}
+                    onBlur={props.onBlur}
+                    defaultChecked={props.defaultValue}
+                />
                 <S.CheckedActive checked={props.value} htmlFor="switch">{props.rightLabel}</S.CheckedActive>
             </S.Container>
         </ThemeProvider>
