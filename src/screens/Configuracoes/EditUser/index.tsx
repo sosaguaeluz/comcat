@@ -29,9 +29,8 @@ import { USER } from '../../../stores/actions';
 
 const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
     const dispatch = useDispatch();
-    const { token, user: userRedux } = useSelector((state : RootState) => state.clickState);
-    const { data: uf, isLoading: loadingUf } = useUf();
-    const [ open, setOpen ] = useState(false);
+    const { token, user } = useSelector((state : RootState) => state.clickState);
+    const { data: uf } = useUf();
     const [ successMsg, setSuccessMsg ] = useState(false);
     const [ errMsg, setErrMsg ] = useState(false);
 
@@ -86,7 +85,7 @@ const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
 
     const watchUf = watch('state');
 
-    const { data: city, isLoading: loadingCity } = useCity(watchUf);
+    const { data: city } = useCity(watchUf);
 
     useEffect(() => {
         if (!isModal) {
@@ -107,7 +106,6 @@ const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
                 <form onSubmit={handleSubmit(onSubmit)}  autoComplete="off">
                     <div>
                         <fieldset>
-                            {/* <input class="hidden" type="text" style={{display: 'none!important', visibility: 'hidden!important',}} ></input> */}
                             <Controller
                                 control={control}
                                 name="name"
@@ -200,7 +198,7 @@ const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
                                                 label="Estado"
                                                 labelDefault={value} 
                                                 value={value}
-                                                defaultValue={itemEdit.state}
+                                                defaultValue={user.state}
                                                 onBlur={onBlur}
                                                 onChange={onChange}
                                                 width={372}

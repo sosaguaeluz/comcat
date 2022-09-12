@@ -1,6 +1,7 @@
 export type typeState = { 
     token: string,
     user: {
+        "id": string,
         "name": string,
         "age": string,
         "phone_number": string,

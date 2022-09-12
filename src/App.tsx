@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useReducer } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Aside, Header } from './components';
 import AuthRoutes from './routes';
@@ -12,13 +12,10 @@ import { RootState } from './stores';
 const App: React.FC = () => {
   const { token } = useSelector((state : RootState) => state.clickState);
 
-  console.log(localStorage.getItem('token'), 'token');
-  
-
   return (
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-        {localStorage.getItem('token') === null ?
+        {token === '' ?
           <Login />
           :
           <Container>

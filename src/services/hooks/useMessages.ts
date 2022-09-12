@@ -6,8 +6,8 @@ const getMessages = async <T>(
     order?: string,
     page?: number,
     take?: number,
-    reason?: string,
-    status?: string
+    // reason?: string,
+    // status?: string
 ):Promise<AllMessages> => {
 
     let params = new URLSearchParams();
@@ -26,13 +26,13 @@ const getMessages = async <T>(
         params.append('take', take.toString())
     }
 
-    if(reason !== undefined){
-        params.append("reason", reason)
-    }
+    // if(reason !== undefined){
+    //     params.append("reason", reason)
+    // }
 
-    if(status !== undefined){
-        params.append('status', status)
-    }
+    // if(status !== undefined){
+    //     params.append('status', status)
+    // }
 
     const  resp = await api.get<AllMessages>('/messages', {
         params: params
@@ -44,21 +44,21 @@ export const useMessages = <T>(
     order?: string,
     page?: number,
     take?: number,
-    reason?: string,
-    status?: string
+    // reason?: string,
+    // status?: string
 ):UseQueryResult<AllMessages> => {
     return useQuery(['messages', 
     order,
     page,
     take,
-    reason,
-    status
+    // reason,
+    // status
 ], () => getMessages(
         order,
         page,
         take,
-        reason,
-        status
+        // reason,
+        // status
     ))
 };
 
@@ -66,25 +66,25 @@ export const useAlertMessages = <T>(
     order?: string,
     page?: number,
     take?: number,
-    reason?: string,
-    status?: string
+    // reason?: string,
+    // status?: string
 ):UseQueryResult<AllMessages[]> => {
     return useQuery(['messages', 
     order,
     page,
     take,
-    reason,
-    status
+    // reason,
+    // status
 ], () => getMessages(
         order,
         page,
         take,
-        reason,
-        status
+        // reason,
+        // status
     ))
 };
 
-export const deleteMessage = async (token: string, id: string) => {
+export const deleteMessage = async (id: string) => {
     const resp = await api.delete(`/messages/${id}`)
   
     return resp.data;

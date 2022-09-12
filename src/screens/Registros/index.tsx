@@ -44,7 +44,7 @@ import { Grid } from "@mui/material";
 const Registros: React.FC = () => {
     const { data: dataServices } = useService();
     const { data: dataUf } = useUf();
-    const [ ufValue, setUfValue ] = useState<any>();
+    const [ ufValue, setUfValue ] = useState<any>('');
     const { data: dataCity } = useCity(ufValue);
     const { data: regionOccurrences } = useDashboardRegionOccurrences();
     
@@ -170,206 +170,7 @@ const Registros: React.FC = () => {
 
     function RenderFiltersTop() {
         return (
-            <S.FiltersTop>
-                <Grid container spacing={3} flex-wrap="noWrap">
-                    {/* Tela numero 1 */}
-                    <Grid
-                        item
-                        spacing={3}
-                        xs={12}
-                        sm={12}
-                        md={12}
-                        lg={6.5}
-                        xl={6.5}
-                        container
-                    >
-                        <Grid item xs={4} sm md lg xl>
-                            <CustomSelect
-                                width="100%"
-                                id='Estado'
-                                label="Selecione o Estado"
-                                labelDefault="Estado"
-                                value={ufValue}
-                                defaultValue="Todos os estados"
-                                list={dataUf}
-                                onChange={(e) => {
-                                    setUfValue(e.target.value);
-                                }}
-                            />
-                        </Grid>
-                        <Grid item xs={4} sm md lg xl>
-                            <CustomSelect
-                                width="100%"
-                                id='Cidade'
-                                label="Selecione a Cidade"
-                                labelDefault="Cidade"
-                                value={cityValue}
-                                defaultValue="Todos os municípios"
-                                list={dataCity}
-                                onChange={(e) => {
-                                    setCityValue(e.target.value);
-                                }}
-                            />
-                        </Grid>
-                        {/* <Grid item xs={4} sm md lg xl>
-                            <CustomSelect
-                                width="100%"
-                                label="Selecione o Bairro"
-                                labelDefault="Bairro"
-                                value=""
-                                defaultValue="Todos os bairros"
-                                list={lista}
-                                onChange={function (e: any) {
-                                    throw new Error(
-                                        "Function not implemented."
-                                    );
-                                }}
-                            />
-                        </Grid> */}
-                    </Grid>
-                    {/* Tela numero 2 */}
-                    <Grid item xs={4} sm={5} md={7} lg={2} xl={2} container>
-                        <MultSelect
-                            width="100%"
-                            maxWidth={400}
-                            list={listServices}
-                            onChange={(e: any) => {
-                                setService(e);
-                            }}
-                            valueItem={service}
-                        />
-                    </Grid>
-                    {/* Tela numero 3 */}
-                    <Grid
-                        item
-                        spacing={3}
-                        xs={8}
-                        sm={7}
-                        md={5}
-                        lg={3.5}
-                        xl={3.5}
-                        container
-                        justify-content="end"
-                    >
-                        <Grid item justify-content="end" xs sm md lg xl>
-                            <CustomInputData
-                                id="dateDe"
-                                width="100%"
-                                type="date"
-                                label="De:"
-                                defaultValue='De:'
-                                max={new Date().toISOString().slice(0, -8)}
-                                value={initialDate}
-                                onChange={(e: any) => {
-                                    setInitialDate(e.target.value);
-                                }}
-                                onBlur={() => {}}
-                            />
-                        </Grid>
-                        <Grid item justify-content="end" xs sm md lg xl>
-                            <CustomInputData
-                                id="dateAte"
-                                width="100%"
-                                type="date"
-                                label="Até:"
-                                defaultValue='Até:'
-                                max={new Date().toISOString().slice(0, -4)}
-                                value={finalDate}
-                                onChange={(e: any) => {
-                                    setFinalDate(e.target.value);
-                                }}
-                                onBlur={function (e: any) {
-                                    throw new Error(
-                                        "Function not implemented."
-                                    );
-                                }}
-                            />
-                        </Grid>
-                    </Grid>
-                    {/* Tela numero 4*/}
-                    <Grid item spacing={3} container>
-                        <Grid item xs sm md lg xl>
-                            <Search
-                                onChange={(e: any) => {
-                                    setAddress(e.target.value);
-                                }}
-                                width="100%"
-                                maxWidth={409}
-                            />
-                        </Grid>
-                        {list == true && (
-                            <Grid
-                                item
-                                sx={{
-                                    display: "flex",
-                                    alignItems: "center",
-                                    justifyContent: "end",
-                                }}
-                                xs
-                                sm
-                                md
-                                lg
-                                xl
-                            >
-                                <S.Radios>
-                                    <p>Status:</p>
-                                    <div>
-                                        <input
-                                            onChange={() =>
-                                                setStatus(undefined)
-                                            }
-                                            value={status}
-                                            type="radio"
-                                            name="status"
-                                            id="todos"
-                                            defaultChecked
-                                        />
-                                        <label htmlFor="todos">Todos</label>
-                                    </div>
-                                    <div>
-                                        <input
-                                            onChange={() => setStatus("Yes")}
-                                            value={status}
-                                            type="radio"
-                                            name="status"
-                                            id="aproved"
-                                        />
-                                        <label htmlFor="aproved">
-                                            Aprovado
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <input
-                                            onChange={() => setStatus("No")}
-                                            value={status}
-                                            type="radio"
-                                            name="status"
-                                            id="reproved"
-                                        />
-                                        <label htmlFor="reproved">
-                                            Reprovado
-                                        </label>
-                                    </div>
-                                    <div>
-                                        <input
-                                            onChange={() =>
-                                                setStatus("Abandoned")
-                                            }
-                                            value={status}
-                                            type="radio"
-                                            name="status"
-                                            id="Abandoned"
-                                        />
-                                        <label htmlFor="Abandoned">
-                                            Aguardando aprovação
-                                        </label>
-                                    </div>
-                                </S.Radios>
-                            </Grid>
-                        )}
-                    </Grid>
-                </Grid>
-            </S.FiltersTop>
+            <></>
         );
     }
 
@@ -442,7 +243,192 @@ const Registros: React.FC = () => {
                 <>
                     <S.Container>
                         <h1>Ocorrências registradas no aplicativo</h1>
-                        <RenderFiltersTop />
+                        <S.FiltersTop>
+                            <Grid container spacing={3} flex-wrap="noWrap">
+                                {/* Tela numero 1 */}
+                                <Grid
+                                    item
+                                    spacing={3}
+                                    xs={12}
+                                    sm={12}
+                                    md={12}
+                                    lg={6.5}
+                                    xl={6.5}
+                                    container
+                                >
+                                    <Grid item xs={4} sm md lg xl>
+                                        <CustomSelect
+                                            width="100%"
+                                            id='Estado'
+                                            label="Selecione o Estado"
+                                            labelDefault="Estado"
+                                            value={ufValue}
+                                            defaultValue="Selecione o estado"
+                                            list={dataUf}
+                                            onChange={(e) => {
+                                                setUfValue(e.target.value);
+                                            }}
+                                        />
+                                    </Grid>
+                                    <Grid item xs={4} sm md lg xl>
+                                        <CustomSelect
+                                            width="100%"
+                                            id='Cidade'
+                                            label="Selecione a Cidade"
+                                            labelDefault="Cidade"
+                                            value={cityValue}
+                                            defaultValue="Selecione a cidade"
+                                            list={dataCity}
+                                            onChange={(e) => {
+                                                setCityValue(e.target.value);
+                                            }}
+                                        />
+                                    </Grid>
+                                </Grid>
+                                {/* Tela numero 2 */}
+                                <Grid item xs={4} sm={5} md={7} lg={2} xl={2} container>
+                                    <MultSelect
+                                        
+                                        width="100%"
+                                        maxWidth={400}
+                                        list={listServices}
+                                        onChange={(e: any) => {
+                                            setService(e);
+                                        }}
+                                        valueItem={service}
+                                    />
+                                </Grid>
+                                {/* Tela numero 3 */}
+                                <Grid
+                                    item
+                                    spacing={3}
+                                    xs={8}
+                                    sm={7}
+                                    md={5}
+                                    lg={3.5}
+                                    xl={3.5}
+                                    container
+                                    justify-content="end"
+                                >
+                                    <Grid item justify-content="end" xs sm md lg xl>
+                                        <CustomInputData
+                                            id="dateDe"
+                                            width="100%"
+                                            type="date"
+                                            label="De:"
+                                            defaultValue='De:'
+                                            max={new Date().toISOString().slice(0, -8)}
+                                            value={initialDate}
+                                            onChange={(e: any) => {
+                                                setInitialDate(e.target.value);
+                                            }}
+                                            onBlur={() => {}}
+                                        />
+                                    </Grid>
+                                    <Grid item justify-content="end" xs sm md lg xl>
+                                        <CustomInputData
+                                            id="dateAte"
+                                            width="100%"
+                                            type="date"
+                                            label="Até:"
+                                            defaultValue='Até:'
+                                            max={new Date().toISOString().slice(0, -4)}
+                                            value={finalDate}
+                                            onChange={(e: any) => {
+                                                setFinalDate(e.target.value);
+                                            }}
+                                            onBlur={function (e: any) {
+                                                throw new Error(
+                                                    "Function not implemented."
+                                                );
+                                            }}
+                                        />
+                                    </Grid>
+                                </Grid>
+                                {/* Tela numero 4*/}
+                                <Grid item spacing={3} container>
+                                    <Grid item xs sm md lg xl>
+                                        <Search
+                                            onChange={(e: any) => {
+                                                setAddress(e.target.value);
+                                            }}
+                                            width="100%"
+                                            maxWidth={409}
+                                        />
+                                    </Grid>
+                                    {list == true && (
+                                        <Grid
+                                            item
+                                            sx={{
+                                                display: "flex",
+                                                alignItems: "center",
+                                                justifyContent: "end",
+                                            }}
+                                            xs
+                                            sm
+                                            md
+                                            lg
+                                            xl
+                                        >
+                                            <S.Radios>
+                                                <p>Status:</p>
+                                                <div>
+                                                    <input
+                                                        onChange={() =>
+                                                            setStatus(undefined)
+                                                        }
+                                                        value={status}
+                                                        type="radio"
+                                                        name="status"
+                                                        id="todos"
+                                                        defaultChecked
+                                                    />
+                                                    <label htmlFor="todos">Todos</label>
+                                                </div>
+                                                <div>
+                                                    <input
+                                                        onChange={() => setStatus("Yes")}
+                                                        value={status}
+                                                        type="radio"
+                                                        name="status"
+                                                        id="aproved"
+                                                    />
+                                                    <label htmlFor="aproved">
+                                                        Aprovado
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <input
+                                                        onChange={() => setStatus("No")}
+                                                        value={status}
+                                                        type="radio"
+                                                        name="status"
+                                                        id="reproved"
+                                                    />
+                                                    <label htmlFor="reproved">
+                                                        Reprovado
+                                                    </label>
+                                                </div>
+                                                <div>
+                                                    <input
+                                                        onChange={() =>
+                                                            setStatus("Abandoned")
+                                                        }
+                                                        value={status}
+                                                        type="radio"
+                                                        name="status"
+                                                        id="Abandoned"
+                                                    />
+                                                    <label htmlFor="Abandoned">
+                                                        Aguardando aprovação
+                                                    </label>
+                                                </div>
+                                            </S.Radios>
+                                        </Grid>
+                                    )}
+                                </Grid>
+                            </Grid>
+                        </S.FiltersTop>
                         <S.ScrollDiv>
                             <S.Table>
                                 <S.TableHead>

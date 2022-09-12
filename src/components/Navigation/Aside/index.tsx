@@ -27,16 +27,10 @@ const Aside: React.FC = () => {
         undefined,
         "Pending"
     );
-    const { data: alertMessages } = useAlertMessages(
-        "DESC",
-        undefined,
-        undefined,
-        undefined,
-        'NotAnswered'
-    );
+    const { data: alertMessages } = useAlertMessages();
 
     const link = [
-        { to: "/", icon: dashboard, label: "Dashboard", alert: 0},
+        { to: "/dashboard", icon: dashboard, label: "Dashboard", alert: 0},
         { to: "/registros", icon: registers, label: "Registros", alert: 0},
         { to: "/usuarios", icon: users, label: "Usuários", alert: 0},
         { to: "/servicos", icon: services, label: "Serviços", alert: 0 },

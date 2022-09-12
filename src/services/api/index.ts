@@ -1,11 +1,11 @@
 import axios from 'axios';
 
-let token = localStorage.getItem('token');
+const token = localStorage.getItem('token');
 
 export const api = axios.create({
     baseURL: 'https://comcat-backend-kqb8t.ondigitalocean.app/',
     headers: {
-        Authorization: `Bearer ${token}`
+        'Authorization': `Bearer ${token}`
     }
 })
 

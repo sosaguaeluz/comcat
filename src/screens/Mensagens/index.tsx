@@ -31,9 +31,7 @@ const Mensagens: React.FC = () => {
     const { data: messages, refetch } = useMessages(
         "DESC",
         page,
-        20,
-        reason,
-        status
+        10,
     );
 
     return (
@@ -256,7 +254,7 @@ const Mensagens: React.FC = () => {
                 width={469}
                 mensage="Deseja mesmo escluir essa mensagem?"
                 onDelete={() => {
-                    deleteMessage(token, idMessage).then(() => {
+                    deleteMessage(idMessage).then(() => {
                         setDeleteObj(false);
                         setMsgDelete(true);
                     });
@@ -314,7 +312,6 @@ const Mensagens: React.FC = () => {
             />
 
             <RespMessage
-                token={token}
                 itemEdit={objMessage}
                 isModal={respObj}
                 onHide={() => {

@@ -12,7 +12,8 @@ import ArrowBackIosNewRoundedIcon from '@mui/icons-material/ArrowBackIosNewRound
 
 type List = {
     value?: string,
-    label?: string
+    label?: string,
+    sigla?: string
 };
 
 interface IProps {
@@ -45,17 +46,6 @@ const CustomSelect: React.FC<IProps> = (props) => {
                         borderRadius: '8px',
                         background: '#fff',
                         paddingTop: '25px',
-                    },
-                    iconFilled:{
-                        transform: 'rotate(90deg)',
-                        width: '24px',
-                        right: '10px',
-                        fontSize: '20px',
-                        fill: '#2C3941',
-                        color: '#2C3941',
-                    },
-                    iconOpen: {
-                        transform: 'rotate(270deg)',
                     }
                 }
             },
@@ -100,9 +90,9 @@ const CustomSelect: React.FC<IProps> = (props) => {
                     onChange={props.onChange}
                     onBlur={props.onBlur}                    
                     disabled={props.disabled}
-                    IconComponent={ArrowBackIosNewRoundedIcon}                    
+                    defaultValue=''
                 >
-                    <MenuItem value={'All'}>
+                    <MenuItem value=''>
                        {props.defaultValue}
                     </MenuItem>
                     {props.list?.map((id: any, index: number) => {

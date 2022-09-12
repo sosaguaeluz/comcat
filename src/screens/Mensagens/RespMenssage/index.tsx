@@ -9,7 +9,6 @@ interface IProps {
     isModal: boolean;
     onHide: () => void;
     itemEdit?: any;
-    token: string
 }
 
 const RespMessage: React.FC <IProps> = ({

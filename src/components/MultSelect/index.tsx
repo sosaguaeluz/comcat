@@ -28,25 +28,9 @@ const theme = createTheme({
                     borderRadius: '8px',
                     border: '1px solid #AFAFAF', 
                     background: '#fff',
-                    paddingTop: '15px',
-                    "& :hover": {
-                        border: 'none',
-                        borderColor: '#AFAFAF'
-                    }                    
+                    paddingTop: '15px',   
+                    paddingBottom: '15px'              
                 },
-            }
-        },
-        MuiInputLabel: {
-            styleOverrides:{
-                root: {
-                    color: '#AFAFAF',
-                    // background: 'transparent',
-                    "&.Mui-focused": {
-                        "color": "#AFAFAF",
-                        // 'background': 'transparent',
-                        // 'border': 'none'
-                    },
-                },                
             }
         },
         MuiTextField: {
@@ -116,6 +100,7 @@ const MultSelect: React.FC <IProps> = (props) => {
                     multiple
                     displayEmpty
                     disableInjectingGlobalStyles
+                    disableUnderline
                     value={props.valueItem}
                     onChange={handleChange}
                     renderValue={(selected) => {

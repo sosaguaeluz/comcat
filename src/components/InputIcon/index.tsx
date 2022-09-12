@@ -36,9 +36,9 @@ const InputIcon: React.FC = () => {
                         
                         api.post('/uploads', file)
                         .then((resp: any) => {
-                            console.log(resp.data);
+                            console.log(resp.data, 'ESSA IMG DEU BOM');
                         }).catch((err) => {
-                            console.log(err);
+                            console.log(err, 'ESSA IMG DEU RUIM');
                         })
                     }
                 }}

@@ -136,7 +136,7 @@ const Login: React.FC = () => {
                             >
                                 {isLoading == true ? 'Logando...' : 'Fazer login'}
                             </S.Button>
-                            <NavLink to="/" style={{display: 'none'}} ref={ref}/>
+                            <NavLink to="/dashboard" style={{display: 'none'}} ref={ref}/>
                         </form>
                     </div>
                 
