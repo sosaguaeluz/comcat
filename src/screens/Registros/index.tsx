@@ -42,11 +42,12 @@ import EditOccurrence from "./EditOccurrence";
 import { Grid } from "@mui/material";
 
 const Registros: React.FC = () => {
-    const { data: dataServices } = useService();
+    const { token } = useSelector((state : RootState) => state.clickState);
+    const { data: dataServices } = useService(token);
     const { data: dataUf } = useUf();
     const [ ufValue, setUfValue ] = useState<any>('');
     const { data: dataCity } = useCity(ufValue);
-    const { data: regionOccurrences } = useDashboardRegionOccurrences();
+    const { data: regionOccurrences } = useDashboardRegionOccurrences(token);
     
     const [totalList, setTotalList] = useState<any>();
     const [totalOccurrences, setTotalOccurrences] = useState<any>();
@@ -173,6 +174,8 @@ const Registros: React.FC = () => {
             <></>
         );
     }
+
+    console.log("filtro occurence", regionOccurrences)
 
     return (
         <>

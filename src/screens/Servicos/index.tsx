@@ -15,7 +15,7 @@ import { Grid } from '@mui/material';
 
 const Servicos: React.FC = () => {
     const { token } = useSelector((state : RootState) => state.clickState);
-    const { data: services, refetch } = useService();
+    const { data: services, refetch } = useService(token);
     const [ serviceTemp, setServiceTemp ] = useState<any>(null);
     const [ idService, setIdService ] = useState<string>('')
     const [ newService, setNewService ] = useState(false);

@@ -9,8 +9,11 @@ import {
 import { orangeAlertNotify, showBlueArow, noTrusted } from "../../assets/index";
 import moment from "moment";
 import { extractHours } from "../../services/functions";
+import { useSelector } from "react-redux";
+import { RootState } from "../../stores";
 
 const Notificacoes: React.FC = () => {
+    const { token } = useSelector((state : RootState) => state.clickState);
     const [list, setList] = useState<any>([]);
     const [atualDate, setAtualDate] = useState<any>();
     const [yesterday, setYesterday] = useState<any>();
@@ -24,6 +27,7 @@ const Notificacoes: React.FC = () => {
         "No"
     );
     const { data: notifications, refetch } = useNotifications(
+        token,
         "DESC",
         1,
         count,

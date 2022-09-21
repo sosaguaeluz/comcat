@@ -35,12 +35,14 @@ import {
 import { BREED, GENRE, } from "../../constants/index";
 import { regex } from "../../services/functions/regex";
 import { Grid } from "@mui/material";
+import { User } from "../../@types";
 
 const Usuarios: React.FC = () => {
+    const { token } = useSelector((state : RootState) => state.clickState);
     const { data: dataUf} = useUf();
-    const { data: regionUsers } = useDashboardRegionUsers();
+    const { data: regionUsers } = useDashboardRegionUsers(token);
     
-    const [idUser, setIdUser] = useState("");
+    const [idUser, setIdUser] = useState<any>();
     const [objUser, setObjUser] = useState<any>(null);
 
     const [totalList, setTotalList] = useState<any>();
@@ -56,11 +58,30 @@ const Usuarios: React.FC = () => {
     const [showSuccess, setShowSuccess] = useState(false);
 
     const [page, setPage] = useState<number>(1);
-    const [user, setUser] = useState<any>();
-    const [genre, setGenre] = useState<string>('');
-    const [breed, setBreed] = useState<string>('');
-    const [ufValue, setUfValue] = useState<any>('');
-    const [role, setRole] = useState<any>();
+    const [user, setUser] = useState<any>(undefined);
+    const [genre, setGenre] = useState<any>(undefined);
+    const [breed, setBreed] = useState<any>(undefined);
+    const [ufValue, setUfValue] = useState<any>(undefined);
+    const [role, setRole] = useState<any>('Administrador');
+
+    const deleteUser = async ({...obj}: User):Promise<User> => {
+        const resp = await api.delete<User>(`/users/${obj.id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
+        return resp.data
+    };
+
+
+    const { mutate, isLoading } = useMutation(deleteUser, {
+        onSuccess: () => {
+            queryClient.invalidateQueries("users");
+            setShowDelete(false);
+            setShowSuccess(true);
+            refetch();
+        },
+    });
 
     useEffect(() => {
         let spam: any = [];
@@ -89,34 +110,21 @@ const Usuarios: React.FC = () => {
 
     const {
         data: users,
-        isLoading: loadUsers,
         refetch,
-        isFetched: isFetchedUsers,
     } = useUsers(
+        token,
         "DESC",
         page,
-        20,
-        user,
-        breed,
-        genre,
-        ufValue,
-        role
+        10,
+        user === '' ? undefined : user,
+        breed === '' ? undefined : breed,
+        genre === '' ? undefined : genre,
+        ufValue === '' ? undefined : ufValue,
+        role  === '' ? undefined : role
     );
 
-    const deleteUser = async (id: string) => {
-        const data = await api.delete(`/users/${id}`);
-        return data;
-    };
-
-    const { mutate: onDelete, isLoading } = useMutation(deleteUser, {
-        onSuccess: () => {
-            queryClient.invalidateQueries("users");
-            setShowDelete(false);
-            setShowSuccess(true);
-            refetch();
-        },
-    });
-
+    console.log(regionUsers, idUser, 'search teste');
+    
     return (
         <>
             <S.Nav>
@@ -128,6 +136,7 @@ const Usuarios: React.FC = () => {
                         onSelect={() => {
                             setApp(true);
                             setPanel(false);
+                            setRole('Administrador')
                         }}
                     />
                     <DoubleButton
@@ -137,6 +146,7 @@ const Usuarios: React.FC = () => {
                         onSelect={() => {
                             setApp(false);
                             setPanel(true);
+                            setRole('Mobile')
                         }}
                     />
                 </div>
@@ -217,7 +227,7 @@ const Usuarios: React.FC = () => {
                                                 label="Raça"
                                                 labelDefault='Todas as raças'
                                                 value={breed}
-                                                defaultValue='Todas'
+                                                defaultValue="Todas"
                                                 list={BREED}
                                                 onChange={(e) => {
                                                     setBreed(e.target.value);
@@ -346,148 +356,144 @@ const Usuarios: React.FC = () => {
                                     </S.TableHead>
                                     <tbody>
                                         {users?.data?.map((id: any) => {
-                                            if (id.role === "Mobile") {
-                                                return (
-                                                    <tr>
-                                                        <td
+                                            return (
+                                                <tr>
+                                                    <td
+                                                        style={{
+                                                            width: "250px",
+                                                        }}
+                                                    >
+                                                        <span
                                                             style={{
-                                                                width: "250px",
+                                                                marginLeft:
+                                                                    "24px",
                                                             }}
                                                         >
-                                                            <span
-                                                                style={{
-                                                                    marginLeft:
-                                                                        "24px",
-                                                                }}
-                                                            >
-                                                                {id.name}
-                                                            </span>
-                                                        </td>
-                                                        <td
-                                                            style={{
-                                                                width: "170px",
-                                                            }}
+                                                            {id.name}
+                                                        </span>
+                                                    </td>
+                                                    <td
+                                                        style={{
+                                                            width: "170px",
+                                                        }}
+                                                    >
+                                                        <span>
+                                                            {regex(
+                                                                id.phone_number
+                                                            )}
+                                                        </span>
+                                                    </td>
+                                                    <td
+                                                        style={{
+                                                            width: "auto",
+                                                            minWidth:
+                                                                "300px",
+                                                        }}
+                                                    >
+                                                        <span>
+                                                            {id.email}
+                                                        </span>
+                                                    </td>
+                                                    <td
+                                                        style={{
+                                                            width: "190px",
+                                                        }}
+                                                    >
+                                                        <span>
+                                                            {id.state}
+                                                        </span>
+                                                    </td>
+                                                    <td
+                                                        style={{
+                                                            width: "200px",
+                                                        }}
+                                                    >
+                                                        <span>
+                                                            {id.city}
+                                                        </span>
+                                                    </td>
+                                                    <td
+                                                        style={{
+                                                            width: "130px",
+                                                        }}
+                                                    >
+                                                        <S.Active
+                                                            active={
+                                                                id.active
+                                                            }
                                                         >
-                                                            <span>
-                                                                {regex(
-                                                                    id.phone_number
-                                                                )}
-                                                            </span>
-                                                        </td>
-                                                        <td
-                                                            style={{
-                                                                width: "auto",
-                                                                minWidth:
-                                                                    "300px",
-                                                            }}
+                                                            {id.active ===
+                                                            true
+                                                                ? "Ativo"
+                                                                : "Inativo"}
+                                                        </S.Active>
+                                                    </td>
+                                                    <td
+                                                        style={{
+                                                            width: "190px",
+                                                        }}
+                                                    >
+                                                        <S.Trusted
+                                                            trusted={
+                                                                id.trusted
+                                                            }
                                                         >
-                                                            <span>
-                                                                {id.email}
-                                                            </span>
-                                                        </td>
-                                                        <td
-                                                            style={{
-                                                                width: "190px",
-                                                            }}
-                                                        >
-                                                            <span>
-                                                                {id.state}
-                                                            </span>
-                                                        </td>
-                                                        <td
-                                                            style={{
-                                                                width: "200px",
-                                                            }}
-                                                        >
-                                                            <span>
-                                                                {id.city}
-                                                            </span>
-                                                        </td>
-                                                        <td
-                                                            style={{
-                                                                width: "130px",
-                                                            }}
-                                                        >
-                                                            <S.Active
-                                                                active={
-                                                                    id.active
+                                                            <img
+                                                                width="20px"
+                                                                src={
+                                                                    id.trusted ===
+                                                                    true
+                                                                        ? trusted
+                                                                        : noTrusted
                                                                 }
-                                                            >
-                                                                {id.active ===
-                                                                true
-                                                                    ? "Ativo"
-                                                                    : "Inativo"}
-                                                            </S.Active>
-                                                        </td>
-                                                        <td
-                                                            style={{
-                                                                width: "190px",
-                                                            }}
-                                                        >
-                                                            <S.Trusted
-                                                                trusted={
-                                                                    id.trusted
+                                                                alt={
+                                                                    id.trusted ===
+                                                                    true
+                                                                        ? "Confiável"
+                                                                        : "Não confiável"
                                                                 }
-                                                            >
-                                                                <img
-                                                                    width="20px"
-                                                                    src={
-                                                                        id.trusted ===
-                                                                        true
-                                                                            ? trusted
-                                                                            : noTrusted
-                                                                    }
-                                                                    alt={
-                                                                        id.trusted ===
-                                                                        true
-                                                                            ? "Confiável"
-                                                                            : "Não confiável"
+                                                            />
+                                                            {id.trusted ===
+                                                            true
+                                                                ? "Confiável"
+                                                                : "Não confiável"}
+                                                        </S.Trusted>
+                                                    </td>
+                                                    <td
+                                                        style={{
+                                                            width: "90px",
+                                                        }}
+                                                    >
+                                                        <span>
+                                                            <S.Options>
+                                                                <Poppover
+                                                                    onClick={() => {}}
+                                                                    onDelete={() => {
+                                                                        setShowDelete(
+                                                                            !false
+                                                                        );
+                                                                        setIdUser(
+                                                                            id.id
+                                                                        );
+                                                                    }}
+                                                                    onEdit={() => {
+                                                                        setManageUser(
+                                                                            !manageUser
+                                                                        );
+                                                                        setObjUser(
+                                                                            id
+                                                                        );
+                                                                        setIdUser(id);
+                                                                    }}
+                                                                    type={
+                                                                        "userApp"
                                                                     }
                                                                 />
-                                                                {id.trusted ===
-                                                                true
-                                                                    ? "Confiável"
-                                                                    : "Não confiável"}
-                                                            </S.Trusted>
-                                                        </td>
-                                                        <td
-                                                            style={{
-                                                                width: "90px",
-                                                            }}
-                                                        >
-                                                            <span>
-                                                                <S.Options>
-                                                                    <Poppover
-                                                                        onClick={() => {}}
-                                                                        onDelete={() => {
-                                                                            setShowDelete(
-                                                                                !false
-                                                                            );
-                                                                            setIdUser(
-                                                                                id.id
-                                                                            );
-                                                                        }}
-                                                                        onEdit={() => {
-                                                                            setManageUser(
-                                                                                !manageUser
-                                                                            );
-                                                                            setObjUser(
-                                                                                id
-                                                                            );
-                                                                            setIdUser(
-                                                                                id.id
-                                                                            );
-                                                                        }}
-                                                                        type={
-                                                                            "userApp"
-                                                                        }
-                                                                    />
-                                                                </S.Options>
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                );
-                                            }
+                                                            </S.Options>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            );
                                         })}
                                     </tbody>
                                 </S.Table>
@@ -500,7 +506,7 @@ const Usuarios: React.FC = () => {
                         <S.Container>
                             <S.SearchInputsPanel>
                                 <p>Usuários cadastrados no painel</p>
-                                <Search onChange={(e) => {}} width="100%" />
+                                <Search onChange={(e) => {setUser(e?.target?.value)}} width="100%" />
                             </S.SearchInputsPanel>
                             <S.ScrollDiv>
                                 <S.Table>
@@ -582,124 +588,120 @@ const Usuarios: React.FC = () => {
                                         </tr>
                                     </S.TableHead>
                                     {users?.data?.map((id: any) => {
-                                        if (id.role === "Administrador") {
-                                            return (
-                                                <tbody>
-                                                    <tr>
-                                                        <td
+                                        return (
+                                            <tbody>
+                                                <tr>
+                                                    <td
+                                                        style={{
+                                                            width: "250px",
+                                                        }}
+                                                    >
+                                                        <span
                                                             style={{
-                                                                width: "250px",
+                                                                marginLeft:
+                                                                    "24px",
                                                             }}
                                                         >
-                                                            <span
-                                                                style={{
-                                                                    marginLeft:
-                                                                        "24px",
-                                                                }}
-                                                            >
-                                                                {id.name}
-                                                            </span>
-                                                        </td>
-                                                        <td
-                                                            style={{
-                                                                width: "170px",
-                                                            }}
+                                                            {id.name}
+                                                        </span>
+                                                    </td>
+                                                    <td
+                                                        style={{
+                                                            width: "170px",
+                                                        }}
+                                                    >
+                                                        <span>
+                                                            {regex(
+                                                                id.phone_number
+                                                            )}
+                                                        </span>
+                                                    </td>
+                                                    <td
+                                                        style={{
+                                                            width: "auto",
+                                                            minWidth:
+                                                                "300px",
+                                                        }}
+                                                    >
+                                                        <span>
+                                                            {id.email}
+                                                        </span>
+                                                    </td>
+                                                    <td
+                                                        style={{
+                                                            width: "190px",
+                                                        }}
+                                                    >
+                                                        <span>
+                                                            {id.state}
+                                                        </span>
+                                                    </td>
+                                                    <td
+                                                        style={{
+                                                            width: "200px",
+                                                        }}
+                                                    >
+                                                        <span>
+                                                            {id.city}
+                                                        </span>
+                                                    </td>
+                                                    {/* <S.Role role={id.role}  style={{ width: '239px' }}>
+                                                        <span>
+                                                            {id.role === "Administrador" ? `${id.role}` : `${id.role}`}
+                                                        </span>
+                                                    </S.Role> */}
+                                                    <td
+                                                        style={{
+                                                            width: "130px",
+                                                        }}
+                                                    >
+                                                        <S.Active
+                                                            active={
+                                                                id.active
+                                                            }
                                                         >
-                                                            <span>
-                                                                {regex(
-                                                                    id.phone_number
-                                                                )}
-                                                            </span>
-                                                        </td>
-                                                        <td
-                                                            style={{
-                                                                width: "auto",
-                                                                minWidth:
-                                                                    "300px",
-                                                            }}
-                                                        >
-                                                            <span>
-                                                                {id.email}
-                                                            </span>
-                                                        </td>
-                                                        <td
-                                                            style={{
-                                                                width: "190px",
-                                                            }}
-                                                        >
-                                                            <span>
-                                                                {id.state}
-                                                            </span>
-                                                        </td>
-                                                        <td
-                                                            style={{
-                                                                width: "200px",
-                                                            }}
-                                                        >
-                                                            <span>
-                                                                {id.city}
-                                                            </span>
-                                                        </td>
-                                                        {/* <S.Role role={id.role}  style={{ width: '239px' }}>
-                                                            <span>
-                                                                {id.role === "Administrador" ? `${id.role}` : `${id.role}`}
-                                                            </span>
-                                                        </S.Role> */}
-                                                        <td
-                                                            style={{
-                                                                width: "130px",
-                                                            }}
-                                                        >
-                                                            <S.Active
-                                                                active={
-                                                                    id.active
-                                                                }
-                                                            >
-                                                                {id.active ===
-                                                                true
-                                                                    ? "Ativo"
-                                                                    : "Inativo"}
-                                                            </S.Active>
-                                                        </td>
-                                                        <td
-                                                            style={{
-                                                                width: "90px",
-                                                            }}
-                                                        >
-                                                            <span>
-                                                                <S.Options>
-                                                                    <Poppover
-                                                                        onClick={() => {}}
-                                                                        onDelete={() => {
-                                                                            setShowDelete(
-                                                                                !false
-                                                                            );
-                                                                            setIdUser(
-                                                                                id.id
-                                                                            );
-                                                                        }}
-                                                                        onEdit={() => {
-                                                                            setEditUser(
-                                                                                !editUser
-                                                                            );
-                                                                            setObjUser(
-                                                                                id
-                                                                            );
-                                                                            setIdUser(
-                                                                                id.id
-                                                                            );
-                                                                        }}
-                                                                        type={
-                                                                            "userPanel"
-                                                                        }
-                                                                    />
-                                                                </S.Options>
-                                                            </span>
-                                                        </td>
-                                                    </tr>
-                                                </tbody>
-                                            );
-                                        }
+                                                            {id.active ===
+                                                            true
+                                                                ? "Ativo"
+                                                                : "Inativo"}
+                                                        </S.Active>
+                                                    </td>
+                                                    <td
+                                                        style={{
+                                                            width: "90px",
+                                                        }}
+                                                    >
+                                                        <span>
+                                                            <S.Options>
+                                                                <Poppover
+                                                                    onClick={() => {}}
+                                                                    onDelete={() => {
+                                                                        setShowDelete(
+                                                                            !false
+                                                                        );
+                                                                        setIdUser(id);
+                                                                    }}
+                                                                    onEdit={() => {
+                                                                        setEditUser(
+                                                                            !editUser
+                                                                        );
+                                                                        setObjUser(
+                                                                            id
+                                                                        );
+                                                                        setIdUser(
+                                                                            id.id
+                                                                        );
+                                                                    }}
+                                                                    type={
+                                                                        "userPanel"
+                                                                    }
+                                                                />
+                                                            </S.Options>
+                                                        </span>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        );
                                     })}
                                 </S.Table>
                             </S.ScrollDiv>
@@ -735,7 +737,7 @@ const Usuarios: React.FC = () => {
                 mensage="Deseja mesmo excluir este usuário?"
                 onClose={() => setShowDelete(false)}
                 onDelete={() => {
-                    onDelete(idUser);
+                    mutate(idUser);
                     refetch();
                 }}
                 open={showDelete}

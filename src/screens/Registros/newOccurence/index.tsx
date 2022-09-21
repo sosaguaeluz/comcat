@@ -41,8 +41,9 @@ import { schema } from './schema';
 import { Grid } from '@mui/material';
 
 const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
-    const { data: services } = useService();
-    const { data: sources } = useSources();
+    const { token } = useSelector((state : RootState) => state.clickState);
+    const { data: services } = useService(token);
+    const { data: sources } = useSources(token);
     const [ idOccurrence, setIdOccurrence ] = useState('');
     const [ open, setOpen ] = useState(false);
     const [ closeOccurrence, setCloseOccurrence ] = useState(false);

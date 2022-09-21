@@ -17,6 +17,7 @@ import {
     Controller, 
     useForm,
 } from "react-hook-form";
+import { FormData } from "./types";
 
 interface IProps {
     onClose: () => void,
@@ -25,6 +26,7 @@ interface IProps {
 }
 
 const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
+    const { token } = useSelector((state : RootState) => state.clickState);
     const [ open, setOpen ] = useState(false);
     const [ confirmManage, setConfirmManage ] = useState(false);
 
@@ -38,12 +40,12 @@ const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
     } = useForm<FormData>({
         mode: 'onChange',
         defaultValues: {
-            // trusted: itemEdit?.trusted,
-            // active: itemEdit?.active,
+            trusted: itemEdit?.trusted,
+            active: itemEdit?.active,
         }
     })
-    function onSubmit (values: FormData) {
-        putUser(itemEdit.id, values).then(() => {
+    function onSubmit (values: any) {
+        putUser(token, itemEdit.id, values).then(() => {
             onClose()
             setConfirmManage(false)
             setOpen(true)
@@ -63,6 +65,8 @@ const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
             reset()
         }
     },[isModal,reset])
+
+    console.log(itemEdit?.trusted.toString(506741), 'DDD')
     
     return (
         <>
@@ -75,8 +79,7 @@ const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
             >
                 <S.Container>
                     <h1>Gerenciar usuário</h1>
-                    {/* <form onSubmit={handleSubmit(onSubmit)}> */}
-                    <form>
+                    <form onSubmit={handleSubmit(onSubmit)}>
                         <fieldset>
                             <span>
                                 <p>Confiabilidade do usuário:</p>
@@ -88,27 +91,27 @@ const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
                                     title="Usuários que são marcados como não confiáveis precisarão passar pela aprovação dos moderadores antes de serem publicadas"
                                 />
                             </span>                            
-                            {/* <SwitchOptions
+                            <SwitchOptions
+                                register={register}
+                                checkedOne={itemEdit?.trusted.toString() === 'false' ? true : false}
+                                checkedTwo={itemEdit?.trusted.toString() === 'true' ? true : false}
                                 width='300px'
                                 type='user'
-                                register={register}
                                 status='status'
                                 primaryLabel='Confiável'
-                                primaryId='trusted'
-                                valueOne='trusted'
-                                checkedOne={itemEdit.trusted === 'noTrusted' ? true : false}
                                 seccondaryLabel= 'Não confiável'
-                                seccondaryId='noTrusted'
-                                valueTwo='noTrusted'
-                                checkedTwo={itemEdit.trusted === 'trusted' ? true : false}
-                            /> */}
+                                primaryId='false'
+                                seccondaryId='true'
+                                valueOne='false'
+                                valueTwo='true'
+                            />
                         </fieldset>
                         
                         <fieldset>
                             <div>
                                 <p>Status do usuário:</p>
                                 <span>
-                                    {/* <Controller 
+                                    <Controller 
                                         control={control}
                                         name="active"
                                         render={({field: { onChange, onBlur, value }}) => (
@@ -122,7 +125,7 @@ const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
                                                 defaultValue={value == false ? false : true}
                                             />
                                         )}
-                                    /> */}
+                                    />
                                 </span>
                             </div>
                         </fieldset>
@@ -140,7 +143,7 @@ const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
                             </button>  
                             <button 
                                 id='submit' 
-                                type='button'
+                                type='submit'
                                 onClick={() => {
                                     setConfirmManage(!confirmManage)
                                 }}

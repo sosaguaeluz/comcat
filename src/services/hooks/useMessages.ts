@@ -3,6 +3,7 @@ import { useQuery, UseQueryResult } from "react-query";
 import { AllMessages, Messages } from "../../@types";
 
 const getMessages = async <T>(
+    token?:string,
     order?: string,
     page?: number,
     take?: number,
@@ -35,12 +36,16 @@ const getMessages = async <T>(
     // }
 
     const  resp = await api.get<AllMessages>('/messages', {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
         params: params
     })
     return resp.data;
 };
 
 export const useMessages = <T>(
+    token?:string,
     order?: string,
     page?: number,
     take?: number,
@@ -48,12 +53,14 @@ export const useMessages = <T>(
     // status?: string
 ):UseQueryResult<AllMessages> => {
     return useQuery(['messages', 
+    token,
     order,
     page,
     take,
     // reason,
     // status
 ], () => getMessages(
+        token,
         order,
         page,
         take,
@@ -63,6 +70,7 @@ export const useMessages = <T>(
 };
 
 export const useAlertMessages = <T>(
+    token?:string,
     order?: string,
     page?: number,
     take?: number,
@@ -70,12 +78,14 @@ export const useAlertMessages = <T>(
     // status?: string
 ):UseQueryResult<AllMessages[]> => {
     return useQuery(['messages', 
+    token,
     order,
     page,
     take,
     // reason,
     // status
 ], () => getMessages(
+        token,
         order,
         page,
         take,

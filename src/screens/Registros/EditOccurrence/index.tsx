@@ -44,8 +44,9 @@ import { setDefaultData } from '../../../services/functions';
 import { Grid } from '@mui/material';
 
 const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
-    const { data: services } = useService();
-    const { data: sources } = useSources();
+    const { token } = useSelector((state : RootState) => state.clickState);
+    const { data: services } = useService(token);
+    const { data: sources } = useSources(token);
     const [ idOccurrence, setIdOccurrence ] = useState('');
     const [ open, setOpen ] = useState(false);
     const [ closeOccurrence, setCloseOccurrence ] = useState(false);

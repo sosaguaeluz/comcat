@@ -10,7 +10,11 @@ import {
 
 interface Register {
     status?: string,
-    trusted?: string
+}
+
+interface RegisterUser {
+    trusted?: string,
+    active?: string
 }
 
 interface IProps {
@@ -23,8 +27,8 @@ interface IProps {
     checkedTwo: boolean,
     valueOne: string,
     valueTwo: string,
-    status: string | boolean,
-    register: UseFormRegister<Register>,
+    status: string,
+    register: any,
     width: string
 };
 

@@ -1,8 +1,6 @@
 import * as Yup from 'yup';
 import { useUsers } from "../../services";
 
-
-
 export const schema = Yup.object().shape({
     name: Yup.string().required("Nome é obrigatório"),
     phone_number: Yup.string().length(15, "Digitar DDD sem o zero seguido do número").required("Digite o DDD e o número"),
@@ -10,4 +8,11 @@ export const schema = Yup.object().shape({
     state: Yup.string().required("Selecione um Estado"),
     city: Yup.string().required("Selecione uma Cidade"),
     password: Yup.string().required("A senha deve ter no minímo 6 dígitos").min(6, "A senha deve ter no minímo 6 dígitos"),
+});
+
+export const schemaMobile = Yup.object().shape({
+    name: Yup.string().required("Nome é obrigatório"),
+    phone_number: Yup.string().length(15, "Digitar DDD sem o zero seguido do número").required("Digite o DDD e o número"),
+    state: Yup.string().required("Selecione um Estado"),
+    city: Yup.string().required("Selecione uma Cidade"),
 });

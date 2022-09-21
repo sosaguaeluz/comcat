@@ -10,6 +10,8 @@ import { regex, numberClean } from '../../../services/functions/regex'
 import { yupResolver } from "@hookform/resolvers/yup";
 import { schema } from "../schema";
 import { on } from "stream";
+import { RootState } from "../../../stores";
+import { useSelector } from "react-redux";
 
 async function postUser(data: FormData) {
     const { data: response } = await api.post('/signup', data);

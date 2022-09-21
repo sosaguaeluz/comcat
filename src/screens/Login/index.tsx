@@ -34,7 +34,7 @@ const Login: React.FC = () => {
         dispatch({type: TOKEN, token: response.token})
         dispatch({type: USER, user: response.user})
         localStorage.setItem("user", JSON.stringify(response.user));
-        localStorage.setItem("token", response.token);
+        localStorage.setItem("token", JSON.stringify(response.token));
         return response.data;
     };
 

@@ -21,6 +21,7 @@ interface IProps {
 }
 
 const FinishOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
+    const { token } = useSelector((state : RootState) => state.clickState);
     const [ cancelModal, setCancelModal ] = useState(false);
     const [ success, setSuccess ] = useState(false);
 
@@ -221,7 +222,7 @@ const FinishOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                             <S.Submit
                                 id='submit'
                                 type='submit'
-                                disabled={!isDirty || !isValid}
+                                disabled={false}
                             >
                                 Finalizar ocorrência
                             </S.Submit>

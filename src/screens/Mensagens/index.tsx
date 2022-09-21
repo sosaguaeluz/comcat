@@ -29,6 +29,7 @@ const Mensagens: React.FC = () => {
     const [closePopover, setClosePopover] = useState(false);
 
     const { data: messages, refetch } = useMessages(
+        token,
         "DESC",
         page,
         10,

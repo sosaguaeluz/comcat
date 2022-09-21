@@ -86,8 +86,8 @@ const ApproveReprove: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                         <SwitchOptions 
                             width='252px'
                             register={register}
-                            checkedOne={itemEdit.status === 'Disapproved' || itemEdit.status === 'Waiting' ? true : false}
-                            checkedTwo={itemEdit.status === 'Approved' ? true : false}
+                            checkedOne={itemEdit?.status === 'Disapproved' || itemEdit?.status === 'Waiting' ? true : false}
+                            checkedTwo={itemEdit?.status === 'Approved' ? true : false}
                             status={watch('status') || 'Waiting'}
                             primaryId='reprove'
                             seccondaryId='approve'

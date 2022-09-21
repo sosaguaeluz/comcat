@@ -41,6 +41,7 @@ import { schema } from './validation-schema';
 import { yupResolver } from '@hookform/resolvers/yup';
 
 const FormService: React.FC<IProps> = ({onHide, isModal}) => {
+    const { token } = useSelector((state : RootState) => state.clickState);
     const [ isSourceConfirm, setSourceConfirm ] = useState(false);
     const [ isVisibleModal, setVisibleModal ] = useState<string | false >(false);
     const [ service, setService ] = useState<IServices>();
@@ -95,8 +96,8 @@ const FormService: React.FC<IProps> = ({onHide, isModal}) => {
         if(Object.entries(data).length === 0) return;
 
         const method: Promise<AxiosResponse<any, any>> = !!data.id
-            ? putService(data.id, data)
-            : postService(data);
+            ? putService(token, data.id, data)
+            : postService(token, data);
         
         return await method
             .then((resp) => {
@@ -139,8 +140,8 @@ const FormService: React.FC<IProps> = ({onHide, isModal}) => {
                 });
 
                 if (!!data) {
-                    await postSource(data).then((resp) => {
-                        putSource(resp.data.id, {
+                    await postSource(token, data).then((resp) => {
+                        putSource(token, resp.data.id, {
                             "service": _service.id
                         })
                     })
@@ -165,7 +166,7 @@ const FormService: React.FC<IProps> = ({onHide, isModal}) => {
         if (!id) return removeField(fieldArray, index);
 
         try {
-            await deleteSource(id);
+            await deleteSource(token, id);
             removeField(fieldArray, index);
             
           } catch (error) {
