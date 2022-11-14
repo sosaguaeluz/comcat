@@ -4,6 +4,8 @@ import { useForm, Controller } from 'react-hook-form';
 import { Messages } from '../../../@types';
 import { CustomTextArea, ModalMsg, PersonalModal } from '../../../components';
 import { getReason, putMessages } from '../../../services';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../../stores';
 
 interface IProps {
     isModal: boolean;
@@ -14,6 +16,7 @@ interface IProps {
 const RespMessage: React.FC <IProps> = ({
     isModal, onHide, itemEdit
 }) => {
+    const { token } = useSelector((state: RootState) => state.clickState);
     const [ open, setOpen ] = useState(false);
 
     const {
@@ -27,7 +30,7 @@ const RespMessage: React.FC <IProps> = ({
     });
 
     function onSubmit(values: any){
-        putMessages(itemEdit?.id, values).then(() => {
+        putMessages(token, itemEdit?.id, values).then(() => {
             setOpen(true);
         })
     }

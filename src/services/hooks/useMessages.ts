@@ -7,8 +7,8 @@ const getMessages = async <T>(
     order?: string,
     page?: number,
     take?: number,
-    // reason?: string,
-    // status?: string
+    reason?: string,
+    status?: string
 ):Promise<AllMessages> => {
 
     let params = new URLSearchParams();
@@ -27,13 +27,13 @@ const getMessages = async <T>(
         params.append('take', take.toString())
     }
 
-    // if(reason !== undefined){
-    //     params.append("reason", reason)
-    // }
+    if(reason !== undefined){
+        params.append("reason", reason)
+    }
 
-    // if(status !== undefined){
-    //     params.append('status', status)
-    // }
+    if(status !== undefined){
+        params.append('status', status)
+    }
 
     const  resp = await api.get<AllMessages>('/messages', {
         headers: {
@@ -49,23 +49,23 @@ export const useMessages = <T>(
     order?: string,
     page?: number,
     take?: number,
-    // reason?: string,
-    // status?: string
+    reason?: string,
+    status?: string
 ):UseQueryResult<AllMessages> => {
     return useQuery(['messages', 
     token,
     order,
     page,
     take,
-    // reason,
-    // status
+    reason,
+    status
 ], () => getMessages(
         token,
         order,
         page,
         take,
-        // reason,
-        // status
+        reason,
+        status
     ))
 };
 
@@ -74,34 +74,42 @@ export const useAlertMessages = <T>(
     order?: string,
     page?: number,
     take?: number,
-    // reason?: string,
-    // status?: string
+    reason?: string,
+    status?: string
 ):UseQueryResult<AllMessages[]> => {
     return useQuery(['messages', 
     token,
     order,
     page,
     take,
-    // reason,
-    // status
+    reason,
+    status
 ], () => getMessages(
         token,
         order,
         page,
         take,
-        // reason,
-        // status
+        reason,
+        status
     ))
 };
 
-export const deleteMessage = async (id: string) => {
-    const resp = await api.delete(`/messages/${id}`)
+export const deleteMessage = async (token: string, id: string) => {
+    const resp = await api.delete(`/messages/${id}`, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+    })
   
     return resp.data;
 };
 
-export const putMessages = async (id: string, formData: Messages ) => {
-    const resp = await api.put(`/messages/${id}`, formData)
+export const putMessages = async (token: string, id: string, formData: Messages ) => {
+    const resp = await api.put(`/messages/${id}`, formData, {
+        headers: {
+            'Authorization': `Bearer ${token}`
+        },
+    })
 
     return resp.data
 };

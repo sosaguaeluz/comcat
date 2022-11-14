@@ -33,6 +33,8 @@ const Mensagens: React.FC = () => {
         "DESC",
         page,
         10,
+        reason,
+        status
     );
 
     return (
@@ -255,7 +257,7 @@ const Mensagens: React.FC = () => {
                 width={469}
                 mensage="Deseja mesmo escluir essa mensagem?"
                 onDelete={() => {
-                    deleteMessage(idMessage).then(() => {
+                    deleteMessage(token, idMessage).then(() => {
                         setDeleteObj(false);
                         setMsgDelete(true);
                     });
@@ -275,7 +277,7 @@ const Mensagens: React.FC = () => {
                     let obj: any = {
                         status: "Answered",
                     };
-                    putMessages(idMessage, obj).then(() => {
+                    putMessages(token, idMessage, obj).then(() => {
                         setAnswer(false);
                         setMsgAnswer(true);
                     });

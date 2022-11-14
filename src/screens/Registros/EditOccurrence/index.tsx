@@ -102,7 +102,7 @@ const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
     }, [itemEdit]);
     
     const onSubmit = (values: FormData) => {
-        putOccurrences(itemEdit.id, values).then((resp) => {
+        putOccurrences(token, itemEdit.id, values).then((resp) => {
             setOpen(true)
             setIdOccurrence(itemEdit?.id)
             queryClient.invalidateQueries('occurence');
@@ -331,7 +331,7 @@ const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                                         </S.RadioFieldset>
                                                     </Grid>
                                                 )
-                                            } else if (id.name === 'Energia'){
+                                            } else if (id.name === 'Energia' || id.name === 'Luz'){
                                                 return (
                                                     <Grid item xs sm md lg xl>
                                                         <S.RadioFieldset>

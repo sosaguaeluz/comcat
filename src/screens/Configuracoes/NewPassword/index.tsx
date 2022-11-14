@@ -43,7 +43,11 @@ const NewPassword: React.FC <IProps> = ({onHide, isModal, itemEdit}) => {
     }, [itemEdit]);
 
     const putPasswrod = (values: Formdata) => {
-        const resp = api.put(`/users/change-password/${user.id}`, values)
+        const resp = api.put(`/users/change-password/${user.id}`, values, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        })
 
         return resp
     };

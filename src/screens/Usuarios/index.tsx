@@ -64,15 +64,14 @@ const Usuarios: React.FC = () => {
     const [ufValue, setUfValue] = useState<any>(undefined);
     const [role, setRole] = useState<any>('Administrador');
 
-    const deleteUser = async ({...obj}: User):Promise<User> => {
-        const resp = await api.delete<User>(`/users/${obj.id}`, {
+    const deleteUser = async (id: string):Promise<User> => {
+        const resp = await api.delete<User>(`/users/${id}`, {
             headers: {
                 'Authorization': `Bearer ${token}`
             }
         })
         return resp.data
     };
-
 
     const { mutate, isLoading } = useMutation(deleteUser, {
         onSuccess: () => {
@@ -88,7 +87,7 @@ const Usuarios: React.FC = () => {
         let sum = 0;
 
         regionUsers?.forEach((e) => {
-            e.state_list?.forEach((id) => {
+            e?.state_list?.forEach((id) => {
                 spam.push({
                     name: id.name,
                     user_total: id.user_total,
@@ -123,7 +122,7 @@ const Usuarios: React.FC = () => {
         role  === '' ? undefined : role
     );
 
-    console.log(regionUsers, idUser, 'search teste');
+    console.log(idUser, 'search teste');
     
     return (
         <>
@@ -137,6 +136,11 @@ const Usuarios: React.FC = () => {
                             setApp(true);
                             setPanel(false);
                             setRole('Administrador')
+                            setPage(1)
+                            setUser(undefined)
+                            setGenre(undefined)
+                            setBreed(undefined)
+                            setUfValue(undefined)
                         }}
                     />
                     <DoubleButton
@@ -147,6 +151,11 @@ const Usuarios: React.FC = () => {
                             setApp(false);
                             setPanel(true);
                             setRole('Mobile')
+                            setPage(1)
+                            setUser(undefined)
+                            setGenre(undefined)
+                            setBreed(undefined)
+                            setUfValue(undefined)
                         }}
                     />
                 </div>
@@ -227,7 +236,7 @@ const Usuarios: React.FC = () => {
                                                 label="Raça"
                                                 labelDefault='Todas as raças'
                                                 value={breed}
-                                                defaultValue="Todas"
+                                                defaultValue=""
                                                 list={BREED}
                                                 onChange={(e) => {
                                                     setBreed(e.target.value);
@@ -239,7 +248,7 @@ const Usuarios: React.FC = () => {
                                                 label="Genero"
                                                 labelDefault='Todos os generos'
                                                 value={genre}
-                                                defaultValue='Todos'
+                                                defaultValue=''
                                                 list={GENRE}
                                                 onChange={(e) => {
                                                     setGenre(e.target.value);
@@ -251,7 +260,7 @@ const Usuarios: React.FC = () => {
                                                 label="Estado"
                                                 labelDefault='Todos os estados'
                                                 value={ufValue}
-                                                defaultValue="Todos os estados"
+                                                defaultValue=""
                                                 list={dataUf}
                                                 onChange={(e) => {
                                                     setUfValue(e.target.value);
@@ -369,7 +378,7 @@ const Usuarios: React.FC = () => {
                                                                     "24px",
                                                             }}
                                                         >
-                                                            {id.name}
+                                                            {id?.name}
                                                         </span>
                                                     </td>
                                                     <td
@@ -379,7 +388,7 @@ const Usuarios: React.FC = () => {
                                                     >
                                                         <span>
                                                             {regex(
-                                                                id.phone_number
+                                                                id?.phone_number
                                                             )}
                                                         </span>
                                                     </td>
@@ -391,7 +400,7 @@ const Usuarios: React.FC = () => {
                                                         }}
                                                     >
                                                         <span>
-                                                            {id.email}
+                                                            {id?.email}
                                                         </span>
                                                     </td>
                                                     <td
@@ -400,7 +409,7 @@ const Usuarios: React.FC = () => {
                                                         }}
                                                     >
                                                         <span>
-                                                            {id.state}
+                                                            {id?.state}
                                                         </span>
                                                     </td>
                                                     <td
@@ -409,7 +418,7 @@ const Usuarios: React.FC = () => {
                                                         }}
                                                     >
                                                         <span>
-                                                            {id.city}
+                                                            {id?.city}
                                                         </span>
                                                     </td>
                                                     <td
@@ -419,10 +428,10 @@ const Usuarios: React.FC = () => {
                                                     >
                                                         <S.Active
                                                             active={
-                                                                id.active
+                                                                id?.active
                                                             }
                                                         >
-                                                            {id.active ===
+                                                            {id?.active ===
                                                             true
                                                                 ? "Ativo"
                                                                 : "Inativo"}
@@ -435,25 +444,25 @@ const Usuarios: React.FC = () => {
                                                     >
                                                         <S.Trusted
                                                             trusted={
-                                                                id.trusted
+                                                                id?.trusted
                                                             }
                                                         >
                                                             <img
                                                                 width="20px"
                                                                 src={
-                                                                    id.trusted ===
+                                                                    id?.trusted ===
                                                                     true
                                                                         ? trusted
                                                                         : noTrusted
                                                                 }
                                                                 alt={
-                                                                    id.trusted ===
+                                                                    id?.trusted ===
                                                                     true
                                                                         ? "Confiável"
                                                                         : "Não confiável"
                                                                 }
                                                             />
-                                                            {id.trusted ===
+                                                            {id?.trusted ===
                                                             true
                                                                 ? "Confiável"
                                                                 : "Não confiável"}
@@ -602,7 +611,7 @@ const Usuarios: React.FC = () => {
                                                                     "24px",
                                                             }}
                                                         >
-                                                            {id.name}
+                                                            {id?.name}
                                                         </span>
                                                     </td>
                                                     <td
@@ -611,9 +620,7 @@ const Usuarios: React.FC = () => {
                                                         }}
                                                     >
                                                         <span>
-                                                            {regex(
-                                                                id.phone_number
-                                                            )}
+                                                            {id?.phone_number ? regex(id?.phone_number) : ''}
                                                         </span>
                                                     </td>
                                                     <td
@@ -624,7 +631,7 @@ const Usuarios: React.FC = () => {
                                                         }}
                                                     >
                                                         <span>
-                                                            {id.email}
+                                                            {id?.email}
                                                         </span>
                                                     </td>
                                                     <td
@@ -633,7 +640,7 @@ const Usuarios: React.FC = () => {
                                                         }}
                                                     >
                                                         <span>
-                                                            {id.state}
+                                                            {id?.state}
                                                         </span>
                                                     </td>
                                                     <td
@@ -642,7 +649,7 @@ const Usuarios: React.FC = () => {
                                                         }}
                                                     >
                                                         <span>
-                                                            {id.city}
+                                                            {id?.city}
                                                         </span>
                                                     </td>
                                                     {/* <S.Role role={id.role}  style={{ width: '239px' }}>
@@ -657,10 +664,10 @@ const Usuarios: React.FC = () => {
                                                     >
                                                         <S.Active
                                                             active={
-                                                                id.active
+                                                                id?.active
                                                             }
                                                         >
-                                                            {id.active ===
+                                                            {id?.active ===
                                                             true
                                                                 ? "Ativo"
                                                                 : "Inativo"}
@@ -679,7 +686,7 @@ const Usuarios: React.FC = () => {
                                                                         setShowDelete(
                                                                             !false
                                                                         );
-                                                                        setIdUser(id);
+                                                                        setIdUser(id.id);
                                                                     }}
                                                                     onEdit={() => {
                                                                         setEditUser(
@@ -715,7 +722,10 @@ const Usuarios: React.FC = () => {
                 }}
                 value={page}
             />
-            <NewUser isModal={open} onClose={() => setOpen(!open)} />
+            <NewUser 
+                isModal={open} 
+                onClose={() => setOpen(!open)} 
+            />
             <ManageUser
                 isModal={manageUser}
                 onClose={() => {

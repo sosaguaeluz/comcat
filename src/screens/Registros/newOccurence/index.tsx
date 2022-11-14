@@ -327,7 +327,7 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                                                         </S.RadioFieldset>
                                                     </Grid>
                                                 )
-                                            } else if (id.name === 'Energia'){
+                                            } else if (id.name === 'Energia' || id.name === 'Luz'){
                                                 return (
                                                     <Grid item xs sm md lg xl>
                                                         <S.RadioFieldset>

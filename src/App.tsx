@@ -11,6 +11,7 @@ import { RootState } from './stores';
 
 const App: React.FC = () => {
   const { token } = useSelector((state : RootState) => state.clickState);
+  const localToken = localStorage.getItem('token')
 
   return (
       <QueryClientProvider client={queryClient}>

@@ -78,30 +78,30 @@ const Registros: React.FC = () => {
         new Date(Date.now())
     );
 
-    useEffect(() => {
-        let spam: any = [];
-        let sum = 0;
+    // useEffect(() => {
+    //     let spam: any = [];
+    //     let sum = 0;
 
-        regionOccurrences?.forEach((e) => {
-            e.state_list?.forEach((id) => {
-                spam.push({
-                    name: id.name,
-                    user_total: id.user_total,
-                });
-            });
-        });
+    //     regionOccurrences?.forEach((e) => {
+    //         e.state_list?.forEach((id) => {
+    //             spam.push({
+    //                 name: id.name,
+    //                 user_total: id.user_total,
+    //             });
+    //         });
+    //     });
 
-        spam.sort(function (a: any, b: any) {
-            let x = a.name.toUpperCase(),
-                y = b.name.toUpperCase();
-            return x === y ? 0 : x > y ? 1 : -1;
-        });
+    //     spam.sort(function (a: any, b: any) {
+    //         let x = a.name.toUpperCase(),
+    //             y = b.name.toUpperCase();
+    //         return x === y ? 0 : x > y ? 1 : -1;
+    //     });
 
-        regionOccurrences?.forEach((total) => (sum += total.user_total));
+    //     regionOccurrences?.forEach((total) => (sum += total.user_total));
 
-        setTotalOccurrences(sum);
-        setTotalList(spam);
-    });
+    //     setTotalOccurrences(sum);
+    //     setTotalList(spam);
+    // });
 
     const {
         data: occurrences,
@@ -144,7 +144,11 @@ const Registros: React.FC = () => {
     }, [dataServices]);
 
     const deleteOccurrence = (id: string) => {
-        const resp = api.delete(`/occurrences/${id}`);
+        const resp = api.delete(`/occurrences/${id}`, {
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
+        });
         return resp;
     };
 
@@ -224,7 +228,7 @@ const Registros: React.FC = () => {
                                     key={id.name}
                                     icon=""
                                     title={id.name}
-                                    value={id.Occurrences_total}
+                                    value={id.occurrences_total}
                                     type="list"
                                     width="100%"
                                     list={id.state_list}
@@ -234,7 +238,7 @@ const Registros: React.FC = () => {
                     })}
                 </Grid>
             </S.CardsContainer>
-            {maps == true && (
+            {maps === true && (
                 <>
                     <Box padding="0" width="100%" height="764px">
                         <RenderFiltersTop />
@@ -242,7 +246,7 @@ const Registros: React.FC = () => {
                     </Box>
                 </>
             )}
-            {list == true && (
+            {list === true && (
                 <>
                     <S.Container>
                         <h1>Ocorrências registradas no aplicativo</h1>
