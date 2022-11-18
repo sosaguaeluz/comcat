@@ -28,6 +28,10 @@ export const Top = styled.div<{ background: string }>`
             align-items: center;
             justify-content: center;
             margin-right: 16px;
+
+            img {
+                width: 35px;
+            }
         }
 
         > div:nth-child(2){

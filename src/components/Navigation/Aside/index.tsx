@@ -26,7 +26,7 @@ const Aside: React.FC = () => {
         "DESC",
         undefined,
         undefined,
-        //"Pending"
+        "Pending"
     );
     const { data: alertMessages } = useAlertMessages();
 

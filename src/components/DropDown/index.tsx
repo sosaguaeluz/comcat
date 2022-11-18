@@ -120,7 +120,7 @@ const DropDown: React.FC<IProps> = (props) => {
                                 return (
                                     <div>
                                         <h1>{id.label || id.name}</h1>
-                                        <p>{id.number || id.user_total || id.occurrences_total}</p>
+                                        <p>{id.number || id.user_total || id.occurrences_total || 0}</p>
                                     </div>
                                 )
                             })}

@@ -4,7 +4,7 @@ import { UseFormRegister } from 'react-hook-form';
 import {
     disabledError,
     disabledSuccess,
-    trusted,
+    trusted as trustedImg,
     alertRed
 } from '../../assets/index';
 
@@ -29,7 +29,8 @@ interface IProps {
     valueTwo: string,
     status: string,
     register: any,
-    width: string
+    width: string,
+    trusted?: boolean
 };
 
 const SwitchOptions: React.FC <IProps> = ({
@@ -44,7 +45,8 @@ const SwitchOptions: React.FC <IProps> = ({
     type,
     status,
     register,
-    width
+    width,
+    trusted
 }) => {
     return (
         <S.Container width={width}>
@@ -52,7 +54,7 @@ const SwitchOptions: React.FC <IProps> = ({
                 htmlFor={seccondaryId} 
                 value={status}
             >
-                <img src={status === 'Approved' ? trusted : disabledSuccess} alt="" />
+                <img src={status === 'Approved' ? trustedImg : disabledSuccess} alt="" />
                 {seccondaryLabel}
                 <input 
                     {...register(type === 'occurrences' ? 'status' : 'trusted')}
@@ -76,6 +78,7 @@ const SwitchOptions: React.FC <IProps> = ({
                     value={valueOne}
                 />
             </S.Repprove>
+
         </S.Container>
     );
 };

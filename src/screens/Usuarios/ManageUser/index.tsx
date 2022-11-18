@@ -36,7 +36,8 @@ const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
         control,
         register,
         reset,
-        setValue
+        setValue,
+        watch
     } = useForm<FormData>({
         mode: 'onChange',
         defaultValues: {
@@ -44,6 +45,7 @@ const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
             active: itemEdit?.active,
         }
     })
+
     function onSubmit (values: any) {
         putUser(token, itemEdit.id, values).then(() => {
             onClose()
@@ -66,7 +68,7 @@ const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
         }
     },[isModal,reset])
 
-    console.log(itemEdit?.trusted.toString(506741), 'DDD')
+    console.log(itemEdit?.trusted, 'DDD')
     
     return (
         <>
@@ -93,11 +95,11 @@ const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
                             </span>                            
                             <SwitchOptions
                                 register={register}
-                                checkedOne={itemEdit?.trusted.toString() === 'false' ? true : false}
-                                checkedTwo={itemEdit?.trusted.toString() === 'true' ? true : false}
+                                checkedOne={itemEdit?.trusted ? true : false}
+                                checkedTwo={itemEdit?.trusted ? true : false}
                                 width='300px'
                                 type='user'
-                                status='status'
+                                status={watch('trusted') ? 'Approved' : 'Disapproved'}
                                 primaryLabel='Confiável'
                                 seccondaryLabel= 'Não confiável'
                                 primaryId='false'

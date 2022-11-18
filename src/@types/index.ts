@@ -9,7 +9,6 @@ export interface City {
 };
 
 export interface listUf  {
-  id: number,
   nome:string,
   sigla: string
 };

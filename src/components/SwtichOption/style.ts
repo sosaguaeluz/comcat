@@ -23,7 +23,7 @@ export const Approve = styled.label<{ value: string | boolean }>`
     cursor: pointer;
 
     ${(props) => {
-        if(props.value === 'Approved'){
+        if(props.value === 'Approved' || props.value){
             return `
                 background: rgba(62, 168, 73, 0.1);
                 color: #3EA849;
@@ -54,7 +54,7 @@ export const Repprove = styled.label<{ value: string | boolean }>`
     cursor: pointer;
 
     ${(props) => {
-        if(props.value === 'Disapproved' || props.value === 'Waiting'){
+        if(props.value === 'Disapproved' || props.value === 'Waiting' || props.value){
             return `
                 background: rgba(250, 20, 59, 0.1);
                 color: #FA143B;

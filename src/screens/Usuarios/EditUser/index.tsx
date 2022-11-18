@@ -33,9 +33,6 @@ const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
     const [ idUf, setIdUf] = useState('')
     const { data: uf } = useUf();
     const { refetch } = useUsers(token, 'Mobile')
-    
-    const [ user, setUser ] = useState<any>();
-    const [ idUser, setIdUser ] = useState('');
     const [ open, setOpen ] = useState(false);
     const [ successMsg, setSuccessMsg ] = useState(false);
     const [ errMsg, setErrMsg ] = useState(false);
