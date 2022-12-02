@@ -14,6 +14,8 @@ import {
     DropDown,
     CustomTolltip,
     CustomInputData,
+    InputSearchMap,
+    Maps,
 } from "../../components";
 import {
     api,
@@ -43,11 +45,12 @@ import { Grid } from "@mui/material";
 
 const Registros: React.FC = () => {
     const { token } = useSelector((state : RootState) => state.clickState);
-    const { data: dataServices } = useService(token);
+    const localToken = window.localStorage.getItem('token')
+    const { data: dataServices } = useService();
     const { data: dataUf } = useUf();
     const [ ufValue, setUfValue ] = useState<any>('');
     const { data: dataCity } = useCity(ufValue);
-    const { data: regionOccurrences } = useDashboardRegionOccurrences(token);
+    const { data: regionOccurrences } = useDashboardRegionOccurrences();
     
     const [totalList, setTotalList] = useState<any>();
     const [totalOccurrences, setTotalOccurrences] = useState<any>();
@@ -66,42 +69,13 @@ const Registros: React.FC = () => {
     const [editOccurrence, setEditOccurrence] = useState(false);
 
     const [page, setPage] = useState<number>(1);
-    const [status, setStatus] = useState<any>(undefined);
+    const [status, setStatus] = useState<any>();
     const [service, setService] = useState<string[]>([]);
     const [address, setAddress] = useState<any>();
     
     const [cityValue, setCityValue] = useState<any>();
-    const [initialDate, setInitialDate] = useState<any>(undefined);
-    const [finalDate, setFinalDate] = useState<any>(undefined);
-
-    const [dateValue, setDateValue] = React.useState<any | null>(
-        new Date(Date.now())
-    );
-
-    // useEffect(() => {
-    //     let spam: any = [];
-    //     let sum = 0;
-
-    //     regionOccurrences?.forEach((e) => {
-    //         e.state_list?.forEach((id) => {
-    //             spam.push({
-    //                 name: id.name,
-    //                 user_total: id.user_total,
-    //             });
-    //         });
-    //     });
-
-    //     spam.sort(function (a: any, b: any) {
-    //         let x = a.name.toUpperCase(),
-    //             y = b.name.toUpperCase();
-    //         return x === y ? 0 : x > y ? 1 : -1;
-    //     });
-
-    //     regionOccurrences?.forEach((total) => (sum += total.user_total));
-
-    //     setTotalOccurrences(sum);
-    //     setTotalList(spam);
-    // });
+    const [initialDate, setInitialDate] = useState<any>();
+    const [finalDate, setFinalDate] = useState<any>();
 
     const {
         data: occurrences,
@@ -111,17 +85,15 @@ const Registros: React.FC = () => {
     } = useOccurrences(
         "DESC",
         page,
-        20,
-        status,
-        service,
-        address,
-        ufValue,
-        cityValue,
-        undefined,
-        initialDate,
-        finalDate
+        10,
+        status === undefined ? '' : status,
+        service === undefined ? '' : service,
+        address === undefined ? '' : address,
+        ufValue === undefined ? '' : ufValue,
+        cityValue === undefined ? '' : cityValue,
+        initialDate === undefined ? '' : initialDate,
+        finalDate === undefined ? '' : finalDate
     );
-
 
     function setStatusName(status: string) {
         if (status == "Waiting") {
@@ -133,7 +105,7 @@ const Registros: React.FC = () => {
         } else {
             return status;
         }
-    }
+    };
 
     useEffect(() => {
         let obj: string[] = [];
@@ -144,17 +116,7 @@ const Registros: React.FC = () => {
     }, [dataServices]);
 
     const deleteOccurrence = (id: string) => {
-        const resp = api.delete(`/occurrences/${id}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        });
-        return resp;
-    };
-
-    const putOccurrence = (id: string, dados: any) => {
-        const resp = api.put(`/occurrences/${id}`, dados);
-
+        const resp = api.delete(`/occurrences/${id}`);
         return resp;
     };
 
@@ -166,20 +128,32 @@ const Registros: React.FC = () => {
         },
     });
 
-    // const { mutate: onEdit } = useMutation(putOccurrence, {
-    //     onSuccess: () => {
-    //         queryClient.invalidateQueries('ocurrencces')
-    //         fetchOccurrences()
-    //     }
-    // })
+    useEffect(() => {
+        let spam: any = [];
+        let sum = 0;
 
-    function RenderFiltersTop() {
-        return (
-            <></>
-        );
-    }
+        regionOccurrences?.forEach((e) => {
+            e.state_list?.forEach((id) => {
+                spam.push({
+                    name: id.name,
+                    //@ts-ignore
+                    user_total: id.occurrences_total,
+                });
+            });
+        });
 
-    console.log("filtro occurence", regionOccurrences)
+        spam.sort(function (a: any, b: any) {
+            let x = a.name.toUpperCase(),
+                y = b.name.toUpperCase();
+            return x === y ? 0 : x > y ? 1 : -1;
+        });
+
+        //@ts-ignore
+        regionOccurrences?.forEach((total) => (sum += total.occurrences_total));
+
+        setTotalOccurrences(sum);
+        setTotalList(spam);
+    }, [regionOccurrences]);
 
     return (
         <>
@@ -215,7 +189,7 @@ const Registros: React.FC = () => {
                             key="Total"
                             icon={ocurrenceIcon}
                             title="Total"
-                            value={totalOccurrences}
+                            value={totalOccurrences || 0}
                             type="list"
                             width="100%"
                             list={totalList}
@@ -241,8 +215,9 @@ const Registros: React.FC = () => {
             {maps === true && (
                 <>
                     <Box padding="0" width="100%" height="764px">
-                        <RenderFiltersTop />
-                        <S.Map></S.Map>
+                        <S.Map>
+                            <Maps />
+                        </S.Map>
                     </Box>
                 </>
             )}
@@ -361,7 +336,7 @@ const Registros: React.FC = () => {
                                             }}
                                             width="100%"
                                             maxWidth={409}
-                                        />
+                                        /> 
                                     </Grid>
                                     {list == true && (
                                         <Grid
@@ -381,10 +356,8 @@ const Registros: React.FC = () => {
                                                 <p>Status:</p>
                                                 <div>
                                                     <input
-                                                        onChange={() =>
-                                                            setStatus(undefined)
-                                                        }
-                                                        value={status}
+                                                        onChange={(e: any) => setStatus(e?.target?.value)}
+                                                        value=""
                                                         type="radio"
                                                         name="status"
                                                         id="todos"
@@ -394,8 +367,8 @@ const Registros: React.FC = () => {
                                                 </div>
                                                 <div>
                                                     <input
-                                                        onChange={() => setStatus("Yes")}
-                                                        value={status}
+                                                        onChange={(e: any) => setStatus(e?.target?.value)}
+                                                        value="Approved"
                                                         type="radio"
                                                         name="status"
                                                         id="aproved"
@@ -406,8 +379,8 @@ const Registros: React.FC = () => {
                                                 </div>
                                                 <div>
                                                     <input
-                                                        onChange={() => setStatus("No")}
-                                                        value={status}
+                                                        onChange={(e: any) => setStatus(e?.target?.value)}
+                                                        value="Disapproved"
                                                         type="radio"
                                                         name="status"
                                                         id="reproved"
@@ -418,15 +391,13 @@ const Registros: React.FC = () => {
                                                 </div>
                                                 <div>
                                                     <input
-                                                        onChange={() =>
-                                                            setStatus("Abandoned")
-                                                        }
-                                                        value={status}
+                                                        onChange={(e: any) => setStatus(e?.target?.value)}
+                                                        value="Waiting"
                                                         type="radio"
                                                         name="status"
-                                                        id="Abandoned"
+                                                        id="Waiting"
                                                     />
-                                                    <label htmlFor="Abandoned">
+                                                    <label htmlFor="Waiting">
                                                         Aguardando aprovação
                                                     </label>
                                                 </div>

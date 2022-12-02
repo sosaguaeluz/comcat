@@ -1,15 +1,20 @@
 import axios from 'axios';
 
-const token = localStorage.getItem('token');
+const instance = axios.create({
+    baseURL: 'https://comcat-backend-kqb8t.ondigitalocean.app/'
+})
 
-export const api = axios.create({
-    baseURL: 'https://comcat-backend-kqb8t.ondigitalocean.app/',
-    headers: {
-        'Authorization': `Bearer ${token}`
-    }
+instance.interceptors.request.use(function (config: any) {
+    const token = window.localStorage.getItem('token');
+
+    if (token) config.headers['Authorization'] = `Bearer ${token}`;
+
+    return config;
 })
 
 export const ibge = axios.create({
     baseURL: "https://servicodados.ibge.gov.br/api/v1/localidades",
 });
   
+
+export const api = instance;

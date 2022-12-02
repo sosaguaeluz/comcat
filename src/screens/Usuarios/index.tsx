@@ -40,7 +40,7 @@ import { User } from "../../@types";
 const Usuarios: React.FC = () => {
     const { token } = useSelector((state : RootState) => state.clickState);
     const { data: dataUf} = useUf();
-    const { data: regionUsers } = useDashboardRegionUsers(token);
+    const { data: regionUsers } = useDashboardRegionUsers();
     
     const [idUser, setIdUser] = useState<any>();
     const [objUser, setObjUser] = useState<any>(null);
@@ -65,11 +65,7 @@ const Usuarios: React.FC = () => {
     const [role, setRole] = useState<any>('Administrador');
 
     const deleteUser = async (id: string):Promise<User> => {
-        const resp = await api.delete<User>(`/users/${id}`, {
-            headers: {
-                'Authorization': `Bearer ${token}`
-            }
-        })
+        const resp = await api.delete<User>(`/users/${id}`)
         return resp.data
     };
 
@@ -111,7 +107,6 @@ const Usuarios: React.FC = () => {
         data: users,
         refetch,
     } = useUsers(
-        token,
         "DESC",
         page,
         10,

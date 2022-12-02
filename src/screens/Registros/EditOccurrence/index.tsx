@@ -16,6 +16,7 @@ import {
     CustomSelect,
     CustomTextArea,
     CustomTolltip,
+    InputSearchMap,
     ModalDelete,
     ModalMsg,
     PersonalModal
@@ -45,8 +46,8 @@ import { Grid } from '@mui/material';
 
 const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
     const { token } = useSelector((state : RootState) => state.clickState);
-    const { data: services } = useService(token);
-    const { data: sources } = useSources(token);
+    const { data: services } = useService();
+    const { data: sources } = useSources();
     const [ idOccurrence, setIdOccurrence ] = useState('');
     const [ open, setOpen ] = useState(false);
     const [ closeOccurrence, setCloseOccurrence ] = useState(false);
@@ -102,7 +103,7 @@ const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
     }, [itemEdit]);
     
     const onSubmit = (values: FormData) => {
-        putOccurrences(token, itemEdit.id, values).then((resp) => {
+        putOccurrences(itemEdit.id, values).then((resp) => {
             setOpen(true)
             setIdOccurrence(itemEdit?.id)
             queryClient.invalidateQueries('occurence');
@@ -414,22 +415,25 @@ const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                         </S.Fieldset>
                                         <S.Fieldset>
                                             <label htmlFor="">Endereço/Logradouro</label>
-                                            <Controller 
+                                            <label htmlFor="">Endereço/Logradouro</label>
+                                            <Controller
                                                 name="address"
                                                 control={control}
-                                                render={({ field: { onChange, onBlur, value }}) => {
-                                                    return (
-                                                        <CustomInput 
-                                                            label='Endereço/Logradouro'
-                                                            onBlur={onBlur}
-                                                            onChange={onChange}
-                                                            type="text"
-                                                            value={value}
-                                                            width="100%"
-                                                            id='address'
-                                                        />
-                                                    )
-                                                }}
+                                                render={({ field: { value, ...field } }) => (
+                                                    <InputSearchMap
+                                                        type="text"
+                                                        placeholder="Digite..."
+                                                        data-cy="occurence-form-address"
+                                                        value={value}
+                                                        onLocationChange={({ lat, lng }: any) => {
+                                                            if (lat && lng) {
+                                                                setValue("latitude", String(lat));
+                                                                setValue("longitude", String(lng));
+                                                            }
+                                                        }}
+                                                        {...field}
+                                                    />
+                                                )}
                                             />
 
                                             {errors.address && (

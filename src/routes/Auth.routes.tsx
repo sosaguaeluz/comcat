@@ -9,12 +9,9 @@ import {
     Registros,
     Servicos,
     Usuarios,
-    Login
  } from '../screens/index';
-import { RootState } from '../stores';
 
 const AuthRoutes: React.FC = () => {
-    const { token } = useSelector((state : RootState) => state.clickState)
 
     const routes = [
         { id: 1, path: '/dashboard', component: <Dashboard />},
@@ -30,13 +27,7 @@ const AuthRoutes: React.FC = () => {
         <Routes>
             {routes.map((id: any, index: number) => {
                 return (
-                    <>
-                        {token === '' ?
-                            <Route path='/singup' element={<Login />} />
-                            :
-                            <Route path={id.path} element={id.component} key={index}/>
-                        }
-                    </>
+                    <Route path={id.path} element={id.component} key={index}/>
                 )
             })}
 

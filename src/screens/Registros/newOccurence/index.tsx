@@ -14,6 +14,8 @@ import {
     CustomSelect,
     CustomTextArea,
     CustomTolltip,
+    InputSearchMap,
+    MapSearch,
     ModalDelete,
     ModalMsg,
     PersonalModal
@@ -42,11 +44,13 @@ import { Grid } from '@mui/material';
 
 const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
     const { token } = useSelector((state : RootState) => state.clickState);
-    const { data: services } = useService(token);
-    const { data: sources } = useSources(token);
+    const { data: services } = useService();
+    const { data: sources } = useSources();
     const [ idOccurrence, setIdOccurrence ] = useState('');
     const [ open, setOpen ] = useState(false);
     const [ closeOccurrence, setCloseOccurrence ] = useState(false);
+    let [ latitudeCoord, setLatitudeCoord ] = useState(0);
+    let [ longitudeCoord, setLongitudeCoord ] = useState(0);
 
     const postOccurence = async (data: FormData) => {
         const response  = await api.post('/occurrences', data)
@@ -119,6 +123,16 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
         }
     }, [watchSpecialPlate])
 
+    useEffect(() => {
+        navigator.geolocation.getCurrentPosition((position) => {
+          setLatitudeCoord(position.coords.latitude);
+          setLongitudeCoord(position.coords.longitude);
+        });
+    }, [setLatitudeCoord, setLongitudeCoord, latitudeCoord, longitudeCoord]);
+
+    const latitude = watch("latitude");
+    const longitude = watch("longitude");
+
     return (
         <>
             <PersonalModal
@@ -186,7 +200,7 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                                                             width={254}
                                                             children={
                                                                 sources?.map((id: any) => {
-                                                                    if(watch('service') === id.service){
+                                                                    if(watch('service') === id?.service?.id){
                                                                         return (
                                                                             <MenuItem value={id.id}>
                                                                                 {id.name}
@@ -204,7 +218,7 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                                     }                                    
                                     {sources?.map((id) => {
                                         if(watch('source') === id.id){
-                                            if(id.name === "Outra fonte"){
+                                            if(id.name === "Outra Fonte"){
                                                 return (
                                                     <S.Fieldset>
                                                         <label htmlFor="" style={{color: '#fff'}}></label>
@@ -408,30 +422,33 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                                                 <span>Preencha o campo data.</span>
                                             )}
                                         </S.Fieldset>                                            
-                                        <S.Fieldset>
+                                        <S.FieldsetSearch>
                                             <label htmlFor="">Endereço/Logradouro</label>
-                                            <Controller 
+                                            <Controller
                                                 name="address"
                                                 control={control}
-                                                render={({ field: { onChange, onBlur, value }}) => {
-                                                    return (
-                                                        <CustomInput 
-                                                            label='Endereço/Logradouro'
-                                                            onBlur={onBlur}
-                                                            onChange={onChange}
-                                                            type="text"
-                                                            value={value}
-                                                            width='100%'
-                                                            id='address'
-                                                        />
-                                                    )
-                                                }}
+                                                render={({ field: { value, ...field } }) => (
+                                                    <InputSearchMap
+                                                        type="text"
+                                                        placeholder="Digite..."
+                                                        data-cy="occurence-form-address"
+                                                        value={value}
+                                                        onLocationChange={({ lat, lng }: any) => {
+                                                            if (lat && lng) {
+                                                                setValue("latitude", String(lat));
+                                                                setValue("longitude", String(lng));
+                                                            }
+                                                        }}
+                                                        {...field}
+                                                    />
+                                                )}
                                             />
 
                                             {errors.address && (
                                                 <span>{errors.address.message}</span>
                                             )}
-                                        </S.Fieldset>                                           
+
+                                        </S.FieldsetSearch>                                           
                                     </div>                                       
                                     <S.Fieldset>
                                         <label htmlFor="">
@@ -564,7 +581,19 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                                             )}
                                         </div>
                                         <span>
-                                            <img src={mapsDefault} alt="" />
+                                            <input type="hidden" name="latitude" />
+                                            <input type="hidden" name="longitude" />
+
+                                            <MapSearch
+                                                onPositionSelected={({ lat, lng }) => {
+                                                    setValue("latitude", String(lat));
+                                                    setValue("longitude", String(lng));
+                                                }}
+                                                selectedPosition={{
+                                                    lng: Number(longitude),
+                                                    lat: Number(latitude),
+                                                }}
+                                            />
                                         </span>
                                     </S.FieldMap>
                                     <S.FieldTextArea>

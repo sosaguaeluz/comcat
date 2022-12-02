@@ -13,9 +13,11 @@ import { NavLink } from 'react-router-dom';
 import { schema } from './validation-schema';
 import RecoveryPassword from './RecoveryPassword';
 import { yupResolver } from '@hookform/resolvers/yup';
+import {useNavigate} from 'react-router-dom';
 
 const Login: React.FC = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [ open, setOpen ] = useState(false);
     const [ recoveryPassword, setRecoveryPassword ] = useState(false);
     const ref = useRef<any>(null)
@@ -30,12 +32,16 @@ const Login: React.FC = () => {
     });
     
     const postUser = async (resp: any) => {
-        const { data: response } = await api.post('/authorize', resp);
-        dispatch({type: TOKEN, token: response.token})
-        dispatch({type: USER, user: response.user})
-        localStorage.setItem("user", JSON.stringify(response.user));
-        localStorage.setItem("token", JSON.stringify(response.token));
-        return response.data;
+        const response  = await api.post('/authorize', resp)
+        .then((resp) => {
+            dispatch({type: TOKEN, token: resp.data.token})
+            dispatch({type: USER, user: resp.data.user})
+            window.localStorage.setItem("user", JSON.stringify(resp.data.user));
+            window.localStorage.setItem("token", resp.data.token);
+            navigate('/dashboard', { replace: true })
+            window.location.reload()
+        });
+        return response;
     };
 
     const { mutate, isLoading } = useMutation(postUser, {
@@ -129,28 +135,24 @@ const Login: React.FC = () => {
                             <S.Button
                                 id='submit' 
                                 type='submit'
-                                onClick={() => {
-                                    ref?.current?.click()
-                                }}
                                 disabled={!isDirty || !isValid}
                             >
                                 {isLoading == true ? 'Logando...' : 'Fazer login'}
                             </S.Button>
-                            <NavLink to="/dashboard" style={{display: 'none'}} ref={ref}/>
                         </form>
                     </div>
                 
-                    <ModalMsg 
-                        height='312px'
-                        modalBackground={false}
-                        open={open} 
-                        onClose={() => setOpen(!open)} 
-                        width={375} 
-                        status={''} 
-                        mensage='Usuário ou senha inválida'            
-                    />
                 </div>
             </S.Container>
+            <ModalMsg 
+                height='312px'
+                modalBackground={false}
+                open={open} 
+                onClose={() => setOpen(!open)} 
+                width={375} 
+                status={''} 
+                mensage='Usuário ou senha inválida'            
+            />
             <PersonalModal 
                 modalBackground={false}
                 open={recoveryPassword} 

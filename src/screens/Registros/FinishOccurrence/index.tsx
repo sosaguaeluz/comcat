@@ -42,7 +42,7 @@ const FinishOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
             "finished_status": "Yes",
         })
 
-        putOccurrences(token, itemEdit.id, obj).then(() => {
+        putOccurrences(itemEdit.id, obj).then(() => {
             onHide()
             setSuccess(!success)
         })

@@ -3,52 +3,51 @@ import { useQuery, UseQueryResult } from "react-query";
 import { Occurrences } from "../../@types";
 
 const getOccurrences = async <T>(
-    order?: string,
-    page?: number,
-    take?: number,
-    finished_status?: string,
-    services?: string[] | any,
-    address?: string,
-    state?: string,
-    city?: string,
-    neighborhood?: string,
-    initial_date?: string,
-    final_date?: string
+    order: string,
+    page: number,
+    take: number,
+    finished_status: string,
+    services: string[] | any,
+    address: string,
+    state: string,
+    city: string,
+    initial_date: string,
+    final_date: string
 
 ):Promise<Occurrences[]> => {
 
     let params = new URLSearchParams();
 
-    if(order != undefined){
+    if(order !== undefined){
         params.append("order", order)
     } else {
         params.append("order", "DESC");
     }
-    if(page != undefined){
+    if(services !== ''){
+        params.append("services", services);
+    }
+    if(page !== undefined){
         params.append("page", page.toString())
     }
-    if(take != undefined){
+    if(take !== undefined){
         params.append("take", take.toString())
     }
-    if(finished_status != undefined){
-        params.append("finished_status", finished_status)
+    if(finished_status !== ""){
+        params.append("status", finished_status)
     }
-    if(address != undefined){
+    if(address !== ''){
         params.append("address", address)
     }
-    if(city != undefined){
+    if(city !== ''){
         params.append("city", city)
     }
-    if(final_date != undefined){
-        params.append("final_date", final_date)
-    }
-    if(initial_date != undefined){
+    if(initial_date !== ''){
         params.append("initial_date", initial_date)
     }
-    if(neighborhood != undefined){
-        params.append("neighborhood", neighborhood)
+    if(final_date !== ''){
+        params.append("final_date", final_date)
     }
-    if(state != undefined){
+    if(state !== ''){
         params.append("state", state)
     }
 
@@ -59,17 +58,16 @@ const getOccurrences = async <T>(
 }
 
 export const useOccurrences = <T>(
-    order?: string,
-    page?: number,
-    take?: number,
-    finished_status?: string,
-    services?: string[] | any,
-    address?: string,
-    state?: string,
-    city?: string,
-    neighborhood?: string,
-    initial_date?: string,
-    final_date?: string
+    order: string,
+    page: number,
+    take: number,
+    finished_status: string,
+    services: string[] | any,
+    address: string,
+    state: string,
+    city: string,
+    initial_date: string,
+    final_date: string
 ):UseQueryResult<Occurrences> => {
     return useQuery(['ocurrence', 
     order,
@@ -80,7 +78,6 @@ export const useOccurrences = <T>(
     address,
     state,
     city,
-    neighborhood,
     initial_date,
     final_date 
     ], () => getOccurrences(
@@ -92,17 +89,12 @@ export const useOccurrences = <T>(
         address,
         state,
         city,
-        neighborhood,
         initial_date,
         final_date
     )
 )}
 
-export const putOccurrences = async (token: string, id: string, dados: any) => {
-    const resp =  await api.put(`/occurrences/${id}`, dados, {
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
-    })
+export const putOccurrences = async (id: string, dados: any) => {
+    const resp =  await api.put(`/occurrences/${id}`, dados)
     return resp
 };

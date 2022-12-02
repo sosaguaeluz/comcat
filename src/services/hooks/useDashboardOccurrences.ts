@@ -3,7 +3,6 @@ import { useQuery, UseQueryResult } from 'react-query'
 import { Dashboard_Occurrences } from '../../@types'
 
 export const getDashboardOccurrences = async <T>(
-    token?: string,
     initialdate?: string,
     finaldate?: string,
     state?: string,
@@ -34,16 +33,12 @@ export const getDashboardOccurrences = async <T>(
 
     const { data } = await api.get<Dashboard_Occurrences>('/dashboard/occurrences', {
         params: params,
-        headers: {
-            'Authorization': `Bearer ${token}`
-        }
     });
 
     return data;
 };
 
 export const useDashboardOccurrences = <T>(
-    token?: string,
     initialdate?: string,
     finaldate?: string,
     state?: string,
@@ -51,14 +46,12 @@ export const useDashboardOccurrences = <T>(
     neighborhood?: string
 ):UseQueryResult<Dashboard_Occurrences> => {
     return useQuery(['dashboard/occurrences',
-    token,
     initialdate,
     finaldate,
     state,
     city,
     neighborhood
     ], () => getDashboardOccurrences(
-        token,
         initialdate,
         finaldate,
         state,
@@ -68,18 +61,15 @@ export const useDashboardOccurrences = <T>(
 )};
 
 export const useAnnualOccurrences = <T>(
-    token?: string,
     initialdate?: string,
     finaldate?: string,
     annual_occurrences?: string[] | any, 
 ):UseQueryResult<Dashboard_Occurrences> => {
     return useQuery(['dashboard/occurrences',
-    token,
     initialdate,
     finaldate,
     annual_occurrences
     ], () => getDashboardOccurrences(
-        token,
         initialdate,
         finaldate,
         annual_occurrences

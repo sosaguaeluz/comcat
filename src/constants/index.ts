@@ -1,3 +1,4 @@
+import { GOOGLE_MAPS_API_KEY } from './maps';
 import { BACKGROUND_COLOR } from './backgroundColor';
 import { TYPE_LOCAL } from './typeLocal';
 import { AREA } from './area';
@@ -10,4 +11,5 @@ export {
     AREA,
     BREED,
     GENRE,
+    GOOGLE_MAPS_API_KEY
 }

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './style';
 import Box from '@mui/material/Box';
 import Modal from '@mui/material/Modal';
@@ -9,6 +9,7 @@ import {
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../stores';
 import { TOKEN, USER } from '../../../stores/actions';
+import { useNavigate } from 'react-router-dom';
 
 const style = {
     display: 'flex',
@@ -27,8 +28,15 @@ const style = {
 
 const Header: React.FC = () => {
     const dispatch = useDispatch();
-    const { user } = useSelector((state : RootState) => state.clickState);
+    const navigate = useNavigate();
+    const [ user, setUser ] = useState<object | any>(null);
     const [ open, setOpen ] = useState(false);
+    const localUser = window.localStorage.getItem('user')
+    useEffect(() => {
+        if(localUser){
+            setUser(JSON.parse(localUser))
+        }
+    }, [localUser])
     return (
         <>
             <S.Container>
@@ -70,13 +78,15 @@ const Header: React.FC = () => {
                             </button>
                             <S.LogOut
                                 id="to_singup"
-                                to="/singup"
+                                to="/"
                                 onClick={() => {
-                                    localStorage.removeItem('token')
+                                    window.localStorage.removeItem('user')
+                                    window.localStorage.removeItem('token')
                                     dispatch({type: TOKEN, token: ''})
                                     dispatch({type: USER, user: ''})
-                                    localStorage.removeItem('token')
                                     setOpen(false)
+                                    navigate('/', { replace: true })
+                                    window.location.reload()
                                 }}                        
                             >
                                 Sim, sair

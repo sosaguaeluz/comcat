@@ -30,7 +30,7 @@ const RespMessage: React.FC <IProps> = ({
     });
 
     function onSubmit(values: any){
-        putMessages(token, itemEdit?.id, values).then(() => {
+        putMessages(itemEdit?.id, values).then(() => {
             setOpen(true);
         })
     }

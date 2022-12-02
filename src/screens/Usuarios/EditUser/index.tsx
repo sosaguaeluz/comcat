@@ -32,7 +32,7 @@ const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
     const { token } = useSelector((state : RootState) => state.clickState);
     const [ idUf, setIdUf] = useState('')
     const { data: uf } = useUf();
-    const { refetch } = useUsers(token, 'Mobile')
+    const { refetch } = useUsers('Mobile')
     const [ open, setOpen ] = useState(false);
     const [ successMsg, setSuccessMsg ] = useState(false);
     const [ errMsg, setErrMsg ] = useState(false);
@@ -75,7 +75,7 @@ const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
             "active": values.active === true ? true : false     
         })
         
-        putUser(token, itemEdit?.id, obj)
+        putUser(itemEdit?.id, obj)
             .then((resp) => {
                 setOpen(true);
                 setSuccessMsg(!successMsg)

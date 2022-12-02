@@ -48,7 +48,7 @@ const ApproveReprove: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
             "source": itemEdit.source.id
         })
 
-        putOccurrences(token, itemEdit.id, obj).then(() => {
+        putOccurrences(itemEdit.id, obj).then(() => {
             onHide()
             setConfirmOccurrence(false)
             setMsgSuccess(true)

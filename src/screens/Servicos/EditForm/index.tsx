@@ -99,8 +99,8 @@ const EditForm: React.FC<IProps> = ({onHide, isModal, itemEdit}) => {
         if(Object.entries(data).length === 0) return;
 
         const method: Promise<AxiosResponse<any, any>> = !!data.id
-            ? putService(token, data.id, data)
-            : postService(token, data);
+            ? putService(data.id, data)
+            : postService(data);
         
         return await method
             .then((resp) => {
@@ -122,9 +122,9 @@ const EditForm: React.FC<IProps> = ({onHide, isModal, itemEdit}) => {
                 ...(fields || [])
             ];
             
-            _data?.forEach((id, index) => {
+            _data?.forEach((id: any, index: number) => {
                 if(id.id === null || id.id === undefined || id.id === ""){
-                    postSource(token, {name: id.name, service: id.service})
+                    postSource({name: id.name, service: id.service})
                     .then((resp) => {
                         update(index, resp.data)
                     })
@@ -295,7 +295,7 @@ const EditForm: React.FC<IProps> = ({onHide, isModal, itemEdit}) => {
                                         type='button'
                                         onClick={() => {
                                             if(field.id !== null && field.id !== undefined && field.id !== ""){
-                                                deleteSource(token, field.id)
+                                                deleteSource(field.id)
                                             }
                                             remove(index)
                                         }}

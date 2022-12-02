@@ -1,32 +1,29 @@
-import React, { useReducer } from 'react';
+import React, { useEffect, useReducer, useState } from 'react';
 import { BrowserRouter } from 'react-router-dom';
 import { Aside, Header } from './components';
-import AuthRoutes from './routes';
+import AuthRoutes from './routes/Auth.routes';
 import { Container, Content } from './style';
 import { QueryClientProvider } from 'react-query';
 import { queryClient } from './services/index';
-import { Login } from './screens';
-import { useSelector } from 'react-redux';
-import { RootState } from './stores';
+import PublicRoutes from './routes/Public.routes';
 
 const App: React.FC = () => {
-  const { token } = useSelector((state : RootState) => state.clickState);
-  const localToken = localStorage.getItem('token')
+  const token = window.localStorage.getItem('token');
 
   return (
       <QueryClientProvider client={queryClient}>
         <BrowserRouter>
-        {token === '' ?
-          <Login />
-          :
-          <Container>
-            <Header />
-            <Aside />
-            <Content>
-              <AuthRoutes />
-            </Content>
-          </Container>
-        }
+          {token === null ?
+            <PublicRoutes />
+            :
+            <Container>
+              <Header />
+              <Aside />
+              <Content>
+                <AuthRoutes />
+              </Content>
+            </Container>
+          }
         </BrowserRouter>
       </QueryClientProvider>
   );

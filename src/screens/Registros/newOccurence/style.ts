@@ -264,6 +264,45 @@ export const Fieldset = styled.fieldset`
     }
 `;
 
+export const FieldsetSearch = styled.fieldset`
+    width: 100%;   
+    max-width: 372px;
+    min-width: 250px;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    
+    input {
+        border: 1px solid red;
+    }
+
+    > label {
+        width: 100%;  
+        max-width: 372px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 16px;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 19px;
+        color: ${props => props.theme.colors.dark};
+
+        > button {
+            margin-left: 5px;
+            display: flex;
+            align-items: center;                
+        }  
+    }
+
+    /* > div > div {
+        height: 56px;
+        > div {
+            height: 56px;
+        }
+    } */
+`;
+
 export const RadioFieldset = styled.fieldset`
     width: 372px;
     height: 91px;

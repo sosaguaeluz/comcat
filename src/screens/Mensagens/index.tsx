@@ -29,7 +29,6 @@ const Mensagens: React.FC = () => {
     const [closePopover, setClosePopover] = useState(false);
 
     const { data: messages, refetch } = useMessages(
-        token,
         "DESC",
         page,
         10,
@@ -257,7 +256,7 @@ const Mensagens: React.FC = () => {
                 width={469}
                 mensage="Deseja mesmo escluir essa mensagem?"
                 onDelete={() => {
-                    deleteMessage(token, idMessage).then(() => {
+                    deleteMessage(idMessage).then(() => {
                         setDeleteObj(false);
                         setMsgDelete(true);
                     });
@@ -277,7 +276,7 @@ const Mensagens: React.FC = () => {
                     let obj: any = {
                         status: "Answered",
                     };
-                    putMessages(token, idMessage, obj).then(() => {
+                    putMessages(idMessage, obj).then(() => {
                         setAnswer(false);
                         setMsgAnswer(true);
                     });

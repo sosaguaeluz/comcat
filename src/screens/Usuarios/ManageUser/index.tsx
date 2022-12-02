@@ -47,7 +47,7 @@ const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
     })
 
     function onSubmit (values: any) {
-        putUser(token, itemEdit.id, values).then(() => {
+        putUser(itemEdit.id, values).then(() => {
             onClose()
             setConfirmManage(false)
             setOpen(true)

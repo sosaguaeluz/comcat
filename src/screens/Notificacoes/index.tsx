@@ -23,11 +23,16 @@ const Notificacoes: React.FC = () => {
     const { data: occurrences } = useOccurrences(
         "DESC",
         1,
-        undefined,
-        "No"
+        99999,
+        "No",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
     );
     const { data: notifications, refetch } = useNotifications(
-        token,
         "DESC",
         1,
         count,

@@ -29,10 +29,18 @@ import { USER } from '../../../stores/actions';
 
 const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
     const dispatch = useDispatch();
-    const { token, user } = useSelector((state : RootState) => state.clickState);
+    const [ user, setUser ] = useState<object | any>(null);
     const { data: uf } = useUf();
     const [ successMsg, setSuccessMsg ] = useState(false);
     const [ errMsg, setErrMsg ] = useState(false);
+
+    const localUser = window.localStorage.getItem('user')
+
+    useEffect(() => {
+        if(localUser){
+            setUser(JSON.parse(localUser))
+        }
+    }, [localUser])
 
     const { 
         handleSubmit,
@@ -72,7 +80,7 @@ const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
             "active": values.active === true ? true : false     
         })
 
-        putUser(token, itemEdit?.id, obj)
+        putUser(itemEdit?.id, obj)
             .then((resp) => {
                 dispatch({type: USER, user: resp})
                 setSuccessMsg(true)
