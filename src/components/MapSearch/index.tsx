@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
 import { GOOGLE_MAPS_API_KEY } from "../../constants/maps";
+import { point } from "../../assets";
 
 const containerStyle = {
   width: "100%",
@@ -88,7 +89,7 @@ const MapSearch: React.FC<MapSearchProps> = ({
       style={{
         height: "386px",
         width: "100%",
-        margin: "30px 0",
+        margin: "0",
         backgroundColor: "transparent",
       }}
     >
@@ -110,7 +111,7 @@ const MapSearch: React.FC<MapSearchProps> = ({
               position={selectedPosition}
               draggable
               onDragEnd={onMapClickHandler}
-              icon="/assets/point.jpeg"
+              icon={point}
             />
           )}
         </>

@@ -40,8 +40,10 @@ import userIcon from './userIcon.svg';
 import orangeAlertNotify from './orangeAlertNotify.svg';
 import showBlueArow from './showBlueArow.svg'
 import MAPTESTE from './MAPTESTE.svg';
+import point from './point.jpeg';
 
 export {
+    point,
     showBlueArow,
     orangeAlertNotify,
     close,

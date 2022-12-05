@@ -41,14 +41,21 @@ import { queryClient } from '../../../services/index';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { schema } from './schema';
 import { Grid } from '@mui/material';
+import { getCities, getStates } from "../../../utils/resources";
 
 const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
-    const { token } = useSelector((state : RootState) => state.clickState);
     const { data: services } = useService();
     const { data: sources } = useSources();
+    const states = getStates();
     const [ idOccurrence, setIdOccurrence ] = useState('');
     const [ open, setOpen ] = useState(false);
     const [ closeOccurrence, setCloseOccurrence ] = useState(false);
+    const [filter, setFilter] = useState<any>({
+        service: "",
+        state: "RJ",
+        city: "Rio de Janeiro",
+    });
+    const cities = filter.state ? getCities(filter.state) : [];
     let [ latitudeCoord, setLatitudeCoord ] = useState(0);
     let [ longitudeCoord, setLongitudeCoord ] = useState(0);
 
@@ -106,6 +113,10 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
     });
 
     const onSubmit = (values: FormData) => {
+        let obj = Object.assign(values, {
+            "state": filter.state,
+            "city": filter.city
+        })
         mutate(values);
     };
 
@@ -132,6 +143,8 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
 
     const latitude = watch("latitude");
     const longitude = watch("longitude");
+
+    console.log(latitude, longitude, 'lat log')
 
     return (
         <>
@@ -394,61 +407,70 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                                             }
                                         }
                                     })}
-                            </S.FieldService>                                                                                  
+                            </S.FieldService> 
+                            <S.FieldService style={{marginBottom: '40px'}}>
+                                <S.FieldsetSearch>
+                                    <label htmlFor="">Endereço/Logradouro</label>
+                                    <Controller
+                                        name="address"
+                                        control={control}
+                                        render={({ field: { value, ...field } }) => (
+                                            <InputSearchMap
+                                                type="text"
+                                                placeholder="Digite..."
+                                                data-cy="occurence-form-address"
+                                                value={value}
+                                                onLocationChange={({ lat, lng }: any) => {
+                                                    if (lat && lng) {
+                                                        setValue("latitude", String(lat));
+                                                        setValue("longitude", String(lng));
+                                                    }
+                                                }}
+                                                {...field}
+                                            />
+                                        )}
+                                    />
+
+                                    {errors.address && (
+                                        <span>{errors.address.message}</span>
+                                    )}
+                                </S.FieldsetSearch>  
+                                <S.Fieldset>
+                                    <label htmlFor="">Estado</label>
+                                    <CustomSelect
+                                        onChange={(e) => {
+                                            setFilter((prev: any) => ({
+                                                ...prev,
+                                                state: e.target.value,
+                                                city: undefined,
+                                            }))
+                                        }}
+                                        value={filter.state}
+                                        label='Estado'
+                                        width='100%'
+                                        list={states}
+                                        id='state'
+                                        defaultValue=''
+                                    />
+                                </S.Fieldset>                              
+                                <S.Fieldset>
+                                    <label htmlFor="">Ciade</label>
+                                    <CustomSelect
+                                        onChange={(e) =>
+                                            setFilter((prev: any) => ({ ...prev, city: e.target.value }))
+                                        }
+                                        value={filter.city}
+                                        label='Cidade'
+                                        width='100%'
+                                        list={cities}
+                                        id='state'
+                                        defaultValue=''
+                                    />
+                                </S.Fieldset>
+                            </S.FieldService>                                                                                 
                             <S.FieldMid>
                                 <S.FieldDate>
-                                    <div>
-                                        <S.Fieldset>
-                                            <label htmlFor="">Data e hora da ocorrencia:</label>
-                                            <Controller 
-                                                name="date"
-                                                control={control}
-                                                render={({ field: { onChange, onBlur, value }}) => {
-                                                    return (
-                                                        <CustomInputData 
-                                                            label='Data e hora'
-                                                            onBlur={onBlur}
-                                                            onChange={onChange}
-                                                            value={value}
-                                                            max={new Date().toISOString().slice(0, -8)}
-                                                            type="datetime-local"
-                                                            width='100%'
-                                                            id='date_time'
-                                                        />
-                                                    )
-                                                }}
-                                            />
-                                            {errors.date && (
-                                                <span>Preencha o campo data.</span>
-                                            )}
-                                        </S.Fieldset>                                            
-                                        <S.FieldsetSearch>
-                                            <label htmlFor="">Endereço/Logradouro</label>
-                                            <Controller
-                                                name="address"
-                                                control={control}
-                                                render={({ field: { value, ...field } }) => (
-                                                    <InputSearchMap
-                                                        type="text"
-                                                        placeholder="Digite..."
-                                                        data-cy="occurence-form-address"
-                                                        value={value}
-                                                        onLocationChange={({ lat, lng }: any) => {
-                                                            if (lat && lng) {
-                                                                setValue("latitude", String(lat));
-                                                                setValue("longitude", String(lng));
-                                                            }
-                                                        }}
-                                                        {...field}
-                                                    />
-                                                )}
-                                            />
-
-                                            {errors.address && (
-                                                <span>{errors.address.message}</span>
-                                            )}
-
-                                        </S.FieldsetSearch>                                           
+                                    <div>                                           
                                     </div>                                       
                                     <S.Fieldset>
                                         <label htmlFor="">
@@ -504,82 +526,104 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                                         )}
                                         </S.Fieldset>                                            
                                     )}                                        
+                                    <S.Fieldset>
+                                        <label htmlFor="">Data e hora da ocorrencia:</label>
+                                        <Controller 
+                                            name="date"
+                                            control={control}
+                                            render={({ field: { onChange, onBlur, value }}) => {
+                                                return (
+                                                    <CustomInputData 
+                                                        label='Data e hora'
+                                                        onBlur={onBlur}
+                                                        onChange={onChange}
+                                                        value={value}
+                                                        max={new Date().toISOString().slice(0, -8)}
+                                                        type="datetime-local"
+                                                        width='100%'
+                                                        id='date_time'
+                                                    />
+                                                )
+                                            }}
+                                        />
+                                        {errors.date && (
+                                            <span>Preencha o campo data.</span>
+                                        )}
+                                    </S.Fieldset> 
+                                    <S.RadioFieldset>
+                                        <fieldset>
+                                            <label htmlFor="">
+                                                A ocorrência é em uma localização especial?                                                                       
+                                            </label>
+                                            <p>
+                                                Se enquadram em localizações especiais: favelas, comunidades, ocupações, quilombos, aldeias, assentamento e etc."
+                                            </p>
+                                        </fieldset>
+                                        <fieldset>
+                                            <div>
+                                                <input 
+                                                    {...register('special_place')}
+                                                    type="radio"
+                                                    name="special_place"
+                                                    id="special_place_yes" 
+                                                    value="Yes"
+                                                />
+                                                <label htmlFor="yes">Sim</label>                                                                        
+                                            </div>
+                                            <div>
+                                                <input 
+                                                    {...register('special_place')}
+                                                    type="radio"
+                                                    name='special_place'
+                                                    id="special_place_no" 
+                                                    value="No"
+                                                />
+                                                <label htmlFor="no">Não</label>                                                                        
+                                            </div>
+                                            <div>
+                                                <input
+                                                    {...register('special_place')}
+                                                    defaultChecked={true}
+                                                    type="radio" 
+                                                    name='special_place'
+                                                    id="special_place_unknow" 
+                                                    value="NotKnow"
+                                                />                                                                        
+                                                <label htmlFor="unknow" style={{width: '103px'}}>Não sei</label>
+                                            </div>
+                                        </fieldset>
+                                    </S.RadioFieldset>
+                                    {watch('special_place') === 'Yes' && (
+                                        <S.Fieldset>
+                                            <label htmlFor="" style={{ marginBottom: '15px !important'}}>
+                                                Qual é o tipo de localização especial
+                                            </label>
+                                            <Controller 
+                                                name='type_place'
+                                                control={control}
+                                                render={({field: { onChange, onBlur, value }}) => {
+                                                    return (
+                                                        <CustomSelect
+                                                            id="type_place"
+                                                            onChange={onChange}
+                                                            onBlur={onBlur}
+                                                            value={value}
+                                                            label='Localização especial'
+                                                            labelDefault='Localização especial'
+                                                            width="100%"
+                                                            list={AREA}
+                                                        />
+                                                    )
+                                                }}
+                                            />
+                                            {errors.type_place && (
+                                                <p>{errors.type_place.message}</p>
+                                            )}
+                                        </S.Fieldset>
+                                    )}
                                 </S.FieldDate>
                                 <div>
                                     <S.FieldMap>
-                                        <div>
-                                            <S.RadioFieldset>
-                                                <fieldset>
-                                                    <label htmlFor="">
-                                                        A ocorrência é em uma localização especial?                                                                       
-                                                    </label>
-                                                    <p>
-                                                        Se enquadram em localizações especiais: favelas, comunidades, ocupações, quilombos, aldeias, assentamento e etc."
-                                                    </p>
-                                                </fieldset>
-                                                <fieldset>
-                                                    <div>
-                                                        <input 
-                                                            {...register('special_place')}
-                                                            type="radio"
-                                                            name="special_place"
-                                                            id="special_place_yes" 
-                                                            value="Yes"
-                                                        />
-                                                        <label htmlFor="yes">Sim</label>                                                                        
-                                                    </div>
-                                                    <div>
-                                                        <input 
-                                                            {...register('special_place')}
-                                                            type="radio"
-                                                            name='special_place'
-                                                            id="special_place_no" 
-                                                            value="No"
-                                                        />
-                                                        <label htmlFor="no">Não</label>                                                                        
-                                                    </div>
-                                                    <div>
-                                                        <input
-                                                            {...register('special_place')}
-                                                            defaultChecked={true}
-                                                            type="radio" 
-                                                            name='special_place'
-                                                            id="special_place_unknow" 
-                                                            value="NotKnow"
-                                                        />                                                                        
-                                                        <label htmlFor="unknow" style={{width: '103px'}}>Não sei</label>
-                                                    </div>
-                                                </fieldset>
-                                            </S.RadioFieldset>
-                                            {watch('special_place') === 'Yes' && (
-                                                <S.Fieldset>
-                                                    <label htmlFor="" style={{ marginBottom: '15px !important'}}>
-                                                        Qual é o tipo de localização especial
-                                                    </label>
-                                                    <Controller 
-                                                        name='type_place'
-                                                        control={control}
-                                                        render={({field: { onChange, onBlur, value }}) => {
-                                                            return (
-                                                                <CustomSelect
-                                                                    id="type_place"
-                                                                    onChange={onChange}
-                                                                    onBlur={onBlur}
-                                                                    value={value}
-                                                                    label='Localização especial'
-                                                                    labelDefault='Localização especial'
-                                                                    width="100%"
-                                                                    list={AREA}
-                                                                />
-                                                            )
-                                                        }}
-                                                    />
-                                                    {errors.type_place && (
-                                                        <p>{errors.type_place.message}</p>
-                                                    )}
-                                                </S.Fieldset>
-                                            )}
-                                        </div>
                                         <span>
                                             <input type="hidden" name="latitude" />
                                             <input type="hidden" name="longitude" />
