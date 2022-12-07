@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from "react";
 import * as S from './style';
 import {
-    putUser
+    putUser, queryClient
 } from '../../../services';
 import { 
     CustomSwitch,
     CustomTolltip,
     ModalMsg,
     PersonalModal,
-    SwitchOptions
+    SwitchUser
 } from "../../../components";
 import { blueAlert } from "../../../assets";
 import { RootState } from '../../../stores';
@@ -18,6 +18,8 @@ import {
     useForm,
 } from "react-hook-form";
 import { FormData } from "./types";
+import { useMutation } from "react-query";
+import { editUser } from "../../../services/hooks/useUser";
 
 interface IProps {
     onClose: () => void,
@@ -46,12 +48,20 @@ const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
         }
     })
 
-    function onSubmit (values: any) {
-        putUser(itemEdit.id, values).then(() => {
+    const { mutate } = useMutation(editUser, {
+        onSuccess: () => {
+            queryClient.invalidateQueries('users')
             onClose()
             setConfirmManage(false)
             setOpen(true)
+        }
+    })
+
+    function onSubmit (values: any) {
+        let obj = Object.assign(values, {
+            "trusted": Boolean(watch('trusted'))
         })
+        mutate(values)
     };
     useEffect(() => {
         if(!itemEdit) return;
@@ -68,7 +78,7 @@ const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
         }
     },[isModal,reset])
 
-    console.log(itemEdit?.trusted, 'DDD')
+    console.log(watch('trusted'), 'DDD')
     
     return (
         <>
@@ -93,19 +103,14 @@ const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
                                     title="Usuários que são marcados como não confiáveis precisarão passar pela aprovação dos moderadores antes de serem publicadas"
                                 />
                             </span>                            
-                            <SwitchOptions
+                            <SwitchUser
                                 register={register}
-                                checkedOne={itemEdit?.trusted ? true : false}
-                                checkedTwo={itemEdit?.trusted ? true : false}
+                                checked={itemEdit?.trusted}
                                 width='300px'
-                                type='user'
-                                status={watch('trusted') ? 'Approved' : 'Disapproved'}
+                                status={watch('trusted')}
                                 primaryLabel='Confiável'
-                                seccondaryLabel= 'Não confiável'
-                                primaryId='false'
+                                seccondaryLabel='Não confiável'
                                 seccondaryId='true'
-                                valueOne='false'
-                                valueTwo='true'
                             />
                         </fieldset>
                         

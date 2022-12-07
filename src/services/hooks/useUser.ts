@@ -90,6 +90,11 @@ export const putUser = async (id: string, dados: any) => {
     return resp.data
 };
 
+export const editUser = async (dados: any) => {
+    const resp =  await api.put(`/users/${dados.id}`, dados)
+    return resp.data
+};
+
 export const deleteUser = async ({...obj}: User):Promise<User> => {
     const resp = await api.delete<User>(`/users/${obj.id}`, {
         headers: {

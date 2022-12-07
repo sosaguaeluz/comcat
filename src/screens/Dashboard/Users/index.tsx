@@ -26,19 +26,48 @@ import {
 const DashUsers: React.FC = () => {
     const [ ufValue, setUfValue ] = useState<string>('');
     const [ cityValue, setCityValue ] = useState<string>('');
-    const [ initialDate, setInitialDate ] = useState<any>(undefined);
-    const [ finalDate, setFinalDate ] = useState<any>(undefined);
     const [ resetSearch, setResetSearch] = useState(false);
     const [ multValueGenre, setMultValueGenre ] = useState<string[]>([]);
     const [ multValueBreed, setMultValueBreed ] = useState<string[]>([]);
     const [ initialDateAnnual, setInitialDateAnnual ] = useState<any>(undefined);
     const [ finalDateAnnual, setFinalDateAnnual ] = useState<any>(undefined);
     const [ yearValue, setYearValue ] = useState('');
+
+    const [ state, setState ] = useState('');
+    const [ city, setCity ] = useState('');
+    const [ service, setService ] = useState('')
+    const [ font, setFont ] = useState('')
+    const [ status, setStatus ] = useState('');
+    const [ special, setSpecial ] = useState('');
+    const [ typeSpecial, setTypeSpecial ] = useState('');
+    const [ initialDate, setInitialDate ] = useState<any>(undefined);
+    const [ finalDate, setFinalDate ] = useState<any>(undefined);
+    const [ area, setArea ] = useState('');
+    const [ genre, setGenre ] = useState('');
+    const [ breed, setBreed ] = useState('')
     
     const { data: dataUf } = useUf();
     const { data: dataCity } = useCity(ufValue);
-    const { data: annualOccurrences } = useAnnualOccurrences( initialDateAnnual, finalDateAnnual, yearValue)
-    const { data: dashboard } = useDashboardUsers(initialDate,finalDate,ufValue, cityValue)
+    const { data: annualOccurrences } = useAnnualOccurrences( 
+        state,
+        city,
+        service,
+        font,
+        status,
+        special,
+        typeSpecial,
+        initialDate,
+        finalDate,
+        area,
+        genre,
+        breed
+    )
+    const { data: dashboard } = useDashboardUsers(
+        initialDate  === undefined ? '' : initialDate,
+        finalDate === undefined ? '' : finalDate,
+        ufValue === undefined ? '' : ufValue, 
+        cityValue  === undefined ? '' : cityValue 
+    )
 
     function ButtonResetSearch() {
         return (
@@ -56,89 +85,6 @@ const DashUsers: React.FC = () => {
                 : <></>
         )  
     };
-
-    const areaChart = [
-        {
-          name: 'Energia',
-          Male: 4000,
-          Female: 2400,
-          NonBinary: 2400,
-          Other: 4350,
-          title: 'Masculino'
-        },
-        {
-          name: 'Água',
-          Male: 3000,
-          Female: 1398,
-          NonBinary: 2210,
-          Other: 4350,
-          title: 'Feminino'
-        },
-        {
-          name: 'Internet',
-          Male: 2000,
-          Female: 9800,
-          NonBinary: 2290,
-          Other: 4350,
-          title: 'Não-binário'
-        },
-        {
-          name: 'Gás',
-          Male: 2780,
-          Female: 3908,
-          NonBinary: 2000,
-          Other: 4350,
-          title: 'Outros'
-        }
-    ];
-
-    const areaChart2 = [
-        {
-          name: 'Energia',
-          Yellow: 4000,
-          White: 2400,
-          Indigenous: 2400,
-          Brown: 4350,
-          Black: 3852,
-          title: 'Amarela'
-        },
-        {
-          name: 'Água',
-          Yellow: 3000,
-          White: 1398,
-          Indigenous: 2210,
-          Black: 4350,
-          Brown: 3852,
-          title: 'Branca'
-        },
-        {
-          name: 'Internet',
-          Yellow: 2000,
-          White: 5800,
-          Indigenous: 2290,
-          Black: 4350,
-          Brown: 3852,
-          title: 'Indígena'
-        },
-        {
-          name: 'Gás',
-          Yellow: 2780,
-          White: 3908,
-          Indigenous: 2000,
-          Black: 4350,
-          Brown: 3852,
-          title: 'Parda'
-        },
-        {
-          name: 'Lorem ipsum',
-          Yellow: 2780,
-          White: 3908,
-          Indigenous: 2000,
-          Black: 4350,
-          Brown: 3852,
-          title: 'Preta'
-        }
-    ];
 
     const ocurrences = [
         {
@@ -240,6 +186,28 @@ const DashUsers: React.FC = () => {
         }
         
     ];
+
+    const cardGraficItem = [
+        {label: 'energia', value: Math.floor(Math.random() * 100)},
+        {label: 'energia', value: Math.floor(Math.random() * 100)},
+        {label: 'energia', value: Math.floor(Math.random() * 100)},
+        {label: 'energia', value: Math.floor(Math.random() * 100)},
+        {label: 'energia', value: Math.floor(Math.random() * 100)},
+        {label: 'energia', value: Math.floor(Math.random() * 100)},
+        {label: 'energia', value: Math.floor(Math.random() * 100)},
+    ];
+
+    const cardGraficItem2 = [
+        {label: 'água', value: Math.floor(Math.random() * 100)},
+        {label: 'água', value: Math.floor(Math.random() * 100)},
+        {label: 'água', value: Math.floor(Math.random() * 100)},
+        {label: 'água', value: Math.floor(Math.random() * 100)},
+        {label: 'água', value: Math.floor(Math.random() * 100)},
+        {label: 'água', value: Math.floor(Math.random() * 100)},
+        {label: 'água', value: Math.floor(Math.random() * 100)},
+    ];
+
+    console.log(dashboard, 'users')
     
 
     return (
@@ -374,13 +342,12 @@ const DashUsers: React.FC = () => {
                         return (
                             <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
                                 <CardGraficItem
-                                    title={id.name}
-                                    value={id.value}
-                                    icon=""
-                                    id={id.name}
-                                    width='100%'
-                                    height='197px'
-                                    heightGrafic={85}
+                                    title={id?.name}
+                                    value={id?.value}
+                                    id={id?.name}
+                                    heightGrafic={180}
+                                    list={cardGraficItem}
+                                    backgroundColor={''}
                                 />
                             </Grid>
                         );

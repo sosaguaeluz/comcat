@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import * as S from './style';
-import { Box } from '../index';
 import { 
     Area, 
     AreaChart,
     ResponsiveContainer,
 } from 'recharts';
-import { matchMutation } from 'react-query/types/core/utils';
 
 type List = {
     label?: string,
@@ -15,60 +13,70 @@ type List = {
 
 interface IProps {
     icon?: string,
-    title?: string,
+    title: string,
     value?: string,
     id?: string,
-    list?: List[],
-    width?: string,
-    widthChart?: number;
+    list?: any[],
     height?: string;
     heightGrafic?: number
-
+    backgroundColor: string
 }
 
 const CardGraficItem: React.FC <IProps> = (props) => {
     const [ color, setColor ] = useState('');
+    
+    useEffect(() => {
+        if(props.id === 'energia' || props.id === 'south'){
+            return setColor('#FF954E')
+        } 
+        if(props.id === 'água' || props.id === 'north'){
+            return setColor('#1773E2')
+        }
+        if(props.id === 'Quedas de internet' || props.id === 'north_east'){
+            return setColor('#9D86ED')
+        }
+        if(props.id === 'Falta de gás'){
+            return setColor('#FF77F1')
+        }
+        if(props.id === 'south_east'){
+            return setColor('#FF4363')
+        }
+        if(props.id === 'mid_west'){
+            return setColor('#B8D335')
+        }
+    }, [color]);
 
-    function setValueGrafic(){
-        return Math.floor(Math.random() * 100)
+    function renderTitle(value: string){
+        switch(value){
+            case 'south':
+                return 'Sul'
+            case 'north':
+                return 'Norte'
+            case 'north_east':
+                return 'Noroeste'
+            case 'south_east':
+                return 'Sudeste'
+            case 'mid_west':
+                return "Centroeste"
+            default: 
+                return null
+        }
     }
 
-    function setColorGrafic(){
-        if(props.title == 'energia' || props.title == 'Sul'){
-            setColor('#FF954E')
-        } 
-        if(props.title == 'água' || props.title == 'Norte'){
-            setColor('#47DED0')
-        }
-        if(props.title == 'Quedas de internet' || props.title == 'Nordeste'){
-            setColor('#9D86ED')
-        }
-        if(props.title == 'Falta de gás'){
-            setColor('#FF77F1')
-        }
-        if(props.title == 'Sudeste'){
-            setColor('#FF4363')
-        }
-        if(props.title == 'Centro-Oeste'){
-            setColor('#B8D335')
-        }
-    };
-
-    useEffect(() => {
-        setColorGrafic()
-        
-
-    }, [color]);
+    console.log(color);
     
     return (
-            <Box padding='0px' width={props.width} height={props.height}>
+            <S.Card>
                 <S.Container
                     icon={props.icon}
+                    backgroundColor={props.backgroundColor}
                 >
                     <div>
-                        <img src={props.icon} alt="" />
+                        <figure>
+                            <img src={props.icon} alt="" />
+                        </figure>
                         <div>
-                            <h1>{props.title}</h1>
+                            <h1>{renderTitle(props.title)}</h1>
                             <p>{props.value}</p>
                         </div>
                     </div>
@@ -85,13 +93,13 @@ const CardGraficItem: React.FC <IProps> = (props) => {
                                         <stop offset="100%" stopColor={color} stopOpacity={0}/>
                                     </linearGradient>
                                 </defs>
-                                <Area type="monotone" dataKey="label" stroke={color} fillOpacity={1} fill={`url(#${props.id})`} />
-                                <Area type="monotone" dataKey={Math.floor(Math.random() * 100)} stroke={color} fillOpacity={1} fill={`url(#${props.id})`} />
+                                <Area type="monotone" dataKey="label" stroke={color} fillOpacity={1} fill={`url(#${props.id})`}  />
+                                <Area type="monotone" dataKey='value' stroke={color} fillOpacity={1} fill={`url(#${props.id})`}  />
                             </AreaChart>
                         </ResponsiveContainer>
                     </span>
                 </S.Container>
-            </Box>
+            </S.Card>
     );
 };
 

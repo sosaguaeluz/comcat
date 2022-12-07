@@ -51,6 +51,7 @@ const YearGrafic: React.FC <IProps> = (props) => {
     const [focusBar, setFocusBar] = useState<any>(null);
     const [mouseLeave, setMouseLeave] = useState<any>(true);
 
+
     return (
         <Box padding='40px 24px 35px 24px' width={props.width} height={props.height}>
             <S.Container>
@@ -66,11 +67,11 @@ const YearGrafic: React.FC <IProps> = (props) => {
                                 data={props.data}
                                 onMouseMove={(state) => {
                                     if (state.isTooltipActive) {
-                                    setFocusBar(state.activeTooltipIndex);
-                                    setMouseLeave(false);
+                                        setFocusBar(state.activeTooltipIndex);
+                                        setMouseLeave(false);
                                     } else {
-                                    setFocusBar(null);
-                                    setMouseLeave(true);
+                                        setFocusBar(null);
+                                        setMouseLeave(true);
                                     }
                                 }}
                             >
@@ -81,8 +82,9 @@ const YearGrafic: React.FC <IProps> = (props) => {
                                     dataKey="total" 
                                     fill="#C7C7C7" 
                                 >
-                                    {props.data.map((entry: any, index: any) => (
+                                    {props?.data?.map((entry: any, index: any) => (
                                         <Cell 
+                                            width={40}
                                             fill={
                                                 focusBar === index ? "#2B5CE7" : "#C7C7C7"
                                             } 

@@ -60,9 +60,9 @@ const Servicos: React.FC = () => {
                     columns={{ sm: 2, md: 4, lg: 6, xl: 12 }}
                     flex-wrap='wrap'
                 >
-                    {services?.map((id: any) => {
+                    {services?.map((id: any, index: number) => {
                         return (
-                            <Grid item sm={2} md={2} lg={2} xl={3}>
+                            <Grid item sm={2} md={2} lg={2} xl={3} key={index}>
                                 <CardService
                                     onClick={() => {
                                     }} 

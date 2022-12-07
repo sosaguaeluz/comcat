@@ -42,23 +42,17 @@ export const useDashboardUsers = <T>(
     finaldate?: string,
     state?: string,
     city?: string,
-    neighborhood?: string,
-    annual_users?: string[] | any
 ):UseQueryResult<Dashboard_Users> => {
     return useQuery(['dashboard/users',
     initialdate,
     finaldate,
     state,
     city,
-    neighborhood,
-    annual_users
     ], () => getDashboardUsers(
         initialdate,
         finaldate,
         state,
         city,
-        neighborhood,
-        annual_users
     )
 )};
 

@@ -56,8 +56,8 @@ const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
     const [ closeOccurrence, setCloseOccurrence ] = useState(false);
     const [filter, setFilter] = useState<any>({
         service: "",
-        state: "RJ",
-        city: "Rio de Janeiro",
+        state: itemEdit?.state,
+        city: itemEdit?.city,
     });
     const cities = filter.state ? getCities(filter.state) : [];
     let [ latitudeCoord, setLatitudeCoord ] = useState(0);
@@ -141,7 +141,7 @@ const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
     const latitude = watch("latitude");
     const longitude = watch("longitude");
 
-    console.log(latitude, longitude, 'lat log')
+    console.log(itemEdit, 'lat log')
 
     return (
         <>
@@ -446,7 +446,7 @@ const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                         width='100%'
                                         list={states}
                                         id='state'
-                                        defaultValue=''
+                                        defaultValue={itemEdit?.state}
                                     />
                                 </S.Fieldset>                              
                                 <S.Fieldset>
@@ -460,7 +460,7 @@ const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                         width='100%'
                                         list={cities}
                                         id='state'
-                                        defaultValue=''
+                                        defaultValue={itemEdit?.city}
                                     />
                                 </S.Fieldset>
                             </S.FieldService>                                                                                 

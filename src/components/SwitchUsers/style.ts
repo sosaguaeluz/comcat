@@ -12,7 +12,7 @@ export const Container = styled.div<{ width: string }>`
     }
 `;
 
-export const Approve = styled.label<{ value: string | boolean }>`
+export const Approve = styled.label<{ value: boolean }>`
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -23,12 +23,10 @@ export const Approve = styled.label<{ value: string | boolean }>`
     cursor: pointer;
 
     ${(props) => {
-        if(props.value === 'Approved'){
+        if(props.value === true){
             return `
                 background: rgba(62, 168, 73, 0.1);
                 color: #3EA849;
-            
-                
             `;
         } else {
             return `
@@ -43,7 +41,7 @@ export const Approve = styled.label<{ value: string | boolean }>`
     }
 `;
 
-export const Repprove = styled.label<{ value: string | boolean }>`
+export const Repprove = styled.label<{ value: boolean }>`
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -54,7 +52,7 @@ export const Repprove = styled.label<{ value: string | boolean }>`
     cursor: pointer;
 
     ${(props) => {
-        if(props.value === 'Disapproved' || props.value === 'Waiting'){
+        if(props.value === false){
             return `
                 background: rgba(250, 20, 59, 0.1);
                 color: #FA143B;

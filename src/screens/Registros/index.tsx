@@ -70,7 +70,7 @@ const Registros: React.FC = () => {
 
     const [page, setPage] = useState<number>(1);
     const [status, setStatus] = useState<any>();
-    const [service, setService] = useState<string[]>([]);
+    const [service, setService] = useState<any>();
     const [address, setAddress] = useState<any>();
     
     const [cityValue, setCityValue] = useState<any>();
@@ -155,6 +155,8 @@ const Registros: React.FC = () => {
         setTotalList(spam);
     }, [regionOccurrences]);
 
+    console.log(service, 'service')
+
     return (
         <>
             <S.Header>
@@ -214,9 +216,9 @@ const Registros: React.FC = () => {
             </S.CardsContainer>
             {maps === true && (
                 <>
-                    <Box padding="0" width="100%" height="764px">
+                    <Box padding="0" width="100%" height="600px">
                         <S.Map>
-                            <Maps />
+                            <iframe src="https://sosaguaeluz.shinyapps.io/sos-agualuz-mapa/" width="100%" height="600px" frameBorder="no" scrolling="auto"></iframe>
                         </S.Map>
                     </Box>
                 </>
@@ -269,15 +271,17 @@ const Registros: React.FC = () => {
                                 </Grid>
                                 {/* Tela numero 2 */}
                                 <Grid item xs={4} sm={5} md={7} lg={2} xl={2} container>
-                                    <MultSelect
-                                        
+                                    <CustomSelect
                                         width="100%"
-                                        maxWidth={400}
-                                        list={listServices}
-                                        onChange={(e: any) => {
-                                            setService(e);
+                                        id='service'
+                                        label="Selecione o serviço"
+                                        labelDefault="Serviço"
+                                        value={service}
+                                        defaultValue="Selecione o serviço"
+                                        list={dataServices}
+                                        onChange={(e) => {
+                                            setService(e.target.value);
                                         }}
-                                        valueItem={service}
                                     />
                                 </Grid>
                                 {/* Tela numero 3 */}

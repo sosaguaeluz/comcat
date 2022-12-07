@@ -31,3 +31,4 @@ export { default as DropDownEspecial } from './DropDownButtom/index';
 export { default as InputSearchMap } from './InputSearchMap/index';
 export { default as Maps } from './Map/Map';
 export { default as MapSearch } from './MapSearch'
+export { default as SwitchUser } from './SwitchUsers'

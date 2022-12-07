@@ -91,6 +91,7 @@ const CustomSelect: React.FC<IProps> = (props) => {
                     onBlur={props.onBlur}                    
                     disabled={props.disabled}
                     defaultValue=''
+                    MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }}
                 >
                     <MenuItem value=''>
                        {props.defaultValue}

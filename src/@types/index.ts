@@ -119,36 +119,91 @@ export interface User_setings {
     _id: string
 };
 
+interface BreedSummary {
+  total: number;
+  name: string;
+  percent: number;
+}
+
+interface GenreSummary {
+  total: number;
+  name: string;
+  percent: number;
+}
+
+interface Service {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  name: string;
+  image: string;
+  background_color: string;
+  active: boolean;
+  other_option: boolean;
+}
+
+interface BreedChart {
+  yellow: number;
+  white: number;
+  indigenous: number;
+  brown: number;
+  black: number;
+}
+
+interface GenreChart {
+  male: number;
+  female: number;
+  nonbinary: number;
+  others: number;
+}
+
+interface LineChart {
+  service: Service;
+  value: number;
+  breed_chart: BreedChart;
+  genre_chart: GenreChart;
+}
+
+interface Service3 {
+  id: string;
+  createdAt: Date;
+  updatedAt: Date;
+  name: string;
+  image: string;
+  background_color: string;
+  active: boolean;
+  other_option: boolean;
+}
+
+interface Service2 {
+  month: string;
+  service: Service3;
+  total: number;
+}
+
+interface Monthly {
+  month: string;
+  total: number;
+  services: Service2[];
+}
+
+interface AnnualOccurrences {
+  year: string;
+  total: number;
+  monthly_rate: number;
+  monthly: Monthly[];
+}
+
 export interface Dashboard_Occurrences {
-    total: number,
-    new_today: number,
-    approved_today: number,
-    disapproved_today: number,
-    line_charts: [
-      string
-    ],
-    // genre_chart: {
-    //   male_percent: number,
-    //   female_percent: number,
-    //   non_binary_percent: number,
-    //   others_percent: number
-    // },
-    // breed_chart: {
-    //   yellow_percent: number,
-    //   white_percent: number,
-    //   indigenous_percent: number,
-    //   brown_percent: number,
-    //   black_percent: number
-    // },
-    annual_occurrences: {
-      year: string,
-      total: number,
-      monthly_rate: number,
-      monthly: [
-        string
-      ]
-    }
-};
+  total: number;
+  new_today: number;
+  approved_today: number;
+  disapproved_today: number;
+  breed_summary: BreedSummary[];
+  genre_summary: GenreSummary[];
+  line_charts: LineChart[];
+  annual_occurrences: AnnualOccurrences;
+}
 
 export interface Dashboard_Users {
     total: number,
@@ -378,3 +433,4 @@ export interface Uploads {
     file: any,
     id?: string
 };
+

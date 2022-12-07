@@ -62,7 +62,7 @@ const Usuarios: React.FC = () => {
     const [genre, setGenre] = useState<any>(undefined);
     const [breed, setBreed] = useState<any>(undefined);
     const [ufValue, setUfValue] = useState<any>(undefined);
-    const [role, setRole] = useState<any>('Administrador');
+    const [role, setRole] = useState<any>('Mobile');
 
     const deleteUser = async (id: string):Promise<User> => {
         const resp = await api.delete<User>(`/users/${id}`)
@@ -130,7 +130,7 @@ const Usuarios: React.FC = () => {
                         onSelect={() => {
                             setApp(true);
                             setPanel(false);
-                            setRole('Administrador')
+                            setRole('Mobile')
                             setPage(1)
                             setUser(undefined)
                             setGenre(undefined)
@@ -145,7 +145,7 @@ const Usuarios: React.FC = () => {
                         onSelect={() => {
                             setApp(false);
                             setPanel(true);
-                            setRole('Mobile')
+                            setRole('Administrador')
                             setPage(1)
                             setUser(undefined)
                             setGenre(undefined)
@@ -178,17 +178,17 @@ const Usuarios: React.FC = () => {
                                         list={totalList}
                                     />
                                 </Grid>
-                                {regionUsers?.map((id: any) => {
+                                {regionUsers?.map((id: any, index: number) => {
                                     return (
-                                        <Grid item xs={6} sm={4} md={4} lg xl>
+                                        <Grid item xs={6} sm={4} md={4} lg xl key={index}>
                                             <DropDown
-                                                key={id.name}
+                                                key={id?.name}
                                                 icon=""
-                                                title={id.name}
-                                                value={id.user_total}
+                                                title={id?.name}
+                                                value={id?.user_total}
                                                 type="list"
                                                 width="100%"
-                                                list={id.state_list}
+                                                list={id?.state_list}
                                             />
                                         </Grid>
                                     );
@@ -359,9 +359,9 @@ const Usuarios: React.FC = () => {
                                         </tr>
                                     </S.TableHead>
                                     <tbody>
-                                        {users?.data?.map((id: any) => {
+                                        {users?.data?.map((id: any, index: any) => {
                                             return (
-                                                <tr>
+                                                <tr key={index}>
                                                     <td
                                                         style={{
                                                             width: "250px",
@@ -382,9 +382,7 @@ const Usuarios: React.FC = () => {
                                                         }}
                                                     >
                                                         <span>
-                                                            {regex(
-                                                                id?.phone_number
-                                                            )}
+                                                            {id?.phone_number ? regex(id?.phone_number) : ''}
                                                         </span>
                                                     </td>
                                                     <td
@@ -591,9 +589,9 @@ const Usuarios: React.FC = () => {
                                             </th>
                                         </tr>
                                     </S.TableHead>
-                                    {users?.data?.map((id: any) => {
+                                    {users?.data?.map((id: any, index: number) => {
                                         return (
-                                            <tbody>
+                                            <tbody key={index}>
                                                 <tr>
                                                     <td
                                                         style={{

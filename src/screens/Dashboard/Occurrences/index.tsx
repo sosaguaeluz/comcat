@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './style';
 import { 
     useAnnualOccurrences,
@@ -25,19 +25,56 @@ import {
 const DashOccurrences: React.FC = () => {
     const [ ufValue, setUfValue ] = useState<string>('');
     const [ cityValue, setCityValue ] = useState<string>('');
-    const [ initialDate, setInitialDate ] = useState<any>(undefined);
-    const [ finalDate, setFinalDate ] = useState<any>(undefined);
     const [ resetSearch, setResetSearch] = useState(false);
     const [ multValueGenre, setMultValueGenre ] = useState<string[]>([]);
     const [ multValueBreed, setMultValueBreed ] = useState<string[]>([]);
-    const [ initialDateAnnual, setInitialDateAnnual ] = useState<any>(undefined);
-    const [ finalDateAnnual, setFinalDateAnnual ] = useState<any>(undefined);
-    const [ yearValue, setYearValue ] = useState('');
+
+    const [ state, setState ] = useState('');
+    const [ city, setCity ] = useState('');
+    const [ service, setService ] = useState('')
+    const [ font, setFont ] = useState('')
+    const [ status, setStatus ] = useState('');
+    const [ special, setSpecial ] = useState('');
+    const [ typeSpecial, setTypeSpecial ] = useState('');
+    const [ initialDate, setInitialDate ] = useState<any>();
+    const [ finalDate, setFinalDate ] = useState<any>('');
+    const [ area, setArea ] = useState('');
+    const [ genre, setGenre ] = useState('');
+    const [ breed, setBreed ] = useState('');
+    const [ breedChart, setBreedChart ] = useState<any>();
+    const [ genreChart, setGenreChart ] = useState<any>();
+    const [ anualOccurrence, setAnualOccurence ] = useState<any>();
     
     const { data: dataUf } = useUf();
     const { data: dataCity } = useCity(ufValue);
-    const { data: dashboard } = useDashboardOccurrences();
-    const { data: annualOccurrences } = useAnnualOccurrences( initialDateAnnual, finalDateAnnual, yearValue)
+    const { data: dashboard } = useDashboardOccurrences(
+        state === undefined ? '' : state,
+        city === undefined ? '' : city,
+        service === undefined ? '' : service,
+        font === undefined ? '' : font,
+        status === undefined ? '' : status,
+        special === undefined ? '' : special,
+        typeSpecial === undefined ? '' : typeSpecial ,
+        initialDate === undefined ? '' : initialDate ,
+        finalDate === undefined ? '' : finalDate ,
+        area === undefined ? '' : area ,
+        genre === undefined ? '' : genre ,
+        breed === undefined ? '' : breed
+    );
+    const { data: annualOccurrences } = useAnnualOccurrences( 
+        state === undefined ? '' : state,
+        city === undefined ? '' : city,
+        service === undefined ? '' : service,
+        font === undefined ? '' : font,
+        status === undefined ? '' : status,
+        special === undefined ? '' : special,
+        typeSpecial === undefined ? '' : typeSpecial ,
+        initialDate === undefined ? '' : initialDate ,
+        finalDate === undefined ? '' : finalDate ,
+        area === undefined ? '' : area ,
+        genre === undefined ? '' : genre ,
+        breed === undefined ? '' : breed
+    )
 
     function ButtonResetSearch() {
         return (
@@ -56,190 +93,79 @@ const DashOccurrences: React.FC = () => {
         )  
     };
 
-    const areaChart = [
-        {
-          name: 'Energia',
-          Male: 4000,
-          Female: 2400,
-          NonBinary: 2400,
-          Other: 4350,
-          title: 'Masculino'
-        },
-        {
-          name: 'Água',
-          Male: 3000,
-          Female: 1398,
-          NonBinary: 2210,
-          Other: 4350,
-          title: 'Feminino'
-        },
-        {
-          name: 'Internet',
-          Male: 2000,
-          Female: 9800,
-          NonBinary: 2290,
-          Other: 4350,
-          title: 'Não-binário'
-        },
-        {
-          name: 'Gás',
-          Male: 2780,
-          Female: 3908,
-          NonBinary: 2000,
-          Other: 4350,
-          title: 'Outros'
-        }
+    const cardGraficItem = [
+        {label: 'energia', value: Math.floor(Math.random() * 100)},
+        {label: 'energia', value: Math.floor(Math.random() * 100)},
+        {label: 'energia', value: Math.floor(Math.random() * 100)},
+        {label: 'energia', value: Math.floor(Math.random() * 100)},
+        {label: 'energia', value: Math.floor(Math.random() * 100)},
+        {label: 'energia', value: Math.floor(Math.random() * 100)},
+        {label: 'energia', value: Math.floor(Math.random() * 100)},
     ];
 
-    const areaChart2 = [
-        {
-          name: 'Energia',
-          Yellow: 4000,
-          White: 2400,
-          Indigenous: 2400,
-          Brown: 4350,
-          Black: 3852,
-          title: 'Amarela'
-        },
-        {
-          name: 'Água',
-          Yellow: 3000,
-          White: 1398,
-          Indigenous: 2210,
-          Black: 4350,
-          Brown: 3852,
-          title: 'Branca'
-        },
-        {
-          name: 'Internet',
-          Yellow: 2000,
-          White: 5800,
-          Indigenous: 2290,
-          Black: 4350,
-          Brown: 3852,
-          title: 'Indígena'
-        },
-        {
-          name: 'Gás',
-          Yellow: 2780,
-          White: 3908,
-          Indigenous: 2000,
-          Black: 4350,
-          Brown: 3852,
-          title: 'Parda'
-        },
-        {
-          name: 'Lorem ipsum',
-          Yellow: 2780,
-          White: 3908,
-          Indigenous: 2000,
-          Black: 4350,
-          Brown: 3852,
-          title: 'Preta'
-        }
+    const cardGraficItem2 = [
+        {label: 'água', value: Math.floor(Math.random() * 100)},
+        {label: 'água', value: Math.floor(Math.random() * 100)},
+        {label: 'água', value: Math.floor(Math.random() * 100)},
+        {label: 'água', value: Math.floor(Math.random() * 100)},
+        {label: 'água', value: Math.floor(Math.random() * 100)},
+        {label: 'água', value: Math.floor(Math.random() * 100)},
+        {label: 'água', value: Math.floor(Math.random() * 100)},
     ];
 
-    const ocurrences = [
-        {
-            name: 'Energia',
-            energia: 4000,
-            agua: 1000,
-            internet: 2400,
-            gas: 1350,
-            month: 'Jan',
-            total: 300
-        },{
-            name: 'Água',
-            energia: 4000,
-            agua: 1000,
-            internet: 2400,
-            gas: 1350,
-            month: 'Fev',
-            total: 50
-        }, {
-            name: 'Internet',
-            energia: 4000,
-            agua: 1000,
-            internet: 2400,
-            gas: 1350,
-            month: 'Mar',
-            total: 150
-        }, {
-            name: 'Gás',
-            energia: 4000,
-            agua: 1000,
-            internet: 2400,
-            gas: 1350,
-            month: 'Abr',
-            total: 369
-        }, {
-            name: 'Água',
-            energia: 4000,
-            agua: 1000,
-            internet: 2400,
-            gas: 1350,
-            month: 'Mai',
-            total: 50
-        }, {
-            name: 'Internet',
-            energia: 4000,
-            agua: 1000,
-            internet: 2400,
-            gas: 1350,
-            month: 'Jun',
-            total: 150
-        }, {
-            name: 'Gás',
-            energia: 4000,
-            agua: 1000,
-            internet: 2400,
-            gas: 1350,
-            month: 'Jul',
-            total: 369
-        }, {
-            name: 'Gás',
-            energia: 4000,
-            agua: 1000,
-            internet: 2400,
-            gas: 1350,
-            month: 'Ago',
-            total: 369
-        }, {
-            name: 'Gás',
-            energia: 4000,
-            agua: 1000,
-            internet: 2400,
-            gas: 1350,
-            month: 'Set',
-            total: 369
-        }, {
-            name: 'Gás',
-            energia: 4000,
-            agua: 1000,
-            internet: 2400,
-            gas: 1350,
-            month: 'Out',
-            total: 369
-        }, {
-            name: 'Gás',
-            energia: 4000,
-            agua: 1000,
-            internet: 2400,
-            gas: 1350,
-            month: 'Nov',
-            total: 369
-        }, {
-            name: 'Gás',
-            energia: 4000,
-            agua: 1000,
-            internet: 2400,
-            gas: 1350,
-            month: 'Dez',
-            total: 369
-        }
-        
-    ];
+    useEffect(() => {
+        let aux: any = []
     
+        dashboard?.annual_occurrences?.monthly?.forEach((line: any) => {
+            aux.push({
+                total: line?.total,
+                month: line?.month,
+                //name: line?.service?.name,
+                energia: line?.services[0]?.total,
+                agua: line?.services[1]?.total,
+                services: line?.services
+            })
+        })
+
+        setAnualOccurence(aux)
+    }, [dashboard])
+
+    console.log(dashboard?.annual_occurrences, 'props.data')
+
+    useEffect(() => {
+        let aux: any = []
+    
+        dashboard?.line_charts?.forEach((line: any) => {
+            aux.push({
+                name: line?.service?.name,
+                Black: line?.breed_chart?.black,
+                Brown: line?.breed_chart?.brown,
+                Indigenous: line?.breed_chart?.indigenous,
+                White: line?.breed_chart?.white,
+                Yellow: line?.breed_chart?.yellow,
+                
+            })
+        })
+        setBreedChart(aux)
+        
+    }, [dashboard]);
+
+    useEffect(() => {
+        let aux: any = []
+    
+        dashboard?.line_charts?.forEach((line: any) => {
+            aux.push({
+                name: line?.service?.name,
+                Male: line?.genre_chart?.male,
+                Female: line?.genre_chart?.female,
+                NonBinary: line?.genre_chart?.nonbinary,
+                Other: line?.genre_chart?.other,
+                
+            })
+        })
+        setGenreChart(aux)
+        
+    }, [dashboard]);
 
     return (
         <>
@@ -355,19 +281,19 @@ const DashOccurrences: React.FC = () => {
             <S.Description>
                 Gráfico de ocorrências - 
                 <b>
-                    {ufValue !== ''
-                    && cityValue !== undefined 
-                        ? `${ufValue}, ${cityValue}`
+                    {state !== undefined
+                    && city !== '' 
+                        ? `${ufValue}, ${city}`
                         : 'Todos os locais '
                     }
                     |
                     {
-                    initialDate !== undefined 
+                    initialDate !== undefined
                         ? ` de ${initialDate}`
                         : ' Desde o inicio'
                     }
                     {
-                    finalDate !== undefined 
+                    finalDate !== undefined
                         ? ` até ${finalDate}` 
                         : ' até hoje'
                     }
@@ -380,16 +306,17 @@ const DashOccurrences: React.FC = () => {
                     spacing={2.5}
                     flex-wrap='wrap'
                 >
-                    {dashboard?.line_charts?.map((id: any) => {
+                    {dashboard?.line_charts?.map((id: any, index: number) => {
                         return (
-                            <Grid item xs sm={6} md={4} lg={3} xl={3}>
+                            <Grid item xs sm={6} md={4} lg={3} xl={3} key={index}>
                                 <CardGraficItem
-                                    width='100%'
                                     title={id?.service?.name}
                                     value={id?.value}
                                     icon={id?.service?.image}
-                                    id={id?.name}
-                                    heightGrafic={85}
+                                    id={id?.service?.name === 'Água' ? 'água' : 'energia'}
+                                    heightGrafic={180}
+                                    list={id?.service?.name === 'Água' ? cardGraficItem : cardGraficItem2}
+                                    backgroundColor={id?.service?.background_color}
                                 />
                             </Grid>
                         );
@@ -405,7 +332,7 @@ const DashOccurrences: React.FC = () => {
                 >
                     <Grid item xs sm md={6} lg={6} xl={6}>
                         <CardGraficArea 
-                            data={areaChart}
+                            data={genreChart}
                             valueItem={multValueGenre}
                             onChange={(e) => {
                                 setMultValueGenre(e)
@@ -419,7 +346,7 @@ const DashOccurrences: React.FC = () => {
                     </Grid>
                     <Grid item xs sm md={6} lg={6} xl={6}>
                         <CardGraficArea
-                            data={areaChart2}
+                            data={breedChart}
                             valueItem={multValueBreed}
                             onChange={(e) => {
                                 setMultValueBreed(e)
@@ -458,7 +385,8 @@ const DashOccurrences: React.FC = () => {
                         <CardInfo 
                             icon=''
                             title="Média de novas ocorrências por mês"
-                            value={dashboard?.annual_occurrences?.monthly_rate}
+                            //@ts-ignore
+                            value={`${dashboard?.annual_occurrences?.monthly_rate?.toFixed(2)}%`}
                             type=""
                             width="100%"
                             height='108px'
@@ -467,9 +395,10 @@ const DashOccurrences: React.FC = () => {
                 </Grid>
                 {/*FALTA DADOS DA API*/}
                 <YearGrafic 
-                    title={`Ocorrências no ano de ${dashboard?.annual_occurrences?.total}`}
-                    number={1000}
-                    data={ocurrences}
+                    title={`Ocorrências no ano de ${dashboard?.annual_occurrences?.year}`}
+                    //@ts-ignore
+                    number={dashboard?.annual_occurrences?.total}
+                    data={anualOccurrence}
                     width= "100%"
                     height='auto'                    
                     heightGrafic={300}

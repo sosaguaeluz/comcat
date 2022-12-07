@@ -24,7 +24,7 @@ const getOccurrences = async <T>(
         params.append("order", "DESC");
     }
     if(services !== ''){
-        params.append("services", services);
+        params.append("service", services);
     }
     if(page !== undefined){
         params.append("page", page.toString())
