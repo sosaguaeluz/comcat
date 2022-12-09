@@ -1,6 +1,6 @@
 import { api } from '../index'
 import { useQuery, UseQueryResult } from 'react-query'
-import { Dashboard_Users } from '../../@types'
+import { IDashboardUser } from '../../@types/IDashboardUsers';
 
 export const getDashboardUsers = async <T>(
     initialdate?: string,
@@ -10,7 +10,7 @@ export const getDashboardUsers = async <T>(
     neighborhood?: string,
     annual_users?: string[] | any   
 
-):Promise<Dashboard_Users > => {
+):Promise<IDashboardUser > => {
 
     let params = new URLSearchParams();
 
@@ -30,7 +30,7 @@ export const getDashboardUsers = async <T>(
         params.append("neighborhood", neighborhood)
     }
 
-    const { data } = await api.get<Dashboard_Users>('/dashboard/users', {
+    const { data } = await api.get<IDashboardUser>('/dashboard/users', {
         params: params,
     });
 
@@ -42,7 +42,7 @@ export const useDashboardUsers = <T>(
     finaldate?: string,
     state?: string,
     city?: string,
-):UseQueryResult<Dashboard_Users> => {
+):UseQueryResult<IDashboardUser> => {
     return useQuery(['dashboard/users',
     initialdate,
     finaldate,
@@ -60,7 +60,7 @@ export const useAnnualUsers = <T>(
     initialdate?: string,
     finaldate?: string,
     annual_users?: string[] | any, 
-):UseQueryResult<Dashboard_Users> => {
+):UseQueryResult<IDashboardUser> => {
     return useQuery(['dashboard/users',
     initialdate,
     finaldate,

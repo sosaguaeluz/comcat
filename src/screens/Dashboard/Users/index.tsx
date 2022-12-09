@@ -40,7 +40,7 @@ const DashUsers: React.FC = () => {
     const [ status, setStatus ] = useState('');
     const [ special, setSpecial ] = useState('');
     const [ typeSpecial, setTypeSpecial ] = useState('');
-    const [ initialDate, setInitialDate ] = useState<any>(undefined);
+    const [ initialDate, setInitialDate ] = useState<any>('2020-01-01T00:00:01.076Z');
     const [ finalDate, setFinalDate ] = useState<any>(undefined);
     const [ area, setArea ] = useState('');
     const [ genre, setGenre ] = useState('');
@@ -207,7 +207,7 @@ const DashUsers: React.FC = () => {
         {label: 'água', value: Math.floor(Math.random() * 100)},
     ];
 
-    console.log(dashboard, 'users')
+    console.log(dashboard, 'userssss')
     
 
     return (
@@ -346,7 +346,7 @@ const DashUsers: React.FC = () => {
                                     value={id?.value}
                                     id={id?.name}
                                     heightGrafic={180}
-                                    list={cardGraficItem}
+                                    list={id?.charts}
                                     backgroundColor={''}
                                 />
                             </Grid>
@@ -380,7 +380,8 @@ const DashUsers: React.FC = () => {
                         <CardInfo 
                             icon=''
                             title="Média de novos usuários por mês"
-                            value={dashboard?.annual_users?.monthly}
+                            //@ts-ignore
+                            value={`${dashboard?.annual_users?.monthly.toFixed(2)}%`}
                             type=""
                             width="100%"
                             height='108px'

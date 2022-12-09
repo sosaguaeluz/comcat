@@ -36,7 +36,7 @@ const DashOccurrences: React.FC = () => {
     const [ status, setStatus ] = useState('');
     const [ special, setSpecial ] = useState('');
     const [ typeSpecial, setTypeSpecial ] = useState('');
-    const [ initialDate, setInitialDate ] = useState<any>();
+    const [ initialDate, setInitialDate ] = useState<any>('2020-01-01T00:00:01.076Z');
     const [ finalDate, setFinalDate ] = useState<any>('');
     const [ area, setArea ] = useState('');
     const [ genre, setGenre ] = useState('');
@@ -166,6 +166,8 @@ const DashOccurrences: React.FC = () => {
         setGenreChart(aux)
         
     }, [dashboard]);
+
+    console.log(dashboard, 'dash')
 
     return (
         <>
