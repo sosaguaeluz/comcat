@@ -13,19 +13,15 @@ import styled from '@emotion/styled';
 import { Grid, LinearProgress, linearProgressClasses } from '@mui/material';
 
 type List = {
-    name: string,
-    energia: number,
-    agua: number,
-    internet: number,
-    gas: number,
     month: string,
-    total: number
+    value: number,
+    regions?:  any
 }
 
 interface IProps {
     title: string | undefined,
     number: number,
-    data: List[],
+    data?: any,
     width?: string,
     height?: string,
     heightGrafic?: number,
@@ -45,12 +41,13 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
         backgroundColor: '#FF954E',
       },
     width: '100%'
-  }));
+}));
 
 const YearGrafic: React.FC <IProps> = (props) => {
     const [focusBar, setFocusBar] = useState<any>(null);
     const [mouseLeave, setMouseLeave] = useState<any>(true);
 
+    console.log(focusBar, 'focus bar')
 
     return (
         <Box padding='40px 24px 35px 24px' width={props.width} height={props.height}>
@@ -79,7 +76,7 @@ const YearGrafic: React.FC <IProps> = (props) => {
                                 <XAxis dataKey="month" />
                                 <Bar 
                                     radius={[25, 25, 0, 0]} 
-                                    dataKey="total" 
+                                    dataKey="value" 
                                     fill="#C7C7C7" 
                                 >
                                     {props?.data?.map((entry: any, index: any) => (
@@ -101,17 +98,17 @@ const YearGrafic: React.FC <IProps> = (props) => {
                                 columnSpacing={8}                      
                                 flex-wrap='nowrap'
                             >
-                                {Array.from(Array(8)).map((_, index) => (
+                                {/* {focusBar && props?.data[focusBar]?.regions?.map((id: any, index: any) => (
                                     <Grid item xs sm md={6} lg={6} xl={6} key={index}>
                                         <span>
-                                            <p>{props.title}</p>
-                                            <h1>{props.number}</h1>
+                                            <p>{id?.region}</p>
+                                            <h1>{id?.value}</h1>
                                         </span>
                                         <div >
-                                            <BorderLinearProgress variant="determinate" value={50} />
+                                            <BorderLinearProgress variant="determinate" value={id?.value} />
                                         </div>
                                     </Grid>
-                                ))}
+                                ))} */}
                             </Grid>
                     </S.ProgressBar>
                 </section>

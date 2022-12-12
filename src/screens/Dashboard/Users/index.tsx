@@ -207,7 +207,7 @@ const DashUsers: React.FC = () => {
         {label: 'água', value: Math.floor(Math.random() * 100)},
     ];
 
-    console.log(dashboard, 'userssss')
+    console.log(dashboard?.anual_line_charts, 'userssss')
     
 
     return (
@@ -327,7 +327,7 @@ const DashUsers: React.FC = () => {
             </S.StatusBox>
 
             <S.TextData>
-                <p> usuários no útimo ano - <b>{dashboard?.annual_users?.total}</b></p>
+                <p> usuários no útimo ano - <b>{dashboard?.total}</b></p>
             </S.TextData>
 
             <S.GraficItemContainer>
@@ -343,7 +343,7 @@ const DashUsers: React.FC = () => {
                             <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
                                 <CardGraficItem
                                     title={id?.name}
-                                    value={id?.value}
+                                    value={id?.total}
                                     id={id?.name}
                                     heightGrafic={180}
                                     list={id?.charts}
@@ -392,7 +392,7 @@ const DashUsers: React.FC = () => {
                 <YearGrafic 
                     title='Usuarios em '
                     number={1000}
-                    data={ocurrences}
+                    data={dashboard?.anual_line_charts}
                     width= "100%"
                     height='auto'                    
                     heightGrafic={300}

@@ -26,22 +26,22 @@ const CardGraficItem: React.FC <IProps> = (props) => {
     const [ color, setColor ] = useState('');
     
     useEffect(() => {
-        if(props.id === 'energia' || props.id === 'south'){
+        if(props.id === 'energia' || props.id === 'Sul'){
             return setColor('#FF954E')
         } 
-        if(props.id === 'água' || props.id === 'north'){
+        if(props.id === 'água' || props.id === 'Norte'){
             return setColor('#1773E2')
         }
-        if(props.id === 'Quedas de internet' || props.id === 'north_east'){
+        if(props.id === 'Quedas de internet' || props.id === 'Nordeste'){
             return setColor('#9D86ED')
         }
         if(props.id === 'Falta de gás'){
             return setColor('#FF77F1')
         }
-        if(props.id === 'south_east'){
+        if(props.id === 'Sudeste'){
             return setColor('#FF4363')
         }
-        if(props.id === 'mid_west'){
+        if(props.id === 'Centro-Oeste'){
             return setColor('#B8D335')
         }
     }, [color]);
@@ -72,11 +72,13 @@ const CardGraficItem: React.FC <IProps> = (props) => {
                     backgroundColor={props.backgroundColor}
                 >
                     <div>
-                        <figure>
+                        <figure style={{
+                            display: props.icon ? 'block': 'none'
+                        }}>
                             <img src={props.icon} alt="" />
                         </figure>
                         <div>
-                            <h1>{renderTitle(props.title)}</h1>
+                            <h1>{props.title}</h1>
                             <p>{props.value}</p>
                         </div>
                     </div>
