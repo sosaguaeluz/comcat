@@ -63,7 +63,7 @@ export const SearchBar = styled.div`
     margin-bottom: 24px;
     
     > div:nth-child(1){
-        width: 810px;
+        width: 530px;
         display: flex;
         justify-content: space-between;
     }

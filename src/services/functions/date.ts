@@ -13,6 +13,10 @@ export function extractDate(date: string){
     return moment(date).utc(true).format('DD-MM-YYYY')
 }
 
+export function dateNoConver(date: string){
+    return moment(date).utc(true).format('YYYY-MM-DD')
+}
+
 export function extractHours(date: string){
     return moment(date).utc(true).format('HH:mm')
 }

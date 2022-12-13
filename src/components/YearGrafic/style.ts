@@ -26,18 +26,15 @@ export const Container = styled.div`
         row-gap: 20px;
 
         >span {
-            width: 50%;
-            padding-Left: 56px;
+            width: 70%;
             padding-right: 50px;
         }
     }
 `;
 
 export const ProgressBar = styled.div`
-    width: 50%;
+    width: 30%;
     height: auto;
-    padding-left: 50px;
-    padding-right: 38px;
     flex-direction: column;
     
     div {

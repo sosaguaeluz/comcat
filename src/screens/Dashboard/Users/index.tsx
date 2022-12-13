@@ -22,8 +22,12 @@ import {
 import { 
     ocurrenceIcon
 } from '../../../assets';
+import { dateNoConver } from '../../../services/functions/date';
 
 const DashUsers: React.FC = () => {
+    const data = new Date();
+    const year = data.getFullYear()
+
     const [ ufValue, setUfValue ] = useState<string>('');
     const [ cityValue, setCityValue ] = useState<string>('');
     const [ resetSearch, setResetSearch] = useState(false);
@@ -40,34 +44,20 @@ const DashUsers: React.FC = () => {
     const [ status, setStatus ] = useState('');
     const [ special, setSpecial ] = useState('');
     const [ typeSpecial, setTypeSpecial ] = useState('');
-    const [ initialDate, setInitialDate ] = useState<any>('2020-01-01T00:00:01.076Z');
-    const [ finalDate, setFinalDate ] = useState<any>(undefined);
+    const [ initialDate, setInitialDate ] = useState<any>(`${year}-01-01`);
+    const [ finalDate, setFinalDate ] = useState<any>(dateNoConver(data.toISOString()));
     const [ area, setArea ] = useState('');
     const [ genre, setGenre ] = useState('');
     const [ breed, setBreed ] = useState('')
     
     const { data: dataUf } = useUf();
     const { data: dataCity } = useCity(ufValue);
-    const { data: annualOccurrences } = useAnnualOccurrences( 
-        state,
-        city,
-        service,
-        font,
-        status,
-        special,
-        typeSpecial,
-        initialDate,
-        finalDate,
-        area,
-        genre,
-        breed
-    )
     const { data: dashboard } = useDashboardUsers(
         initialDate  === undefined ? '' : initialDate,
         finalDate === undefined ? '' : finalDate,
         ufValue === undefined ? '' : ufValue, 
         cityValue  === undefined ? '' : cityValue 
-    )
+    );
 
     function ButtonResetSearch() {
         return (
@@ -86,129 +76,7 @@ const DashUsers: React.FC = () => {
         )  
     };
 
-    const ocurrences = [
-        {
-            name: 'Energia',
-            energia: 4000,
-            agua: 1000,
-            internet: 2400,
-            gas: 1350,
-            month: 'Jan',
-            total: 300
-        },{
-            name: 'Água',
-            energia: 4000,
-            agua: 1000,
-            internet: 2400,
-            gas: 1350,
-            month: 'Fev',
-            total: 50
-        }, {
-            name: 'Internet',
-            energia: 4000,
-            agua: 1000,
-            internet: 2400,
-            gas: 1350,
-            month: 'Mar',
-            total: 150
-        }, {
-            name: 'Gás',
-            energia: 4000,
-            agua: 1000,
-            internet: 2400,
-            gas: 1350,
-            month: 'Abr',
-            total: 369
-        }, {
-            name: 'Água',
-            energia: 4000,
-            agua: 1000,
-            internet: 2400,
-            gas: 1350,
-            month: 'Mai',
-            total: 50
-        }, {
-            name: 'Internet',
-            energia: 4000,
-            agua: 1000,
-            internet: 2400,
-            gas: 1350,
-            month: 'Jun',
-            total: 150
-        }, {
-            name: 'Gás',
-            energia: 4000,
-            agua: 1000,
-            internet: 2400,
-            gas: 1350,
-            month: 'Jul',
-            total: 369
-        }, {
-            name: 'Gás',
-            energia: 4000,
-            agua: 1000,
-            internet: 2400,
-            gas: 1350,
-            month: 'Ago',
-            total: 369
-        }, {
-            name: 'Gás',
-            energia: 4000,
-            agua: 1000,
-            internet: 2400,
-            gas: 1350,
-            month: 'Set',
-            total: 369
-        }, {
-            name: 'Gás',
-            energia: 4000,
-            agua: 1000,
-            internet: 2400,
-            gas: 1350,
-            month: 'Out',
-            total: 369
-        }, {
-            name: 'Gás',
-            energia: 4000,
-            agua: 1000,
-            internet: 2400,
-            gas: 1350,
-            month: 'Nov',
-            total: 369
-        }, {
-            name: 'Gás',
-            energia: 4000,
-            agua: 1000,
-            internet: 2400,
-            gas: 1350,
-            month: 'Dez',
-            total: 369
-        }
-        
-    ];
-
-    const cardGraficItem = [
-        {label: 'energia', value: Math.floor(Math.random() * 100)},
-        {label: 'energia', value: Math.floor(Math.random() * 100)},
-        {label: 'energia', value: Math.floor(Math.random() * 100)},
-        {label: 'energia', value: Math.floor(Math.random() * 100)},
-        {label: 'energia', value: Math.floor(Math.random() * 100)},
-        {label: 'energia', value: Math.floor(Math.random() * 100)},
-        {label: 'energia', value: Math.floor(Math.random() * 100)},
-    ];
-
-    const cardGraficItem2 = [
-        {label: 'água', value: Math.floor(Math.random() * 100)},
-        {label: 'água', value: Math.floor(Math.random() * 100)},
-        {label: 'água', value: Math.floor(Math.random() * 100)},
-        {label: 'água', value: Math.floor(Math.random() * 100)},
-        {label: 'água', value: Math.floor(Math.random() * 100)},
-        {label: 'água', value: Math.floor(Math.random() * 100)},
-        {label: 'água', value: Math.floor(Math.random() * 100)},
-    ];
-
-    console.log(dashboard?.anual_line_charts, 'userssss')
-    
+    console.log(year, 'data')
 
     return (
         <>
@@ -277,7 +145,7 @@ const DashUsers: React.FC = () => {
             </Box>
 
             <S.StatusBox>
-                <Grid
+                {/* <Grid
                     container
                     spacing={{ xs: 2.5, md: 2.5, lg: 2.5 }}
                     flex-wrap='wrap'
@@ -323,7 +191,7 @@ const DashUsers: React.FC = () => {
                             height="108px"
                         />
                     </Grid>
-                </Grid>
+                </Grid> */}
             </S.StatusBox>
 
             <S.TextData>
@@ -331,7 +199,7 @@ const DashUsers: React.FC = () => {
             </S.TextData>
 
             <S.GraficItemContainer>
-                <Grid
+                {/* <Grid
                     container
                     spacing={{ xs: 2.5, md: 4, lg: 4 }}
                     columns={{ xs: 6, sm: 6, md: 10, lg: 10, xl: 10}}
@@ -352,15 +220,14 @@ const DashUsers: React.FC = () => {
                             </Grid>
                         );
                     })}
-                </Grid>
+                </Grid> */}
             </S.GraficItemContainer>
 
             <S.TextData>
                 <p> Usuário no ultimo ano - <b>{dashboard?.annual_users?.total}</b></p>
             </S.TextData>
 
-            <S.GraficYearContainer>
-                {/*PRONTO*/}
+            {/* <S.GraficYearContainer>
                 <Grid
                     container
                     spacing={2.5}                 
@@ -388,16 +255,15 @@ const DashUsers: React.FC = () => {
                         />
                     </Grid>
                 </Grid>
-                {/*FALTA DADOS DA API*/}
                 <YearGrafic 
                     title='Usuarios em '
                     number={1000}
-                    data={dashboard?.anual_line_charts}
+                    data={dashboard?.annual_line_charts}
                     width= "100%"
                     height='auto'                    
                     heightGrafic={300}
                 />
-            </S.GraficYearContainer>
+            </S.GraficYearContainer> */}
         </>
     );
 };

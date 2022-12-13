@@ -1,3 +1,4 @@
+import { IDashboardOccureecen } from './../../@types/IDashboardOccurrence';
 import { api } from '../index'
 import { useQuery, UseQueryResult } from 'react-query'
 import { Dashboard_Occurrences } from '../../@types'
@@ -16,7 +17,7 @@ export const getDashboardOccurrences = async <T>(
     genre: string,
     breed: string 
 
-):Promise<Dashboard_Occurrences> => {
+):Promise<IDashboardOccureecen> => {
 
     let params = new URLSearchParams();
 
@@ -34,7 +35,7 @@ export const getDashboardOccurrences = async <T>(
     if(breed !== '') params.append("breed", breed)
 
 
-    const { data } = await api.get<Dashboard_Occurrences>('/dashboard/occurrences', {
+    const { data } = await api.get<IDashboardOccureecen>('/dashboard/occurrences', {
         params: params,
     });
 
@@ -54,7 +55,7 @@ export const useDashboardOccurrences = <T>(
     area: string,
     genre: string,
     breed: string
-):UseQueryResult<Dashboard_Occurrences> => {
+):UseQueryResult<IDashboardOccureecen> => {
     return useQuery(['dashboard/occurrences',
     state,
     city,
@@ -97,7 +98,7 @@ export const useAnnualOccurrences = <T>(
     area: string,
     genre: string,
     breed: string
-):UseQueryResult<Dashboard_Occurrences> => {
+):UseQueryResult<IDashboardOccureecen> => {
     return useQuery(['dashboard/occurrences',
     state,
     city,

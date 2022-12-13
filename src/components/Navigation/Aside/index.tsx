@@ -22,7 +22,7 @@ const Aside: React.FC = () => {
     const [open, setOpen] = useState(false);
 
     const { data: AlertNotifications } = useNotifications(
-        "DESC",
+        undefined,
         undefined,
         undefined,
         "Pending"

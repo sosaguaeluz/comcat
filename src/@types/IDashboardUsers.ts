@@ -31,6 +31,6 @@ export interface IDashboardUser {
     active_today: number,
     inactive_today: number,
     line_charts: LineCharts[],
-    anual_line_charts: AnualLineCharts[],
+    annual_line_charts: AnualLineCharts[],
     annual_users: AnualUsers
 }

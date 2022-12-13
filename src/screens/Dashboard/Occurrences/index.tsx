@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as S from './style';
 import { 
+    extractDate,
     useAnnualOccurrences,
     useCity, 
     useDashboardOccurrences, 
@@ -21,8 +22,14 @@ import {
 import { 
     ocurrenceIcon
 } from '../../../assets';
+import { dateNoConver } from '../../../services/functions/date';
 
 const DashOccurrences: React.FC = () => {
+    const data = new Date();
+    const year = data.getFullYear();
+    const day = data.getDay();
+    const month = data.getMonth();
+
     const [ ufValue, setUfValue ] = useState<string>('');
     const [ cityValue, setCityValue ] = useState<string>('');
     const [ resetSearch, setResetSearch] = useState(false);
@@ -35,9 +42,9 @@ const DashOccurrences: React.FC = () => {
     const [ font, setFont ] = useState('')
     const [ status, setStatus ] = useState('');
     const [ special, setSpecial ] = useState('');
-    const [ typeSpecial, setTypeSpecial ] = useState('');
-    const [ initialDate, setInitialDate ] = useState<any>('2020-01-01T00:00:01.076Z');
-    const [ finalDate, setFinalDate ] = useState<any>('');
+    const [ typeSpecial, setTypeSpecial ] = useState();
+    const [ initialDate, setInitialDate ] = useState<any>(`${year}-01-01`);
+    const [ finalDate, setFinalDate ] = useState<any>(dateNoConver(data.toISOString()));
     const [ area, setArea ] = useState('');
     const [ genre, setGenre ] = useState('');
     const [ breed, setBreed ] = useState('');
@@ -61,20 +68,6 @@ const DashOccurrences: React.FC = () => {
         genre === undefined ? '' : genre ,
         breed === undefined ? '' : breed
     );
-    const { data: annualOccurrences } = useAnnualOccurrences( 
-        state === undefined ? '' : state,
-        city === undefined ? '' : city,
-        service === undefined ? '' : service,
-        font === undefined ? '' : font,
-        status === undefined ? '' : status,
-        special === undefined ? '' : special,
-        typeSpecial === undefined ? '' : typeSpecial ,
-        initialDate === undefined ? '' : initialDate ,
-        finalDate === undefined ? '' : finalDate ,
-        area === undefined ? '' : area ,
-        genre === undefined ? '' : genre ,
-        breed === undefined ? '' : breed
-    )
 
     function ButtonResetSearch() {
         return (
@@ -113,61 +106,57 @@ const DashOccurrences: React.FC = () => {
         {label: 'água', value: Math.floor(Math.random() * 100)},
     ];
 
-    useEffect(() => {
-        let aux: any = []
+    // useEffect(() => {
+    //     let aux: any = []
     
-        dashboard?.annual_occurrences?.monthly?.forEach((line: any) => {
-            aux.push({
-                total: line?.total,
-                month: line?.month,
-                //name: line?.service?.name,
-                energia: line?.services[0]?.total,
-                agua: line?.services[1]?.total,
-                services: line?.services
-            })
-        })
+    //     dashboard?.annual_occurrences?.monthly?.forEach((line: any) => {
+    //         aux.push({
+    //             total: line?.total,
+    //             month: line?.month,
+    //             //name: line?.service?.name,
+    //             energia: line?.services[0]?.total,
+    //             agua: line?.services[1]?.total,
+    //             services: line?.services
+    //         })
+    //     })
 
-        setAnualOccurence(aux)
-    }, [dashboard])
+    //     setAnualOccurence(aux)
+    // }, [dashboard])
 
-    console.log(dashboard?.annual_occurrences, 'props.data')
-
-    useEffect(() => {
-        let aux: any = []
+    // useEffect(() => {
+    //     let aux: any = []
     
-        dashboard?.line_charts?.forEach((line: any) => {
-            aux.push({
-                name: line?.service?.name,
-                Black: line?.breed_chart?.black,
-                Brown: line?.breed_chart?.brown,
-                Indigenous: line?.breed_chart?.indigenous,
-                White: line?.breed_chart?.white,
-                Yellow: line?.breed_chart?.yellow,
+    //     dashboard?.line_charts?.forEach((line: any) => {
+    //         aux.push({
+    //             name: line?.service?.name,
+    //             Black: line?.breed_chart?.black,
+    //             Brown: line?.breed_chart?.brown,
+    //             Indigenous: line?.breed_chart?.indigenous,
+    //             White: line?.breed_chart?.white,
+    //             Yellow: line?.breed_chart?.yellow,
                 
-            })
-        })
-        setBreedChart(aux)
+    //         })
+    //     })
+    //     setBreedChart(aux)
         
-    }, [dashboard]);
+    // }, [dashboard]);
 
-    useEffect(() => {
-        let aux: any = []
+    // useEffect(() => {
+    //     let aux: any = []
     
-        dashboard?.line_charts?.forEach((line: any) => {
-            aux.push({
-                name: line?.service?.name,
-                Male: line?.genre_chart?.male,
-                Female: line?.genre_chart?.female,
-                NonBinary: line?.genre_chart?.nonbinary,
-                Other: line?.genre_chart?.other,
+    //     dashboard?.line_charts?.forEach((line: any) => {
+    //         aux.push({
+    //             name: line?.service?.name,
+    //             Male: line?.genre_chart?.male,
+    //             Female: line?.genre_chart?.female,
+    //             NonBinary: line?.genre_chart?.nonbinary,
+    //             Other: line?.genre_chart?.other,
                 
-            })
-        })
-        setGenreChart(aux)
+    //         })
+    //     })
+    //     setGenreChart(aux)
         
-    }, [dashboard]);
-
-    console.log(dashboard, 'dash')
+    // }, [dashboard]);
 
     return (
         <>
@@ -223,7 +212,7 @@ const DashOccurrences: React.FC = () => {
                             type='date'
                             label='Até:'
                             defaultValue='Até:'
-                            max={new Date().toISOString().slice(0, 0)}
+                            max={`${year}-${month}-${day}`}
                             value={finalDate} 
                             onChange={(e: any) => {
                                 setFinalDate(e.target.value);
@@ -291,12 +280,12 @@ const DashOccurrences: React.FC = () => {
                     |
                     {
                     initialDate !== undefined
-                        ? ` de ${initialDate}`
+                        ? ` de ${initialDate ? extractDate(initialDate) : ''}`
                         : ' Desde o inicio'
                     }
                     {
                     finalDate !== undefined
-                        ? ` até ${finalDate}` 
+                        ? ` até ${finalDate ? extractDate(finalDate) : ''}` 
                         : ' até hoje'
                     }
                 </b>
@@ -317,7 +306,7 @@ const DashOccurrences: React.FC = () => {
                                     icon={id?.service?.image}
                                     id={id?.service?.name === 'Água' ? 'água' : 'energia'}
                                     heightGrafic={180}
-                                    list={id?.service?.name === 'Água' ? cardGraficItem : cardGraficItem2}
+                                    list={dashboard?.line_charts}
                                     backgroundColor={id?.service?.background_color}
                                 />
                             </Grid>
@@ -400,7 +389,7 @@ const DashOccurrences: React.FC = () => {
                     title={`Ocorrências no ano de ${dashboard?.annual_occurrences?.year}`}
                     //@ts-ignore
                     number={dashboard?.annual_occurrences?.total}
-                    data={anualOccurrence}
+                    data={dashboard?.annual_occurrences.monthly}
                     width= "100%"
                     height='auto'                    
                     heightGrafic={300}

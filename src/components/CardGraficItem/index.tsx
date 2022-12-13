@@ -72,9 +72,7 @@ const CardGraficItem: React.FC <IProps> = (props) => {
                     backgroundColor={props.backgroundColor}
                 >
                     <div>
-                        <figure style={{
-                            display: props.icon ? 'block': 'none'
-                        }}>
+                        <figure style={{display: props.icon ? 'flex': 'none'}}>
                             <img src={props.icon} alt="" />
                         </figure>
                         <div>

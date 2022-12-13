@@ -39,15 +39,16 @@ const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
     [`& .${linearProgressClasses.bar}`]: {
         borderRadius: 5,
         backgroundColor: '#FF954E',
-      },
+    },
     width: '100%'
 }));
 
 const YearGrafic: React.FC <IProps> = (props) => {
     const [focusBar, setFocusBar] = useState<any>(null);
     const [mouseLeave, setMouseLeave] = useState<any>(true);
+    const [ list, setList ] = useState<any>([]);
 
-    console.log(focusBar, 'focus bar')
+    console.log(list, 'focus bar')
 
     return (
         <Box padding='40px 24px 35px 24px' width={props.width} height={props.height}>
@@ -71,20 +72,31 @@ const YearGrafic: React.FC <IProps> = (props) => {
                                         setMouseLeave(true);
                                     }
                                 }}
+                                barSize={20}
+                                margin={{
+                                    top: 5,
+                                    right: 30,
+                                    left: 20,
+                                    bottom: 5,
+                                }}
                             >
                                 <Tooltip cursor={false} />
-                                <XAxis dataKey="month" />
+                                <XAxis dataKey="month" scale="point" />
                                 <Bar 
                                     radius={[25, 25, 0, 0]} 
                                     dataKey="value" 
                                     fill="#C7C7C7" 
+                                    width={80}
                                 >
                                     {props?.data?.map((entry: any, index: any) => (
                                         <Cell 
-                                            width={40}
-                                            fill={
-                                                focusBar === index ? "#2B5CE7" : "#C7C7C7"
-                                            } 
+                                            fill={focusBar === index ? "#2B5CE7" : "#C7C7C7"} 
+                                            style={{border: '1px solid pink !important'}}
+                                            onMouseMove={(focus) => {
+                                                if(focusBar === index){
+                                                    setList(entry)
+                                                }
+                                            }}
                                         />
                                     ))}
                                 </Bar>
@@ -98,17 +110,22 @@ const YearGrafic: React.FC <IProps> = (props) => {
                                 columnSpacing={8}                      
                                 flex-wrap='nowrap'
                             >
-                                {/* {focusBar && props?.data[focusBar]?.regions?.map((id: any, index: any) => (
-                                    <Grid item xs sm md={6} lg={6} xl={6} key={index}>
-                                        <span>
-                                            <p>{id?.region}</p>
-                                            <h1>{id?.value}</h1>
-                                        </span>
-                                        <div >
-                                            <BorderLinearProgress variant="determinate" value={id?.value} />
-                                        </div>
-                                    </Grid>
-                                ))} */}
+                                {list.regions?.map((id: any, index: any) => (
+                                    id?.value !== 0 ? 
+                                        <Grid item xs sm md={6} lg={6} xl={6} key={index}>
+                                            <span>
+                                                <p>{id?.region}</p>
+                                                <h1>{id?.value}</h1>
+                                            </span>
+                                            <div >
+                                                <BorderLinearProgress 
+                                                    variant="determinate" 
+                                                    value={id?.value} 
+                                                />
+                                            </div>
+                                        </Grid>
+                                     : ''
+                                ))}
                             </Grid>
                     </S.ProgressBar>
                 </section>
