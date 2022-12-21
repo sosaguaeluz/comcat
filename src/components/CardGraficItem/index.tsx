@@ -14,7 +14,7 @@ type List = {
 interface IProps {
     icon?: string,
     title: string,
-    value?: string,
+    value?: string | number,
     id?: string,
     list?: any[],
     height?: string;

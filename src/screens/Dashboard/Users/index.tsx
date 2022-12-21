@@ -199,7 +199,7 @@ const DashUsers: React.FC = () => {
             </S.TextData>
 
             <S.GraficItemContainer>
-                {/* <Grid
+                <Grid
                     container
                     spacing={{ xs: 2.5, md: 4, lg: 4 }}
                     columns={{ xs: 6, sm: 6, md: 10, lg: 10, xl: 10}}
@@ -220,14 +220,14 @@ const DashUsers: React.FC = () => {
                             </Grid>
                         );
                     })}
-                </Grid> */}
+                </Grid>
             </S.GraficItemContainer>
 
             <S.TextData>
                 <p> Usuário no ultimo ano - <b>{dashboard?.annual_users?.total}</b></p>
             </S.TextData>
 
-            {/* <S.GraficYearContainer>
+            <S.GraficYearContainer>
                 <Grid
                     container
                     spacing={2.5}                 
@@ -263,7 +263,7 @@ const DashUsers: React.FC = () => {
                     height='auto'                    
                     heightGrafic={300}
                 />
-            </S.GraficYearContainer> */}
+            </S.GraficYearContainer>
         </>
     );
 };

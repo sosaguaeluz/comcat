@@ -10,7 +10,8 @@ import {
     XAxis, 
     YAxis, 
     Tooltip,
-    ResponsiveContainer, 
+    ResponsiveContainer,
+    Cell, 
 } from 'recharts';
 import {BREED, GENRE} from '../../constants'
 
@@ -45,15 +46,14 @@ type Breed = {
 
 interface IProps {
     data?: List[] | Genre[] | Breed[] |any, 
-    valueItem: string[],
-    onChange: (e: any) => void,
+    valueItem?: string[],
+    onChange?: (e: any) => void,
     title: string,
     type: string,
     width?: string,
     height?: string,
     heightGrafic?: number,
 }
-
 
 const CardGraficArea: React.FC <IProps> = (props) => {
     const toPercent = (decimal: any, fixed = 0) => `${(decimal * 100).toFixed(fixed)}%`;
@@ -97,6 +97,8 @@ const CardGraficArea: React.FC <IProps> = (props) => {
         );
     };
 
+    console.log(props.data, 'props.data')
+
     return (
         <Box padding='32px' width={props.width} height={props.height}>
             <S.Container>
@@ -105,28 +107,25 @@ const CardGraficArea: React.FC <IProps> = (props) => {
                         <p>Percentual de ocorrências por</p>
                         <h1>{props.title}</h1>
                     </div>
-                    <MultSelect
-                        width={228}
-                        maxWidth={400}
-                        valueItem={props.valueItem} 
-                        list={undefined}
-                        onChange={props.onChange}
-                    />
                 </div>
                 <S.Values>
                     <div>
-                        {props.data?.map((id: any) => {
-                            return (
-                                <div>
-                                    {id.title == 'Masculino' || id.title == 'Preta' ? <div style={{background: '#47DED0'}}/> : ''}
-                                    {id.title == 'Feminino' || id.title == 'Branca' ? <div style={{background: '#FF77F1'}}/> : ''}
-                                    {id.title == 'Não-binário' || id.title == 'Indígena' ? <div style={{background: '#9D86ED'}}/> : ''}
-                                    {id.title == 'Outros' || id.title == 'Amarela' ? <div style={{background: '#FF954E'}}/> : ''}
-                                    {id.title == 'Parda' ? <div style={{background: '#B8D335'}}/> : ''}
-                                    <p>{id.title}</p>
-                                </div>
-                            )
-                        })}
+                        {props.type == 'genero' ?
+                            <div>
+                                <div style={{background: '#47DED0', marginRight: '8px'}}/>
+                                <div style={{background: '#FF77F1', marginRight: '8px'}}/>
+                                <div style={{background: '#9D86ED', marginRight: '8px'}}/>
+                                <div style={{background: '#FF954E', marginRight: '8px'}}/>
+                            </div>
+                            :
+                            <div>
+                                <div style={{background: '#47DED0', marginRight: '8px'}}/> 
+                                <div style={{background: '#FF77F1', marginRight: '8px'}}/> 
+                                <div style={{background: '#9D86ED', marginRight: '8px'}}/> 
+                                <div style={{background: '#FF954E', marginRight: '8px'}}/> 
+                                <div style={{background: '#B8D335', marginRight: '8px'}}/> 
+                            </div>
+                        }
                     </div>
                 </S.Values>
                 <span>
@@ -135,27 +134,36 @@ const CardGraficArea: React.FC <IProps> = (props) => {
                             height={props.heightGrafic}
                             data={props.data}
                         >
-                            <XAxis dataKey="name" />
+                            <XAxis dataKey={props.type === 'genero' ? 'genre' : 'breed'} />
                             <YAxis />
                             <Tooltip content={renderTooltipContent} 
                                 cursor={false}
                             />
+                            <Bar radius={[25, 25, 0, 0]} dataKey="name" >
+                                {props.data.map((id: any, index: number) => (
+                                    <>
+                                        {id.charts.map((chart: any) => (
+                                            <Cell fill="#47DED0" />
+                                        ))}
+                                    </>
+                                ))}
+                            </Bar>
                             {props.type == 'genero' 
-                            ? 
-                                <>
-                                    <Bar radius={[25, 25, 0, 0]} dataKey="Male" fill="#47DED0" />
-                                    <Bar radius={[25, 25, 0, 0]} dataKey="Female" fill="#FF77F1" />
-                                    <Bar radius={[25, 25, 0, 0]} dataKey="NonBinary" fill="#9D86ED" />
-                                    <Bar radius={[25, 25, 0, 0]} dataKey="Other" fill="#FF954E" />
-                                </>
-                            :
-                                <>
-                                    <Bar radius={[25, 25, 0, 0]} dataKey="Yellow" fill="#FF954E" />
-                                    <Bar radius={[25, 25, 0, 0]} dataKey="White" fill="#FF77F1" />
-                                    <Bar radius={[25, 25, 0, 0]} dataKey="Indigenous" fill="#9D86ED" />
-                                    <Bar radius={[25, 25, 0, 0]} dataKey="Brown" fill="#B8D335" />
-                                    <Bar radius={[25, 25, 0, 0]} dataKey="Black" fill="#47DED0" />
-                                </>
+                                ? 
+                                    <>
+                                        <Bar radius={[25, 25, 0, 0]} dataKey="Male" fill="#47DED0" />
+                                        <Bar radius={[25, 25, 0, 0]} dataKey="Female" fill="#FF77F1" />
+                                        <Bar radius={[25, 25, 0, 0]} dataKey="NonBinary" fill="#9D86ED" />
+                                        <Bar radius={[25, 25, 0, 0]} dataKey="Other" fill="#FF954E" />
+                                    </>
+                                :
+                                    <>
+                                        <Bar radius={[25, 25, 0, 0]} dataKey="Yellow" fill="#FF954E" />
+                                        <Bar radius={[25, 25, 0, 0]} dataKey="White" fill="#FF77F1" />
+                                        <Bar radius={[25, 25, 0, 0]} dataKey="Indigenous" fill="#9D86ED" />
+                                        <Bar radius={[25, 25, 0, 0]} dataKey="Brown" fill="#B8D335" />
+                                        <Bar radius={[25, 25, 0, 0]} dataKey="Black" fill="#47DED0" />
+                                    </>
                             }
                         </BarChart>
                     </ResponsiveContainer>

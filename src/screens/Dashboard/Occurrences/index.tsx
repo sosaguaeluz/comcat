@@ -20,9 +20,11 @@ import {
     Grid,
 } from '@mui/material';
 import { 
-    ocurrenceIcon
+    energiIcon,
+    ocurrenceIcon, whaterIcon
 } from '../../../assets';
 import { dateNoConver } from '../../../services/functions/date';
+import { LineCharts } from '../../../@types/IDashboardOccurrence';
 
 const DashOccurrences: React.FC = () => {
     const data = new Date();
@@ -48,9 +50,6 @@ const DashOccurrences: React.FC = () => {
     const [ area, setArea ] = useState('');
     const [ genre, setGenre ] = useState('');
     const [ breed, setBreed ] = useState('');
-    const [ breedChart, setBreedChart ] = useState<any>();
-    const [ genreChart, setGenreChart ] = useState<any>();
-    const [ anualOccurrence, setAnualOccurence ] = useState<any>();
     
     const { data: dataUf } = useUf();
     const { data: dataCity } = useCity(ufValue);
@@ -106,57 +105,6 @@ const DashOccurrences: React.FC = () => {
         {label: 'água', value: Math.floor(Math.random() * 100)},
     ];
 
-    // useEffect(() => {
-    //     let aux: any = []
-    
-    //     dashboard?.annual_occurrences?.monthly?.forEach((line: any) => {
-    //         aux.push({
-    //             total: line?.total,
-    //             month: line?.month,
-    //             //name: line?.service?.name,
-    //             energia: line?.services[0]?.total,
-    //             agua: line?.services[1]?.total,
-    //             services: line?.services
-    //         })
-    //     })
-
-    //     setAnualOccurence(aux)
-    // }, [dashboard])
-
-    // useEffect(() => {
-    //     let aux: any = []
-    
-    //     dashboard?.line_charts?.forEach((line: any) => {
-    //         aux.push({
-    //             name: line?.service?.name,
-    //             Black: line?.breed_chart?.black,
-    //             Brown: line?.breed_chart?.brown,
-    //             Indigenous: line?.breed_chart?.indigenous,
-    //             White: line?.breed_chart?.white,
-    //             Yellow: line?.breed_chart?.yellow,
-                
-    //         })
-    //     })
-    //     setBreedChart(aux)
-        
-    // }, [dashboard]);
-
-    // useEffect(() => {
-    //     let aux: any = []
-    
-    //     dashboard?.line_charts?.forEach((line: any) => {
-    //         aux.push({
-    //             name: line?.service?.name,
-    //             Male: line?.genre_chart?.male,
-    //             Female: line?.genre_chart?.female,
-    //             NonBinary: line?.genre_chart?.nonbinary,
-    //             Other: line?.genre_chart?.other,
-                
-    //         })
-    //     })
-    //     setGenreChart(aux)
-        
-    // }, [dashboard]);
 
     return (
         <>
@@ -233,8 +181,8 @@ const DashOccurrences: React.FC = () => {
                     <Grid item xs sm={6} md lg xl>
                         <CardInfo 
                             icon={ocurrenceIcon}
-                            title={"Ocorrências no período"}
-                            value={dashboard?.total}
+                            title={"Ocorrências nos ultimos 7 dias"}
+                            value={dashboard?.last_seven_days}
                             type=""
                             width='100%'
                         />
@@ -297,17 +245,17 @@ const DashOccurrences: React.FC = () => {
                     spacing={2.5}
                     flex-wrap='wrap'
                 >
-                    {dashboard?.line_charts?.map((id: any, index: number) => {
+                    {dashboard?.line_charts?.map((id: LineCharts, index: number) => {
                         return (
                             <Grid item xs sm={6} md={4} lg={3} xl={3} key={index}>
                                 <CardGraficItem
-                                    title={id?.service?.name}
-                                    value={id?.value}
-                                    icon={id?.service?.image}
-                                    id={id?.service?.name === 'Água' ? 'água' : 'energia'}
+                                    title={id?.name}
+                                    value={id?.total}
+                                    icon={id?.name === 'Água' ? whaterIcon : energiIcon}
+                                    id={id?.name === 'Água' ? 'água' : 'energia'}
                                     heightGrafic={180}
-                                    list={dashboard?.line_charts}
-                                    backgroundColor={id?.service?.background_color}
+                                    list={id?.charts}
+                                    backgroundColor={id?.name === 'Água' ? '#1773E2' : '#FF954E'}
                                 />
                             </Grid>
                         );
@@ -323,11 +271,7 @@ const DashOccurrences: React.FC = () => {
                 >
                     <Grid item xs sm md={6} lg={6} xl={6}>
                         <CardGraficArea 
-                            data={genreChart}
-                            valueItem={multValueGenre}
-                            onChange={(e) => {
-                                setMultValueGenre(e)
-                            }}
+                            data={dashboard?.gender_charts}
                             title="Genero"
                             type="genero"
                             width= "100%"
@@ -337,11 +281,7 @@ const DashOccurrences: React.FC = () => {
                     </Grid>
                     <Grid item xs sm md={6} lg={6} xl={6}>
                         <CardGraficArea
-                            data={breedChart}
-                            valueItem={multValueBreed}
-                            onChange={(e) => {
-                                setMultValueBreed(e)
-                            }}
+                            data={dashboard?.breed_charts}
                             title="Raça"
                             type="raca"
                             width= "100%"
@@ -389,7 +329,7 @@ const DashOccurrences: React.FC = () => {
                     title={`Ocorrências no ano de ${dashboard?.annual_occurrences?.year}`}
                     //@ts-ignore
                     number={dashboard?.annual_occurrences?.total}
-                    data={dashboard?.annual_occurrences.monthly}
+                    data={dashboard?.annuel_charts}
                     width= "100%"
                     height='auto'                    
                     heightGrafic={300}
