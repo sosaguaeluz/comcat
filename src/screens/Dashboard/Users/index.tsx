@@ -257,7 +257,8 @@ const DashUsers: React.FC = () => {
                 </Grid>
                 <YearGrafic 
                     title='Usuarios em '
-                    number={1000}
+                    //@ts-ignore
+                    number={dashboard?.total}
                     data={dashboard?.annual_line_charts}
                     width= "100%"
                     height='auto'                    

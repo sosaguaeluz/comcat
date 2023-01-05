@@ -263,7 +263,7 @@ const DashOccurrences: React.FC = () => {
                 </Grid>
             </S.GraficItemContainer>
 
-            <S.GraficBarsContainer>
+            {/* <S.GraficBarsContainer>
                 <Grid
                     container
                     spacing={{ xs: 2.5, md: 2.5, lg: 2.5 }}
@@ -290,7 +290,7 @@ const DashOccurrences: React.FC = () => {
                         />
                     </Grid>
                 </Grid>
-            </S.GraficBarsContainer>
+            </S.GraficBarsContainer> */}
 
             <S.TextData>
                 <p> Ocorrências no útimo ano - <b>{dashboard?.annual_occurrences?.year}</b></p>
