@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: 'https://comcat-backend-kqb8t.ondigitalocean.app/'
+    baseURL: "https://app.sosaguaeluz.org"
 })
 
 instance.interceptors.request.use(function (config: any) {
