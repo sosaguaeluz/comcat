@@ -15,12 +15,46 @@ import RecoveryPassword from './RecoveryPassword';
 import { yupResolver } from '@hookform/resolvers/yup';
 import {useNavigate} from 'react-router-dom';
 
+export interface Root {
+    user: User
+    token: string
+  }
+  
+  export interface User {
+    name: string
+    age: string
+    phone_number: string
+    email: string
+    password: string
+    state: string
+    city: string
+    genre: string
+    breed: string
+    active: boolean
+    trusted: boolean
+    role: string
+    first_access: boolean
+    settings: Settings
+    _id: string
+    createdAt: string
+    updatedAt: string
+  }
+  
+  export interface Settings {
+    user_id: string
+    service_notifications: string[]
+    all_notifications: boolean
+    push_token: string
+    _id: string
+  }
+  
+
 const Login: React.FC = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [ open, setOpen ] = useState(false);
     const [ recoveryPassword, setRecoveryPassword ] = useState(false);
-    const ref = useRef<any>(null)
+    const [ modalError, setModalError ] = useState<boolean>(false)
     const { 
         handleSubmit,
         formState: { errors, isDirty, isValid },
@@ -34,12 +68,16 @@ const Login: React.FC = () => {
     const postUser = async (resp: any) => {
         const response  = await api.post('/authorize', resp)
         .then((resp) => {
-            dispatch({type: TOKEN, token: resp.data.token})
-            dispatch({type: USER, user: resp.data.user})
-            window.localStorage.setItem("user", JSON.stringify(resp.data.user));
-            window.localStorage.setItem("token", resp.data.token);
-            navigate('/dashboard', { replace: true })
-            window.location.reload()
+            if(resp.data.user.role === 'Mobile'){
+                setModalError(true)
+            } else {
+                dispatch({type: TOKEN, token: resp.data.token})
+                dispatch({type: USER, user: resp.data.user})
+                window.localStorage.setItem("user", JSON.stringify(resp.data.user));
+                window.localStorage.setItem("token", resp.data.token);
+                navigate('/dashboard', { replace: true })
+                window.location.reload()
+            }
         });
         return response;
     };
@@ -152,6 +190,15 @@ const Login: React.FC = () => {
                 width={375} 
                 status={''} 
                 mensage='Usuário ou senha inválida'            
+            />
+            <ModalMsg 
+                height='312px'
+                modalBackground={false}
+                open={modalError} 
+                onClose={() => setModalError(!modalError)} 
+                width={375} 
+                status={''} 
+                mensage='Você não tem permissão para acessar este painel!'            
             />
             <PersonalModal 
                 modalBackground={false}
