@@ -53,6 +53,6 @@ export interface IDashboardOccureecen {
     line_charts: LineCharts[],
     gender_charts: GenderCharts[],
     breed_charts: BreedCharts[],
-    annuel_charts: AnnualCharts[],
+    annual_charts: AnnualCharts[],
     annual_occurrences: AnnualOccurrences
 }

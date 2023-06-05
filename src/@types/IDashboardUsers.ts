@@ -14,7 +14,7 @@ type LineCharts = {
     charts: Charts[]
 }
 
-type AnualLineCharts = {
+export type AnualLineCharts = {
     month: string,
     value: number,
     regions: Regions[]

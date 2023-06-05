@@ -30,9 +30,15 @@ import { USER } from '../../../stores/actions';
 const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
     const dispatch = useDispatch();
     const [ user, setUser ] = useState<object | any>(null);
-    const { data: uf } = useUf();
     const [ successMsg, setSuccessMsg ] = useState(false);
     const [ errMsg, setErrMsg ] = useState(false);
+
+    const [ state, setState ] = useState('');
+    const [ ufValue, setUfValue ] = useState<string>('');
+    const [ cityValue, setCityValue ] = useState<string>('');
+
+    const { data: dataUf } = useUf();
+    const { data: dataCity } = useCity(ufValue);
 
     const localUser = window.localStorage.getItem('user')
 
@@ -50,7 +56,7 @@ const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
         setValue,
         reset,
         getValues,
-    } = useForm<FormData>({
+    } = useForm<any>({
         mode: "onChange",
         defaultValues: {
             name: itemEdit?.name,
@@ -72,34 +78,40 @@ const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
         })
      }, [itemEdit, setValue]);
 
-    const onSubmit = (values: FormData) => {
+    const onSubmit = (values: any) => {
         
         let obj = Object.assign(values, { 
             "phone_number": numberClean(values.phone_number),
             "role": "Administrador",
-            "active": values.active === true ? true : false     
+            "active": values.active === true ? true : false,
+            "city": cityValue,     
         })
 
         putUser(itemEdit?.id, obj)
             .then((resp) => {
                 dispatch({type: USER, user: resp})
+                window.localStorage.setItem("user", JSON.stringify(resp));
                 setSuccessMsg(true)
-                console.log(resp)
             })
             .catch(() => {
                 setErrMsg(!errMsg)
             })
     };
 
-    const watchUf = watch('state');
-
-    const { data: city } = useCity(watchUf);
-
     useEffect(() => {
         if (!isModal) {
             reset()
         }
-    },[isModal,reset])
+    },[isModal,reset]);
+
+    useEffect(() => {
+        dataUf?.filter(e => {
+            if(e?.sigla === ufValue){
+                setValue('state', e?.nome)
+            }
+        })
+
+    }, [ufValue]);
 
     return (
         <PersonalModal
@@ -129,10 +141,7 @@ const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
                                             onChange={onChange}
                                             onBlur={onBlur}
 
-                                        />
-                                        {errors.name && (
-                                            <span>{errors.name.message}</span>
-                                        )}                                    
+                                        />                              
                                     </span>
                                 )}
                             />     
@@ -163,10 +172,7 @@ const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
                                                     }
                                                 }}
                                             />
-                                        </div>                                   
-                                        {errors.phone_number && (
-                                            <span>{errors.phone_number.message}</span>
-                                        )}
+                                        </div>  
                                     </span>
                                 )}
                             />     
@@ -193,58 +199,38 @@ const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
                                     </span>
                                 )}
                             />
-                            <Controller
-                                control={control}
-                                name="state"
-                                defaultValue="value"
-                                render={({field: { onChange, onBlur, value }}) => (
-                                    <span>
-                                        <div>
-                                            <CustomSelect 
-                                                id="state"
-                                                list={uf}
-                                                label="Estado"
-                                                labelDefault={value} 
-                                                value={value}
-                                                defaultValue={user.state}
-                                                onBlur={onBlur}
-                                                onChange={onChange}
-                                                width={372}
-                                            />
-                                        </div>                                    
-                                        {errors.state&& (
-                                            <span>{errors.state.message}</span>
-                                        )}
-                                    </span>
-                                )}
-                            />  
+                            <span>
+                                <div>
+                                <CustomSelect
+                                    width={372}
+                                    label='Estados'      
+                                    labelDefault="Selecione o estado"
+                                    value={ufValue}
+                                    defaultValue="Todos os estados"
+                                    list={dataUf}
+                                    onChange={(e: any) => {
+                                        setUfValue(e?.target?.value)
+                                    }}
+                                />
+                                </div>
+                            </span>
                         </fieldset>
                         <fieldset>
-                            <Controller
-                                control={control}
-                                name="city"
-                                defaultValue=""
-                                render={({field: { onChange, onBlur, value }}) => ( 
-                                    <span>
-                                        <div>
-                                            <CustomSelect 
-                                                id="city"
-                                                list={city}
-                                                label="Cidade"
-                                                labelDefault="Selecione a Cidade"
-                                                value={value}
-                                                defaultValue={itemEdit.city}
-                                                onChange={onChange}
-                                                onBlur={onBlur}
-                                                width={372}
-                                            />
-                                        </div>
-                                        {errors.city&& (
-                                            <span>{errors.city.message}</span>
-                                        )}
-                                    </span>
-                                )}
-                            />
+                            <span>
+                                <div>
+                                    <CustomSelect
+                                        width={372}
+                                        label="Município"
+                                        labelDefault="Selecione o município"
+                                        value={cityValue}
+                                        defaultValue="Todos os municípios"
+                                        list={dataCity}
+                                        onChange={(e: any) => {
+                                            setCityValue(e?.target?.value)
+                                        }}
+                                    />  
+                                </div>
+                            </span>
                         </fieldset>
                     </div>
                     <S.ContainerBnt>
@@ -277,6 +263,7 @@ const EditForm: React.FC <IProps> =  ({onClose, itemEdit, isModal}) => {
                     onClose={() => {
                         setSuccessMsg(!successMsg)
                         onClose()
+                        window.location.replace('/configuracoes')
                     }} 
                     width={375} 
                     status={'success'} 

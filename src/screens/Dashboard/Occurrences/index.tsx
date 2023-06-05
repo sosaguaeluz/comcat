@@ -54,8 +54,8 @@ const DashOccurrences: React.FC = () => {
     const { data: dataUf } = useUf();
     const { data: dataCity } = useCity(ufValue);
     const { data: dashboard } = useDashboardOccurrences(
-        state === undefined ? '' : state,
-        city === undefined ? '' : city,
+        ufValue === undefined ? '' : ufValue,
+        cityValue === undefined ? '' : cityValue,
         service === undefined ? '' : service,
         font === undefined ? '' : font,
         status === undefined ? '' : status,
@@ -85,26 +85,19 @@ const DashOccurrences: React.FC = () => {
         )  
     };
 
-    const cardGraficItem = [
-        {label: 'energia', value: Math.floor(Math.random() * 100)},
-        {label: 'energia', value: Math.floor(Math.random() * 100)},
-        {label: 'energia', value: Math.floor(Math.random() * 100)},
-        {label: 'energia', value: Math.floor(Math.random() * 100)},
-        {label: 'energia', value: Math.floor(Math.random() * 100)},
-        {label: 'energia', value: Math.floor(Math.random() * 100)},
-        {label: 'energia', value: Math.floor(Math.random() * 100)},
-    ];
+    useEffect(() => {
+        dataUf?.filter(e => {
+            if(e.sigla === ufValue){
+                setState(e.nome)
+            }
+        })
+        dataCity?.filter((e:any) => {
+            if(e.name === cityValue){
+                setCity(e.nome)
+            }
+        })
 
-    const cardGraficItem2 = [
-        {label: 'água', value: Math.floor(Math.random() * 100)},
-        {label: 'água', value: Math.floor(Math.random() * 100)},
-        {label: 'água', value: Math.floor(Math.random() * 100)},
-        {label: 'água', value: Math.floor(Math.random() * 100)},
-        {label: 'água', value: Math.floor(Math.random() * 100)},
-        {label: 'água', value: Math.floor(Math.random() * 100)},
-        {label: 'água', value: Math.floor(Math.random() * 100)},
-    ];
-
+    }, [ufValue, cityValue])
 
     return (
         <>
@@ -134,6 +127,7 @@ const DashOccurrences: React.FC = () => {
                             defaultValue="Todos os municípios"
                             list={dataCity}
                             onChange={(e: any) => {
+                                console.log(e?.target?.value, 'city')
                                 setCityValue(e.target.value)
                             }}
                         />  
@@ -329,10 +323,11 @@ const DashOccurrences: React.FC = () => {
                     title={`Ocorrências no ano de ${dashboard?.annual_occurrences?.year}`}
                     //@ts-ignore
                     number={dashboard?.annual_occurrences?.total}
-                    data={dashboard?.annuel_charts}
+                    data={dashboard?.annual_charts}
                     width= "100%"
                     height='auto'                    
                     heightGrafic={300}
+                    type='occurrences'
                 />
             </S.GraficYearContainer>
         </>

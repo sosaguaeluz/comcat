@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './style';
 import { Box } from '../index';
 import { 
@@ -8,9 +8,12 @@ import {
     XAxis, 
     Tooltip, 
     ResponsiveContainer,
+    LabelProps,
+    LabelList
 } from 'recharts';
 import styled from '@emotion/styled';
 import { Grid, LinearProgress, linearProgressClasses } from '@mui/material';
+import { AnualLineCharts } from '../../@types/IDashboardUsers';
 
 type List = {
     month: string,
@@ -25,6 +28,7 @@ interface IProps {
     width?: string,
     height?: string,
     heightGrafic?: number,
+    type: 'users' | 'occurrences'
 }
 
 const BorderLinearProgress = styled(LinearProgress)(({ theme }) => ({
@@ -47,8 +51,7 @@ const YearGrafic: React.FC <IProps> = (props) => {
     const [focusBar, setFocusBar] = useState<any>(null);
     const [mouseLeave, setMouseLeave] = useState<any>(true);
     const [ list, setList ] = useState<any>([]);
-
-    console.log(list, 'focus bar')
+    const [ customData, setCustomDate ] = useState<any>();
 
     return (
         <Box padding='40px 24px 35px 24px' width={props.width} height={props.height}>
@@ -91,7 +94,6 @@ const YearGrafic: React.FC <IProps> = (props) => {
                                     {props?.data?.map((entry: any, index: any) => (
                                         <Cell 
                                             fill={focusBar === index ? "#2B5CE7" : "#C7C7C7"} 
-                                            style={{border: '1px solid pink !important'}}
                                             onMouseMove={(focus) => {
                                                 if(focusBar === index){
                                                     setList(entry)
@@ -104,29 +106,29 @@ const YearGrafic: React.FC <IProps> = (props) => {
                         </ResponsiveContainer>
                     </span>
                     <S.ProgressBar>
-                            <Grid 
-                                container
-                                spacing={{ xs: 2.5, md: 6, lg: 6, xl: 6 }}  
-                                columnSpacing={8}                      
-                                flex-wrap='nowrap'
-                            >
-                                {list.regions?.map((id: any, index: any) => (
-                                    id?.value !== 0 ? 
-                                        <Grid item xs sm md={6} lg={6} xl={6} key={index}>
-                                            <span>
-                                                <p>{id?.region}</p>
-                                                <h1>{id?.value}</h1>
-                                            </span>
-                                            <div >
-                                                <BorderLinearProgress 
-                                                    variant="determinate" 
-                                                    value={id?.value} 
-                                                />
-                                            </div>
-                                        </Grid>
-                                     : ''
-                                ))}
-                            </Grid>
+                        <Grid 
+                            container
+                            spacing={{ xs: 2.5, md: 6, lg: 6, xl: 6 }}  
+                            columnSpacing={8}                      
+                            flex-wrap='nowrap'
+                        >
+                            {list.regions?.map((id: any, index: any) => (
+                                // id?.value !== 0 ? 
+                                    <Grid item xs sm md={6} lg={6} xl={6} key={index}>
+                                        <span>
+                                            <p>{id?.region}</p>
+                                            <h1>{id?.value}</h1>
+                                        </span>
+                                        <div >
+                                            <BorderLinearProgress 
+                                                variant="determinate" 
+                                                value={id?.value} 
+                                            />
+                                        </div>
+                                    </Grid>
+                                    // : ''
+                            ))}
+                        </Grid>
                     </S.ProgressBar>
                 </section>
             </S.Container>

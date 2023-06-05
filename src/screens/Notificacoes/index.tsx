@@ -36,7 +36,6 @@ const Notificacoes: React.FC = () => {
         "DESC",
         1,
         count,
-        "Pending"
     );
 
     function getList() {

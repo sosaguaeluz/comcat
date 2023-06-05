@@ -5,7 +5,9 @@ export interface listCity {
 };
 
 export interface City {
-  cities: listCity[]
+  id: number,
+  nome:string,
+  sigla: string
 };
 
 export interface listUf  {

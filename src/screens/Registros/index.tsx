@@ -76,6 +76,8 @@ const Registros: React.FC = () => {
     const [cityValue, setCityValue] = useState<any>();
     const [initialDate, setInitialDate] = useState<any>();
     const [finalDate, setFinalDate] = useState<any>();
+    const [ state, setState ] = useState('');
+    const [ city, setCity ] = useState('');
 
     const {
         data: occurrences,
@@ -90,7 +92,7 @@ const Registros: React.FC = () => {
         service === undefined ? '' : service,
         address === undefined ? '' : address,
         ufValue === undefined ? '' : ufValue,
-        cityValue === undefined ? '' : cityValue,
+        city === undefined ? '' : city,
         initialDate === undefined ? '' : initialDate,
         finalDate === undefined ? '' : finalDate
     );
@@ -155,7 +157,19 @@ const Registros: React.FC = () => {
         setTotalList(spam);
     }, [regionOccurrences]);
 
-    console.log(service, 'service')
+    useEffect(() => {
+        dataUf?.filter(e => {
+            if(e.sigla === ufValue){
+                setState(e.nome)
+            }
+        })
+        dataCity?.filter((e:any) => {
+            if(e.name === cityValue){
+                setCity(e.nome)
+            }
+        })
+
+    }, [ufValue, cityValue]);
 
     return (
         <>
@@ -280,7 +294,11 @@ const Registros: React.FC = () => {
                                         defaultValue="Selecione o serviço"
                                         list={dataServices}
                                         onChange={(e) => {
-                                            setService(e.target.value);
+                                            dataServices?.filter(i => {
+                                                if(i.name === e.target.value){
+                                                    setService(i?.id);
+                                                }
+                                            })
                                         }}
                                     />
                                 </Grid>

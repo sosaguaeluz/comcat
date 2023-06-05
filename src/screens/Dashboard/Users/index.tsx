@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as S from './style';
 import { 
     useAnnualOccurrences,
@@ -30,25 +30,11 @@ const DashUsers: React.FC = () => {
 
     const [ ufValue, setUfValue ] = useState<string>('');
     const [ cityValue, setCityValue ] = useState<string>('');
-    const [ resetSearch, setResetSearch] = useState(false);
-    const [ multValueGenre, setMultValueGenre ] = useState<string[]>([]);
-    const [ multValueBreed, setMultValueBreed ] = useState<string[]>([]);
-    const [ initialDateAnnual, setInitialDateAnnual ] = useState<any>(undefined);
-    const [ finalDateAnnual, setFinalDateAnnual ] = useState<any>(undefined);
-    const [ yearValue, setYearValue ] = useState('');
-
     const [ state, setState ] = useState('');
     const [ city, setCity ] = useState('');
-    const [ service, setService ] = useState('')
-    const [ font, setFont ] = useState('')
-    const [ status, setStatus ] = useState('');
-    const [ special, setSpecial ] = useState('');
-    const [ typeSpecial, setTypeSpecial ] = useState('');
+    const [ resetSearch, setResetSearch] = useState(false);
     const [ initialDate, setInitialDate ] = useState<any>(`${year}-01-01`);
     const [ finalDate, setFinalDate ] = useState<any>(dateNoConver(data.toISOString()));
-    const [ area, setArea ] = useState('');
-    const [ genre, setGenre ] = useState('');
-    const [ breed, setBreed ] = useState('')
     
     const { data: dataUf } = useUf();
     const { data: dataCity } = useCity(ufValue);
@@ -56,7 +42,7 @@ const DashUsers: React.FC = () => {
         initialDate  === undefined ? '' : initialDate,
         finalDate === undefined ? '' : finalDate,
         ufValue === undefined ? '' : ufValue, 
-        cityValue  === undefined ? '' : cityValue 
+        city  === undefined ? '' : city 
     );
 
     function ButtonResetSearch() {
@@ -76,7 +62,19 @@ const DashUsers: React.FC = () => {
         )  
     };
 
-    console.log(year, 'data')
+    useEffect(() => {
+        dataUf?.filter(e => {
+            if(e.sigla === ufValue){
+                setState(e.nome)
+            }
+        })
+        dataCity?.filter((e:any) => {
+            if(e.name === cityValue){
+                setCity(e.nome)
+            }
+        })
+
+    }, [ufValue, cityValue])
 
     return (
         <>
@@ -263,6 +261,7 @@ const DashUsers: React.FC = () => {
                     width= "100%"
                     height='auto'                    
                     heightGrafic={300}
+                    type='users'
                 />
             </S.GraficYearContainer>
         </>
