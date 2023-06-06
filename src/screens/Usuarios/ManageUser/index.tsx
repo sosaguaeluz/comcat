@@ -108,8 +108,8 @@ const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
                                 checked={itemEdit?.trusted}
                                 width='300px'
                                 status={watch('trusted')}
-                                primaryLabel='Confiável'
-                                seccondaryLabel='Não confiável'
+                                primaryLabel='Não confiável'
+                                seccondaryLabel='Confiável'
                                 seccondaryId='true'
                             />
                         </fieldset>
