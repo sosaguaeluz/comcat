@@ -169,7 +169,6 @@ const ManageUser: React.FC<IProps> = ({onClose,isModal,itemEdit}) => {
                 mensage='O usuário foi gerenciado com sucesso!'
                 onClose={() => {
                     setOpen(!open)
-                    onClose()
                 }}
                 status={'success'}
             />
