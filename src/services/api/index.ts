@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const instance = axios.create({
-    baseURL: "https://app.sosaguaeluz.org"
+    baseURL: process.env.API_URL || "https://app.sosaguaeluz.org"
 })
 
 instance.interceptors.request.use(function (config: any) {
