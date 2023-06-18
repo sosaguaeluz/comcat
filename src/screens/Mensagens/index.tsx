@@ -242,7 +242,7 @@ const Mensagens: React.FC = () => {
             </S.Container>
 
             <Pagination
-                onPage={(e: any) => {
+                onPage={(e) => {
                     setPage(e);
                 }}
                 value={page}
