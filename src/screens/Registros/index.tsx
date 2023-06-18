@@ -480,13 +480,6 @@ const Registros: React.FC = () => {
                                         <th style={{ width: "90px" }}>
                                             <span>Ações</span>
                                         </th>
-                                        <th style={{ width: "135px" }}>
-                                            <span
-                                                style={{ marginRight: "24px" }}
-                                            >
-                                                Ver no mapa
-                                            </span>
-                                        </th>
                                     </tr>
                                 </S.TableHead>
                                 <tbody>
@@ -533,12 +526,6 @@ const Registros: React.FC = () => {
                                                                 />
                                                             }
                                                             placement="right"
-                                                            title={
-                                                                id.trusted ==
-                                                                true
-                                                                    ? "Usuário confiavel"
-                                                                    : "Usuário não confiavel"
-                                                            }
                                                         />
                                                     </span>
                                                 </S.User>
@@ -631,23 +618,6 @@ const Registros: React.FC = () => {
                                                         </S.Options>
                                                     </span>
                                                 </td>
-                                                <S.Button
-                                                    showOccurence={true}
-                                                    style={{ width: "135px" }}
-                                                >
-                                                    <span
-                                                        style={{
-                                                            marginRight: "24px",
-                                                        }}
-                                                    >
-                                                        <button>
-                                                            <img
-                                                                src={iconShow}
-                                                                alt=""
-                                                            />
-                                                        </button>
-                                                    </span>
-                                                </S.Button>
                                             </tr>
                                         );
                                     })}
@@ -656,7 +626,7 @@ const Registros: React.FC = () => {
                         </S.ScrollDiv>
                     </S.Container>
                     <Pagination
-                        onPage={(e: any) => {
+                        onPage={(e) => {
                             setPage(e);
                         }}
                         value={page}
