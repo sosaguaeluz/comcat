@@ -54,11 +54,24 @@ const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
     const [ idOccurrence, setIdOccurrence ] = useState('');
     const [ open, setOpen ] = useState(false);
     const [ closeOccurrence, setCloseOccurrence ] = useState(false);
-    const [filter, setFilter] = useState<any>({
+    const [filter, setFilter] = useState<{
+        service: string,
+        state: string,
+        city: string
+    }>({
         service: "",
         state: itemEdit?.state,
         city: itemEdit?.city,
     });
+
+    useEffect(() => {
+        setFilter((prev) => ({
+            ...prev,
+            state: itemEdit?.state,
+            city: itemEdit?.city
+        }))
+    }, [itemEdit]);
+
     const cities = filter.state ? getCities(filter.state) : [];
     let [ latitudeCoord, setLatitudeCoord ] = useState(0);
     let [ longitudeCoord, setLongitudeCoord ] = useState(0);
@@ -177,7 +190,9 @@ const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                                             services?.map((id: any) => {
                                                                 if(id.active === true){
                                                                     return (
-                                                                        <MenuItem value={id.id}>
+                                                                        <MenuItem 
+                                                                            key={id.id}
+                                                                            value={id.id}>
                                                                             {id.name}
                                                                         </MenuItem>
                                                                     )
@@ -211,7 +226,9 @@ const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                                                 sources?.map((id: any) => {
                                                                     if(watch('service') === id?.service?.id){
                                                                         return (
-                                                                            <MenuItem value={id.id}>
+                                                                            <MenuItem 
+                                                                                key={id.id}
+                                                                                value={id.id}>
                                                                                 {id.name}
                                                                             </MenuItem>
                                                                         )
@@ -229,7 +246,7 @@ const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                         if(watch('source') === id.id){
                                             if(id.name === "Outra Fonte"){
                                                 return (
-                                                    <S.Fieldset>
+                                                    <S.Fieldset key={id.id}>
                                                         <label htmlFor="" style={{color: '#fff'}}></label>
                                                         <Controller 
                                                                 name="source_name"
@@ -252,7 +269,7 @@ const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                                     </S.Fieldset>
                                                 )
                                             } else {
-                                                return <span/>
+                                                return <span key={id.id}/>
                                             }
                                         }
                                     })} 
@@ -261,7 +278,7 @@ const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                         if(watch('service') === id.id){
                                             if(id.name === 'Água'){
                                                 return (
-                                                    <Grid item xs sm md lg xl>
+                                                    <Grid item xs sm md lg xl key={id.id}>
                                                         <S.RadioFieldset>
                                                             <fieldset>
                                                                 <label>
@@ -352,7 +369,7 @@ const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                                 )
                                             } else if (id.name === 'Energia' || id.name === 'Luz'){
                                                 return (
-                                                    <Grid item xs sm md lg xl>
+                                                    <Grid item xs sm md lg xl key={id.id}>
                                                         <S.RadioFieldset>
                                                             <fieldset>
                                                                 <label>
@@ -432,7 +449,7 @@ const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                     )}
                                 </S.Fieldset>  
                                 <S.Fieldset>
-                                    <label htmlFor="">Estado</label>
+                                    <label htmlFor="">Estado {filter?.state === itemEdit?.state}</label>
                                     <CustomSelect
                                         onChange={(e) => {
                                             setFilter((prev: any) => ({
@@ -441,26 +458,26 @@ const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                                 city: undefined,
                                             }))
                                         }}
-                                        value={filter.state}
+                                        /* Value must not be undefined, otherwise MUI will think it is an uncontrolled select */
+                                        value={filter.state || ''}
                                         label='Estado'
                                         width='100%'
                                         list={states}
                                         id='state'
-                                        defaultValue={itemEdit?.state}
                                     />
                                 </S.Fieldset>                              
                                 <S.Fieldset>
-                                    <label htmlFor="">Ciade</label>
+                                    <label htmlFor="">Cidade</label>
                                     <CustomSelect
                                         onChange={(e) =>
                                             setFilter((prev: any) => ({ ...prev, city: e.target.value }))
                                         }
-                                        value={filter.city}
+                                        /* Value must not be undefined, otherwise MUI will think it is an uncontrolled select */
+                                        value={filter.city || ''}
                                         label='Cidade'
                                         width='100%'
                                         list={cities}
                                         id='state'
-                                        defaultValue={itemEdit?.city}
                                     />
                                 </S.Fieldset>
                             </S.FieldService>                                                                                 
@@ -523,7 +540,7 @@ const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                         </S.Fieldset>                                            
                                     )}                                        
                                     <S.Fieldset>
-                                        <label htmlFor="">Data e hora da ocorrencia:</label>
+                                        <label htmlFor="">Data e hora da ocorrência:</label>
                                         <Controller 
                                             name="date"
                                             control={control}
@@ -533,7 +550,8 @@ const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                                         label='Data e hora'
                                                         onBlur={onBlur}
                                                         onChange={onChange}
-                                                        value={value}
+                                                        /* TODO: Prefer using "moment" library instead */
+                                                        value={value?.slice(0, -8)}
                                                         max={new Date().toISOString().slice(0, -8)}
                                                         type="datetime-local"
                                                         width='100%'
@@ -592,7 +610,7 @@ const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                     {watch('special_place') === 'Yes' && (
                                         <S.Fieldset>
                                             <label htmlFor="" style={{ marginBottom: '15px !important'}}>
-                                                Qual é o tipo de localização especial
+                                                Qual é o tipo de localização especial?
                                             </label>
                                             <Controller 
                                                 name='type_place'
@@ -662,7 +680,7 @@ const EditOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                             </S.FieldMid>                              
                             <S.FieldRule>
                                 <label htmlFor="">                                
-                                    Caso entrem outras queixas da sua região, você autoriza que as informações da sua reclamação sejam juntadas à elas e compartilhadas com as autoridades competentes para solicitar que o abastecimento da sua residência seja feito pelas agências competentes.
+                                    Caso entrem outras queixas da sua região, você autoriza que as informações da sua reclamação sejam juntadas à elas e compartilhadas com as autoridades competentes para solicitar que o abastecimento da sua residência seja feito pelas agências competentes?
                                     <CustomTolltip
                                         img={<img src={blueAlert} alt="" />}
                                         title="Texto em falta"
