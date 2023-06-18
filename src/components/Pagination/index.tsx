@@ -5,14 +5,20 @@ import {
 } from '../../assets';
 
 interface IProps {
-    onPage: (e: any) => any,
-    value: any,
+    onPage: (e: number) => void,
+    value: number,
 }
 
 const Pagination: React.FC <IProps> = ({onPage,value}) => {
 
     const [page, setPage] = React.useState<number>(value);
     
+    useEffect(() => {
+        if (typeof value === 'number') {
+            setPage(value);
+        }
+    }, [value])
+
     useEffect(()=>{
         onPage(page)
     }, [page])
