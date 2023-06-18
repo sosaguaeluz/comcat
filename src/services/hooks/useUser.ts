@@ -48,6 +48,52 @@ const getUsers = async <T>(
     return resp.data;
 }
 
+const getUsersSearch = async <T>(
+    order?: string,
+    page?: number,
+    take?: number,
+    name?: string,
+    breed?: string,
+    genre?: string,
+    state?: string,
+    role?: string,
+):Promise<AllUsers> => {
+        
+    let params = new URLSearchParams();
+
+    if(order !== undefined){
+        params.append("order", order)
+    } else {
+        params.append("order", "DESC");
+    }
+    if(page !== undefined){
+        params.append("page", page.toString())
+    }
+    if(take !== undefined){
+        params.append("take", take.toString())
+    }
+    if(name !== undefined){
+        params.append("name", name)
+    }
+    if(breed !== undefined){
+        params.append("breed", breed)    
+    }
+    if(genre !== undefined){
+        params.append("genre", genre);
+    }
+    if(state !== undefined){
+        params.append("state", state)
+    }
+    if(role !== undefined){
+        params.append("role", role)
+    }
+    const resp  = await api.get<AllUsers>('/users/search', {
+        params: params
+    })
+
+    return resp.data;
+}
+
 export const useUsers = <T>(
     order?: string,
     page?: number,
@@ -68,6 +114,37 @@ export const useUsers = <T>(
     state,
     role,
     ], () => getUsers(
+        order,
+        page,
+        take,
+        name,
+        breed,
+        genre,
+        state,
+        role,
+    )
+)}
+
+export const useUsersSearch = <T>(
+    order?: string,
+    page?: number,
+    take?: number,
+    name?: string,
+    breed?: string,
+    genre?: string,
+    state?: string,
+    role?: string,
+):UseQueryResult<AllUsers> => {
+    return useQuery(['users',
+    order,
+    page,
+    take,
+    name,
+    breed,
+    genre,
+    state,
+    role,
+    ], () => getUsersSearch(
         order,
         page,
         take,
