@@ -13,6 +13,8 @@ import { FormData } from './types';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../stores';
 import { Grid } from '@mui/material';
+import { AREA } from '../../../constants/area';
+import { TYPE_LOCAL } from '../../../constants/typeLocal';
 
 interface IProps {
     onHide: () => void,
@@ -77,7 +79,7 @@ const FinishOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                             <Grid container >
                                 <Grid item flexWrap='wrap' container >
                                     <Grid item xs={2} sm={2} md={2} lg={2} xl={2} style={{minWidth:"200px", maxWidth:"200px"}} >
-                                        <p>Registrador por</p>
+                                        <p>Registrado por</p>
                                         <p>{itemEdit?.user?.name}</p>
                                     </Grid>
                                     <Grid item xs={2} sm={2} md={2} lg={2} xl={2} style={{minWidth:"200px", maxWidth:"200px"}} >
@@ -120,8 +122,8 @@ const FinishOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                     </Grid>
                                     {itemEdit?.special_place === 'Yes' && (
                                         <Grid item xs sm md lg xl>
-                                            <p>Qual é o tipo de localização especial</p>
-                                            <p>{itemEdit?.type_place}</p>
+                                            <p>Qual é o tipo de localização especial?</p>
+                                            <p>{AREA.find(i => i.value === itemEdit?.type_place)?.label}</p>
                                         </Grid>
                                     )}
                                 </Grid>
@@ -132,7 +134,7 @@ const FinishOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                     </Grid>
                                     <Grid item xs sm md lg xl>
                                         <p>Em que escala é a área afetada?</p>
-                                        <p>{itemEdit?.area}</p>
+                                        <p>{TYPE_LOCAL.find(i => i.value === itemEdit?.area)?.label}</p>
                                     </Grid>
                                     {itemEdit?.area === 'House' && (
                                         <Grid item xs sm md lg xl>
@@ -158,7 +160,7 @@ const FinishOccurence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                 </div>
                                 <Grid item style={{margin: '0px'}}>
                                     <Grid item xs sm md lg xl style={{maxWidth:"960px", margin: '0px'}}>
-                                        <p>Caso entrem outras queixas da sua região, você autoriza que as informações da sua reclamação sejam juntadas à elas e compartilhadas com as autoridades competentes para solicitar que o abastecimento da sua residência seja feito pelas agências competentes.</p>
+                                        <p>Caso entrem outras queixas da sua região, você autoriza que as informações da sua reclamação sejam juntadas à elas e compartilhadas com as autoridades competentes para solicitar que o abastecimento da sua residência seja feito pelas agências competentes?</p>
                                         <p>{itemEdit?.agree_share === 'Yes' ? 'Sim' : 'Não'}</p>
                                     </Grid>
                                 </Grid>
