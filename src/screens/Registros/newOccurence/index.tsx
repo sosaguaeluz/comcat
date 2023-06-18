@@ -454,7 +454,7 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                                     />
                                 </S.Fieldset>                              
                                 <S.Fieldset>
-                                    <label htmlFor="">Ciade</label>
+                                    <label htmlFor="">Cidade</label>
                                     <CustomSelect
                                         onChange={(e) =>
                                             setFilter((prev: any) => ({ ...prev, city: e.target.value }))
@@ -527,7 +527,7 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                                         </S.Fieldset>                                            
                                     )}                                        
                                     <S.Fieldset>
-                                        <label htmlFor="">Data e hora da ocorrencia:</label>
+                                        <label htmlFor="">Data e hora da ocorrência:</label>
                                         <Controller 
                                             name="date"
                                             control={control}
@@ -596,7 +596,7 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                                     {watch('special_place') === 'Yes' && (
                                         <S.Fieldset>
                                             <label htmlFor="" style={{ marginBottom: '15px !important'}}>
-                                                Qual é o tipo de localização especial
+                                                Qual é o tipo de localização especial?
                                             </label>
                                             <Controller 
                                                 name='type_place'
@@ -666,7 +666,7 @@ const NewOccurence: React.FC<IProps> = ({ onHide, isModal }) => {
                             </S.FieldMid>                              
                             <S.FieldRule>
                                 <label htmlFor="">                                
-                                    Caso entrem outras queixas da sua região, você autoriza que as informações da sua reclamação sejam juntadas à elas e compartilhadas com as autoridades competentes para solicitar que o abastecimento da sua residência seja feito pelas agências competentes.
+                                    Caso entrem outras queixas da sua região, você autoriza que as informações da sua reclamação sejam juntadas à elas e compartilhadas com as autoridades competentes para solicitar que o abastecimento da sua residência seja feito pelas agências competentes?
                                     <CustomTolltip
                                         img={<img src={blueAlert} alt="" />}
                                         title="Texto em falta"
