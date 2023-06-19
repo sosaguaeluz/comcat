@@ -90,6 +90,8 @@ const CustomSelect: React.FC<IProps> = (props) => {
                     onChange={props.onChange}
                     onBlur={props.onBlur}                    
                     disabled={props.disabled}
+                    /* When value !== undefined, Select component will become controlled */
+                    value={props.value}
                     defaultValue=''
                     MenuProps={{ PaperProps: { sx: { maxHeight: 300 } } }}
                 >

@@ -36,6 +36,7 @@ import { BREED, GENRE, } from "../../constants/index";
 import { regex } from "../../services/functions/regex";
 import { Grid } from "@mui/material";
 import { User } from "../../@types";
+import { useUsersSearch } from "../../services/hooks/useUser";
 
 const Usuarios: React.FC = () => {
     const { token } = useSelector((state : RootState) => state.clickState);
@@ -106,7 +107,7 @@ const Usuarios: React.FC = () => {
     const {
         data: users,
         refetch,
-    } = useUsers(
+    } = useUsersSearch(
         "DESC",
         page,
         10,
@@ -218,6 +219,7 @@ const Usuarios: React.FC = () => {
                                     <Grid item xs sm md lg xl>
                                         <Search
                                             onChange={(e) => {
+                                                setPage(1);
                                                 setUser(e.target.value);
                                             }}
                                             width="100%"
@@ -710,7 +712,7 @@ const Usuarios: React.FC = () => {
                 )}
             </>
             <Pagination
-                onPage={(e: any) => {
+                onPage={(e) => {
                     setPage(e);
                 }}
                 value={page}

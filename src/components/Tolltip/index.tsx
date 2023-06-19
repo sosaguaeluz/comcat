@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 interface IProps {
     img: any,
-    title: any,
+    title?: any,
     placement?: any
 }
 
