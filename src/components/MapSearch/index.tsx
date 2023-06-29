@@ -40,11 +40,6 @@ const MapSearch: React.FC<MapSearchProps> = ({
   }
   function onMarkerClick() {}
 
-  const onLoad = React.useCallback(function callback(map: any) {
-    const bounds = new window.google.maps.LatLngBounds();
-    map.fitBounds(bounds);
-    setMap(map);
-  }, []);
 
   const onUnmount = React.useCallback(function callback(map: any) {
     setMap(null);
@@ -99,8 +94,7 @@ const MapSearch: React.FC<MapSearchProps> = ({
           selectedPosition?.lat ? selectedPosition : currentPosition || center
         }
         options={{ disableDefaultUI: true }}
-        zoom={4}
-        onLoad={onLoad}
+        zoom={selectedPosition?.lat || currentPosition ? 15 : 4} 
         onUnmount={onUnmount}
         // onClick={onMapClickHandler}
       >
