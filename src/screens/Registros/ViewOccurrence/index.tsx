@@ -1,6 +1,6 @@
 import React from 'react';
 import * as S from './style';
-import { PersonalModal } from '../../../components';
+import { MapSearch, PersonalModal } from '../../../components';
 import { convertDate } from '../../../services';
 import { mapsDefault } from '../../../assets/index';
 import { Grid } from '@mui/material';
@@ -102,9 +102,14 @@ const ViewOccurrence: React.FC<IProps> = ({ onHide, isModal, itemEdit }) => {
                                         </Grid>
                                     )}
                                 </Grid>
-                                <div style={{display: 'Flex', justifyContent: 'flex-start', flexWrap: 'nowrap'}}>
-                                    <div>
-                                        <img src={mapsDefault} alt="" />
+                                <div style={{display: 'Flex', flexDirection: 'row', justifyContent: 'flex-start', flexWrap: 'nowrap'}}>
+                                    <div style={{width: '50%'}}>
+                                        <MapSearch
+                                                selectedPosition={{
+                                                    lng: Number(itemEdit?.longitude),
+                                                    lat: Number(itemEdit?.latitude),
+                                                }}
+                                            />
                                     </div>
                                     <div style={{width:"250px"}}>
                                         <p>Observação</p>
