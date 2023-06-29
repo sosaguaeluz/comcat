@@ -37,6 +37,7 @@ import { regex } from "../../services/functions/regex";
 import { Grid } from "@mui/material";
 import { User } from "../../@types";
 import { useUsersSearch } from "../../services/hooks/useUser";
+import moment from "moment";
 
 const Usuarios: React.FC = () => {
     const { token } = useSelector((state : RootState) => state.clickState);
@@ -280,6 +281,15 @@ const Usuarios: React.FC = () => {
                                                     Nome / Apelido
                                                 </span>
                                             </th>
+                                            <th style={{ width: "200px" }}>
+                                                <span
+                                                    style={{
+                                                        marginLeft:
+                                                            "24px",
+                                                    }}>
+                                                    Criado em
+                                                </span>
+                                            </th>                                            
                                             <th style={{ width: "170px" }}>
                                                 <span>Telefone</span>
                                             </th>
@@ -354,6 +364,20 @@ const Usuarios: React.FC = () => {
                                                             {id?.name}
                                                         </span>
                                                     </td>
+                                                    <td
+                                                        style={{
+                                                            width: "200px",
+                                                        }}
+                                                    >
+                                                        <span
+                                                            style={{
+                                                                marginLeft:
+                                                                    "24px",
+                                                            }}                                                        
+                                                        >
+                                                            {moment(id?.createdAt).format('DD/MM/YYYY HH:mm:ss')}
+                                                        </span>
+                                                    </td>                                                    
                                                     <td
                                                         style={{
                                                             width: "170px",
@@ -507,6 +531,15 @@ const Usuarios: React.FC = () => {
                                                     </button>
                                                 </span>
                                             </th>
+                                            <th style={{ width: "200px" }}>
+                                                <span
+                                                    style={{
+                                                        marginLeft:
+                                                            "24px",
+                                                    }}>
+                                                    Criado em
+                                                </span>
+                                            </th>                                              
                                             <th style={{ width: "170px" }}>
                                                 <span>Telefone</span>
                                             </th>
@@ -585,6 +618,20 @@ const Usuarios: React.FC = () => {
                                                             {id?.name}
                                                         </span>
                                                     </td>
+                                                    <td
+                                                        style={{
+                                                            width: "200px",
+                                                        }}
+                                                    >
+                                                        <span
+                                                            style={{
+                                                                marginLeft:
+                                                                    "24px",
+                                                            }}                                                        
+                                                        >
+                                                            {moment(id?.createdAt).format('DD/MM/YYYY HH:mm:ss')}
+                                                        </span>
+                                                    </td> 
                                                     <td
                                                         style={{
                                                             width: "170px",
