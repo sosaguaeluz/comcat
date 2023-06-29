@@ -99,7 +99,7 @@ const MapSearch: React.FC<MapSearchProps> = ({
           selectedPosition?.lat ? selectedPosition : currentPosition || center
         }
         options={{ disableDefaultUI: true }}
-        zoom={selectedPosition?.lat || currentPosition ? 15 : 10}
+        zoom={4}
         onLoad={onLoad}
         onUnmount={onUnmount}
         // onClick={onMapClickHandler}
