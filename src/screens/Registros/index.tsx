@@ -438,23 +438,11 @@ const Registros: React.FC = () => {
                                                 style={{ marginLeft: "24px" }}
                                             >
                                                 Serviço interrompido
-                                                <button>
-                                                    <img
-                                                        src={iconShow}
-                                                        alt=""
-                                                    />
-                                                </button>
                                             </span>
                                         </th>
                                         <th style={{ width: "226px" }}>
                                             <span>
                                                 Registrado por
-                                                <button>
-                                                    <img
-                                                        src={iconShow}
-                                                        alt=""
-                                                    />
-                                                </button>
                                             </span>
                                         </th>
                                         <th style={{ width: "187px" }}>
@@ -466,12 +454,6 @@ const Registros: React.FC = () => {
                                         <th style={{ width: "215px" }}>
                                             <span>
                                                 Status ocorrência
-                                                <button>
-                                                    <img
-                                                        src={iconShow}
-                                                        alt=""
-                                                    />
-                                                </button>
                                             </span>
                                         </th>
                                         <th style={{ width: "158px" }}>

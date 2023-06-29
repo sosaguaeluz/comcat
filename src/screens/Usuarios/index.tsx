@@ -278,12 +278,6 @@ const Usuarios: React.FC = () => {
                                                     }}
                                                 >
                                                     Nome / Apelido
-                                                    <button>
-                                                        <img
-                                                            src={iconShow}
-                                                            alt=""
-                                                        />
-                                                    </button>
                                                 </span>
                                             </th>
                                             <th style={{ width: "170px" }}>
@@ -300,34 +294,16 @@ const Usuarios: React.FC = () => {
                                             <th style={{ width: "190px" }}>
                                                 <span>
                                                     Estado
-                                                    <button>
-                                                        <img
-                                                            src={iconShow}
-                                                            alt=""
-                                                        />
-                                                    </button>
                                                 </span>
                                             </th>
                                             <th style={{ width: "200px" }}>
                                                 <span>
                                                     Cidade
-                                                    <button>
-                                                        <img
-                                                            src={iconShow}
-                                                            alt=""
-                                                        />
-                                                    </button>
                                                 </span>
                                             </th>
                                             <th style={{ width: "130px" }}>
                                                 <span>
                                                     Status
-                                                    <button>
-                                                        <img
-                                                            src={iconShow}
-                                                            alt=""
-                                                        />
-                                                    </button>
                                                 </span>
                                             </th>
                                             <th style={{ width: "190px" }}>
