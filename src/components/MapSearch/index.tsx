@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api";
 import { GOOGLE_MAPS_API_KEY } from "../../constants/maps";
 import { point } from "../../assets";
 
@@ -107,11 +107,14 @@ const MapSearch: React.FC<MapSearchProps> = ({
         {/* Child components, such as markers, info windows, etc. */}
         <>
           {selectedPosition && (
-            <Marker
+            <MarkerF
               position={selectedPosition}
               draggable
               onDragEnd={onMapClickHandler}
-              icon={point}
+              icon={{
+                url: point,
+                scaledSize: new window.google.maps.Size(50, 50)
+              }}
             />
           )}
         </>
