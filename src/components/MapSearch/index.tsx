@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { GoogleMap, useJsApiLoader, Marker } from "@react-google-maps/api";
+import { GoogleMap, useJsApiLoader, MarkerF } from "@react-google-maps/api";
 import { GOOGLE_MAPS_API_KEY } from "../../constants/maps";
 import { point } from "../../assets";
 
@@ -40,11 +40,6 @@ const MapSearch: React.FC<MapSearchProps> = ({
   }
   function onMarkerClick() {}
 
-  const onLoad = React.useCallback(function callback(map: any) {
-    const bounds = new window.google.maps.LatLngBounds();
-    map.fitBounds(bounds);
-    setMap(map);
-  }, []);
 
   const onUnmount = React.useCallback(function callback(map: any) {
     setMap(null);
@@ -99,19 +94,21 @@ const MapSearch: React.FC<MapSearchProps> = ({
           selectedPosition?.lat ? selectedPosition : currentPosition || center
         }
         options={{ disableDefaultUI: true }}
-        zoom={selectedPosition?.lat || currentPosition ? 15 : 10}
-        onLoad={onLoad}
+        zoom={selectedPosition?.lat || currentPosition ? 15 : 4} 
         onUnmount={onUnmount}
         // onClick={onMapClickHandler}
       >
         {/* Child components, such as markers, info windows, etc. */}
         <>
           {selectedPosition && (
-            <Marker
+            <MarkerF
               position={selectedPosition}
               draggable
               onDragEnd={onMapClickHandler}
-              icon={point}
+              icon={{
+                url: point,
+                scaledSize: new window.google.maps.Size(50, 50)
+              }}
             />
           )}
         </>
