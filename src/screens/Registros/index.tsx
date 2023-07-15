@@ -232,7 +232,7 @@ const Registros: React.FC = () => {
                 <>
                     <Box padding="0" width="100%" height="600px">
                         <S.Map>
-                            <iframe src="https://sosaguaeluz.shinyapps.io/sos-agualuz-mapa/" width="100%" height="600px" frameBorder="no" scrolling="auto"></iframe>
+                            <iframe src="https://sosaguaeluz.shinyapps.io/sos-agualuz-mapa/" width="100%" height="780px" frameBorder="no" scrolling="auto"></iframe>
                         </S.Map>
                     </Box>
                 </>
@@ -446,7 +446,7 @@ const Registros: React.FC = () => {
                                             </span>
                                         </th>
                                         <th style={{ width: "187px" }}>
-                                            <span>Horá da ocorrência</span>
+                                            <span>Hora da ocorrência</span>
                                         </th>
                                         <th style={{ width: "auto" }}>
                                             <span>Endereço</span>
@@ -513,7 +513,7 @@ const Registros: React.FC = () => {
                                                 </S.User>
                                                 <td style={{ width: "187px" }}>
                                                     <span>
-                                                        {convertDate(id.date)}
+                                                        {convertDate(id.createdAt)}
                                                     </span>
                                                 </td>
                                                 <td style={{ width: "auto" }}>

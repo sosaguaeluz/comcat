@@ -42,7 +42,6 @@ const Notificacoes: React.FC = () => {
         let aux: any = [];
         let arrayAuxList = [];
         let tempAuxList: any = [];
-        let finalList = [];
 
         //@ts-ignore
         notifications?.data?.forEach((id: any) => {
@@ -94,7 +93,7 @@ const Notificacoes: React.FC = () => {
         let aux = moment(value);
         let data = moment();
 
-        return aux.diff(data, "hours");
+        return data.diff(aux, "minutes");
     }
 
     return (
@@ -121,8 +120,8 @@ const Notificacoes: React.FC = () => {
                                         </h2>
                                     </span>
                                     <b>
-                                        Cerca de {occurrences?.data?.length}{" "}
-                                        novas ocorrências estão esperando
+                                        1{" "}
+                                        nova ocorrência está esperando
                                         aprovação.
                                     </b>
                                     <p>
@@ -130,15 +129,11 @@ const Notificacoes: React.FC = () => {
                                         atualDate
                                             ? `Rebido há ${setDate(
                                                   item.createdAt
-                                              )} horas`
+                                              )} minutos`
                                             : `Recebido as ${extractHours(
                                                   item.createdAt
                                               )}`}
                                     </p>
-                                    <S.ToOccurences to="/registros">
-                                        Clique aqui e veja no mapa
-                                        <img src={showBlueArow} alt="" />
-                                    </S.ToOccurences>
                                     <S.Finished
                                         type="button"
                                         onClick={() => {
@@ -147,6 +142,11 @@ const Notificacoes: React.FC = () => {
                                             }).then(() => {
                                                 refetch();
                                             });
+                                        }}
+                                        disabled={item.status === 'Finished'}
+                                        style={{
+                                            cursor: item.status === 'Finished' ? 'auto' : 'pointer',
+                                            filter: `opacity(${item.status === 'Finished' ? '0.3' : '1'}) grayscale(${item.status === 'Finished' ? '1' : '0'})`
                                         }}
                                     >
                                         <img src={noTrusted} alt="" />
