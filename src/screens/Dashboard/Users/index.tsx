@@ -193,7 +193,7 @@ const DashUsers: React.FC = () => {
             </S.StatusBox>
 
             <S.TextData>
-                <p> usuários no útimo ano - <b>{dashboard?.total}</b></p>
+                <p> Total de Usuários - <b>{dashboard?.total}</b></p>
             </S.TextData>
 
             <S.GraficItemContainer>
@@ -222,7 +222,7 @@ const DashUsers: React.FC = () => {
             </S.GraficItemContainer>
 
             <S.TextData>
-                <p> Usuário no ultimo ano - <b>{dashboard?.annual_users?.total}</b></p>
+                <p> Usuários no último ano - <b>{dashboard?.annual_users?.total}</b></p>
             </S.TextData>
 
             <S.GraficYearContainer>
