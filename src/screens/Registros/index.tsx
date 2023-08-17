@@ -42,6 +42,7 @@ import FinishOccurence from "./FinishOccurrence";
 import ViewOccurrence from "./ViewOccurrence";
 import EditOccurrence from "./EditOccurrence";
 import { Grid } from "@mui/material";
+import parsePhoneNumber from 'libphonenumber-js'
 
 const Registros: React.FC = () => {
     const { token } = useSelector((state : RootState) => state.clickState);
@@ -73,7 +74,7 @@ const Registros: React.FC = () => {
     const [service, setService] = useState<any>();
     const [address, setAddress] = useState<any>();
     
-    const [cityValue, setCityValue] = useState<any>();
+    const [cityValue, setCityValue] = useState<any>('');
     const [initialDate, setInitialDate] = useState<any>();
     const [finalDate, setFinalDate] = useState<any>();
     const [ state, setState ] = useState('');
@@ -163,8 +164,9 @@ const Registros: React.FC = () => {
                 setState(e.nome)
             }
         })
-        dataCity?.filter((e:any) => {
-            if(e.name === cityValue){
+
+        dataCity?.filter((e) => {
+            if(e.nome === cityValue){
                 setCity(e.nome)
             }
         })
@@ -261,9 +263,9 @@ const Registros: React.FC = () => {
                                             label="Selecione o Estado"
                                             labelDefault="Estado"
                                             value={ufValue}
-                                            defaultValue="Selecione o estado"
                                             list={dataUf}
                                             onChange={(e) => {
+                                                setCityValue('');
                                                 setUfValue(e.target.value);
                                             }}
                                         />
@@ -275,7 +277,6 @@ const Registros: React.FC = () => {
                                             label="Selecione a Cidade"
                                             labelDefault="Cidade"
                                             value={cityValue}
-                                            defaultValue="Selecione a cidade"
                                             list={dataCity}
                                             onChange={(e) => {
                                                 setCityValue(e.target.value);
@@ -442,9 +443,19 @@ const Registros: React.FC = () => {
                                         </th>
                                         <th style={{ width: "226px" }}>
                                             <span>
-                                                Registrado por
+                                                Registrado por usuário
                                             </span>
                                         </th>
+                                        <th style={{ width: "187px" }}>
+                                            <span>
+                                                E-mail do usuário
+                                            </span>
+                                        </th>                 
+                                        <th style={{ width: "187px" }}>
+                                            <span>
+                                                Celular do usuário
+                                            </span>
+                                        </th>                                                                  
                                         <th style={{ width: "187px" }}>
                                             <span>Hora da ocorrência</span>
                                         </th>
@@ -511,6 +522,16 @@ const Registros: React.FC = () => {
                                                         />
                                                     </span>
                                                 </S.User>
+                                                <td style={{ width: "187px" }}>
+                                                    <span>
+                                                        {id?.user?.email}
+                                                    </span>
+                                                </td>        
+                                                <td style={{ width: "187px" }}>
+                                                    <span>
+                                                        {parsePhoneNumber(id?.user?.phone_number, 'BR')?.formatNational()}
+                                                    </span>
+                                                </td>                                                                                         
                                                 <td style={{ width: "187px" }}>
                                                     <span>
                                                         {convertDate(id.createdAt)}

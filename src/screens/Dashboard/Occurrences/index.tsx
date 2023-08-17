@@ -287,7 +287,7 @@ const DashOccurrences: React.FC = () => {
             </S.GraficBarsContainer> */}
 
             <S.TextData>
-                <p> Ocorrências no útimo ano - <b>{dashboard?.annual_occurrences?.year}</b></p>
+                <p> Ocorrências no último ano - <b>{dashboard?.annual_occurrences?.year}</b></p>
             </S.TextData>
 
             <S.GraficYearContainer>
