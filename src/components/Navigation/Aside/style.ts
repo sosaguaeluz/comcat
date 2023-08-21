@@ -34,7 +34,7 @@ export const Navigation = styled.nav<{ hamburger: boolean }>`
     }
 `;
 
-export const Link = styled(NavLink)<{ hamburger: boolean }>`
+export const Link = styled(NavLink)<{ $hamburger: boolean }>`
     background: ${(props) => props.theme.colors.whiteSecconday};
     color: ${(props) => props.theme.colors.gray};
     text-decoration: none;
@@ -46,9 +46,9 @@ export const Link = styled(NavLink)<{ hamburger: boolean }>`
     flex-direction: row;
     align-items: center;
     justify-content: ${(props) =>
-        props.hamburger === true ? "center" : "flex-start"};
+        props.$hamburger === true ? "center" : "flex-start"};
     border-radius: 8px;
-    width: ${(props) => (props.hamburger === true ? "100%" : "252px")};
+    width: ${(props) => (props.$hamburger === true ? "100%" : "252px")};
     height: 40px;
     margin-bottom: 16px;
     transition: ease-in 0.5s;
@@ -57,7 +57,7 @@ export const Link = styled(NavLink)<{ hamburger: boolean }>`
         filter: opacity(0.4) drop-shadow(0 0 0);
         width: 20px;
         transition: ease-in 0.5s;
-        margin-left: ${(props) => (props.hamburger === true ? "0" : "12px")};
+        margin-left: ${(props) => (props.$hamburger === true ? "0" : "12px")};
     }
     > div {
         width: 100%;
