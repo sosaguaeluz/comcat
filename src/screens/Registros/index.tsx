@@ -4,22 +4,15 @@ import {
     DoubleButton,
     DefaultButton,
     Box,
-    CustomSelect,
-    Search,
     MultSelect,
-    Pagination,
-    Poppover,
     ModalDelete,
     ModalMsg,
     DropDown,
-    CustomTolltip,
-    CustomInputData,
     InputSearchMap,
     Maps,
 } from "../../components";
 import {
     api,
-    convertDate,
     queryClient,
     useCity,
     useOccurrences,
@@ -33,8 +26,6 @@ import { RootState } from "../../stores";
 import {
     iconShow,
     ocurrenceIcon,
-    trusted,
-    noTrusted,
 } from "../../assets/index";
 import NewOccurence from "./newOccurence";
 import ApproveReprove from "./ApproveReprove";
@@ -42,15 +33,16 @@ import FinishOccurence from "./FinishOccurrence";
 import ViewOccurrence from "./ViewOccurrence";
 import EditOccurrence from "./EditOccurrence";
 import { Grid } from "@mui/material";
-import parsePhoneNumber from 'libphonenumber-js'
+import { Services } from "../../@types";
+import { getOccurrencesListComponent } from "./ListView/getOccurrencesListComponent";
 
 const Registros: React.FC = () => {
     const { token } = useSelector((state : RootState) => state.clickState);
     const localToken = window.localStorage.getItem('token')
     const { data: dataServices } = useService();
     const { data: dataUf } = useUf();
-    const [ ufValue, setUfValue ] = useState<any>('');
-    const { data: dataCity } = useCity(ufValue);
+    const [ ufDropdownValue, setUfDropdownValue ] = useState<any>('');
+    const { data: dataCity } = useCity(ufDropdownValue);
     const { data: regionOccurrences } = useDashboardRegionOccurrences();
     
     const [totalList, setTotalList] = useState<any>();
@@ -71,44 +63,40 @@ const Registros: React.FC = () => {
 
     const [page, setPage] = useState<number>(1);
     const [status, setStatus] = useState<any>();
-    const [service, setService] = useState<any>();
+    /* Must Use empty string to avoid using uncontrolled dropdown */
+    const [service, setService] = useState<Services | null>(null);
     const [address, setAddress] = useState<any>();
     
-    const [cityValue, setCityValue] = useState<any>('');
+    const [cityDropdownValue, setCityDropdownValue] = useState<any>('');
     const [initialDate, setInitialDate] = useState<any>();
     const [finalDate, setFinalDate] = useState<any>();
-    const [ state, setState ] = useState('');
-    const [ city, setCity ] = useState('');
+    const cityName = dataCity?.find((e) => (e.nome === cityDropdownValue))?.nome;
+
+    /* Filter by user id */
+    const [filterByUserId, setFilterByUserId] = useState<string | null>(null);
+
+    useEffect(() => {
+        setPage(1);
+    }, [ufDropdownValue, cityDropdownValue, status]);    
+
 
     const {
         data: occurrences,
-        isLoading: loadOccurrences,
+        isLoading,
         refetch: fetchOccurrences,
-        isFetched: isFetchedOccurence,
     } = useOccurrences(
         "DESC",
         page,
         10,
         status === undefined ? '' : status,
-        service === undefined ? '' : service,
+        service === null ? '' : service.id,
         address === undefined ? '' : address,
-        ufValue === undefined ? '' : ufValue,
-        city === undefined ? '' : city,
+        ufDropdownValue === undefined ? '' : ufDropdownValue,
+        cityName === undefined ? '' : cityName,
         initialDate === undefined ? '' : initialDate,
-        finalDate === undefined ? '' : finalDate
+        finalDate === undefined ? '' : finalDate,
+        filterByUserId === null ? '' : filterByUserId
     );
-
-    function setStatusName(status: string) {
-        if (status == "Waiting") {
-            return "Aguardando aprovação";
-        } else if (status == "Approved") {
-            return "Aprovado";
-        } else if (status == "Disapproved") {
-            return "Reprovado";
-        } else {
-            return status;
-        }
-    };
 
     useEffect(() => {
         let obj: string[] = [];
@@ -158,21 +146,6 @@ const Registros: React.FC = () => {
         setTotalList(spam);
     }, [regionOccurrences]);
 
-    useEffect(() => {
-        dataUf?.filter(e => {
-            if(e.sigla === ufValue){
-                setState(e.nome)
-            }
-        })
-
-        dataCity?.filter((e) => {
-            if(e.nome === cityValue){
-                setCity(e.nome)
-            }
-        })
-
-    }, [ufValue, cityValue]);
-
     return (
         <>
             <S.Header>
@@ -204,7 +177,6 @@ const Registros: React.FC = () => {
                 <Grid container spacing={2.5} flex-wrap="wrap">
                     <Grid item xs={6} sm={4} md={4} lg xl>
                         <DropDown
-                            key="Total"
                             icon={ocurrenceIcon}
                             title="Total"
                             value={totalOccurrences || 0}
@@ -213,11 +185,10 @@ const Registros: React.FC = () => {
                             list={totalList}
                         />
                     </Grid>
-                    {regionOccurrences?.map((id: any) => {
+                    {regionOccurrences?.map((id) => {
                         return (
-                            <Grid item xs={6} sm={4} md={4} lg xl>
+                            <Grid item xs={6} sm={4} md={4} lg xl key={id.name}>
                                 <DropDown
-                                    key={id.name}
                                     icon=""
                                     title={id.name}
                                     value={id.occurrences_total}
@@ -239,403 +210,7 @@ const Registros: React.FC = () => {
                     </Box>
                 </>
             )}
-            {list === true && (
-                <>
-                    <S.Container>
-                        <h1>Ocorrências registradas no aplicativo</h1>
-                        <S.FiltersTop>
-                            <Grid container spacing={3} flex-wrap="noWrap">
-                                {/* Tela numero 1 */}
-                                <Grid
-                                    item
-                                    spacing={3}
-                                    xs={12}
-                                    sm={12}
-                                    md={12}
-                                    lg={6.5}
-                                    xl={6.5}
-                                    container
-                                >
-                                    <Grid item xs={4} sm md lg xl>
-                                        <CustomSelect
-                                            width="100%"
-                                            id='Estado'
-                                            label="Selecione o Estado"
-                                            labelDefault="Estado"
-                                            value={ufValue}
-                                            list={dataUf}
-                                            onChange={(e) => {
-                                                setCityValue('');
-                                                setUfValue(e.target.value);
-                                            }}
-                                        />
-                                    </Grid>
-                                    <Grid item xs={4} sm md lg xl>
-                                        <CustomSelect
-                                            width="100%"
-                                            id='Cidade'
-                                            label="Selecione a Cidade"
-                                            labelDefault="Cidade"
-                                            value={cityValue}
-                                            list={dataCity}
-                                            onChange={(e) => {
-                                                setCityValue(e.target.value);
-                                            }}
-                                        />
-                                    </Grid>
-                                </Grid>
-                                {/* Tela numero 2 */}
-                                <Grid item xs={4} sm={5} md={7} lg={2} xl={2} container>
-                                    <CustomSelect
-                                        width="100%"
-                                        id='service'
-                                        label="Selecione o serviço"
-                                        labelDefault="Serviço"
-                                        value={service}
-                                        defaultValue="Selecione o serviço"
-                                        list={dataServices}
-                                        onChange={(e) => {
-                                            dataServices?.filter(i => {
-                                                if(i.name === e.target.value){
-                                                    setService(i?.id);
-                                                }
-                                            })
-                                        }}
-                                    />
-                                </Grid>
-                                {/* Tela numero 3 */}
-                                <Grid
-                                    item
-                                    spacing={3}
-                                    xs={8}
-                                    sm={7}
-                                    md={5}
-                                    lg={3.5}
-                                    xl={3.5}
-                                    container
-                                    justify-content="end"
-                                >
-                                    <Grid item justify-content="end" xs sm md lg xl>
-                                        <CustomInputData
-                                            id="dateDe"
-                                            width="100%"
-                                            type="date"
-                                            label="De:"
-                                            defaultValue='De:'
-                                            max={new Date().toISOString().slice(0, -8)}
-                                            value={initialDate}
-                                            onChange={(e: any) => {
-                                                setInitialDate(e.target.value);
-                                            }}
-                                            onBlur={() => {}}
-                                        />
-                                    </Grid>
-                                    <Grid item justify-content="end" xs sm md lg xl>
-                                        <CustomInputData
-                                            id="dateAte"
-                                            width="100%"
-                                            type="date"
-                                            label="Até:"
-                                            defaultValue='Até:'
-                                            max={new Date().toISOString().slice(0, -4)}
-                                            value={finalDate}
-                                            onChange={(e: any) => {
-                                                setFinalDate(e.target.value);
-                                            }}
-                                            onBlur={function (e: any) {
-                                                throw new Error(
-                                                    "Function not implemented."
-                                                );
-                                            }}
-                                        />
-                                    </Grid>
-                                </Grid>
-                                {/* Tela numero 4*/}
-                                <Grid item spacing={3} container>
-                                    <Grid item xs sm md lg xl>
-                                        <Search
-                                            onChange={(e: any) => {
-                                                setAddress(e.target.value);
-                                            }}
-                                            width="100%"
-                                            maxWidth={409}
-                                        /> 
-                                    </Grid>
-                                    {list == true && (
-                                        <Grid
-                                            item
-                                            sx={{
-                                                display: "flex",
-                                                alignItems: "center",
-                                                justifyContent: "end",
-                                            }}
-                                            xs
-                                            sm
-                                            md
-                                            lg
-                                            xl
-                                        >
-                                            <S.Radios>
-                                                <p>Status:</p>
-                                                <div>
-                                                    <input
-                                                        onChange={(e: any) => setStatus(e?.target?.value)}
-                                                        value=""
-                                                        type="radio"
-                                                        name="status"
-                                                        id="todos"
-                                                        defaultChecked
-                                                    />
-                                                    <label htmlFor="todos">Todos</label>
-                                                </div>
-                                                <div>
-                                                    <input
-                                                        onChange={(e: any) => setStatus(e?.target?.value)}
-                                                        value="Approved"
-                                                        type="radio"
-                                                        name="status"
-                                                        id="aproved"
-                                                    />
-                                                    <label htmlFor="aproved">
-                                                        Aprovado
-                                                    </label>
-                                                </div>
-                                                <div>
-                                                    <input
-                                                        onChange={(e: any) => setStatus(e?.target?.value)}
-                                                        value="Disapproved"
-                                                        type="radio"
-                                                        name="status"
-                                                        id="reproved"
-                                                    />
-                                                    <label htmlFor="reproved">
-                                                        Reprovado
-                                                    </label>
-                                                </div>
-                                                <div>
-                                                    <input
-                                                        onChange={(e: any) => setStatus(e?.target?.value)}
-                                                        value="Waiting"
-                                                        type="radio"
-                                                        name="status"
-                                                        id="Waiting"
-                                                    />
-                                                    <label htmlFor="Waiting">
-                                                        Aguardando aprovação
-                                                    </label>
-                                                </div>
-                                            </S.Radios>
-                                        </Grid>
-                                    )}
-                                </Grid>
-                            </Grid>
-                        </S.FiltersTop>
-                        <S.ScrollDiv>
-                            <S.Table>
-                                <S.TableHead>
-                                    <tr>
-                                        <th style={{ width: "226px" }}>
-                                            <span
-                                                style={{ marginLeft: "24px" }}
-                                            >
-                                                Serviço interrompido
-                                            </span>
-                                        </th>
-                                        <th style={{ width: "226px" }}>
-                                            <span>
-                                                Registrado por usuário
-                                            </span>
-                                        </th>
-                                        <th style={{ width: "187px" }}>
-                                            <span>
-                                                E-mail do usuário
-                                            </span>
-                                        </th>                 
-                                        <th style={{ width: "187px" }}>
-                                            <span>
-                                                Celular do usuário
-                                            </span>
-                                        </th>                                                                  
-                                        <th style={{ width: "187px" }}>
-                                            <span>Hora da ocorrência</span>
-                                        </th>
-                                        <th style={{ width: "auto" }}>
-                                            <span>Endereço</span>
-                                        </th>
-                                        <th style={{ width: "215px" }}>
-                                            <span>
-                                                Status ocorrência
-                                            </span>
-                                        </th>
-                                        <th style={{ width: "158px" }}>
-                                            <span>Já foi finalizada?</span>
-                                        </th>
-                                        <th style={{ width: "90px" }}>
-                                            <span>Ações</span>
-                                        </th>
-                                    </tr>
-                                </S.TableHead>
-                                <tbody>
-                                    {occurrences?.data?.map((id: any) => {
-                                        return (
-                                            <tr>
-                                                <td style={{ width: "226px" }}>
-                                                    <span
-                                                        style={{
-                                                            marginLeft: "34px",
-                                                        }}
-                                                    >
-                                                        <S.Icon
-                                                            backgroundColor={
-                                                                id?.service
-                                                                    ?.background_color
-                                                            }
-                                                        >
-                                                            <img
-                                                                src={
-                                                                    id?.service
-                                                                        ?.image
-                                                                }
-                                                                alt=""
-                                                            />
-                                                        </S.Icon>
-                                                        {id?.service?.name}
-                                                    </span>
-                                                </td>
-                                                <S.User>
-                                                    <span>
-                                                        {id?.user?.name}
-                                                        <CustomTolltip
-                                                            img={
-                                                                <img
-                                                                    src={
-                                                                        id?.user
-                                                                            ?.trusted ==
-                                                                        true
-                                                                            ? trusted
-                                                                            : noTrusted
-                                                                    }
-                                                                    alt=""
-                                                                />
-                                                            }
-                                                            placement="right"
-                                                        />
-                                                    </span>
-                                                </S.User>
-                                                <td style={{ width: "187px" }}>
-                                                    <span>
-                                                        {id?.user?.email}
-                                                    </span>
-                                                </td>        
-                                                <td style={{ width: "187px" }}>
-                                                    <span>
-                                                        {parsePhoneNumber(id?.user?.phone_number, 'BR')?.formatNational()}
-                                                    </span>
-                                                </td>                                                                                         
-                                                <td style={{ width: "187px" }}>
-                                                    <span>
-                                                        {convertDate(id.createdAt)}
-                                                    </span>
-                                                </td>
-                                                <td style={{ width: "auto" }}>
-                                                    <span>{id.address}</span>
-                                                </td>
-                                                <S.Status status={id.status}>
-                                                    <span>
-                                                        <p>
-                                                            {setStatusName(
-                                                                id.status
-                                                            )}
-                                                        </p>
-                                                    </span>
-                                                </S.Status>
-                                                <S.Finished
-                                                    finished={
-                                                        id.finished_status
-                                                    }
-                                                >
-                                                    <span
-                                                        style={{
-                                                            paddingRight:
-                                                                "34px",
-                                                        }}
-                                                    >
-                                                        <p>
-                                                            {id.finished_status ===
-                                                            "Yes"
-                                                                ? "Sim"
-                                                                : id.finished_status ===
-                                                                  "No"
-                                                                ? "Não"
-                                                                : "Abandonado"}
-                                                        </p>
-                                                    </span>
-                                                </S.Finished>
-                                                <td style={{ width: "90px" }}>
-                                                    <span>
-                                                        <S.Options>
-                                                            <Poppover
-                                                                type="occurrences"
-                                                                onClick={() => {}}
-                                                                onEdit={() => {
-                                                                    setOccurrenceObj(
-                                                                        id
-                                                                    );
-                                                                    setEditOccurrence(
-                                                                        !editOccurrence
-                                                                    );
-                                                                }}
-                                                                onView={() => {
-                                                                    setOccurrenceObj(
-                                                                        id
-                                                                    );
-                                                                    setViewOccurrence(
-                                                                        !viewOccurrence
-                                                                    );
-                                                                }}
-                                                                onFinish={() => {
-                                                                    setOccurrenceObj(
-                                                                        id
-                                                                    );
-                                                                    setFinishOccurrence(
-                                                                        !finishOccurrence
-                                                                    );
-                                                                }}
-                                                                onApprove={() => {
-                                                                    setOccurrenceObj(
-                                                                        id
-                                                                    );
-                                                                    setApproveReprove(
-                                                                        true
-                                                                    );
-                                                                }}
-                                                                onDelete={() => {
-                                                                    setIdDelete(
-                                                                        id.id
-                                                                    );
-                                                                    setOpenDelete(
-                                                                        !openDelete
-                                                                    );
-                                                                }}
-                                                            />
-                                                        </S.Options>
-                                                    </span>
-                                                </td>
-                                            </tr>
-                                        );
-                                    })}
-                                </tbody>
-                            </S.Table>
-                        </S.ScrollDiv>
-                    </S.Container>
-                    <Pagination
-                        onPage={(e) => {
-                            setPage(e);
-                        }}
-                        value={page}
-                    />
-                </>
-            )}
+            {list === true && getOccurrencesListComponent(ufDropdownValue, dataUf, setCityDropdownValue, setUfDropdownValue, cityDropdownValue, dataCity, service, dataServices, setService, initialDate, setInitialDate, finalDate, setFinalDate, setAddress, list, setStatus, occurrences, setOccurrenceObj, setEditOccurrence, editOccurrence, setViewOccurrence, viewOccurrence, setFinishOccurrence, finishOccurrence, setApproveReprove, setIdDelete, setOpenDelete, openDelete, setPage, page, isLoading, filterByUserId, setFilterByUserId)}
             <NewOccurence
                 isModal={newOccurence}
                 onHide={() => {
@@ -703,4 +278,7 @@ const Registros: React.FC = () => {
     );
 };
 
+
 export default Registros;
+
+

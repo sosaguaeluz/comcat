@@ -16,6 +16,8 @@ type List = {
     user_total?: number,
     label?: string,
     number?: number,
+    // TODO: occurrences_total might not be optional
+    occurrences_total?: number
 }
 
 interface IProps {
@@ -116,9 +118,9 @@ const DropDown: React.FC<IProps> = (props) => {
                 <AccordionDetails>
                     <Typography>    
                         <S.List>
-                            {props.list?.map((id: any) => {
+                            {props.list?.map((id) => {
                                 return (
-                                    <div>
+                                    <div key={id.label || id.name}>
                                         <h1>{id.label || id.name}</h1>
                                         <p>{id.number || id.user_total || id.occurrences_total || 0}</p>
                                     </div>

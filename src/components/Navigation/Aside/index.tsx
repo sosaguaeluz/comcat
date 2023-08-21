@@ -27,7 +27,13 @@ const Aside: React.FC = () => {
         undefined,
         "Pending"
     );
-    const { data: alertMessages } = useAlertMessages();
+    const { data: alertMessages } = useAlertMessages(
+        undefined,
+        undefined,
+        undefined,
+        undefined,
+        'NotAnswered'
+    );
 
     const link = [
         { to: "/dashboard", icon: dashboard, label: "Dashboard", alert: 0},
@@ -50,7 +56,7 @@ const Aside: React.FC = () => {
                 <S.Navigation hamburger={true}>
                     {link.map((id: any) => {
                         return (
-                            <Badge badgeContent={id.alert} max={99}>
+                            <Badge badgeContent={id.alert} max={99} key={id.to}>
                                 <Tooltip
                                     title={id.label}
                                     arrow
@@ -60,7 +66,7 @@ const Aside: React.FC = () => {
                                         to={id.to}
                                         id={id.label}
                                         onClick={() => setOpen(false)}
-                                        hamburger={true}
+                                        $hamburger={true}
                                     >
                                         <img src={id.icon} alt="" />
                                     </S.Link>
@@ -86,7 +92,8 @@ const Aside: React.FC = () => {
                                 to={id.to}
                                 id={id.label}
                                 onClick={() => setOpen(false)}
-                                hamburger={false}
+                                $hamburger={false}
+                                key={id.to}
                             >
                                 <img src={id.icon} alt="" />
                                 <div>

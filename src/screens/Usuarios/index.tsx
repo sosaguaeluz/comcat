@@ -281,6 +281,15 @@ const Usuarios: React.FC = () => {
                                                     Nome / Apelido
                                                 </span>
                                             </th>
+                                            <th style={{ width: "400px" }}>
+                                                <span
+                                                    style={{
+                                                        marginLeft:
+                                                            "24px",
+                                                    }}>
+                                                    ID
+                                                </span>
+                                            </th>                                            
                                             <th style={{ width: "200px" }}>
                                                 <span
                                                     style={{
@@ -289,7 +298,7 @@ const Usuarios: React.FC = () => {
                                                     }}>
                                                     Criado em
                                                 </span>
-                                            </th>                                            
+                                            </th>
                                             <th style={{ width: "170px" }}>
                                                 <span>Telefone</span>
                                             </th>
@@ -347,7 +356,7 @@ const Usuarios: React.FC = () => {
                                         </tr>
                                     </S.TableHead>
                                     <tbody>
-                                        {users?.data?.map((id: any, index: any) => {
+                                        {users?.data?.map((id, index: any) => {
                                             return (
                                                 <tr key={index}>
                                                     <td
@@ -364,6 +373,20 @@ const Usuarios: React.FC = () => {
                                                             {id?.name}
                                                         </span>
                                                     </td>
+                                                    <td
+                                                        style={{
+                                                            width: "400px",
+                                                        }}
+                                                    >
+                                                        <span
+                                                            style={{
+                                                                marginLeft:
+                                                                    "24px",
+                                                            }}                                                        
+                                                        >
+                                                            {id?.id}
+                                                        </span>
+                                                    </td>                                                    
                                                     <td
                                                         style={{
                                                             width: "200px",
@@ -531,6 +554,15 @@ const Usuarios: React.FC = () => {
                                                     </button>
                                                 </span>
                                             </th>
+                                            <th style={{ width: "400px" }}>
+                                                <span
+                                                    style={{
+                                                        marginLeft:
+                                                            "24px",
+                                                    }}>
+                                                    ID
+                                                </span>
+                                            </th> 
                                             <th style={{ width: "200px" }}>
                                                 <span
                                                     style={{
@@ -616,6 +648,20 @@ const Usuarios: React.FC = () => {
                                                             }}
                                                         >
                                                             {id?.name}
+                                                        </span>
+                                                    </td>
+                                                    <td
+                                                        style={{
+                                                            width: "400px",
+                                                        }}
+                                                    >
+                                                        <span
+                                                            style={{
+                                                                marginLeft:
+                                                                    "24px",
+                                                            }}                                                        
+                                                        >
+                                                            {id?.id}
                                                         </span>
                                                     </td>
                                                     <td

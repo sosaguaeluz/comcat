@@ -12,8 +12,8 @@ const getOccurrences = async <T>(
     state: string,
     city: string,
     initial_date: string,
-    final_date: string
-
+    final_date: string,
+    filterByUserId: string
 ):Promise<Occurrences[]> => {
 
     let params = new URLSearchParams();
@@ -51,6 +51,9 @@ const getOccurrences = async <T>(
     if(state !== ''){
         params.append("state", state)
     }
+    if(filterByUserId !== '') {
+        params.append("user", filterByUserId);
+    }
 
     const resp = await api.get<Occurrences[]>('/occurrences', {
         params: params
@@ -68,7 +71,8 @@ export const useOccurrences = <T>(
     state: string,
     city: string,
     initial_date: string,
-    final_date: string
+    final_date: string,
+    filterByUserId: string
 ):UseQueryResult<Occurrences> => {
     return useQuery(['ocurrence', 
     order,
@@ -80,7 +84,8 @@ export const useOccurrences = <T>(
     state,
     city,
     initial_date,
-    final_date 
+    final_date ,
+    filterByUserId
     ], () => getOccurrences(
         order,
         page,
@@ -91,7 +96,8 @@ export const useOccurrences = <T>(
         state,
         city,
         initial_date,
-        final_date
+        final_date,
+        filterByUserId
     )
 )}
 
