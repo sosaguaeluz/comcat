@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../../stores';
 import { TOKEN, USER } from '../../../stores/actions';
 import { useNavigate } from 'react-router-dom';
+import { logout } from '../../../services/api/logout';
 
 const style = {
     display: 'flex',
@@ -80,13 +81,11 @@ const Header: React.FC = () => {
                                 id="to_singup"
                                 to="/"
                                 onClick={() => {
-                                    window.localStorage.removeItem('user')
-                                    window.localStorage.removeItem('token')
-                                    dispatch({type: TOKEN, token: ''})
-                                    dispatch({type: USER, user: ''})
-                                    setOpen(false)
-                                    navigate('/', { replace: true })
-                                    window.location.reload()
+                                    dispatch({type: TOKEN, token: ''});
+                                    dispatch({type: USER, user: ''});
+                                    navigate('/', { replace: true });                                    
+                                    logout();
+                                    setOpen(false);
                                 }}                        
                             >
                                 Sim, sair
