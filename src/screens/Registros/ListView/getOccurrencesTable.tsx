@@ -91,7 +91,8 @@ export function getOccurrencesTable(
                         </td>
                         <td style={{ width: "187px" }}>
                             <span>
-                                {parsePhoneNumber(id?.user?.phone_number, 'BR')?.formatNational()}
+                                {/* TODO: Phone_number may be undefined */}
+                                {parsePhoneNumber(id?.user?.phone_number ?? '', 'BR')?.formatNational()}
                             </span>
                         </td>
                         <td style={{ width: "187px" }}>
