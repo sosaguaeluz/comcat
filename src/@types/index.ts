@@ -312,7 +312,7 @@ export interface Occurrences {
       user: {
         name: string,
         age: string,
-        phone_number: string,
+        phone_number?: string,
         email: string,
         password: string,
         state: string,
