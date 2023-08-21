@@ -30,6 +30,7 @@ const Notificacoes: React.FC = () => {
         "",
         "",
         "",
+        "",
         ""
     );
     const { data: notifications, refetch } = useNotifications(
@@ -127,7 +128,7 @@ const Notificacoes: React.FC = () => {
                                     <p>
                                         {extractDate(item.createdAt) ===
                                         atualDate
-                                            ? `Rebido há ${setDate(
+                                            ? `Recebido há ${setDate(
                                                   item.createdAt
                                               )} minutos`
                                             : `Recebido as ${extractHours(
