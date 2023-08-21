@@ -71,6 +71,13 @@ const Poppover: React.FC <IProps> = ({onDelete, onEdit, onClick, type, onView, o
                             <S.FakeButton
                                 onClick={handleClose}
                             >
+                                <S.Button
+                                    onClick={onAnswer}
+                                    type='button'
+                                    id="onAnswer_poppover"
+                                >
+                                    Visualizar
+                                </S.Button>
                                 <S.DeleteButton 
                                     onClick={onDelete}
                                     type='button'

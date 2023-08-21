@@ -11,7 +11,8 @@ interface IProps {
     width: string,
     heigth: string,
     id?: string,
-    defaultValue?: any
+    defaultValue?: any,
+    disabled?: boolean
 }
     const TextArea = styled.textarea< {width: string, heigth: string} >`
         width: ${props => props.width};
@@ -40,6 +41,7 @@ const CustomTextArea: React.FC <IProps> = (props) => {
             onBlur={props.onBlur}
             value={props.value}
             defaultValue={props.defaultValue}
+            disabled={props.disabled}
         />
     );
 };

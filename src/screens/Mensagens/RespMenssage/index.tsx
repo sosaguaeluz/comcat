@@ -18,6 +18,7 @@ const RespMessage: React.FC <IProps> = ({
 }) => {
     const { token } = useSelector((state: RootState) => state.clickState);
     const [ open, setOpen ] = useState(false);
+    const [ hideSubmit, setHideSubmit ] = useState(false);
 
     const {
         control,
@@ -89,7 +90,8 @@ const RespMessage: React.FC <IProps> = ({
                                         placeholder="Resposta"
                                         onChange={onChange} 
                                         onBlur={onBlur} 
-                                        value={value} 
+                                        disabled={itemEdit.status === 'Answered'}
+                                        value={itemEdit?.message_reply ?? value} 
                                         width='100%' 
                                         heigth='178px'                 
                                     />
@@ -107,11 +109,10 @@ const RespMessage: React.FC <IProps> = ({
                             >
                                 Cancelar
                             </button>
-                            <button
-                                type="submit"
-                            >
+                            {((itemEdit?.status === 'Answered') || (hideSubmit)) ? null : <button type="submit" onClick={() => setHideSubmit(true)}>
                                 Enviar
-                            </button>
+                            </button>}
+
                         </S.ContainerBtn>
                     </form>
                 </S.Container>  
