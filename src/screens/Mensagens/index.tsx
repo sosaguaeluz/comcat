@@ -254,7 +254,7 @@ const Mensagens: React.FC = () => {
                     setDeleteObj(false);
                 }}
                 width={469}
-                mensage="Deseja mesmo escluir essa mensagem?"
+                mensage="Deseja mesmo excluir essa mensagem?"
                 onDelete={() => {
                     deleteMessage(idMessage).then(() => {
                         setDeleteObj(false);
