@@ -61,7 +61,7 @@ export interface AllUsers {
     genre: string,
     breed: string,
     active: true,
-    trusted: false,
+    trusted: boolean,
     role: string,
     first_access: boolean,
     settings: {
@@ -73,7 +73,7 @@ export interface AllUsers {
       push_token: string,
       _id: string
     },
-    _id: string,
+    id: string,
     createdAt: string,
     updatedAt: string
   }],
@@ -234,8 +234,9 @@ export interface Dashboard_region_Users {
 
 export interface Dashboard_region_Occurrences{
   name: string,
-  state_list: State_List[]
-  user_total: number
+  state_list: State_List[],
+  user_total: number,
+  occurrences_total: number
 };
 
 export interface Messages {
@@ -322,11 +323,11 @@ export interface Occurrences {
         trusted: boolean,
         role: string,
         first_access: boolean,
-        _id: string,
+        id: string,
         createdAt: string,
         updatedAt: string
       },
-      _id: string,
+      id: string,
       createdAt: string,
       updatedAt: string,
     }],
