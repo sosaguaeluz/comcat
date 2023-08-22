@@ -175,7 +175,7 @@ const Mensagens: React.FC = () => {
                             
                             {messages?.data?.map((id: any, index: number,) => {
                                 return (
-                                    <tr>
+                                    <tr key={id?.id}>
                                         <td style={{ width: "150px" }}>
                                             <span>
                                                 {convertDate(id?.createdAt)}
