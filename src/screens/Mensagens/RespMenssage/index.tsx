@@ -6,6 +6,8 @@ import { CustomTextArea, ModalMsg, PersonalModal } from '../../../components';
 import { getReason, putMessages } from '../../../services';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../../stores';
+import loadingSpinner from '../../../assets/loading-spinner-3-dots-fade.svg';
+import styled from 'styled-components';
 
 interface IProps {
     isModal: boolean;
@@ -13,12 +15,23 @@ interface IProps {
     itemEdit?: any;
 }
 
+const SpinnerWrapper = styled.div`
+    width: 274px;
+    padding: 0;
+    text-align: center;
+`
+
+const SendMessageLoadingSpinner = () => <SpinnerWrapper>
+    <img src={loadingSpinner} />
+</SpinnerWrapper>
+
 const RespMessage: React.FC <IProps> = ({
     isModal, onHide, itemEdit
 }) => {
     const { token } = useSelector((state: RootState) => state.clickState);
     const [ open, setOpen ] = useState(false);
     const [ hideSubmit, setHideSubmit ] = useState(false);
+    const [ isLoading, setIsLoading ] = useState(false);
 
     const {
         control,
@@ -31,11 +44,14 @@ const RespMessage: React.FC <IProps> = ({
     });
 
     function onSubmit(values: any){
+        setIsLoading(true);
         putMessages(itemEdit?.id, values).then(() => {
             setOpen(true);
+        }).finally(() => {
+            setIsLoading(false);
         })
     }
-    
+
     return (
         <>
             <PersonalModal
@@ -109,9 +125,10 @@ const RespMessage: React.FC <IProps> = ({
                             >
                                 Cancelar
                             </button>
-                            {((itemEdit?.status === 'Answered') || (hideSubmit)) ? null : <button type="submit" onClick={() => setHideSubmit(true)}>
+                            {(itemEdit?.status === 'Answered') ? null : <button style={{visibility: isLoading ? 'hidden' : 'visible'}} type="submit">
                                 Enviar
                             </button>}
+                            {isLoading ? <SendMessageLoadingSpinner /> : null}
 
                         </S.ContainerBtn>
                     </form>
